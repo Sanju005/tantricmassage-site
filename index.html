@@ -13,6 +13,83 @@
 
   <style>
     html { scroll-behavior: smooth; }
+
+    .trust-bars {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .trust-bar {
+      position: relative;
+      overflow: hidden;
+      border-radius: 9999px;
+      background: rgba(255, 255, 255, 0.45);
+      box-shadow: 0 10px 24px rgba(182, 102, 111, 0.18);
+    }
+
+    .trust-bar-fill {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      width: 0;
+      max-width: 100%;
+      min-height: 3.5rem;
+      padding: 0 1rem;
+      border-radius: 9999px;
+      background: linear-gradient(90deg, #ff149a 0%, #ff0096 55%, #ff4eb5 100%);
+      color: #fff;
+      font-weight: 700;
+      white-space: nowrap;
+      animation: trustBarGrow 1.3s ease-out forwards;
+    }
+
+    .trust-bar-fill::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, transparent 30%, rgba(255, 255, 255, 0.28) 50%, transparent 70%);
+      transform: translateX(-100%);
+      animation: trustBarShine 2.8s ease-in-out infinite 1.2s;
+    }
+
+    .trust-bar-label,
+    .trust-bar-value {
+      position: relative;
+      z-index: 1;
+    }
+
+    @keyframes trustBarGrow {
+      from {
+        width: 0;
+      }
+      to {
+        width: var(--target-width);
+      }
+    }
+
+    @keyframes trustBarShine {
+      from {
+        transform: translateX(-100%);
+      }
+      to {
+        transform: translateX(100%);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .trust-bar-fill,
+      .trust-bar-fill::after {
+        animation: none;
+      }
+
+      .trust-bar-fill[data-width="100"] { width: 100%; }
+      .trust-bar-fill[data-width="98"] { width: 98%; }
+      .trust-bar-fill[data-width="96"] { width: 96%; }
+      .trust-bar-fill[data-width="95"] { width: 95%; }
+      .trust-bar-fill[data-width="94"] { width: 94%; }
+      .trust-bar-fill[data-width="92"] { width: 92%; }
+    }
   </style>
 </head>
 
