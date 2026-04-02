@@ -1,277 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tantric Massage Kuala Lumpur | Premium Outcall Massage KL</title>
-  <meta name="description" content="Professional tantric massage in Kuala Lumpur. Private outcall service. Book now.">
-
-  <link rel="canonical" href="https://tantricmassage.pro/" />
-
+  <meta name="description" content="Professional tantric massage services in Kuala Lumpur. Outcall massage in Bangsar, KLCC, and surrounding areas. Book your wellness experience today.">
+  <link rel="canonical" href="https://tantricmassagekl.com/">
   <script src="https://cdn.tailwindcss.com"></script>
-
-  <style>
-    html { scroll-behavior: smooth; }
-
-    .trust-bars {
-      display: grid;
-      gap: 1rem;
-    }
-
-    .trust-bar {
-      position: relative;
-      overflow: hidden;
-      border-radius: 9999px;
-      background: rgba(255, 255, 255, 0.45);
-      box-shadow: 0 10px 24px rgba(182, 102, 111, 0.18);
-    }
-
-    .trust-bar-fill {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 0.75rem;
-      width: 0;
-      max-width: 100%;
-      min-height: 3.5rem;
-      padding: 0 1rem;
-      border-radius: 9999px;
-      background: linear-gradient(90deg, #ff149a 0%, #ff0096 55%, #ff4eb5 100%);
-      color: #fff;
-      font-weight: 700;
-      white-space: nowrap;
-      animation: trustBarGrow 1.3s ease-out forwards;
-    }
-
-    .trust-bar-fill::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(120deg, transparent 30%, rgba(255, 255, 255, 0.28) 50%, transparent 70%);
-      transform: translateX(-100%);
-      animation: trustBarShine 2.8s ease-in-out infinite 1.2s;
-    }
-
-    .trust-bar-label,
-    .trust-bar-value {
-      position: relative;
-      z-index: 1;
-    }
-
-    @keyframes trustBarGrow {
-      from {
-        width: 0;
-      }
-      to {
-        width: var(--target-width);
-      }
-    }
-
-    @keyframes trustBarShine {
-      from {
-        transform: translateX(-100%);
-      }
-      to {
-        transform: translateX(100%);
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .trust-bar-fill,
-      .trust-bar-fill::after {
-        animation: none;
-      }
-
-      .trust-bar-fill {
-        width: var(--target-width);
-      }
-    }
-  </style>
 </head>
+<body class="bg-gray-50 text-gray-900">
 
-<body class="bg-[#FCE8E8] text-black">
-
-  <!-- HEADER -->
-  <header class="fixed top-0 left-0 right-0 bg-[#FCE8E8] border-b border-[#B6666F] z-50">
-    <div class="flex justify-between items-center p-4">
-      <h1 class="text-lg font-bold text-[#FF0096]">Tantric KL</h1>
-      <a href="/contact.html" class="bg-[#FF0096] text-white px-3 py-1 rounded text-sm">
-        Book
-      </a>
+  <!-- Header -->
+  <header class="bg-white shadow-sm">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+      <h1 class="text-2xl font-bold text-gray-800">Tantric Massage Kuala Lumpur</h1>
+      <a href="#contact" class="bg-pink-600 text-white px-4 py-2 rounded hover:bg-pink-700">Book Now</a>
     </div>
   </header>
 
-  <!-- MAIN -->
-  <main class="pt-16 pb-28">
-
-    <!-- HERO -->
-    <section class="text-center px-5 py-10">
-      <h1 class="text-2xl font-bold text-[#FF0096] leading-snug">
-        Tantric Massage in Kuala Lumpur
-      </h1>
-
-      <p class="text-gray-700 mt-3">
-        Experience deep relaxation with our professional outcall massage service in KL.
-        Private, comfortable and designed for your well-being.
-      </p>
-
-      <a href="https://wa.me/60123456789"
-         class="inline-block mt-6 bg-[#FF0096] text-white px-6 py-3 rounded-xl font-bold shadow-md active:scale-95 transition">
-         Book via WhatsApp
+  <!-- Hero Section -->
+  <section class="bg-gradient-to-r from-pink-500 to-purple-600 text-white py-20">
+    <div class="max-w-6xl mx-auto px-4 text-center">
+      <h1 class="text-4xl md:text-6xl font-bold mb-6">Tantric Massage Kuala Lumpur</h1>
+      <p class="text-xl mb-8 max-w-2xl mx-auto">Experience premium wellness and relaxation with our professional outcall massage services in Kuala Lumpur.</p>
+      <a href="https://wa.me/60123456789" class="inline-flex items-center bg-white text-pink-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100">
+        <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.272-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.149-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421-7.403h-.004a9.87 9.87 0 00-5.031 1.378c-1.56.934-2.846 2.318-3.734 3.907C1.85 13.387 1.5 15.493 1.5 17.517c0 1.52.295 3.03.872 4.529.577 1.499 1.379 2.894 2.372 4.129 1.005 1.247 2.21 2.335 3.582 3.19 1.37.853 2.922 1.523 4.542 1.873 1.62.35 3.282.528 4.947.528 2.206 0 4.413-.395 6.52-1.186 2.107-.79 4.06-1.971 5.837-3.516 1.777-1.545 3.31-3.455 4.555-5.638 1.245-2.183 2.149-4.644 2.67-7.265.52-2.62.788-5.39.788-8.267 0-2.206-.394-4.413-1.186-6.52-.792-2.107-1.972-4.06-3.517-5.837-1.545-1.777-3.455-3.31-5.638-4.555-2.183-1.245-4.644-2.149-7.265-2.67-2.62-.52-5.39-.788-8.267-.788z"/>
+        </svg>
+        Book via WhatsApp
       </a>
-    </section>
-
-    <!-- SERVICES -->
-    <section class="px-5 py-5">
-      <h2 class="text-lg font-semibold text-[#B6666F] mb-3">Our Services</h2>
-
-      <div class="space-y-3">
-
-        <a href="/services/tantric-massage-kuala-lumpur.html"
-           class="block bg-white p-4 rounded-xl shadow active:scale-95 transition">
-           Tantric Massage Kuala Lumpur
-        </a>
-
-        <a href="/services/outcall-massage-kl.html"
-           class="block bg-white p-4 rounded-xl shadow active:scale-95 transition">
-           Outcall Massage KL
-        </a>
-
-        <a href="/services/massage-for-men-kl.html"
-           class="block bg-white p-4 rounded-xl shadow active:scale-95 transition">
-           Massage for Men KL
-        </a>
-
-        <a href="/services/couple-massage-kl.html"
-           class="block bg-white p-4 rounded-xl shadow active:scale-95 transition">
-           Couple Massage KL
-        </a>
-
-      </div>
-    </section>
-
-    <!-- LOCATIONS -->
-    <section class="px-5 py-5">
-      <h2 class="text-lg font-semibold text-[#B6666F] mb-3">Areas We Cover</h2>
-
-      <div class="grid grid-cols-2 gap-3">
-
-        <a href="/locations/massage-mont-kiara.html"
-           class="bg-white p-3 rounded-xl text-center shadow active:scale-95 transition">
-           Mont Kiara
-        </a>
-
-        <a href="/locations/massage-bangsar.html"
-           class="bg-white p-3 rounded-xl text-center shadow active:scale-95 transition">
-           Bangsar
-        </a>
-
-        <a href="/locations/massage-brickfields.html"
-           class="bg-white p-3 rounded-xl text-center shadow active:scale-95 transition">
-           Brickfields
-        </a>
-
-        <a href="/locations/massage-klcc.html"
-           class="bg-white p-3 rounded-xl text-center shadow active:scale-95 transition">
-           KLCC
-        </a>
-
-      </div>
-    </section>
-
-    <!-- ABOUT -->
-    <section class="px-5 py-6">
-      <h2 class="text-lg font-semibold text-[#B6666F] mb-2">About Our Service</h2>
-
-      <p class="text-gray-700 text-sm leading-relaxed">
-        We provide professional massage services in Kuala Lumpur focused on relaxation, stress relief, and comfort.
-        Our outcall service allows you to enjoy a premium experience at your home, hotel, or private space.
-      </p>
-    </section>
-
-  </main>
-
-  <!-- FLOATING CTA -->
-  <a href="https://wa.me/60123456789"
-     class="fixed bottom-20 left-4 right-4 bg-[#FF0096] text-white text-center py-3 rounded-xl font-bold shadow-lg">
-     Book Now
-  </a>
-
-  <!-- WHY ME SECTION -->
-  <section class="px-5 py-10">
-
-    <h2 class="text-2xl font-bold text-[#FF0096] mb-2">
-      Why Me?
-    </h2>
-
-    <p class="text-[#B6666F] mb-6">
-      Why I'm the best service provider in Kuala Lumpur?
-    </p>
-
-    <div class="trust-bars">
-
-      <div class="trust-bar">
-        <div class="trust-bar-fill" style="--target-width: 100%; animation-delay: 0.05s;">
-          <span class="trust-bar-label">Satisfied Clients</span>
-          <span class="trust-bar-value">100%</span>
-        </div>
-      </div>
-
-      <div class="trust-bar">
-        <div class="trust-bar-fill" style="--target-width: 100%; animation-delay: 0.15s;">
-          <span class="trust-bar-label">Privacy</span>
-          <span class="trust-bar-value">100%</span>
-        </div>
-      </div>
-
-      <div class="trust-bar">
-        <div class="trust-bar-fill" style="--target-width: 98%; animation-delay: 0.25s;">
-          <span class="trust-bar-label">Guaranteed</span>
-          <span class="trust-bar-value">98%</span>
-        </div>
-      </div>
-
-      <div class="trust-bar">
-        <div class="trust-bar-fill" style="--target-width: 96%; animation-delay: 0.35s;">
-          <span class="trust-bar-label">Professional</span>
-          <span class="trust-bar-value">96%</span>
-        </div>
-      </div>
-
-      <div class="trust-bar">
-        <div class="trust-bar-fill" style="--target-width: 94%; animation-delay: 0.45s;">
-          <span class="trust-bar-label">Comfort</span>
-          <span class="trust-bar-value">94%</span>
-        </div>
-      </div>
-
-      <div class="trust-bar">
-        <div class="trust-bar-fill" style="--target-width: 92%; animation-delay: 0.55s;">
-          <span class="trust-bar-label">Discretion</span>
-          <span class="trust-bar-value">92%</span>
-        </div>
-      </div>
-
     </div>
-
   </section>
 
-  <!-- WHATSAPP -->
-  <a href="https://wa.me/60123456789"
-     class="fixed bottom-36 right-4 bg-green-500 text-white px-4 py-3 rounded-full shadow-lg">
-     WhatsApp
-  </a>
+  <!-- Services Section -->
+  <section class="py-16 bg-white">
+    <div class="max-w-6xl mx-auto px-4">
+      <h2 class="text-3xl font-bold text-center mb-12">Our Services</h2>
+      <div class="grid md:grid-cols-3 gap-8">
+        <div class="text-center">
+          <div class="bg-pink-100 p-6 rounded-lg mb-4">
+            <h3 class="text-xl font-semibold mb-2">Tantric Massage</h3>
+            <p class="text-gray-600">Full-body relaxation and energy alignment.</p>
+          </div>
+        </div>
+        <div class="text-center">
+          <div class="bg-purple-100 p-6 rounded-lg mb-4">
+            <h3 class="text-xl font-semibold mb-2">Outcall Service</h3>
+            <p class="text-gray-600">Convenient massage at your location.</p>
+          </div>
+        </div>
+        <div class="text-center">
+          <div class="bg-pink-100 p-6 rounded-lg mb-4">
+            <h3 class="text-xl font-semibold mb-2">Wellness Packages</h3>
+            <p class="text-gray-600">Customized sessions for your needs.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-  <!-- BOTTOM NAV -->
-  <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-[#B6666F] flex justify-around py-3 text-sm">
+  <!-- Areas We Serve -->
+  <section class="py-16 bg-gray-50">
+    <div class="max-w-6xl mx-auto px-4">
+      <h2 class="text-3xl font-bold text-center mb-12">Areas We Serve</h2>
+      <div class="grid md:grid-cols-2 gap-8">
+        <a href="/massage-bangsar.html" class="block bg-white p-6 rounded-lg shadow hover:shadow-lg transition">
+          <h3 class="text-xl font-semibold mb-2">Massage Bangsar</h3>
+          <p class="text-gray-600">Premium services in Bangsar area.</p>
+        </a>
+        <a href="/massage-klcc.html" class="block bg-white p-6 rounded-lg shadow hover:shadow-lg transition">
+          <h3 class="text-xl font-semibold mb-2">Massage KLCC</h3>
+          <p class="text-gray-600">Relax in the heart of KLCC.</p>
+        </a>
+      </div>
+    </div>
+  </section>
 
-    <a href="/">Home</a>
-    <a href="/services/tantric-massage-kuala-lumpur.html">Services</a>
-    <a href="/locations/massage-mont-kiara.html">Areas</a>
-    <a href="/contact.html">Contact</a>
-
-  </nav>
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-white py-8">
+    <div class="max-w-6xl mx-auto px-4 text-center">
+      <p>&copy; 2026 Tantric Massage Kuala Lumpur. All rights reserved.</p>
+      <div class="mt-4">
+        <a href="/contact.html" class="text-gray-400 hover:text-white mr-4">Contact</a>
+        <a href="/services.html" class="text-gray-400 hover:text-white">Services</a>
+      </div>
+    </div>
+  </footer>
 
 </body>
 </html>
