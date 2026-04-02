@@ -9,121 +9,244 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     :root {
-      --brand-main: #FF0096;
-      --brand-sub: #B6666F;
-      --page-bg: #FCE8E8;
-      --block-bg: #FFFFFF;
-      --text-main: #000000;
-      --border-soft: #f1cfd4;
+      --bg-main: #0B0B0B;
+      --bg-secondary: #1A1A1A;
+      --gold-main: #D4AF37;
+      --gold-soft: #FFD700;
+      --text-main: #FFFFFF;
+      --text-secondary: #CCCCCC;
+      --purple-accent: rgba(88, 42, 120, 0.28);
+      --border-soft: rgba(212, 175, 55, 0.18);
+      --shadow-luxury: 0 18px 60px rgba(0, 0, 0, 0.45);
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+      background:
+        radial-gradient(circle at top, rgba(88, 42, 120, 0.2), transparent 28%),
+        linear-gradient(180deg, #0b0b0b 0%, #111111 100%);
+      color: var(--text-main);
+    }
+
+    .gold-button {
+      background: linear-gradient(to right, var(--gold-main), var(--gold-soft));
+      color: #000000;
+      box-shadow: 0 14px 34px rgba(212, 175, 55, 0.22);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+    }
+
+    .gold-button:hover {
+      transform: translateY(-1px) scale(1.02);
+      box-shadow: 0 18px 40px rgba(212, 175, 55, 0.28);
+      filter: brightness(1.03);
+    }
+
+    .luxury-card {
+      background: linear-gradient(180deg, rgba(26, 26, 26, 0.96), rgba(18, 18, 18, 0.96));
+      border: 1px solid var(--border-soft);
+      box-shadow: var(--shadow-luxury);
+      transition: transform 0.25s ease, border-color 0.25s ease;
+    }
+
+    .luxury-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(212, 175, 55, 0.36);
+    }
+
+    .hero-overlay {
+      background:
+        linear-gradient(180deg, rgba(0, 0, 0, 0.56), rgba(0, 0, 0, 0.82)),
+        radial-gradient(circle at top, var(--purple-accent), transparent 34%);
+    }
+
+    .icon-chip {
+      width: 3rem;
+      height: 3rem;
+      border-radius: 9999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(212, 175, 55, 0.12);
+      border: 1px solid rgba(212, 175, 55, 0.22);
+      color: var(--gold-soft);
+      font-size: 1.125rem;
+      font-weight: 700;
     }
   </style>
 </head>
-<body class="text-black" style="background-color: var(--page-bg); color: var(--text-main);">
-  <main class="max-w-md mx-auto min-h-screen shadow-xl" style="background-color: var(--page-bg);">
-    <header class="sticky top-0 z-20 border-b backdrop-blur" style="background-color: rgba(255, 255, 255, 0.92); border-color: var(--border-soft);">
-      <div class="px-4 py-3 flex items-center justify-between">
-        <a href="#" class="text-lg font-bold" style="color: var(--brand-main);">Tantric KL</a>
-        <a href="#contact" class="text-sm font-semibold text-white px-3 py-1.5 rounded-full" style="background-color: var(--brand-main);">Book Now</a>
+<body class="min-h-screen text-white">
+  <header class="sticky top-0 z-30 border-b backdrop-blur-xl" style="background-color: rgba(11, 11, 11, 0.88); border-color: rgba(255, 255, 255, 0.08);">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      <div class="flex items-center justify-between py-4">
+        <a href="#" class="text-lg sm:text-xl font-semibold tracking-[0.2em] uppercase text-white">Tantric KL</a>
+        <a href="#contact" class="gold-button inline-flex items-center justify-center rounded-full px-5 py-2.5 text-sm font-semibold">Book Now</a>
       </div>
-    </header>
+    </div>
+  </header>
 
-    <section class="px-4 pt-5 pb-6 text-center">
-      <p class="text-xs tracking-widest uppercase" style="color: var(--brand-sub);">Welcome to</p>
-      <h1 class="text-3xl leading-tight font-extrabold" style="color: var(--brand-main);">Professional Tantric Yoni Massage Services</h1>
-      <p class="text-sm mt-2" style="color: var(--brand-sub);">Feel your body, mind & spirit by professional healing massage.</p>
-
-      <div class="grid grid-cols-2 gap-2 mt-4">
-        <div class="h-32 rounded-lg" style="background: linear-gradient(135deg, #ffd4e9 0%, #ffc0df 55%, #fce8e8 100%);"></div>
-        <div class="h-32 rounded-lg" style="background: linear-gradient(135deg, #fce8e8 0%, #ffc6dc 45%, #ffd9e6 100%);"></div>
-      </div>
-
-      <div class="grid grid-cols-4 gap-2 mt-4 text-[11px]">
-        <div class="rounded-lg p-2 border" style="background-color: var(--block-bg); border-color: var(--border-soft);">
-          <p class="text-xl">✦</p>
-          <p>Gentle Relaxation</p>
-        </div>
-        <div class="rounded-lg p-2 border" style="background-color: var(--block-bg); border-color: var(--border-soft);">
-          <p class="text-xl">❋</p>
-          <p>Stress Relief</p>
-        </div>
-        <div class="rounded-lg p-2 border" style="background-color: var(--block-bg); border-color: var(--border-soft);">
-          <p class="text-xl">🔒</p>
-          <p>Private Session</p>
-        </div>
-        <div class="rounded-lg p-2 border" style="background-color: var(--block-bg); border-color: var(--border-soft);">
-          <p class="text-xl">♥</p>
-          <p>Wellness Focus</p>
-        </div>
-      </div>
-
-      <a href="#pricing" class="mt-5 inline-block w-full rounded-full text-white font-bold py-3" style="background-color: var(--brand-main);">CHOOSE A PACKAGE</a>
-    </section>
-
-    <section class="px-4 pb-6">
-      <h2 class="text-2xl font-extrabold mb-3" style="color: var(--brand-sub);">What is Healing?</h2>
-      <p class="text-sm leading-relaxed">A healing touch full of relaxation and presence. It helps release emotional stress, awaken body awareness, and restore inner confidence through mindful therapeutic care.</p>
-
-      <div class="mt-4 space-y-2 text-sm">
-        <div class="rounded-full text-white px-4 py-2 flex justify-between" style="background-color: var(--brand-main);"><span>Satisfied Clients</span><span>100%</span></div>
-        <div class="rounded-full text-white px-4 py-2 flex justify-between" style="background-color: var(--brand-main);"><span>Privacy</span><span>100%</span></div>
-        <div class="rounded-full text-white px-4 py-2 flex justify-between" style="background-color: var(--brand-main);"><span>Satisfaction</span><span>100%</span></div>
-      </div>
-    </section>
-
-    <section class="px-4 pb-6">
-      <div class="h-40 rounded-xl bg-cover bg-center" style="background-image:url('https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=900&q=80');"></div>
-      <h2 class="text-3xl font-extrabold mt-3 leading-tight" style="color: var(--brand-sub);">Benefits of Healing Massage?</h2>
-      <ul class="mt-3 space-y-1 text-sm list-disc list-inside">
-        <li>Reduces stress and emotional tension.</li>
-        <li>Supports better sleep and energy flow.</li>
-        <li>Improves body confidence and calmness.</li>
-        <li>Helps release anxiety, overthinking, and fatigue.</li>
-        <li>Promotes mindfulness and deep relaxation.</li>
-      </ul>
-    </section>
-
-    <section class="px-4 pb-6">
-      <h2 class="text-3xl font-extrabold mb-2" style="color: var(--brand-sub);">How About Privacy & Etiquette</h2>
-      <ul class="list-disc list-inside text-sm space-y-1">
-        <li>Your privacy is fully protected during each session.</li>
-        <li>Only safe, respectful and consensual care is offered.</li>
-        <li>Sessions are strictly for adults and discreet clients.</li>
-        <li>Open communication before and during treatment.</li>
-      </ul>
-
-      <div class="grid grid-cols-2 gap-3 mt-4 text-center">
-        <div class="rounded-xl border p-3" style="background-color: var(--block-bg); border-color: var(--border-soft);">
-          <p class="font-bold" style="color: var(--brand-sub);">Private</p>
-          <p class="text-xs">No sharing of your personal details.</p>
-        </div>
-        <div class="rounded-xl border p-3" style="background-color: var(--block-bg); border-color: var(--border-soft);">
-          <p class="font-bold" style="color: var(--brand-sub);">Satisfaction</p>
-          <p class="text-xs">Tailored sessions based on your needs.</p>
+  <main>
+    <section class="relative min-h-screen overflow-hidden">
+      <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1515377905703-c4788e51af15?auto=format&fit=crop&w=1600&q=80');"></div>
+      <div class="hero-overlay absolute inset-0"></div>
+      <div class="relative max-w-6xl mx-auto min-h-screen px-4 sm:px-6 py-24 sm:py-32 flex items-center">
+        <div class="w-full max-w-3xl mx-auto text-center">
+          <p class="text-xs sm:text-sm uppercase tracking-[0.45em]" style="color: var(--gold-main);">Premium Private Wellness</p>
+          <h1 class="mt-6 text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight">Tantric Massage Kuala Lumpur</h1>
+          <p class="mt-6 text-base sm:text-lg leading-8 max-w-2xl mx-auto" style="color: var(--text-secondary);">Premium outcall massage services in Kuala Lumpur for relaxation, privacy, and comfort.</p>
+          <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+            <a href="https://wa.me/YOURNUMBER" class="gold-button inline-flex min-w-[220px] items-center justify-center rounded-full px-8 py-4 text-base font-semibold">Book via WhatsApp</a>
+            <a href="#services" class="inline-flex min-w-[220px] items-center justify-center rounded-full border px-8 py-4 text-base font-medium" style="border-color: rgba(255, 255, 255, 0.18); color: var(--text-main);">Explore Services</a>
+          </div>
+          <div class="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-4 text-left">
+            <div class="luxury-card rounded-3xl p-5">
+              <p class="text-xs uppercase tracking-[0.3em]" style="color: var(--gold-main);">Discreet</p>
+              <p class="mt-3 text-sm leading-7" style="color: var(--text-secondary);">Private sessions designed for comfort, calm, and complete confidentiality.</p>
+            </div>
+            <div class="luxury-card rounded-3xl p-5">
+              <p class="text-xs uppercase tracking-[0.3em]" style="color: var(--gold-main);">Professional</p>
+              <p class="mt-3 text-sm leading-7" style="color: var(--text-secondary);">A polished experience with thoughtful pacing, presence, and attentive care.</p>
+            </div>
+            <div class="luxury-card rounded-3xl p-5">
+              <p class="text-xs uppercase tracking-[0.3em]" style="color: var(--gold-main);">Outcall KL</p>
+              <p class="mt-3 text-sm leading-7" style="color: var(--text-secondary);">Convenient premium appointments across Kuala Lumpur for elevated relaxation.</p>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
-    <section id="pricing" class="px-4 pb-6">
-      <h2 class="text-3xl font-extrabold" style="color: var(--brand-main);">Explore Packages & Book Anonymously!</h2>
-      <div class="grid grid-cols-2 gap-3 mt-4 text-sm">
-        <a href="/services.html" class="border rounded-xl p-3 text-center" style="background-color: var(--block-bg); border-color: var(--border-soft);">Basic Package</a>
-        <a href="/services.html" class="border rounded-xl p-3 text-center" style="background-color: var(--block-bg); border-color: var(--border-soft);">Premium Package</a>
-        <a href="/massage-bangsar.html" class="border rounded-xl p-3 text-center" style="background-color: var(--block-bg); border-color: var(--border-soft);">Bangsar Outcall</a>
-        <a href="/massage-klcc.html" class="border rounded-xl p-3 text-center" style="background-color: var(--block-bg); border-color: var(--border-soft);">KLCC Outcall</a>
-      </div>
-
-      <div class="mt-4 rounded-xl p-4 text-white text-center" style="background-color: var(--brand-main);">
-        <p class="font-semibold">Feeling Massage is Technique, Not Connection</p>
+    <section id="services" class="py-16 sm:py-24">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6">
+        <div class="max-w-2xl">
+          <p class="text-xs uppercase tracking-[0.4em]" style="color: var(--gold-main);">Services</p>
+          <h2 class="mt-4 text-3xl sm:text-4xl font-bold">Luxury massage experiences with refined comfort</h2>
+          <p class="mt-5 text-base leading-8" style="color: var(--text-secondary);">Each service is presented with a calm, elegant atmosphere focused on privacy, relaxation, and a premium client experience.</p>
+        </div>
+        <div class="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6">
+          <article class="luxury-card rounded-3xl p-6 sm:p-8">
+            <div class="icon-chip">01</div>
+            <h3 class="mt-6 text-2xl font-semibold">Healing Session</h3>
+            <p class="mt-4 text-sm leading-7" style="color: var(--text-secondary);">A calming bodywork experience designed to reduce tension, support emotional release, and restore inner ease.</p>
+            <a href="/services.html" class="mt-6 inline-flex items-center text-sm font-semibold" style="color: var(--gold-soft);">View package</a>
+          </article>
+          <article class="luxury-card rounded-3xl p-6 sm:p-8">
+            <div class="icon-chip">02</div>
+            <h3 class="mt-6 text-2xl font-semibold">Premium Outcall</h3>
+            <p class="mt-4 text-sm leading-7" style="color: var(--text-secondary);">Luxury outcall appointments in Kuala Lumpur with discreet arrival, elevated care, and a comfortable private setting.</p>
+            <a href="/massage-bangsar.html" class="mt-6 inline-flex items-center text-sm font-semibold" style="color: var(--gold-soft);">Bangsar availability</a>
+          </article>
+          <article class="luxury-card rounded-3xl p-6 sm:p-8">
+            <div class="icon-chip">03</div>
+            <h3 class="mt-6 text-2xl font-semibold">Executive Comfort</h3>
+            <p class="mt-4 text-sm leading-7" style="color: var(--text-secondary);">A polished, uninterrupted massage experience tailored for clients seeking privacy, comfort, and convenience.</p>
+            <a href="/massage-klcc.html" class="mt-6 inline-flex items-center text-sm font-semibold" style="color: var(--gold-soft);">KLCC availability</a>
+          </article>
+        </div>
       </div>
     </section>
 
-    <section id="contact" class="px-4 pb-8">
-      <div class="rounded-2xl border p-4 text-center" style="background-color: var(--block-bg); border-color: var(--border-soft);">
-        <h2 class="text-2xl font-extrabold" style="color: var(--brand-main);">Need Fast Booking?</h2>
-        <p class="text-sm mt-1">Message us for private appointments in Kuala Lumpur.</p>
-        <a href="https://wa.me/YOURNUMBER" class="mt-3 inline-block w-full rounded-full text-white font-bold py-3" style="background-color: var(--brand-main);">VIEW GALLERY / WHATSAPP</a>
+    <section class="py-16 sm:py-24" style="background-color: rgba(255, 255, 255, 0.02);">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6">
+        <div class="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-8 items-start">
+          <div>
+            <p class="text-xs uppercase tracking-[0.4em]" style="color: var(--gold-main);">Experience</p>
+            <h2 class="mt-4 text-3xl sm:text-4xl font-bold">A refined approach to relaxation and privacy</h2>
+            <p class="mt-5 text-base leading-8 max-w-2xl" style="color: var(--text-secondary);">The atmosphere is designed to feel composed and discreet, with spacious pacing, respectful communication, and a premium wellness focus throughout the session.</p>
+            <div class="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-5">
+              <article class="luxury-card rounded-3xl p-6">
+                <div class="icon-chip">G</div>
+                <h3 class="mt-4 text-lg font-semibold">Gentle Relaxation</h3>
+                <p class="mt-3 text-sm leading-7" style="color: var(--text-secondary);">Soft, calming bodywork to help the mind and body settle into deep rest.</p>
+              </article>
+              <article class="luxury-card rounded-3xl p-6">
+                <div class="icon-chip">S</div>
+                <h3 class="mt-4 text-lg font-semibold">Stress Relief</h3>
+                <p class="mt-3 text-sm leading-7" style="color: var(--text-secondary);">A composed treatment style that helps reduce mental pressure and physical tension.</p>
+              </article>
+              <article class="luxury-card rounded-3xl p-6">
+                <div class="icon-chip">P</div>
+                <h3 class="mt-4 text-lg font-semibold">Private Session</h3>
+                <p class="mt-3 text-sm leading-7" style="color: var(--text-secondary);">Discreet service, respectful boundaries, and a quiet premium environment from start to finish.</p>
+              </article>
+              <article class="luxury-card rounded-3xl p-6">
+                <div class="icon-chip">W</div>
+                <h3 class="mt-4 text-lg font-semibold">Wellness Focus</h3>
+                <p class="mt-3 text-sm leading-7" style="color: var(--text-secondary);">An elevated spa-inspired experience centered on comfort, calmness, and body awareness.</p>
+              </article>
+            </div>
+          </div>
+          <aside class="luxury-card rounded-[2rem] p-6 sm:p-8">
+            <p class="text-xs uppercase tracking-[0.4em]" style="color: var(--gold-main);">Why Clients Choose Us</p>
+            <div class="mt-8 space-y-6">
+              <div>
+                <div class="flex items-center justify-between text-sm">
+                  <span style="color: var(--text-secondary);">Privacy</span>
+                  <span style="color: var(--gold-soft);">100%</span>
+                </div>
+                <div class="mt-3 h-2 rounded-full" style="background-color: rgba(255, 255, 255, 0.08);">
+                  <div class="h-2 rounded-full" style="width: 100%; background: linear-gradient(to right, var(--gold-main), var(--gold-soft));"></div>
+                </div>
+              </div>
+              <div>
+                <div class="flex items-center justify-between text-sm">
+                  <span style="color: var(--text-secondary);">Comfort</span>
+                  <span style="color: var(--gold-soft);">100%</span>
+                </div>
+                <div class="mt-3 h-2 rounded-full" style="background-color: rgba(255, 255, 255, 0.08);">
+                  <div class="h-2 rounded-full" style="width: 100%; background: linear-gradient(to right, var(--gold-main), var(--gold-soft));"></div>
+                </div>
+              </div>
+              <div>
+                <div class="flex items-center justify-between text-sm">
+                  <span style="color: var(--text-secondary);">Professional Care</span>
+                  <span style="color: var(--gold-soft);">100%</span>
+                </div>
+                <div class="mt-3 h-2 rounded-full" style="background-color: rgba(255, 255, 255, 0.08);">
+                  <div class="h-2 rounded-full" style="width: 100%; background: linear-gradient(to right, var(--gold-main), var(--gold-soft));"></div>
+                </div>
+              </div>
+            </div>
+            <div class="mt-10 rounded-3xl p-6" style="background: linear-gradient(180deg, rgba(212, 175, 55, 0.12), rgba(212, 175, 55, 0.04)); border: 1px solid rgba(212, 175, 55, 0.18);">
+              <h3 class="text-xl font-semibold">Elegant, private, and mobile-first</h3>
+              <p class="mt-3 text-sm leading-7" style="color: var(--text-secondary);">Built for fast loading and smooth mobile browsing while presenting a more exclusive and luxurious service brand.</p>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="py-16 sm:py-24">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6">
+        <div class="luxury-card rounded-[2rem] p-8 sm:p-12 text-center">
+          <p class="text-xs uppercase tracking-[0.45em]" style="color: var(--gold-main);">Private Booking</p>
+          <h2 class="mt-4 text-3xl sm:text-4xl font-bold">Book a premium outcall massage in Kuala Lumpur</h2>
+          <p class="mt-5 max-w-2xl mx-auto text-base leading-8" style="color: var(--text-secondary);">For discreet appointments, package details, and availability, contact us directly on WhatsApp for a fast and private response.</p>
+          <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+            <a href="https://wa.me/YOURNUMBER" class="gold-button inline-flex min-w-[220px] items-center justify-center rounded-full px-8 py-4 text-base font-semibold">Book via WhatsApp</a>
+            <a href="/services.html" class="inline-flex min-w-[220px] items-center justify-center rounded-full border px-8 py-4 text-base font-medium" style="border-color: rgba(255, 255, 255, 0.16); color: var(--text-main);">View Packages</a>
+          </div>
+        </div>
       </div>
     </section>
   </main>
+
+  <footer class="border-t py-8" style="border-color: rgba(255, 255, 255, 0.08);">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+      <p class="text-sm" style="color: var(--text-secondary);">Tantric KL premium outcall massage services in Kuala Lumpur.</p>
+      <div class="flex items-center gap-5 text-sm" style="color: var(--text-secondary);">
+        <a href="/services.html">Services</a>
+        <a href="/contact.html">Contact</a>
+        <a href="https://wa.me/YOURNUMBER" style="color: var(--gold-soft);">WhatsApp</a>
+      </div>
+    </div>
+  </footer>
+
+  <a href="https://wa.me/YOURNUMBER" aria-label="Chat on WhatsApp" class="fixed bottom-5 right-5 z-40 inline-flex items-center justify-center rounded-full px-5 py-3 text-sm font-semibold text-white shadow-2xl transition-transform duration-200 hover:scale-105" style="background-color: #25D366;">
+    WhatsApp
+  </a>
 </body>
 </html>
