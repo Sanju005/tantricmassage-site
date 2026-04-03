@@ -209,6 +209,43 @@
       min-height: 0;
     }
 
+    .trust-strip {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      border-top: 1px solid rgba(212, 175, 55, 0.16);
+      border-bottom: 1px solid rgba(212, 175, 55, 0.16);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
+    }
+
+    .trust-item {
+      padding: 1rem 0.55rem 1.1rem;
+      text-align: center;
+      position: relative;
+    }
+
+    .trust-item:not(:last-child)::after {
+      content: "";
+      position: absolute;
+      top: 18%;
+      right: 0;
+      width: 1px;
+      height: 64%;
+      background: rgba(212, 175, 55, 0.2);
+    }
+
+    .trust-icon {
+      width: 2.2rem;
+      height: 2.2rem;
+      margin: 0 auto;
+      color: var(--gold-main);
+    }
+
+    .trust-copy {
+      font-size: 0.7rem;
+      line-height: 1.2;
+      color: var(--text-secondary);
+    }
+
     .reveal-copy {
       opacity: 0;
       transform: translateY(22px) scale(0.985);
@@ -272,18 +309,31 @@
           <p class="reveal-copy text-xs sm:text-sm uppercase tracking-[0.45em]" style="color: var(--gold-main);">Premium Private Wellness</p>
           <h1 class="reveal-copy reveal-copy-delay mt-6 text-[2.7rem] sm:text-[3.35rem] lg:text-[4.1rem] font-extrabold leading-tight">Tantric Massage Kuala Lumpur</h1>
           <p class="reveal-copy reveal-copy-delay mt-6 text-base sm:text-lg leading-8 max-w-2xl mx-auto" style="color: var(--text-secondary);">Premium outcall massage services in Kuala Lumpur for relaxation, privacy, and comfort.</p>
-          <div class="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-4 text-left">
-            <div class="luxury-card rounded-3xl p-5">
-              <p class="text-xs uppercase tracking-[0.3em]" style="color: var(--gold-main);">Discreet</p>
-              <p class="mt-3 text-sm leading-7" style="color: var(--text-secondary);">Private sessions designed for comfort, calm, and complete confidentiality.</p>
+          <div class="trust-strip mt-12 rounded-[1.6rem]">
+            <div class="trust-item">
+              <svg class="trust-icon" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+                <path d="M20 46V30c0-6.63 5.37-12 12-12s12 5.37 12 12v16" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                <path d="M24 46h16" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                <path d="M24 18c2.5 2 5.16 3 8 3s5.5-1 8-3" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+              </svg>
+              <p class="mt-3 text-[10px] uppercase tracking-[0.22em]" style="color: var(--gold-main);">Discreet</p>
+              <p class="trust-copy mt-2">Private session and calm confidentiality</p>
             </div>
-            <div class="luxury-card rounded-3xl p-5">
-              <p class="text-xs uppercase tracking-[0.3em]" style="color: var(--gold-main);">Professional</p>
-              <p class="mt-3 text-sm leading-7" style="color: var(--text-secondary);">A polished experience with thoughtful pacing, presence, and attentive care.</p>
+            <div class="trust-item">
+              <svg class="trust-icon" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+                <rect x="18" y="18" width="28" height="28" rx="8" stroke="currentColor" stroke-width="2.5"/>
+                <path d="M25 31h14M25 38h9" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+              </svg>
+              <p class="mt-3 text-[10px] uppercase tracking-[0.22em]" style="color: var(--gold-main);">Professional</p>
+              <p class="trust-copy mt-2">Polished care with respectful skilled touch</p>
             </div>
-            <div class="luxury-card rounded-3xl p-5">
-              <p class="text-xs uppercase tracking-[0.3em]" style="color: var(--gold-main);">Outcall KL</p>
-              <p class="mt-3 text-sm leading-7" style="color: var(--text-secondary);">Convenient premium appointments across Kuala Lumpur for elevated relaxation.</p>
+            <div class="trust-item">
+              <svg class="trust-icon" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+                <path d="M20 42c0-6.63 5.37-12 12-12s12 5.37 12 12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                <path d="M32 30V16m0 0-6 6m6-6 6 6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <p class="mt-3 text-[10px] uppercase tracking-[0.22em]" style="color: var(--gold-main);">Outcall KL</p>
+              <p class="trust-copy mt-2">Convenient visit to your hotel or home</p>
             </div>
           </div>
           <div class="mt-8">
