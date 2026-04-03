@@ -341,21 +341,24 @@
 
     .shortcut-grid {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 0.85rem;
     }
 
     .shortcut-card {
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-      min-height: 5.4rem;
-      padding: 1rem 0.8rem;
+      gap: 0.55rem;
+      min-height: 6.3rem;
+      padding: 0.9rem 0.45rem;
       border-radius: 1.4rem;
       text-align: center;
-      font-size: 0.9rem;
+      font-size: 0.74rem;
       font-weight: 600;
-      letter-spacing: 0.04em;
+      line-height: 1.25;
+      letter-spacing: 0.03em;
       color: var(--text-main);
       background: linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.018));
       box-shadow:
@@ -363,13 +366,23 @@
         0 14px 28px rgba(0, 0, 0, 0.28);
     }
 
+    .shortcut-card svg {
+      width: 1.35rem;
+      height: 1.35rem;
+      color: var(--gold-main);
+      flex-shrink: 0;
+    }
+
     @media (min-width: 640px) {
-      .shortcut-grid {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+      .shortcut-card {
+        min-height: 6.6rem;
+        font-size: 0.84rem;
+        padding: 1rem 0.65rem;
       }
 
-      .shortcut-card {
-        min-height: 6rem;
+      .shortcut-card svg {
+        width: 1.5rem;
+        height: 1.5rem;
       }
     }
 
@@ -558,12 +571,50 @@
     <section class="section-divider pt-4 pb-8 sm:pt-5 sm:pb-10">
       <div class="app-block px-4 sm:px-6">
         <div class="shortcut-grid">
-          <a href="/whyme.html" class="shortcut-card">Why Me</a>
-          <a href="#benefits" class="shortcut-card">Benefits</a>
-          <a href="#how-to-book" class="shortcut-card">How to Book</a>
-          <a href="#privacy" class="shortcut-card">Privacy</a>
-          <a href="#guarantee" class="shortcut-card">Guarantee</a>
-          <a href="#gallery-education" class="shortcut-card">Gallery &amp; Education</a>
+          <a href="/whyme.html" class="shortcut-card">
+            <svg viewBox="0 0 64 64" fill="none" aria-hidden="true">
+              <path d="M32 10C22.06 10 14 18.06 14 28c0 14 18 26 18 26s18-12 18-26c0-9.94-8.06-18-18-18Z" stroke="currentColor" stroke-width="2.5"/>
+              <circle cx="32" cy="28" r="6" stroke="currentColor" stroke-width="2.5"/>
+            </svg>
+            <span>Why Me</span>
+          </a>
+          <a href="#benefits" class="shortcut-card">
+            <svg viewBox="0 0 64 64" fill="none" aria-hidden="true">
+              <path d="M18 32c0-8.84 6.72-16 15-16s15 7.16 15 16-6.72 16-15 16-15-7.16-15-16Z" stroke="currentColor" stroke-width="2.5"/>
+              <path d="M24 32h16" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            </svg>
+            <span>Benefits</span>
+          </a>
+          <a href="#how-to-book" class="shortcut-card">
+            <svg viewBox="0 0 64 64" fill="none" aria-hidden="true">
+              <rect x="14" y="18" width="36" height="32" rx="3" stroke="currentColor" stroke-width="2.5"/>
+              <path d="M14 28h36M24 14v8M40 14v8M24 36h6M34 36h6M24 44h6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            </svg>
+            <span>How to Book</span>
+          </a>
+          <a href="#privacy" class="shortcut-card">
+            <svg viewBox="0 0 64 64" fill="none" aria-hidden="true">
+              <path d="M32 12 48 18v12c0 12-8.5 19-16 22-7.5-3-16-10-16-22V18l16-6Z" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/>
+              <path d="M26 31l4 4 8-9" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span>Privacy</span>
+          </a>
+          <a href="#guarantee" class="shortcut-card">
+            <svg viewBox="0 0 64 64" fill="none" aria-hidden="true">
+              <path d="M20 42h24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+              <path d="M24 42V22h16v20" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/>
+              <path d="M28 22c0-2.21 1.79-4 4-4s4 1.79 4 4" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            </svg>
+            <span>Guarantee</span>
+          </a>
+          <a href="#gallery-education" class="shortcut-card">
+            <svg viewBox="0 0 64 64" fill="none" aria-hidden="true">
+              <rect x="14" y="18" width="36" height="28" rx="4" stroke="currentColor" stroke-width="2.5"/>
+              <path d="m22 38 8-8 6 6 6-8" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="24" cy="26" r="2.5" fill="currentColor"/>
+            </svg>
+            <span>Gallery &amp; Education</span>
+          </a>
         </div>
       </div>
     </section>
