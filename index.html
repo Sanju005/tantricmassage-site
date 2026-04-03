@@ -64,30 +64,37 @@
     .outline-gold-button {
       position: relative;
       overflow: hidden;
-      background: rgba(0, 0, 0, 0.88);
+      isolation: isolate;
+      background: rgba(0, 0, 0, 0.94);
       color: #f7f2e8;
-      border: 1px solid rgba(212, 175, 55, 0.75);
-      box-shadow: inset 0 0 0 1px rgba(255, 215, 0, 0.08), 0 12px 28px rgba(0, 0, 0, 0.3);
+      border: 2px solid rgba(212, 175, 55, 0.95);
+      box-shadow: inset 0 0 0 1px rgba(255, 215, 0, 0.12), 0 12px 28px rgba(0, 0, 0, 0.34);
       transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
     }
 
     .outline-gold-button::before {
       content: "";
       position: absolute;
-      inset: 0;
-      background: linear-gradient(115deg, transparent 30%, rgba(255, 255, 255, 0.34) 50%, transparent 70%);
-      transform: translateX(-140%);
-      transition: transform 0.8s ease;
+      inset: -22%;
+      border-radius: inherit;
+      background: conic-gradient(from 0deg, transparent 0deg, transparent 250deg, rgba(255, 215, 0, 0.95) 300deg, rgba(255, 255, 255, 0.9) 325deg, rgba(212, 175, 55, 0.95) 348deg, transparent 360deg);
+      animation: border-orbit 2.8s linear infinite;
+      z-index: -2;
+    }
+
+    .outline-gold-button::after {
+      content: "";
+      position: absolute;
+      inset: 2px;
+      border-radius: inherit;
+      background: rgba(0, 0, 0, 0.94);
+      z-index: -1;
     }
 
     .outline-gold-button:hover {
       transform: translateY(-1px) scale(1.02);
       border-color: rgba(255, 215, 0, 0.95);
-      box-shadow: inset 0 0 0 1px rgba(255, 215, 0, 0.12), 0 16px 32px rgba(0, 0, 0, 0.38);
-    }
-
-    .outline-gold-button:hover::before {
-      transform: translateX(140%);
+      box-shadow: inset 0 0 0 1px rgba(255, 215, 0, 0.16), 0 16px 32px rgba(0, 0, 0, 0.38);
     }
 
     .luxury-card {
@@ -183,6 +190,15 @@
       }
       100% {
         transform: translateX(0);
+      }
+    }
+
+    @keyframes border-orbit {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
       }
     }
 
@@ -355,9 +371,9 @@
       <div class="hero-overlay absolute inset-0"></div>
       <div class="relative app-block min-h-screen px-4 sm:px-6 py-24 sm:py-32 flex items-center">
         <div class="w-full max-w-3xl mx-auto text-center">
-          <p class="reveal-copy text-xs sm:text-sm uppercase tracking-[0.45em] font-semibold" style="color: var(--gold-main);">Welcome to Premium Private Wellness</p>
-          <h1 class="reveal-copy reveal-copy-delay mt-6 mx-auto text-[2.7rem] sm:text-[3.35rem] lg:text-[4.1rem] font-extrabold leading-tight">Tantric Massage<br>Kuala Lumpur</h1>
-          <p class="reveal-copy reveal-copy-delay mt-6 text-base sm:text-lg leading-8 max-w-2xl mx-auto" style="color: var(--text-secondary);">Professional tantric yoni massage in Kuala Lumpur & Selangor for ladies and couples.</p>
+          <p class="reveal-copy text-xs sm:text-sm uppercase tracking-[0.38em] font-semibold leading-[1.35]" style="color: var(--gold-main);">Welcome To<br>Premium Private Wellness</p>
+          <h1 class="reveal-copy reveal-copy-delay mt-5 mx-auto text-[2.25rem] sm:text-[2.9rem] lg:text-[3.5rem] font-extrabold leading-[0.9]">Tantric Massage<br>Kuala Lumpur</h1>
+          <p class="reveal-copy reveal-copy-delay mt-5 text-[0.98rem] sm:text-[1.08rem] leading-6 max-w-2xl mx-auto" style="color: var(--text-secondary);">Professional Tantric Yoni Massage In Kuala Lumpur & Selangor For Ladies And Couples.</p>
           <div class="trust-strip mt-12 rounded-[1.6rem]">
             <div class="trust-item">
               <svg class="trust-icon" viewBox="0 0 64 64" fill="none" aria-hidden="true">
