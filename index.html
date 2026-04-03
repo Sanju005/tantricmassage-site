@@ -134,6 +134,27 @@
       min-height: 0;
     }
 
+    .reveal-copy {
+      opacity: 0;
+      transform: translateY(22px) scale(0.985);
+      filter: blur(10px);
+      transition:
+        opacity 0.85s ease,
+        transform 0.85s cubic-bezier(0.22, 1, 0.36, 1),
+        filter 0.85s ease;
+      will-change: opacity, transform, filter;
+    }
+
+    .reveal-copy.is-visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      filter: blur(0);
+    }
+
+    .reveal-copy-delay {
+      transition-delay: 0.12s;
+    }
+
     .app-frame {
       width: 100%;
       max-width: 34rem;
@@ -173,9 +194,9 @@
       <div class="hero-overlay absolute inset-0"></div>
       <div class="relative app-block min-h-screen px-4 sm:px-6 py-24 sm:py-32 flex items-center">
         <div class="w-full max-w-3xl mx-auto text-center">
-          <p class="text-xs sm:text-sm uppercase tracking-[0.45em]" style="color: var(--gold-main);">Premium Private Wellness</p>
-          <h1 class="mt-6 text-[2.7rem] sm:text-[3.35rem] lg:text-[4.1rem] font-extrabold leading-tight">Tantric Massage Kuala Lumpur</h1>
-          <p class="mt-6 text-base sm:text-lg leading-8 max-w-2xl mx-auto" style="color: var(--text-secondary);">Premium outcall massage services in Kuala Lumpur for relaxation, privacy, and comfort.</p>
+          <p class="reveal-copy text-xs sm:text-sm uppercase tracking-[0.45em]" style="color: var(--gold-main);">Premium Private Wellness</p>
+          <h1 class="reveal-copy reveal-copy-delay mt-6 text-[2.7rem] sm:text-[3.35rem] lg:text-[4.1rem] font-extrabold leading-tight">Tantric Massage Kuala Lumpur</h1>
+          <p class="reveal-copy reveal-copy-delay mt-6 text-base sm:text-lg leading-8 max-w-2xl mx-auto" style="color: var(--text-secondary);">Premium outcall massage services in Kuala Lumpur for relaxation, privacy, and comfort.</p>
           <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
             <a href="https://wa.me/YOURNUMBER" class="gold-button inline-flex min-w-[220px] items-center justify-center rounded-full px-8 py-4 text-base font-semibold">Book via WhatsApp</a>
             <a href="#services" class="inline-flex min-w-[220px] items-center justify-center rounded-full border px-8 py-4 text-base font-medium" style="border-color: rgba(255, 255, 255, 0.18); color: var(--text-main);">Explore Services</a>
@@ -202,9 +223,9 @@
       <div class="app-block px-4 sm:px-6">
         <div class="luxury-card section-shell rounded-[2rem] p-8 sm:p-10">
           <div class="max-w-3xl">
-            <p class="text-xs uppercase tracking-[0.4em]" style="color: var(--gold-main);">Why Choose Me?</p>
-            <h2 class="section-title mt-4 text-[2.2rem] sm:text-[3.2rem] font-extrabold">Private, polished premium massage</h2>
-            <p class="mt-5 text-sm sm:text-base leading-7" style="color: var(--text-secondary);">A quick look at what makes the experience feel more exclusive, discreet, and comfortable. Tap any card to view the full Why Choose Me page.</p>
+            <p class="reveal-copy text-xs uppercase tracking-[0.4em]" style="color: var(--gold-main);">Why Choose Me?</p>
+            <h2 class="reveal-copy reveal-copy-delay section-title mt-4 text-[2.2rem] sm:text-[3.2rem] font-extrabold">Private, polished premium massage</h2>
+            <p class="reveal-copy reveal-copy-delay mt-5 text-sm sm:text-base leading-7" style="color: var(--text-secondary);">A quick look at what makes the experience feel more exclusive, discreet, and comfortable. Tap any card to view the full Why Choose Me page.</p>
           </div>
           <div class="mt-10 grid grid-cols-3 gap-3 sm:gap-5">
             <a href="/whyme.html" class="app-tile flex flex-col items-center justify-center rounded-3xl border p-3 text-center transition-transform duration-200 hover:-translate-y-1 sm:p-5" style="border-color: rgba(212, 175, 55, 0.14); background-color: rgba(255, 255, 255, 0.02);">
@@ -259,9 +280,9 @@
     <section id="services" class="py-16 sm:py-24">
       <div class="app-block px-4 sm:px-6">
         <div class="max-w-2xl">
-          <p class="text-xs uppercase tracking-[0.4em]" style="color: var(--gold-main);">Services</p>
-          <h2 class="mt-4 text-3xl sm:text-4xl font-bold">Luxury massage experiences with refined comfort</h2>
-          <p class="mt-5 text-base leading-8" style="color: var(--text-secondary);">Each service is presented with a calm, elegant atmosphere focused on privacy, relaxation, and a premium client experience.</p>
+          <p class="reveal-copy text-xs uppercase tracking-[0.4em]" style="color: var(--gold-main);">Services</p>
+          <h2 class="reveal-copy reveal-copy-delay mt-4 text-[2.2rem] sm:text-[3.2rem] font-extrabold">Luxury massage comfort</h2>
+          <p class="reveal-copy reveal-copy-delay mt-5 text-base leading-8" style="color: var(--text-secondary);">Each service is presented with a calm, elegant atmosphere focused on privacy, relaxation, and a premium client experience.</p>
         </div>
         <div class="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6">
           <article class="luxury-card rounded-3xl p-6 sm:p-8">
@@ -290,9 +311,9 @@
       <div class="app-block px-4 sm:px-6">
         <div class="luxury-card section-shell rounded-[2rem] p-8 sm:p-10">
           <div class="max-w-3xl">
-            <p class="text-xs uppercase tracking-[0.4em]" style="color: var(--gold-main);">Benefits</p>
-            <h2 class="section-title mt-4 text-[2.2rem] sm:text-[3.2rem] font-extrabold">Calming, restorative benefits</h2>
-            <p class="mt-5 text-sm sm:text-base leading-7" style="color: var(--text-secondary);">These are some of the benefits clients look for when choosing a more private, premium massage session in Kuala Lumpur.</p>
+            <p class="reveal-copy text-xs uppercase tracking-[0.4em]" style="color: var(--gold-main);">Benefits</p>
+            <h2 class="reveal-copy reveal-copy-delay section-title mt-4 text-[2.2rem] sm:text-[3.2rem] font-extrabold">Calming, restorative benefits</h2>
+            <p class="reveal-copy reveal-copy-delay mt-5 text-sm sm:text-base leading-7" style="color: var(--text-secondary);">These are some of the benefits clients look for when choosing a more private, premium massage session in Kuala Lumpur.</p>
           </div>
           <div class="mt-10 grid grid-cols-3 gap-3 sm:gap-5">
             <article class="app-tile flex flex-col items-center justify-center rounded-3xl border p-3 text-center sm:p-5" style="border-color: rgba(212, 175, 55, 0.14); background-color: rgba(255, 255, 255, 0.02);">
@@ -345,9 +366,9 @@
       <div class="app-block px-4 sm:px-6">
         <div class="luxury-card section-shell rounded-[2rem] p-8 sm:p-10">
           <div class="max-w-3xl">
-            <p class="text-xs uppercase tracking-[0.4em]" style="color: var(--gold-main);">How To Book?</p>
-            <h2 class="section-title mt-4 text-[2.2rem] sm:text-[3.2rem] font-extrabold">Simple booking steps</h2>
-            <p class="mt-5 text-sm sm:text-base leading-7" style="color: var(--text-secondary);">A quick booking process designed to stay private, smooth, and easy to follow on mobile.</p>
+            <p class="reveal-copy text-xs uppercase tracking-[0.4em]" style="color: var(--gold-main);">How To Book?</p>
+            <h2 class="reveal-copy reveal-copy-delay section-title mt-4 text-[2.2rem] sm:text-[3.2rem] font-extrabold">Simple booking steps</h2>
+            <p class="reveal-copy reveal-copy-delay mt-5 text-sm sm:text-base leading-7" style="color: var(--text-secondary);">A quick booking process designed to stay private, smooth, and easy to follow on mobile.</p>
           </div>
           <div class="mt-10 grid grid-cols-3 gap-3 sm:gap-5">
             <article class="app-tile flex flex-col items-center justify-center rounded-3xl border p-3 text-center sm:p-5" style="border-color: rgba(212, 175, 55, 0.14); background-color: rgba(255, 255, 255, 0.02);">
@@ -409,9 +430,9 @@
         <div class="luxury-card section-shell rounded-[2rem] p-8 sm:p-10">
           <div class="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
             <div class="max-w-2xl">
-              <p class="text-xs uppercase tracking-[0.4em]" style="color: var(--gold-main);">Client Questions</p>
-              <h2 class="section-title mt-4 text-[2.2rem] sm:text-[3.2rem] font-extrabold">Common client questions</h2>
-              <p class="mt-5 text-sm sm:text-base leading-7" style="color: var(--text-secondary);">A quick slider of common questions about privacy, location, booking, and the overall experience.</p>
+              <p class="reveal-copy text-xs uppercase tracking-[0.4em]" style="color: var(--gold-main);">Client Questions</p>
+              <h2 class="reveal-copy reveal-copy-delay section-title mt-4 text-[2.2rem] sm:text-[3.2rem] font-extrabold">Common client questions</h2>
+              <p class="reveal-copy reveal-copy-delay mt-5 text-sm sm:text-base leading-7" style="color: var(--text-secondary);">A quick slider of common questions about privacy, location, booking, and the overall experience.</p>
             </div>
             <div class="rounded-3xl border px-6 py-5 text-center lg:min-w-[180px]" style="border-color: rgba(212, 175, 55, 0.16); background: linear-gradient(180deg, rgba(212, 175, 55, 0.10), rgba(212, 175, 55, 0.03));">
               <p class="text-4xl font-bold" style="color: var(--gold-soft);">23</p>
@@ -473,9 +494,9 @@
       <div class="app-block px-4 sm:px-6">
         <div class="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-8 items-start">
           <div>
-            <p class="text-xs uppercase tracking-[0.4em]" style="color: var(--gold-main);">Experience</p>
-            <h2 class="mt-4 text-3xl sm:text-4xl font-bold">A refined approach to relaxation and privacy</h2>
-            <p class="mt-5 text-base leading-8 max-w-2xl" style="color: var(--text-secondary);">The atmosphere is designed to feel composed and discreet, with spacious pacing, respectful communication, and a premium wellness focus throughout the session.</p>
+            <p class="reveal-copy text-xs uppercase tracking-[0.4em]" style="color: var(--gold-main);">Experience</p>
+            <h2 class="reveal-copy reveal-copy-delay mt-4 text-[2.2rem] sm:text-[3.2rem] font-extrabold">Refined privacy experience</h2>
+            <p class="reveal-copy reveal-copy-delay mt-5 text-base leading-8 max-w-2xl" style="color: var(--text-secondary);">The atmosphere is designed to feel composed and discreet, with spacious pacing, respectful communication, and a premium wellness focus throughout the session.</p>
             <div class="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-5">
               <article class="luxury-card rounded-3xl p-6">
                 <div class="icon-chip">G</div>
@@ -542,9 +563,9 @@
     <section id="contact" class="py-16 sm:py-24">
       <div class="app-block px-4 sm:px-6">
         <div class="luxury-card rounded-[2rem] p-8 sm:p-12 text-center">
-          <p class="text-xs uppercase tracking-[0.45em]" style="color: var(--gold-main);">Private Booking</p>
-          <h2 class="mt-4 text-3xl sm:text-4xl font-bold">Book a premium outcall massage in Kuala Lumpur</h2>
-          <p class="mt-5 max-w-2xl mx-auto text-base leading-8" style="color: var(--text-secondary);">For discreet appointments, package details, and availability, contact us directly on WhatsApp for a fast and private response.</p>
+          <p class="reveal-copy text-xs uppercase tracking-[0.45em]" style="color: var(--gold-main);">Private Booking</p>
+          <h2 class="reveal-copy reveal-copy-delay mt-4 text-[2.2rem] sm:text-[3.2rem] font-extrabold">Book your premium session</h2>
+          <p class="reveal-copy reveal-copy-delay mt-5 max-w-2xl mx-auto text-base leading-8" style="color: var(--text-secondary);">For discreet appointments, package details, and availability, contact us directly on WhatsApp for a fast and private response.</p>
           <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
             <a href="https://wa.me/YOURNUMBER" class="gold-button inline-flex min-w-[220px] items-center justify-center rounded-full px-8 py-4 text-base font-semibold">Book via WhatsApp</a>
             <a href="/services.html" class="inline-flex min-w-[220px] items-center justify-center rounded-full border px-8 py-4 text-base font-medium" style="border-color: rgba(255, 255, 255, 0.16); color: var(--text-main);">View Packages</a>
@@ -568,5 +589,22 @@
   <a href="https://wa.me/YOURNUMBER" aria-label="Chat on WhatsApp" class="fixed bottom-5 right-5 z-40 inline-flex items-center justify-center rounded-full px-5 py-3 text-sm font-semibold text-white shadow-2xl transition-transform duration-200 hover:scale-105" style="background-color: #25D366;">
     WhatsApp
   </a>
+  <script>
+    const revealItems = document.querySelectorAll('.reveal-copy');
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+        } else {
+          entry.target.classList.remove('is-visible');
+        }
+      });
+    }, {
+      threshold: 0.2,
+      rootMargin: '0px 0px -8% 0px'
+    });
+
+    revealItems.forEach((item) => revealObserver.observe(item));
+  </script>
 </body>
 </html>
