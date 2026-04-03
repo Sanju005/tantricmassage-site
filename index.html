@@ -61,6 +61,35 @@
       transform: translateX(140%);
     }
 
+    .outline-gold-button {
+      position: relative;
+      overflow: hidden;
+      background: rgba(0, 0, 0, 0.88);
+      color: #f7f2e8;
+      border: 1px solid rgba(212, 175, 55, 0.75);
+      box-shadow: inset 0 0 0 1px rgba(255, 215, 0, 0.08), 0 12px 28px rgba(0, 0, 0, 0.3);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+
+    .outline-gold-button::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(115deg, transparent 30%, rgba(255, 255, 255, 0.34) 50%, transparent 70%);
+      transform: translateX(-140%);
+      transition: transform 0.8s ease;
+    }
+
+    .outline-gold-button:hover {
+      transform: translateY(-1px) scale(1.02);
+      border-color: rgba(255, 215, 0, 0.95);
+      box-shadow: inset 0 0 0 1px rgba(255, 215, 0, 0.12), 0 16px 32px rgba(0, 0, 0, 0.38);
+    }
+
+    .outline-gold-button:hover::before {
+      transform: translateX(140%);
+    }
+
     .luxury-card {
       background: linear-gradient(180deg, rgba(26, 26, 26, 0.96), rgba(18, 18, 18, 0.96));
       border: 1px solid var(--border-soft);
@@ -109,6 +138,52 @@
 
     .question-card {
       scroll-snap-align: start;
+    }
+
+    .hero-slider {
+      position: relative;
+      overflow: hidden;
+      border-radius: 1.75rem;
+      border: 1px solid rgba(212, 175, 55, 0.14);
+      background: rgba(255, 255, 255, 0.02);
+      box-shadow: 0 20px 44px rgba(0, 0, 0, 0.34);
+    }
+
+    .hero-slider-track {
+      display: flex;
+      width: 300%;
+      animation: hero-slide 9s linear infinite;
+    }
+
+    .hero-slide {
+      width: 100%;
+      flex: 0 0 100%;
+      height: 12rem;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    }
+
+    .hero-slide::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.32));
+    }
+
+    @keyframes hero-slide {
+      0%, 30% {
+        transform: translateX(0);
+      }
+      33%, 63% {
+        transform: translateX(-33.3333%);
+      }
+      66%, 96% {
+        transform: translateX(-66.6667%);
+      }
+      100% {
+        transform: translateX(0);
+      }
     }
 
     .section-shell {
@@ -197,10 +272,6 @@
           <p class="reveal-copy text-xs sm:text-sm uppercase tracking-[0.45em]" style="color: var(--gold-main);">Premium Private Wellness</p>
           <h1 class="reveal-copy reveal-copy-delay mt-6 text-[2.7rem] sm:text-[3.35rem] lg:text-[4.1rem] font-extrabold leading-tight">Tantric Massage Kuala Lumpur</h1>
           <p class="reveal-copy reveal-copy-delay mt-6 text-base sm:text-lg leading-8 max-w-2xl mx-auto" style="color: var(--text-secondary);">Premium outcall massage services in Kuala Lumpur for relaxation, privacy, and comfort.</p>
-          <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
-            <a href="https://wa.me/YOURNUMBER" class="gold-button inline-flex min-w-[220px] items-center justify-center rounded-full px-8 py-4 text-base font-semibold">Book via WhatsApp</a>
-            <a href="#services" class="inline-flex min-w-[220px] items-center justify-center rounded-full border px-8 py-4 text-base font-medium" style="border-color: rgba(255, 255, 255, 0.18); color: var(--text-main);">Explore Services</a>
-          </div>
           <div class="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-4 text-left">
             <div class="luxury-card rounded-3xl p-5">
               <p class="text-xs uppercase tracking-[0.3em]" style="color: var(--gold-main);">Discreet</p>
@@ -214,6 +285,16 @@
               <p class="text-xs uppercase tracking-[0.3em]" style="color: var(--gold-main);">Outcall KL</p>
               <p class="mt-3 text-sm leading-7" style="color: var(--text-secondary);">Convenient premium appointments across Kuala Lumpur for elevated relaxation.</p>
             </div>
+          </div>
+          <div class="mt-8">
+            <div class="hero-slider">
+              <div class="hero-slider-track">
+                <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1519823551278-64ac92734fb1?auto=format&fit=crop&w=1200&q=80');"></div>
+                <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&w=1200&q=80');"></div>
+                <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=1200&q=80');"></div>
+              </div>
+            </div>
+            <a href="/services.html" class="outline-gold-button mt-5 inline-flex items-center justify-center rounded-full px-7 py-3 text-sm font-medium tracking-[0.12em] uppercase">See Package</a>
           </div>
         </div>
       </div>
