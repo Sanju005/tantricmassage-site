@@ -186,14 +186,16 @@
       }
     }
 
-    .section-shell {
-      border: none;
-      box-shadow: 0 18px 60px rgba(0, 0, 0, 0.28);
-    }
-
     .section-title {
       max-width: 10ch;
       line-height: 1.05;
+    }
+
+    .section-subcopy {
+      max-width: 25ch;
+      font-size: 0.82rem;
+      line-height: 1.45;
+      color: var(--text-secondary);
     }
 
     .stack-title {
@@ -399,42 +401,42 @@
 
     <section class="py-16 sm:py-20">
       <div class="app-block px-4 sm:px-6">
-        <div class="luxury-card section-shell rounded-[2rem] p-8 sm:p-10">
+        <div class="rounded-[2rem] p-2 sm:p-4">
           <div class="max-w-3xl">
             <p class="reveal-copy text-xs uppercase tracking-[0.4em]" style="color: var(--gold-main);">Why Choose Me?</p>
             <h2 class="reveal-copy reveal-copy-delay section-title mt-4 text-[2.2rem] sm:text-[3.2rem] font-extrabold">Private, polished premium massage</h2>
-            <p class="reveal-copy reveal-copy-delay mt-5 text-sm sm:text-base leading-7" style="color: var(--text-secondary);">A quick look at what makes the experience feel more exclusive, discreet, and comfortable. Tap any card to view the full Why Choose Me page.</p>
+            <p class="reveal-copy reveal-copy-delay section-subcopy mt-5">A quick look at what makes the experience feel more exclusive, discreet, and comfortable. Tap any card to view the full Why Choose Me page.</p>
           </div>
           <div class="mt-10 grid grid-cols-3 gap-3 sm:gap-5">
-            <a href="/whyme.html" class="app-tile flex flex-col items-center justify-center rounded-3xl border p-3 text-center transition-transform duration-200 hover:-translate-y-1 sm:p-5" style="border-color: rgba(212, 175, 55, 0.14); background-color: rgba(255, 255, 255, 0.02);">
+            <a href="/whyme.html" class="app-tile flex flex-col items-center justify-center rounded-3xl p-3 text-center transition-transform duration-200 hover:-translate-y-1 sm:p-5" style="background-color: rgba(255, 255, 255, 0.02);">
               <svg class="h-8 w-8 sm:h-10 sm:w-10" viewBox="0 0 64 64" fill="none" aria-hidden="true">
                 <path d="M32 10C22.06 10 14 18.06 14 28c0 14 18 26 18 26s18-12 18-26c0-9.94-8.06-18-18-18Z" stroke="#FFD700" stroke-width="2.5"/>
                 <circle cx="32" cy="28" r="6" stroke="#D4AF37" stroke-width="2.5"/>
               </svg>
               <h3 class="stack-title mt-3 text-[12px] sm:text-sm font-normal leading-snug"><span>Discreet<br>Service<br>& Privacy</span></h3>
             </a>
-            <a href="/whyme.html" class="app-tile flex flex-col items-center justify-center rounded-3xl border p-3 text-center transition-transform duration-200 hover:-translate-y-1 sm:p-5" style="border-color: rgba(212, 175, 55, 0.14); background-color: rgba(255, 255, 255, 0.02);">
+            <a href="/whyme.html" class="app-tile flex flex-col items-center justify-center rounded-3xl p-3 text-center transition-transform duration-200 hover:-translate-y-1 sm:p-5" style="background-color: rgba(255, 255, 255, 0.02);">
               <svg class="h-8 w-8 sm:h-10 sm:w-10" viewBox="0 0 64 64" fill="none" aria-hidden="true">
                 <rect x="14" y="18" width="36" height="28" rx="8" stroke="#FFD700" stroke-width="2.5"/>
                 <path d="M22 30h20M22 38h12" stroke="#D4AF37" stroke-width="2.5" stroke-linecap="round"/>
               </svg>
               <h3 class="stack-title mt-3 text-[12px] sm:text-sm font-normal leading-snug"><span>Premium<br>Attention<br>& Care</span></h3>
             </a>
-            <a href="/whyme.html" class="app-tile flex flex-col items-center justify-center rounded-3xl border p-3 text-center transition-transform duration-200 hover:-translate-y-1 sm:p-5" style="border-color: rgba(212, 175, 55, 0.14); background-color: rgba(255, 255, 255, 0.02);">
+            <a href="/whyme.html" class="app-tile flex flex-col items-center justify-center rounded-3xl p-3 text-center transition-transform duration-200 hover:-translate-y-1 sm:p-5" style="background-color: rgba(255, 255, 255, 0.02);">
               <svg class="h-8 w-8 sm:h-10 sm:w-10" viewBox="0 0 64 64" fill="none" aria-hidden="true">
                 <path d="M20 42c0-6.63 5.37-12 12-12s12 5.37 12 12" stroke="#FFD700" stroke-width="2.5" stroke-linecap="round"/>
                 <path d="M32 30V16m0 0-6 6m6-6 6 6" stroke="#D4AF37" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
               <h3 class="stack-title mt-3 text-[12px] sm:text-sm font-normal leading-snug"><span>Outcall<br>Convenience<br>Anywhere</span></h3>
             </a>
-            <a href="/whyme.html" class="app-tile flex flex-col items-center justify-center rounded-3xl border p-3 text-center transition-transform duration-200 hover:-translate-y-1 sm:p-5" style="border-color: rgba(212, 175, 55, 0.14); background-color: rgba(255, 255, 255, 0.02);">
+            <a href="/whyme.html" class="app-tile flex flex-col items-center justify-center rounded-3xl p-3 text-center transition-transform duration-200 hover:-translate-y-1 sm:p-5" style="background-color: rgba(255, 255, 255, 0.02);">
               <svg class="h-8 w-8 sm:h-10 sm:w-10" viewBox="0 0 64 64" fill="none" aria-hidden="true">
                 <path d="M18 34c0-8.84 6.72-16 15-16s15 7.16 15 16-6.72 16-15 16-15-7.16-15-16Z" stroke="#FFD700" stroke-width="2.5"/>
                 <path d="M24 34h16M32 26v16" stroke="#D4AF37" stroke-width="2.5" stroke-linecap="round"/>
               </svg>
               <h3 class="stack-title mt-3 text-[12px] sm:text-sm font-normal leading-snug"><span>Wellness<br>Focused<br>Touch</span></h3>
             </a>
-            <a href="/whyme.html" class="app-tile flex flex-col items-center justify-center rounded-3xl border p-3 text-center transition-transform duration-200 hover:-translate-y-1 sm:p-5" style="border-color: rgba(212, 175, 55, 0.14); background-color: rgba(255, 255, 255, 0.02);">
+            <a href="/whyme.html" class="app-tile flex flex-col items-center justify-center rounded-3xl p-3 text-center transition-transform duration-200 hover:-translate-y-1 sm:p-5" style="background-color: rgba(255, 255, 255, 0.02);">
               <svg class="h-8 w-8 sm:h-10 sm:w-10" viewBox="0 0 64 64" fill="none" aria-hidden="true">
                 <path d="M18 40c4-10 10-16 14-16s10 6 14 16" stroke="#FFD700" stroke-width="2.5" stroke-linecap="round"/>
                 <path d="M22 42h20" stroke="#D4AF37" stroke-width="2.5" stroke-linecap="round"/>
@@ -442,7 +444,7 @@
               </svg>
               <h3 class="stack-title mt-3 text-[12px] sm:text-sm font-normal leading-snug"><span>Calm<br>Presence<br>Always</span></h3>
             </a>
-            <a href="/whyme.html" class="app-tile flex flex-col items-center justify-center rounded-3xl border p-3 text-center transition-transform duration-200 hover:-translate-y-1 sm:p-5" style="border-color: rgba(212, 175, 55, 0.14); background-color: rgba(255, 255, 255, 0.02);">
+            <a href="/whyme.html" class="app-tile flex flex-col items-center justify-center rounded-3xl p-3 text-center transition-transform duration-200 hover:-translate-y-1 sm:p-5" style="background-color: rgba(255, 255, 255, 0.02);">
               <svg class="h-8 w-8 sm:h-10 sm:w-10" viewBox="0 0 64 64" fill="none" aria-hidden="true">
                 <path d="M14 42h36" stroke="#FFD700" stroke-width="2.5" stroke-linecap="round"/>
                 <path d="M22 42V26l10-8 10 8v16" stroke="#D4AF37" stroke-width="2.5" stroke-linejoin="round"/>
@@ -460,7 +462,7 @@
         <div class="max-w-2xl">
           <p class="reveal-copy text-xs uppercase tracking-[0.4em]" style="color: var(--gold-main);">Services</p>
           <h2 class="reveal-copy reveal-copy-delay mt-4 text-[2.2rem] sm:text-[3.2rem] font-extrabold">Luxury massage comfort</h2>
-          <p class="reveal-copy reveal-copy-delay mt-5 text-base leading-8" style="color: var(--text-secondary);">Each service is presented with a calm, elegant atmosphere focused on privacy, relaxation, and a premium client experience.</p>
+          <p class="reveal-copy reveal-copy-delay section-subcopy mt-5">Each service is presented with a calm, elegant atmosphere focused on privacy, relaxation, and a premium client experience.</p>
         </div>
         <div class="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6">
           <article class="luxury-card rounded-3xl p-6 sm:p-8">
@@ -487,49 +489,49 @@
 
     <section class="py-16 sm:py-20">
       <div class="app-block px-4 sm:px-6">
-        <div class="luxury-card section-shell rounded-[2rem] p-8 sm:p-10">
+        <div class="rounded-[2rem] p-2 sm:p-4">
           <div class="max-w-3xl">
             <p class="reveal-copy text-xs uppercase tracking-[0.4em]" style="color: var(--gold-main);">Benefits</p>
             <h2 class="reveal-copy reveal-copy-delay section-title mt-4 text-[2.2rem] sm:text-[3.2rem] font-extrabold">Calming, restorative benefits</h2>
-            <p class="reveal-copy reveal-copy-delay mt-5 text-sm sm:text-base leading-7" style="color: var(--text-secondary);">These are some of the benefits clients look for when choosing a more private, premium massage session in Kuala Lumpur.</p>
+            <p class="reveal-copy reveal-copy-delay section-subcopy mt-5">These are some of the benefits clients look for when choosing a more private, premium massage session in Kuala Lumpur.</p>
           </div>
           <div class="mt-10 grid grid-cols-3 gap-3 sm:gap-5">
-            <article class="app-tile flex flex-col items-center justify-center rounded-3xl border p-3 text-center sm:p-5" style="border-color: rgba(212, 175, 55, 0.14); background-color: rgba(255, 255, 255, 0.02);">
+            <article class="app-tile flex flex-col items-center justify-center rounded-3xl p-3 text-center sm:p-5" style="background-color: rgba(255, 255, 255, 0.02);">
               <svg class="h-8 w-8 sm:h-10 sm:w-10" viewBox="0 0 64 64" fill="none" aria-hidden="true">
                 <path d="M18 32c0-8.84 6.72-16 15-16s15 7.16 15 16-6.72 16-15 16-15-7.16-15-16Z" stroke="#FFD700" stroke-width="2.5"/>
                 <path d="M24 32h16" stroke="#D4AF37" stroke-width="2.5" stroke-linecap="round"/>
               </svg>
               <h3 class="stack-title mt-3 text-[12px] sm:text-sm font-normal leading-snug"><span>Stress<br>Relief<br>Effect</span></h3>
             </article>
-            <article class="app-tile flex flex-col items-center justify-center rounded-3xl border p-3 text-center sm:p-5" style="border-color: rgba(212, 175, 55, 0.14); background-color: rgba(255, 255, 255, 0.02);">
+            <article class="app-tile flex flex-col items-center justify-center rounded-3xl p-3 text-center sm:p-5" style="background-color: rgba(255, 255, 255, 0.02);">
               <svg class="h-8 w-8 sm:h-10 sm:w-10" viewBox="0 0 64 64" fill="none" aria-hidden="true">
                 <path d="M20 40c0-6.63 5.37-12 12-12s12 5.37 12 12" stroke="#FFD700" stroke-width="2.5" stroke-linecap="round"/>
                 <path d="M26 24c0-3.31 2.69-6 6-6s6 2.69 6 6" stroke="#D4AF37" stroke-width="2.5" stroke-linecap="round"/>
               </svg>
               <h3 class="stack-title mt-3 text-[12px] sm:text-sm font-normal leading-snug"><span>Deep<br>Relaxation<br>State</span></h3>
             </article>
-            <article class="app-tile flex flex-col items-center justify-center rounded-3xl border p-3 text-center sm:p-5" style="border-color: rgba(212, 175, 55, 0.14); background-color: rgba(255, 255, 255, 0.02);">
+            <article class="app-tile flex flex-col items-center justify-center rounded-3xl p-3 text-center sm:p-5" style="background-color: rgba(255, 255, 255, 0.02);">
               <svg class="h-8 w-8 sm:h-10 sm:w-10" viewBox="0 0 64 64" fill="none" aria-hidden="true">
                 <path d="M18 42c4-10 10-16 14-16s10 6 14 16" stroke="#FFD700" stroke-width="2.5" stroke-linecap="round"/>
                 <circle cx="32" cy="20" r="4" stroke="#D4AF37" stroke-width="2.5"/>
               </svg>
               <h3 class="stack-title mt-3 text-[12px] sm:text-sm font-normal leading-snug"><span>Body<br>Awareness<br>Boost</span></h3>
             </article>
-            <article class="app-tile flex flex-col items-center justify-center rounded-3xl border p-3 text-center sm:p-5" style="border-color: rgba(212, 175, 55, 0.14); background-color: rgba(255, 255, 255, 0.02);">
+            <article class="app-tile flex flex-col items-center justify-center rounded-3xl p-3 text-center sm:p-5" style="background-color: rgba(255, 255, 255, 0.02);">
               <svg class="h-8 w-8 sm:h-10 sm:w-10" viewBox="0 0 64 64" fill="none" aria-hidden="true">
                 <path d="M16 34h32" stroke="#FFD700" stroke-width="2.5" stroke-linecap="round"/>
                 <path d="M24 26l8 8-8 8" stroke="#D4AF37" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
               <h3 class="stack-title mt-3 text-[12px] sm:text-sm font-normal leading-snug"><span>Energy<br>Flow<br>Support</span></h3>
             </article>
-            <article class="app-tile flex flex-col items-center justify-center rounded-3xl border p-3 text-center sm:p-5" style="border-color: rgba(212, 175, 55, 0.14); background-color: rgba(255, 255, 255, 0.02);">
+            <article class="app-tile flex flex-col items-center justify-center rounded-3xl p-3 text-center sm:p-5" style="background-color: rgba(255, 255, 255, 0.02);">
               <svg class="h-8 w-8 sm:h-10 sm:w-10" viewBox="0 0 64 64" fill="none" aria-hidden="true">
                 <path d="M20 22h24v20H20z" stroke="#FFD700" stroke-width="2.5"/>
                 <path d="M26 30h12M26 36h8" stroke="#D4AF37" stroke-width="2.5" stroke-linecap="round"/>
               </svg>
               <h3 class="stack-title mt-3 text-[12px] sm:text-sm font-normal leading-snug"><span>Better<br>Sleep<br>Quality</span></h3>
             </article>
-            <article class="app-tile flex flex-col items-center justify-center rounded-3xl border p-3 text-center sm:p-5" style="border-color: rgba(212, 175, 55, 0.14); background-color: rgba(255, 255, 255, 0.02);">
+            <article class="app-tile flex flex-col items-center justify-center rounded-3xl p-3 text-center sm:p-5" style="background-color: rgba(255, 255, 255, 0.02);">
               <svg class="h-8 w-8 sm:h-10 sm:w-10" viewBox="0 0 64 64" fill="none" aria-hidden="true">
                 <path d="M32 14l4.94 10 11.06 1.61-8 7.8 1.89 11.03L32 39.2l-9.89 5.24L24 33.41l-8-7.8L27.06 24 32 14Z" stroke="#FFD700" stroke-width="2.5" stroke-linejoin="round"/>
               </svg>
@@ -542,14 +544,14 @@
 
     <section class="py-16 sm:py-20">
       <div class="app-block px-4 sm:px-6">
-        <div class="luxury-card section-shell rounded-[2rem] p-8 sm:p-10">
+        <div class="rounded-[2rem] p-2 sm:p-4">
           <div class="max-w-3xl">
             <p class="reveal-copy text-xs uppercase tracking-[0.4em]" style="color: var(--gold-main);">How To Book?</p>
             <h2 class="reveal-copy reveal-copy-delay section-title mt-4 text-[2.2rem] sm:text-[3.2rem] font-extrabold">Simple booking steps</h2>
-            <p class="reveal-copy reveal-copy-delay mt-5 text-sm sm:text-base leading-7" style="color: var(--text-secondary);">A quick booking process designed to stay private, smooth, and easy to follow on mobile.</p>
+            <p class="reveal-copy reveal-copy-delay section-subcopy mt-5">A quick booking process designed to stay private, smooth, and easy to follow on mobile.</p>
           </div>
           <div class="mt-10 grid grid-cols-3 gap-3 sm:gap-5">
-            <article class="app-tile flex flex-col items-center justify-center rounded-3xl border p-3 text-center sm:p-5" style="border-color: rgba(212, 175, 55, 0.14); background-color: rgba(255, 255, 255, 0.02);">
+            <article class="app-tile flex flex-col items-center justify-center rounded-3xl p-3 text-center sm:p-5" style="background-color: rgba(255, 255, 255, 0.02);">
               <p class="text-xs sm:text-sm font-semibold uppercase tracking-[0.2em]" style="color: var(--gold-main);">1st Step</p>
               <svg class="mt-3 h-9 w-9 sm:h-11 sm:w-11" viewBox="0 0 64 64" fill="none" aria-hidden="true">
                 <rect x="14" y="16" width="36" height="24" rx="2" stroke="#FFD700" stroke-width="2.5"/>
@@ -557,7 +559,7 @@
               </svg>
               <h3 class="stack-title mt-3 text-[12px] sm:text-sm font-normal leading-snug"><span>Go<br>through the<br>website</span></h3>
             </article>
-            <article class="app-tile flex flex-col items-center justify-center rounded-3xl border p-3 text-center sm:p-5" style="border-color: rgba(212, 175, 55, 0.14); background-color: rgba(255, 255, 255, 0.02);">
+            <article class="app-tile flex flex-col items-center justify-center rounded-3xl p-3 text-center sm:p-5" style="background-color: rgba(255, 255, 255, 0.02);">
               <p class="text-xs sm:text-sm font-semibold uppercase tracking-[0.2em]" style="color: var(--gold-main);">2nd Step</p>
               <svg class="mt-3 h-9 w-9 sm:h-11 sm:w-11" viewBox="0 0 64 64" fill="none" aria-hidden="true">
                 <path d="M32 18c3 8 8 13 16 15-4 7-9 11-16 13-7-2-12-6-16-13 8-2 13-7 16-15Z" stroke="#FFD700" stroke-width="2.5" stroke-linejoin="round"/>
@@ -565,7 +567,7 @@
               </svg>
               <h3 class="stack-title mt-3 text-[12px] sm:text-sm font-normal leading-snug"><span>Choose<br>a<br>package</span></h3>
             </article>
-            <article class="app-tile flex flex-col items-center justify-center rounded-3xl border p-3 text-center sm:p-5" style="border-color: rgba(212, 175, 55, 0.14); background-color: rgba(255, 255, 255, 0.02);">
+            <article class="app-tile flex flex-col items-center justify-center rounded-3xl p-3 text-center sm:p-5" style="background-color: rgba(255, 255, 255, 0.02);">
               <p class="text-xs sm:text-sm font-semibold uppercase tracking-[0.2em]" style="color: var(--gold-main);">3rd Step</p>
               <svg class="mt-3 h-9 w-9 sm:h-11 sm:w-11" viewBox="0 0 64 64" fill="none" aria-hidden="true">
                 <path d="M47.5 16.5a18 18 0 0 0-28.7 21.2L16 48l10.7-2.7A18 18 0 1 0 47.5 16.5Z" stroke="#FFD700" stroke-width="2.5" stroke-linejoin="round"/>
@@ -573,7 +575,7 @@
               </svg>
               <h3 class="stack-title mt-3 text-[12px] sm:text-sm font-normal leading-snug"><span>Redirect<br>to<br>WhatsApp</span></h3>
             </article>
-            <article class="app-tile flex flex-col items-center justify-center rounded-3xl border p-3 text-center sm:p-5" style="border-color: rgba(212, 175, 55, 0.14); background-color: rgba(255, 255, 255, 0.02);">
+            <article class="app-tile flex flex-col items-center justify-center rounded-3xl p-3 text-center sm:p-5" style="background-color: rgba(255, 255, 255, 0.02);">
               <p class="text-xs sm:text-sm font-semibold uppercase tracking-[0.2em]" style="color: var(--gold-main);">4th Step</p>
               <svg class="mt-3 h-9 w-9 sm:h-11 sm:w-11" viewBox="0 0 64 64" fill="none" aria-hidden="true">
                 <rect x="14" y="18" width="36" height="32" rx="3" stroke="#FFD700" stroke-width="2.5"/>
@@ -581,7 +583,7 @@
               </svg>
               <h3 class="stack-title mt-3 text-[12px] sm:text-sm font-normal leading-snug"><span>Book a<br>date &<br>time</span></h3>
             </article>
-            <article class="app-tile flex flex-col items-center justify-center rounded-3xl border p-3 text-center sm:p-5" style="border-color: rgba(212, 175, 55, 0.14); background-color: rgba(255, 255, 255, 0.02);">
+            <article class="app-tile flex flex-col items-center justify-center rounded-3xl p-3 text-center sm:p-5" style="background-color: rgba(255, 255, 255, 0.02);">
               <p class="text-xs sm:text-sm font-semibold uppercase tracking-[0.2em]" style="color: var(--gold-main);">5th Step</p>
               <svg class="mt-3 h-9 w-9 sm:h-11 sm:w-11" viewBox="0 0 64 64" fill="none" aria-hidden="true">
                 <rect x="12" y="20" width="40" height="24" rx="4" stroke="#FFD700" stroke-width="2.5"/>
@@ -589,7 +591,7 @@
               </svg>
               <h3 class="stack-title mt-3 text-[12px] sm:text-sm font-normal leading-snug"><span>Pay an<br>advance<br>payment</span></h3>
             </article>
-            <article class="app-tile flex flex-col items-center justify-center rounded-3xl border p-3 text-center sm:p-5" style="border-color: rgba(212, 175, 55, 0.14); background-color: rgba(255, 255, 255, 0.02);">
+            <article class="app-tile flex flex-col items-center justify-center rounded-3xl p-3 text-center sm:p-5" style="background-color: rgba(255, 255, 255, 0.02);">
               <p class="text-xs sm:text-sm font-semibold uppercase tracking-[0.2em]" style="color: var(--gold-main);">6th Step</p>
               <svg class="mt-3 h-9 w-9 sm:h-11 sm:w-11" viewBox="0 0 64 64" fill="none" aria-hidden="true">
                 <path d="M12 32 32 16l20 16" stroke="#FFD700" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -605,12 +607,12 @@
 
     <section class="py-16 sm:py-20">
       <div class="app-block px-4 sm:px-6">
-        <div class="luxury-card section-shell rounded-[2rem] p-8 sm:p-10">
+        <div class="rounded-[2rem] p-2 sm:p-4">
           <div class="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
             <div class="max-w-2xl">
               <p class="reveal-copy text-xs uppercase tracking-[0.4em]" style="color: var(--gold-main);">Client Questions</p>
               <h2 class="reveal-copy reveal-copy-delay section-title mt-4 text-[2.2rem] sm:text-[3.2rem] font-extrabold">Common client questions</h2>
-              <p class="reveal-copy reveal-copy-delay mt-5 text-sm sm:text-base leading-7" style="color: var(--text-secondary);">A quick slider of common questions about privacy, location, booking, and the overall experience.</p>
+              <p class="reveal-copy reveal-copy-delay section-subcopy mt-5">A quick slider of common questions about privacy, location, booking, and the overall experience.</p>
             </div>
             <div class="rounded-3xl border px-6 py-5 text-center lg:min-w-[180px]" style="border-color: rgba(212, 175, 55, 0.16); background: linear-gradient(180deg, rgba(212, 175, 55, 0.10), rgba(212, 175, 55, 0.03));">
               <p class="text-4xl font-bold" style="color: var(--gold-soft);">23</p>
@@ -674,7 +676,7 @@
           <div>
             <p class="reveal-copy text-xs uppercase tracking-[0.4em]" style="color: var(--gold-main);">Experience</p>
             <h2 class="reveal-copy reveal-copy-delay mt-4 text-[2.2rem] sm:text-[3.2rem] font-extrabold">Refined privacy experience</h2>
-            <p class="reveal-copy reveal-copy-delay mt-5 text-base leading-8 max-w-2xl" style="color: var(--text-secondary);">The atmosphere is designed to feel composed and discreet, with spacious pacing, respectful communication, and a premium wellness focus throughout the session.</p>
+            <p class="reveal-copy reveal-copy-delay section-subcopy mt-5">The atmosphere is designed to feel composed and discreet, with spacious pacing, respectful communication, and a premium wellness focus throughout the session.</p>
             <div class="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-5">
               <article class="luxury-card rounded-3xl p-6">
                 <div class="icon-chip">G</div>
@@ -740,10 +742,10 @@
 
     <section id="contact" class="py-16 sm:py-24">
       <div class="app-block px-4 sm:px-6">
-        <div class="luxury-card rounded-[2rem] p-8 sm:p-12 text-center">
+        <div class="rounded-[2rem] p-2 sm:p-4 text-center">
           <p class="reveal-copy text-xs uppercase tracking-[0.45em]" style="color: var(--gold-main);">Private Booking</p>
           <h2 class="reveal-copy reveal-copy-delay mt-4 text-[2.2rem] sm:text-[3.2rem] font-extrabold">Book your premium session</h2>
-          <p class="reveal-copy reveal-copy-delay mt-5 max-w-2xl mx-auto text-base leading-8" style="color: var(--text-secondary);">View packages and use the contact page for private booking details, availability, and appointment arrangements.</p>
+          <p class="reveal-copy reveal-copy-delay section-subcopy mt-5 mx-auto">View packages and use the contact page for private booking details, availability, and appointment arrangements.</p>
           <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
             <a href="/services.html" class="inline-flex min-w-[220px] items-center justify-center rounded-full border px-8 py-4 text-base font-medium" style="border-color: rgba(255, 255, 255, 0.16); color: var(--text-main);">View Packages</a>
             <a href="/contact.html" class="gold-button inline-flex min-w-[220px] items-center justify-center rounded-full px-8 py-4 text-base font-semibold">Contact Now</a>
