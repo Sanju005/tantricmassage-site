@@ -339,6 +339,40 @@
       animation: arrow-flow 1.35s ease-in-out infinite;
     }
 
+    .shortcut-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.85rem;
+    }
+
+    .shortcut-card {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 5.4rem;
+      padding: 1rem 0.8rem;
+      border-radius: 1.4rem;
+      text-align: center;
+      font-size: 0.9rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: var(--text-main);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.018));
+      box-shadow:
+        inset 0 0 0 1px rgba(212, 175, 55, 0.18),
+        0 14px 28px rgba(0, 0, 0, 0.28);
+    }
+
+    @media (min-width: 640px) {
+      .shortcut-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .shortcut-card {
+        min-height: 6rem;
+      }
+    }
+
     @keyframes arrow-flow {
       0%, 100% { transform: translateY(0); opacity: 0.48; }
       50% { transform: translateY(4px); opacity: 1; }
@@ -521,6 +555,19 @@
       </div>
     </section>
 
+    <section class="section-divider pt-4 pb-8 sm:pt-5 sm:pb-10">
+      <div class="app-block px-4 sm:px-6">
+        <div class="shortcut-grid">
+          <a href="/whyme.html" class="shortcut-card">Why Me</a>
+          <a href="#benefits" class="shortcut-card">Benefits</a>
+          <a href="#how-to-book" class="shortcut-card">How to Book</a>
+          <a href="#privacy" class="shortcut-card">Privacy</a>
+          <a href="#guarantee" class="shortcut-card">Guarantee</a>
+          <a href="#gallery-education" class="shortcut-card">Gallery &amp; Education</a>
+        </div>
+      </div>
+    </section>
+
     <section class="section-divider pt-4 pb-14 sm:pt-5 sm:pb-16">
       <div class="app-block px-4 sm:px-6">
         <div class="rounded-[2rem] p-2 sm:p-4">
@@ -578,7 +625,7 @@
       </div>
     </section>
 
-    <section class="section-divider py-14 sm:py-16">
+    <section id="guarantee" class="section-divider py-14 sm:py-16">
       <div class="app-block px-4 sm:px-6">
         <div class="max-w-3xl">
           <p class="reveal-copy text-xs uppercase tracking-[0.4em] font-bold" style="color: var(--gold-main);">Guarantee</p>
@@ -617,7 +664,7 @@
       </div>
     </section>
 
-    <section class="section-divider py-14 sm:py-16">
+    <section id="benefits" class="section-divider py-14 sm:py-16">
       <div class="app-block px-4 sm:px-6">
         <div class="rounded-[2rem] p-2 sm:p-4">
           <div class="max-w-3xl">
@@ -685,7 +732,7 @@
       </div>
     </section>
 
-    <section class="section-divider py-14 sm:py-16">
+    <section id="how-to-book" class="section-divider py-14 sm:py-16">
       <div class="app-block px-4 sm:px-6">
         <div class="rounded-[2rem] p-2 sm:p-4">
           <div class="max-w-3xl">
@@ -862,7 +909,7 @@
       </div>
     </section>
 
-    <section class="section-divider py-14 sm:py-20" style="background-color: rgba(255, 255, 255, 0.02);">
+    <section id="privacy" class="section-divider py-14 sm:py-20" style="background-color: rgba(255, 255, 255, 0.02);">
       <div class="app-block px-4 sm:px-6">
         <div>
           <p class="reveal-copy text-xs uppercase tracking-[0.4em]" style="color: var(--gold-main);">Experience</p>
@@ -890,6 +937,26 @@
               <p class="mt-3 text-sm leading-7" style="color: var(--text-secondary);">An elevated spa-inspired experience centered on comfort, calmness, and body awareness.</p>
             </article>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="gallery-education" class="section-divider py-14 sm:py-20">
+      <div class="app-block px-4 sm:px-6">
+        <div class="max-w-3xl">
+          <p class="reveal-copy text-xs uppercase tracking-[0.4em]" style="color: var(--gold-main);">Gallery &amp; Education</p>
+          <h2 class="reveal-copy reveal-copy-delay section-title section-heading-display mt-4 text-[1.75rem] sm:text-[2.2rem] leading-[1.02]">Visual highlights and massage insights</h2>
+          <p class="reveal-copy reveal-copy-delay section-subcopy mt-4">Explore service visuals, wellness-focused guidance, and refined educational content designed to build comfort and clarity.</p>
+        </div>
+        <div class="mt-8 grid grid-cols-2 gap-4">
+          <a href="/services.html" class="luxury-card rounded-3xl p-5 text-center">
+            <p class="text-xs uppercase tracking-[0.25em]" style="color: var(--gold-main);">Gallery</p>
+            <p class="mt-3 text-sm font-medium">View curated visuals</p>
+          </a>
+          <a href="/whyme.html" class="luxury-card rounded-3xl p-5 text-center">
+            <p class="text-xs uppercase tracking-[0.25em]" style="color: var(--gold-main);">Education</p>
+            <p class="mt-3 text-sm font-medium">Read service guidance</p>
+          </a>
         </div>
       </div>
     </section>
