@@ -91,6 +91,24 @@
       font-size: 1.125rem;
       font-weight: 700;
     }
+
+    .question-slider {
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: minmax(260px, 82%);
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    .question-slider::-webkit-scrollbar {
+      display: none;
+    }
+
+    .question-card {
+      scroll-snap-align: start;
+    }
   </style>
 </head>
 <body class="min-h-screen text-white">
@@ -334,6 +352,71 @@
                 <path d="M28 48V36h8v12" stroke="#D4AF37" stroke-width="2.5" stroke-linejoin="round"/>
               </svg>
               <h3 class="mt-3 text-sm sm:text-lg font-semibold leading-snug">Masseur comes to your place</h3>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-16 sm:py-20">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6">
+        <div class="luxury-card rounded-[2rem] p-8 sm:p-10">
+          <div class="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
+            <div class="max-w-2xl">
+              <p class="text-xs uppercase tracking-[0.4em]" style="color: var(--gold-main);">Client Questions</p>
+              <h2 class="mt-4 text-4xl sm:text-5xl font-bold">Answers to the questions clients ask most</h2>
+              <p class="mt-5 text-sm sm:text-base leading-7" style="color: var(--text-secondary);">A quick slider of common questions about privacy, location, booking, and the overall experience.</p>
+            </div>
+            <div class="rounded-3xl border px-6 py-5 text-center lg:min-w-[180px]" style="border-color: rgba(212, 175, 55, 0.16); background: linear-gradient(180deg, rgba(212, 175, 55, 0.10), rgba(212, 175, 55, 0.03));">
+              <p class="text-4xl font-bold" style="color: var(--gold-soft);">23</p>
+              <p class="mt-1 text-sm uppercase tracking-[0.25em]" style="color: var(--gold-main);">Online Now</p>
+            </div>
+          </div>
+
+          <div class="question-slider mt-10 gap-4 sm:gap-5">
+            <article class="question-card rounded-[1.75rem] border p-6 sm:p-7" style="border-color: rgba(212, 175, 55, 0.14); background-color: rgba(255, 255, 255, 0.03);">
+              <div class="flex items-center justify-between gap-3">
+                <p class="text-sm font-semibold" style="color: var(--gold-soft);">Ethan Cole</p>
+                <span class="inline-flex h-6 w-6 items-center justify-center rounded-full text-xs font-bold" style="background-color: rgba(212, 175, 55, 0.16); color: var(--gold-soft);">OK</span>
+              </div>
+              <h3 class="mt-4 text-lg font-semibold">Who is the masseur?</h3>
+              <p class="mt-4 text-sm leading-7" style="color: var(--text-secondary);">I am an experienced private male masseur offering premium outcall sessions in Kuala Lumpur with a calm, discreet, and professional approach.</p>
+            </article>
+
+            <article class="question-card rounded-[1.75rem] border p-6 sm:p-7" style="border-color: rgba(212, 175, 55, 0.14); background-color: rgba(255, 255, 255, 0.03);">
+              <div class="flex items-center justify-between gap-3">
+                <p class="text-sm font-semibold" style="color: var(--gold-soft);">Imma Lina</p>
+                <span class="inline-flex h-6 w-6 items-center justify-center rounded-full text-xs font-bold" style="background-color: rgba(212, 175, 55, 0.16); color: var(--gold-soft);">OK</span>
+              </div>
+              <h3 class="mt-4 text-lg font-semibold">Can you come my place?</h3>
+              <p class="mt-4 text-sm leading-7" style="color: var(--text-secondary);">Yes, outcall visits are available to homes, hotels, and Airbnb locations around Kuala Lumpur depending on timing and area.</p>
+            </article>
+
+            <article class="question-card rounded-[1.75rem] border p-6 sm:p-7" style="border-color: rgba(212, 175, 55, 0.14); background-color: rgba(255, 255, 255, 0.03);">
+              <div class="flex items-center justify-between gap-3">
+                <p class="text-sm font-semibold" style="color: var(--gold-soft);">Daniel Tan</p>
+                <span class="inline-flex h-6 w-6 items-center justify-center rounded-full text-xs font-bold" style="background-color: rgba(212, 175, 55, 0.16); color: var(--gold-soft);">OK</span>
+              </div>
+              <h3 class="mt-4 text-lg font-semibold">Is the booking private?</h3>
+              <p class="mt-4 text-sm leading-7" style="color: var(--text-secondary);">Yes, the booking process is kept discreet, with respectful communication and privacy-focused service from the first message onward.</p>
+            </article>
+
+            <article class="question-card rounded-[1.75rem] border p-6 sm:p-7" style="border-color: rgba(212, 175, 55, 0.14); background-color: rgba(255, 255, 255, 0.03);">
+              <div class="flex items-center justify-between gap-3">
+                <p class="text-sm font-semibold" style="color: var(--gold-soft);">Ryan Lee</p>
+                <span class="inline-flex h-6 w-6 items-center justify-center rounded-full text-xs font-bold" style="background-color: rgba(212, 175, 55, 0.16); color: var(--gold-soft);">OK</span>
+              </div>
+              <h3 class="mt-4 text-lg font-semibold">How do I confirm my slot?</h3>
+              <p class="mt-4 text-sm leading-7" style="color: var(--text-secondary);">After choosing your preferred time, the slot is confirmed once the booking details and advance payment are completed on WhatsApp.</p>
+            </article>
+
+            <article class="question-card rounded-[1.75rem] border p-6 sm:p-7" style="border-color: rgba(212, 175, 55, 0.14); background-color: rgba(255, 255, 255, 0.03);">
+              <div class="flex items-center justify-between gap-3">
+                <p class="text-sm font-semibold" style="color: var(--gold-soft);">Marcus Jin</p>
+                <span class="inline-flex h-6 w-6 items-center justify-center rounded-full text-xs font-bold" style="background-color: rgba(212, 175, 55, 0.16); color: var(--gold-soft);">OK</span>
+              </div>
+              <h3 class="mt-4 text-lg font-semibold">What kind of experience can I expect?</h3>
+              <p class="mt-4 text-sm leading-7" style="color: var(--text-secondary);">You can expect a calm, comfortable, and premium outcall session focused on relaxation, privacy, and an unhurried atmosphere.</p>
             </article>
           </div>
         </div>
