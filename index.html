@@ -577,6 +577,8 @@
     }
 
     .bottom-nav-main {
+      position: relative;
+      overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -595,6 +597,25 @@
       box-shadow:
         0 18px 40px rgba(0, 0, 0, 0.38),
         inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    }
+
+    .bottom-nav-main::before {
+      content: "";
+      position: absolute;
+      inset: -35%;
+      background: linear-gradient(115deg, transparent 38%, rgba(255, 255, 255, 0.22) 48%, rgba(255, 255, 255, 0.7) 50%, rgba(255, 255, 255, 0.22) 52%, transparent 62%);
+      transform: translateX(-140%) skewX(-18deg);
+      animation: package-wipe 2.8s linear infinite;
+      pointer-events: none;
+    }
+
+    @keyframes package-wipe {
+      0% {
+        transform: translateX(-140%) skewX(-18deg);
+      }
+      100% {
+        transform: translateX(140%) skewX(-18deg);
+      }
     }
 
     .bottom-nav-chat {
@@ -667,7 +688,7 @@
 
   <main class="app-frame">
     <section class="relative min-h-screen overflow-hidden">
-      <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1515377905703-c4788e51af15?auto=format&fit=crop&w=1600&q=80');"></div>
+      <div class="absolute inset-0" style="background: radial-gradient(circle at top, rgba(201, 79, 138, 0.10), transparent 28%), linear-gradient(180deg, #17101b 0%, #0f0b14 38%, #0b0b0b 100%);"></div>
       <div class="hero-overlay absolute inset-0"></div>
       <div class="relative app-block min-h-screen px-4 sm:px-6 pt-12 pb-8 sm:pt-16 sm:pb-12 flex items-start">
         <div class="w-full max-w-3xl mx-auto text-center">
@@ -1122,23 +1143,19 @@
           <p class="reveal-copy reveal-copy-delay section-subcopy mt-4">The atmosphere is designed to feel composed and discreet, with spacious pacing, respectful communication, and a premium wellness focus throughout the session.</p>
           <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-5">
             <article class="luxury-card rounded-3xl p-6">
-              <div class="icon-chip">G</div>
-              <h3 class="mt-4 text-lg font-semibold">Gentle Relaxation</h3>
+              <h3 class="text-lg font-semibold">Gentle Relaxation</h3>
               <p class="mt-3 text-sm leading-7" style="color: var(--text-secondary);">Soft, calming bodywork to help the mind and body settle into deep rest.</p>
             </article>
             <article class="luxury-card rounded-3xl p-6">
-              <div class="icon-chip">S</div>
-              <h3 class="mt-4 text-lg font-semibold">Stress Relief</h3>
+              <h3 class="text-lg font-semibold">Stress Relief</h3>
               <p class="mt-3 text-sm leading-7" style="color: var(--text-secondary);">A composed treatment style that helps reduce mental pressure and physical tension.</p>
             </article>
             <article class="luxury-card rounded-3xl p-6">
-              <div class="icon-chip">P</div>
-              <h3 class="mt-4 text-lg font-semibold">Private Session</h3>
+              <h3 class="text-lg font-semibold">Private Session</h3>
               <p class="mt-3 text-sm leading-7" style="color: var(--text-secondary);">Discreet service, respectful boundaries, and a quiet premium environment from start to finish.</p>
             </article>
             <article class="luxury-card rounded-3xl p-6">
-              <div class="icon-chip">W</div>
-              <h3 class="mt-4 text-lg font-semibold">Wellness Focus</h3>
+              <h3 class="text-lg font-semibold">Wellness Focus</h3>
               <p class="mt-3 text-sm leading-7" style="color: var(--text-secondary);">An elevated spa-inspired experience centered on comfort, calmness, and body awareness.</p>
             </article>
           </div>
