@@ -13,6 +13,7 @@
       --bg-secondary: #1A1A1A;
       --gold-main: #D4AF37;
       --gold-soft: #FFD700;
+      --accent-pink: #C94F8A;
       --text-main: #FFFFFF;
       --text-secondary: #CCCCCC;
       --purple-accent: rgba(88, 42, 120, 0.28);
@@ -337,6 +338,20 @@
       border-left: 1px solid rgba(212, 175, 55, 0.14);
     }
 
+    .section-divider {
+      position: relative;
+    }
+
+    .section-divider::before {
+      content: "";
+      display: block;
+      width: 100%;
+      max-width: 30rem;
+      height: 1px;
+      margin: 0 auto 1.75rem;
+      background: linear-gradient(90deg, transparent 0%, rgba(201, 79, 138, 0.12) 18%, rgba(201, 79, 138, 0.75) 50%, rgba(201, 79, 138, 0.12) 82%, transparent 100%);
+    }
+
     @media (min-width: 640px) {
       body {
         padding: 1rem 0 2rem;
@@ -415,7 +430,7 @@
       </div>
     </section>
 
-    <section class="py-16 sm:py-20">
+    <section class="section-divider py-16 sm:py-20">
       <div class="app-block px-4 sm:px-6">
         <div class="rounded-[2rem] p-2 sm:p-4">
           <div class="max-w-3xl">
@@ -473,7 +488,7 @@
       </div>
     </section>
 
-    <section id="services" class="py-16 sm:py-24">
+    <section id="services" class="section-divider py-16 sm:py-24">
       <div class="app-block px-4 sm:px-6">
         <div class="max-w-2xl">
           <p class="reveal-copy text-xs uppercase tracking-[0.4em]" style="color: var(--gold-main);">Services</p>
@@ -503,7 +518,7 @@
       </div>
     </section>
 
-    <section class="py-16 sm:py-20">
+    <section class="section-divider py-16 sm:py-20">
       <div class="app-block px-4 sm:px-6">
         <div class="rounded-[2rem] p-2 sm:p-4">
           <div class="max-w-3xl">
@@ -558,7 +573,7 @@
       </div>
     </section>
 
-    <section class="py-16 sm:py-20">
+    <section class="section-divider py-16 sm:py-20">
       <div class="app-block px-4 sm:px-6">
         <div class="rounded-[2rem] p-2 sm:p-4">
           <div class="max-w-3xl">
@@ -621,7 +636,7 @@
       </div>
     </section>
 
-    <section class="py-16 sm:py-20">
+    <section class="section-divider py-16 sm:py-20">
       <div class="app-block px-4 sm:px-6">
         <div class="rounded-[2rem] p-2 sm:p-4">
           <div class="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
@@ -686,7 +701,7 @@
       </div>
     </section>
 
-    <section class="py-16 sm:py-24" style="background-color: rgba(255, 255, 255, 0.02);">
+    <section class="section-divider py-16 sm:py-24" style="background-color: rgba(255, 255, 255, 0.02);">
       <div class="app-block px-4 sm:px-6">
         <div class="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-8 items-start">
           <div>
@@ -756,7 +771,7 @@
       </div>
     </section>
 
-    <section id="contact" class="py-16 sm:py-24">
+    <section id="contact" class="section-divider py-16 sm:py-24">
       <div class="app-block px-4 sm:px-6">
         <div class="rounded-[2rem] p-2 sm:p-4 text-center">
           <p class="reveal-copy text-xs uppercase tracking-[0.45em]" style="color: var(--gold-main);">Private Booking</p>
