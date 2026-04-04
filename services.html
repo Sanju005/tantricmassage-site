@@ -426,21 +426,25 @@
           <div class="form-stage relative min-h-[420px] sm:min-h-[390px]">
             <section class="step-panel transition-all duration-300 ease-out" data-step="0">
               <p class="step-kicker">Step 1 of 5</p>
-              <h1 id="wizard-title" class="step-title">Choose your session length</h1>
-              <p class="step-copy">Select the duration that feels right for your booking.</p>
+              <h1 id="wizard-title" class="step-title">What kind of experience would you enjoy today?</h1>
+              <p class="step-copy">Your answers help us recommend the perfect session.</p>
 
               <div class="choice-list">
                 <div>
-                  <input class="sr-only peer" type="radio" name="sessionLength" id="length-1" value="1 Hour">
-                  <label class="wizard-choice peer-checked:scale-[1.03] peer-checked:border-amber-400 peer-checked:bg-zinc-900/90" for="length-1">1 Hour Session</label>
+                  <input class="sr-only peer" type="radio" name="sessionLength" id="length-1" value="Deep Relaxation & Stress Relief">
+                  <label class="wizard-choice peer-checked:scale-[1.03] peer-checked:border-amber-400 peer-checked:bg-zinc-900/90" for="length-1">😌 Deep Relaxation &amp; Stress Relief</label>
                 </div>
                 <div>
-                  <input class="sr-only peer" type="radio" name="sessionLength" id="length-2" value="2 Hours">
-                  <label class="wizard-choice peer-checked:scale-[1.03] peer-checked:border-amber-400 peer-checked:bg-zinc-900/90" for="length-2">2 Hours Session</label>
+                  <input class="sr-only peer" type="radio" name="sessionLength" id="length-2" value="Body Tension & Muscle Relief">
+                  <label class="wizard-choice peer-checked:scale-[1.03] peer-checked:border-amber-400 peer-checked:bg-zinc-900/90" for="length-2">💆 Body Tension &amp; Muscle Relief</label>
                 </div>
                 <div>
-                  <input class="sr-only peer" type="radio" name="sessionLength" id="length-3" value="3 Hours">
-                  <label class="wizard-choice peer-checked:scale-[1.03] peer-checked:border-amber-400 peer-checked:bg-zinc-900/90" for="length-3">3 Hours Session</label>
+                  <input class="sr-only peer" type="radio" name="sessionLength" id="length-3" value="Emotional Comfort & Connection">
+                  <label class="wizard-choice peer-checked:scale-[1.03] peer-checked:border-amber-400 peer-checked:bg-zinc-900/90" for="length-3">❤️ Emotional Comfort &amp; Connection</label>
+                </div>
+                <div>
+                  <input class="sr-only peer" type="radio" name="sessionLength" id="length-4" value="Something Exciting & Special">
+                  <label class="wizard-choice peer-checked:scale-[1.03] peer-checked:border-amber-400 peer-checked:bg-zinc-900/90" for="length-4">🔥 Something Exciting &amp; Special</label>
                 </div>
               </div>
               <input id="session-duration" name="duration" type="hidden" value="">
@@ -689,6 +693,8 @@
       backButton.hidden = stepIndex === 0;
       nextButton.hidden = stepIndex === stepPanels.length - 1;
       submitButton.hidden = stepIndex !== stepPanels.length - 1;
+      nextButton.textContent = stepIndex === 0 ? "I need all" : "Next Step";
+      backButton.textContent = stepIndex === 1 ? "I need all" : "Back";
     };
 
     stepPanels.forEach((panel, index) => {
