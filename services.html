@@ -423,94 +423,103 @@
             <div id="progress-bar" class="progress-bar">20%</div>
           </div>
 
-          <div class="form-stage">
-            <section class="step-panel" data-step="0">
+          <div class="form-stage relative min-h-[420px] sm:min-h-[390px]">
+            <section class="step-panel transition-all duration-300 ease-out" data-step="0">
               <p class="step-kicker">Step 1 of 5</p>
-              <h1 id="wizard-title" class="step-title">Welcome to booking. Who are you?</h1>
-              <p class="step-copy">Choose the guest type to continue to the next step.</p>
+              <h1 id="wizard-title" class="step-title">Choose your session length</h1>
+              <p class="step-copy">Select the duration that feels right for your booking.</p>
 
               <div class="choice-list">
                 <div>
-                  <input class="option-input" type="radio" name="guestType" id="guest-female" value="female" required>
-                  <label class="wizard-choice" for="guest-female">I&rsquo;m a female</label>
+                  <input class="sr-only peer" type="radio" name="sessionLength" id="length-1" value="1 Hour">
+                  <label class="wizard-choice peer-checked:scale-[1.03] peer-checked:border-amber-400 peer-checked:bg-zinc-900/90" for="length-1">1 Hour Session</label>
                 </div>
                 <div>
-                  <input class="option-input" type="radio" name="guestType" id="guest-couple" value="couple">
-                  <label class="wizard-choice" for="guest-couple">We are a couple</label>
+                  <input class="sr-only peer" type="radio" name="sessionLength" id="length-2" value="2 Hours">
+                  <label class="wizard-choice peer-checked:scale-[1.03] peer-checked:border-amber-400 peer-checked:bg-zinc-900/90" for="length-2">2 Hours Session</label>
                 </div>
                 <div>
-                  <input class="option-input" type="radio" name="guestType" id="guest-male" value="male">
-                  <label class="wizard-choice" for="guest-male">I&rsquo;m a male</label>
+                  <input class="sr-only peer" type="radio" name="sessionLength" id="length-3" value="3 Hours">
+                  <label class="wizard-choice peer-checked:scale-[1.03] peer-checked:border-amber-400 peer-checked:bg-zinc-900/90" for="length-3">3 Hours Session</label>
                 </div>
               </div>
+              <input id="session-duration" name="duration" type="hidden" value="">
             </section>
 
-            <section class="step-panel" data-step="1" hidden>
+            <section class="step-panel hidden transition-all duration-300 ease-out" data-step="1">
               <p class="step-kicker">Step 2 of 5</p>
-              <h2 class="step-title">How long do you need the session?</h2>
-              <p class="step-copy">Use the slider to choose your preferred duration.</p>
+              <h2 class="step-title">What would you like from your session?</h2>
+              <p class="step-copy">Choose one or more preferences. This is the only multi-select step.</p>
 
-              <div class="slider-wrap">
-                <div class="slider-meta">
-                  <span>Session Duration</span>
-                  <span id="duration-value">1 Hour</span>
+              <div class="budget-grid">
+                <div>
+                  <input class="sr-only peer" type="checkbox" name="sessionFocus" id="focus-relax" value="Relaxation">
+                  <label class="budget-chip peer-checked:scale-[1.03] peer-checked:border-amber-400 peer-checked:bg-zinc-900/90 peer-checked:text-amber-200" for="focus-relax">Relaxation</label>
                 </div>
-                <input id="session-duration" name="duration" type="range" min="1" max="3" step="1" value="1" class="range-track">
-                <div class="slider-labels">
-                  <span>1 hour</span>
-                  <span>2 hours</span>
-                  <span>3 hours</span>
+                <div>
+                  <input class="sr-only peer" type="checkbox" name="sessionFocus" id="focus-healing" value="Healing">
+                  <label class="budget-chip peer-checked:scale-[1.03] peer-checked:border-amber-400 peer-checked:bg-zinc-900/90 peer-checked:text-amber-200" for="focus-healing">Healing</label>
+                </div>
+                <div>
+                  <input class="sr-only peer" type="checkbox" name="sessionFocus" id="focus-stress" value="Stress Relief">
+                  <label class="budget-chip peer-checked:scale-[1.03] peer-checked:border-amber-400 peer-checked:bg-zinc-900/90 peer-checked:text-amber-200" for="focus-stress">Stress Relief</label>
+                </div>
+                <div>
+                  <input class="sr-only peer" type="checkbox" name="sessionFocus" id="focus-premium" value="Premium Care">
+                  <label class="budget-chip peer-checked:scale-[1.03] peer-checked:border-amber-400 peer-checked:bg-zinc-900/90 peer-checked:text-amber-200" for="focus-premium">Premium Care</label>
                 </div>
               </div>
             </section>
 
-            <section class="step-panel" data-step="2" hidden>
+            <section class="step-panel hidden transition-all duration-300 ease-out" data-step="2">
               <p class="step-kicker">Step 3 of 5</p>
               <h2 class="step-title">What is your budget?</h2>
               <p class="step-copy">Select the range that matches your booking plan.</p>
 
               <div class="budget-grid">
                 <div>
-                  <input class="budget-input" type="radio" name="budget" id="budget-250" value="250" required>
-                  <label class="budget-chip" for="budget-250">RM 250</label>
+                  <input class="sr-only peer" type="radio" name="budget" id="budget-250" value="250">
+                  <label class="budget-chip peer-checked:scale-[1.03] peer-checked:border-amber-400 peer-checked:bg-zinc-900/90 peer-checked:text-amber-200" for="budget-250">RM 250</label>
                 </div>
                 <div>
-                  <input class="budget-input" type="radio" name="budget" id="budget-300" value="300">
-                  <label class="budget-chip" for="budget-300">RM 300</label>
+                  <input class="sr-only peer" type="radio" name="budget" id="budget-300" value="300">
+                  <label class="budget-chip peer-checked:scale-[1.03] peer-checked:border-amber-400 peer-checked:bg-zinc-900/90 peer-checked:text-amber-200" for="budget-300">RM 300</label>
                 </div>
                 <div>
-                  <input class="budget-input" type="radio" name="budget" id="budget-400" value="400">
-                  <label class="budget-chip" for="budget-400">RM 400</label>
+                  <input class="sr-only peer" type="radio" name="budget" id="budget-400" value="400">
+                  <label class="budget-chip peer-checked:scale-[1.03] peer-checked:border-amber-400 peer-checked:bg-zinc-900/90 peer-checked:text-amber-200" for="budget-400">RM 400</label>
                 </div>
                 <div>
-                  <input class="budget-input" type="radio" name="budget" id="budget-600" value="600">
-                  <label class="budget-chip" for="budget-600">RM 600</label>
+                  <input class="sr-only peer" type="radio" name="budget" id="budget-600" value="600">
+                  <label class="budget-chip peer-checked:scale-[1.03] peer-checked:border-amber-400 peer-checked:bg-zinc-900/90 peer-checked:text-amber-200" for="budget-600">RM 600</label>
                 </div>
               </div>
             </section>
 
-            <section class="step-panel" data-step="3" hidden>
+            <section class="step-panel hidden transition-all duration-300 ease-out" data-step="3">
               <p class="step-kicker">Step 4 of 5</p>
-              <h2 class="step-title">Where is your location?</h2>
-              <p class="step-copy">Add your area so the right package can open next.</p>
+              <h2 class="step-title">Who is the session for?</h2>
+              <p class="step-copy">This choice decides which package page opens in the final step.</p>
 
-              <div class="field-wrap">
-                <label class="field-label" for="location">Your Location</label>
-                <input id="location" name="location" type="text" list="kl-areas" class="booking-input" placeholder="Example: KLCC / Mont Kiara / Bangsar" required>
-                <datalist id="kl-areas">
-                  <option value="KLCC"></option>
-                  <option value="Bukit Bintang"></option>
-                  <option value="Mont Kiara"></option>
-                  <option value="Bangsar"></option>
-                  <option value="Damansara Heights"></option>
-                  <option value="Petaling Jaya"></option>
-                  <option value="Subang Jaya"></option>
-                  <option value="Shah Alam"></option>
-                </datalist>
+              <div class="choice-list">
+                <div>
+                  <input class="sr-only peer" type="radio" name="guestType" id="guest-female" value="lady">
+                  <label class="wizard-choice peer-checked:scale-[1.03] peer-checked:border-amber-400 peer-checked:bg-zinc-900/90" for="guest-female">Lady</label>
+                </div>
+                <div>
+                  <input class="sr-only peer" type="radio" name="guestType" id="guest-male" value="male">
+                  <label class="wizard-choice peer-checked:scale-[1.03] peer-checked:border-amber-400 peer-checked:bg-zinc-900/90" for="guest-male">Male</label>
+                </div>
+                <div>
+                  <input class="sr-only peer" type="radio" name="guestType" id="guest-couple" value="couple">
+                  <label class="wizard-choice peer-checked:scale-[1.03] peer-checked:border-amber-400 peer-checked:bg-zinc-900/90" for="guest-couple">Couple</label>
+                </div>
               </div>
+
+              <input id="location" name="location" type="hidden" value="">
             </section>
 
-            <section class="step-panel" data-step="4" hidden>
+            <section class="step-panel hidden transition-all duration-300 ease-out" data-step="4">
               <p class="step-kicker">Step 5 of 5</p>
               <h2 class="step-title">Confirm and open your package</h2>
               <p class="step-copy">Agree to the terms before continuing to the matching package page.</p>
@@ -534,6 +543,14 @@
     </div>
   </main>
 
+  <div id="loading-screen" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/90 px-6 text-center">
+    <div class="max-w-md rounded-3xl border border-amber-400/20 bg-zinc-950/95 px-8 py-10 shadow-2xl">
+      <div class="mx-auto h-12 w-12 animate-spin rounded-full border-2 border-white/10 border-t-amber-400"></div>
+      <p class="mt-6 text-xl font-semibold text-white">Finding the best session for you...</p>
+      <p class="mt-3 text-sm text-white/60">Please wait a moment.</p>
+    </div>
+  </div>
+
   <script>
     const packageForm = document.querySelector("#package-form");
     const stepPanels = Array.from(document.querySelectorAll(".step-panel"));
@@ -542,31 +559,27 @@
     const nextButton = document.querySelector("#wizard-next");
     const submitButton = document.querySelector("#wizard-submit");
     const durationInput = document.querySelector("#session-duration");
-    const durationValue = document.querySelector("#duration-value");
+    const durationButtons = Array.from(document.querySelectorAll('input[name="sessionLength"]'));
     const locationInput = document.querySelector("#location");
     const termsInput = document.querySelector("#terms");
+    const loadingScreen = document.querySelector("#loading-screen");
 
     const packageTargets = {
-      female: "/female-packages.html",
-      couple: "/couple-packages.html",
-      male: "/male-packages.html"
+      lady: "/lady-packages",
+      male: "/male-packages",
+      couple: "/couple-packages"
     };
 
     let currentStep = 0;
-
-    const formatDuration = (value) => `${value} ${Number(value) === 1 ? "Hour" : "Hours"}`;
-
-    const updateDuration = () => {
-      durationValue.textContent = formatDuration(durationInput.value);
-    };
+    let selectedGender = "";
 
     const validateStep = (stepIndex) => {
       if (stepIndex === 0) {
-        return Boolean(packageForm.querySelector('input[name="guestType"]:checked'));
+        return Boolean(packageForm.querySelector('input[name="sessionLength"]:checked'));
       }
 
       if (stepIndex === 1) {
-        return true;
+        return Boolean(packageForm.querySelector('input[name="sessionFocus"]:checked'));
       }
 
       if (stepIndex === 2) {
@@ -574,7 +587,7 @@
       }
 
       if (stepIndex === 3) {
-        return locationInput.value.trim().length > 0;
+        return Boolean(packageForm.querySelector('input[name="guestType"]:checked'));
       }
 
       if (stepIndex === 4) {
@@ -586,36 +599,91 @@
 
     const reportStepIssue = (stepIndex) => {
       if (stepIndex === 0) {
-        const firstGuest = document.querySelector("#guest-female");
-        if (firstGuest) {
-          firstGuest.reportValidity();
-        }
+        alert("Please choose your session length.");
+      }
+
+      if (stepIndex === 1) {
+        alert("Please choose at least one session preference.");
       }
 
       if (stepIndex === 2) {
-        const firstBudget = document.querySelector("#budget-250");
-        if (firstBudget) {
-          firstBudget.reportValidity();
-        }
+        alert("Please choose your budget.");
       }
 
       if (stepIndex === 3) {
-        locationInput.reportValidity();
+        alert("Please choose Lady, Male, or Couple.");
       }
 
       if (stepIndex === 4) {
-        termsInput.reportValidity();
+        alert("Please agree to the terms first.");
       }
     };
 
+    const animateStep = (nextIndex) => {
+      const currentPanel = stepPanels[currentStep];
+      const nextPanel = stepPanels[nextIndex];
+
+      if (currentPanel === nextPanel) {
+        return;
+      }
+
+      currentPanel.classList.add("opacity-0", "translate-y-3");
+
+      setTimeout(() => {
+        currentPanel.classList.add("hidden");
+        currentPanel.classList.remove("opacity-0", "translate-y-3");
+
+        stepPanels.forEach((panel, index) => {
+          panel.hidden = index !== nextIndex;
+        });
+
+        nextPanel.classList.remove("hidden");
+        nextPanel.classList.add("opacity-0", "translate-y-3");
+
+        requestAnimationFrame(() => {
+          nextPanel.classList.remove("opacity-0", "translate-y-3");
+        });
+      }, 180);
+    };
+
+    const syncDuration = () => {
+      const selectedLength = packageForm.querySelector('input[name="sessionLength"]:checked');
+      durationInput.value = selectedLength ? selectedLength.value : "";
+    };
+
+    durationButtons.forEach((button) => {
+      button.addEventListener("change", syncDuration);
+    });
+
+    ["guest-female", "guest-male", "guest-couple"].forEach((id) => {
+      const input = document.querySelector(`#${id}`);
+      if (!input) {
+        return;
+      }
+
+      input.addEventListener("change", () => {
+        if (input.checked) {
+          if (input.id === "guest-female") {
+            selectedGender = "lady";
+          }
+
+          if (input.id === "guest-male") {
+            selectedGender = "male";
+          }
+
+          if (input.id === "guest-couple") {
+            selectedGender = "couple";
+          }
+        }
+      }
+      );
+    });
+
     const showStep = (stepIndex) => {
+      animateStep(stepIndex);
       currentStep = stepIndex;
 
-      stepPanels.forEach((panel, index) => {
-        panel.hidden = index !== stepIndex;
-      });
-
-      const progress = Math.round(((stepIndex + 1) / stepPanels.length) * 100);
+      const progress = (stepIndex + 1) * 20;
       progressBar.style.width = `${progress}%`;
       progressBar.textContent = `${progress}%`;
       backButton.hidden = stepIndex === 0;
@@ -623,10 +691,15 @@
       submitButton.hidden = stepIndex !== stepPanels.length - 1;
     };
 
-    updateDuration();
-    showStep(0);
+    stepPanels.forEach((panel, index) => {
+      panel.classList.add("transition-all", "duration-300", "ease-out");
+      if (index !== 0) {
+        panel.classList.add("hidden");
+      }
+    });
 
-    durationInput.addEventListener("input", updateDuration);
+    syncDuration();
+    showStep(0);
 
     nextButton.addEventListener("click", () => {
       if (!validateStep(currentStep)) {
@@ -644,26 +717,22 @@
     packageForm.addEventListener("submit", (event) => {
       event.preventDefault();
 
-      if (!validateStep(currentStep)) {
-        reportStepIssue(currentStep);
+      if (!termsInput.checked) {
+        alert("Please agree to the terms first.");
         return;
       }
 
-      const formData = new FormData(packageForm);
-      const guestType = formData.get("guestType");
-      const target = packageTargets[guestType];
-
-      if (!target) {
+      if (!selectedGender) {
+        alert("Please select Lady, Male, or Couple first.");
         return;
       }
 
-      const params = new URLSearchParams({
-        duration: String(formData.get("duration")),
-        budget: String(formData.get("budget")),
-        location: String(formData.get("location")).trim()
-      });
+      loadingScreen.classList.remove("hidden");
+      loadingScreen.classList.add("flex");
 
-      window.location.href = `${target}?${params.toString()}`;
+      setTimeout(() => {
+        window.location.href = packageTargets[selectedGender];
+      }, 1000);
     });
   </script>
 </body>
