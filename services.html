@@ -160,6 +160,150 @@
     .package-section[hidden] {
       display: none !important;
     }
+
+    .booking-stage-shell {
+      position: relative;
+      border-radius: 2rem;
+      border: 6px solid #050505;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.02)),
+        linear-gradient(180deg, #f6e6e6 0%, #edd7d8 100%);
+      box-shadow: 0 28px 70px rgba(0, 0, 0, 0.45);
+    }
+
+    .booking-stage-shell::after {
+      content: "";
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 0;
+      height: 0;
+      border-left: 12px solid transparent;
+      border-bottom: 12px solid rgba(0, 0, 0, 0.42);
+      opacity: 0.8;
+    }
+
+    .booking-progress {
+      height: 1.2rem;
+      border-radius: 9999px;
+      background: rgba(96, 72, 72, 0.18);
+      overflow: hidden;
+    }
+
+    .booking-progress-bar {
+      height: 100%;
+      border-radius: 9999px;
+      background: linear-gradient(90deg, #35a94b 0%, #59d26c 100%);
+      color: #fff;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: width 0.25s ease;
+    }
+
+    .booking-step[hidden] {
+      display: none !important;
+    }
+
+    .wizard-choice {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      color: #161616;
+      font-size: 1.05rem;
+    }
+
+    .wizard-choice::before {
+      content: "";
+      width: 1.1rem;
+      height: 1.1rem;
+      border-radius: 9999px;
+      border: 1.8px solid rgba(0, 0, 0, 0.45);
+      background: #fff;
+      box-shadow: inset 0 0 0 3px #fff;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+      flex: 0 0 auto;
+    }
+
+    .option-input:checked + .wizard-choice::before,
+    .budget-input:checked + .wizard-choice::before {
+      border-color: #35a94b;
+      background: #35a94b;
+      box-shadow: inset 0 0 0 3px #fff;
+    }
+
+    .wizard-budget-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.85rem;
+    }
+
+    .wizard-budget-pill {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 3.5rem;
+      border-radius: 9999px;
+      background: rgba(255, 255, 255, 0.55);
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      color: #171717;
+      font-weight: 700;
+      transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+    }
+
+    .budget-input:checked + .wizard-budget-pill {
+      background: #d7f2db;
+      border-color: rgba(53, 169, 75, 0.72);
+    }
+
+    .wizard-nav-button {
+      border-radius: 9999px;
+      min-width: 10rem;
+      min-height: 3.2rem;
+      font-weight: 700;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+
+    .wizard-next {
+      background: linear-gradient(180deg, #69da77 0%, #4bc860 100%);
+      color: #fff;
+      box-shadow: 0 16px 24px rgba(59, 177, 86, 0.28);
+    }
+
+    .wizard-back {
+      background: rgba(255, 255, 255, 0.75);
+      color: #171717;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+    }
+
+    .wizard-nav-button:hover {
+      transform: translateY(-1px);
+    }
+
+    .booking-input {
+      width: 100%;
+      border-radius: 1rem;
+      border: 1px solid rgba(0, 0, 0, 0.12);
+      background: rgba(255, 255, 255, 0.65);
+      color: #171717;
+      padding: 0.95rem 1rem;
+      outline: none;
+    }
+
+    .booking-copy {
+      color: #171717;
+    }
+
+    .booking-muted {
+      color: rgba(23, 23, 23, 0.72);
+    }
+
+    @media (max-width: 640px) {
+      .wizard-budget-grid {
+        grid-template-columns: 1fr;
+      }
+    }
   </style>
 </head>
 <body class="min-h-screen">
@@ -175,134 +319,120 @@
   <main>
     <section class="py-16 sm:py-20">
       <div class="max-w-6xl mx-auto px-4 sm:px-6">
-        <div class="grid gap-10 lg:grid-cols-[1.1fr,0.9fr] lg:items-start">
-          <div>
-            <p class="text-xs uppercase tracking-[0.45em]" style="color: var(--gold-main);">Packages</p>
-            <h1 class="mt-4 text-4xl sm:text-5xl font-bold leading-tight">Choose your package in a simple step-by-step flow</h1>
-            <p class="mt-6 max-w-2xl text-base sm:text-lg leading-8" style="color: var(--text-secondary);">Select who the session is for, set your preferred duration, pick your budget, add your location, and then open the matching package section.</p>
-            <div class="mt-8 grid gap-4 sm:grid-cols-3">
-              <div class="luxury-card rounded-[1.75rem] p-5">
-                <p class="text-xs uppercase tracking-[0.3em]" style="color: var(--gold-main);">Step 1</p>
-                <p class="mt-3 text-lg font-semibold">Choose guest type</p>
-                <p class="mt-2 text-sm leading-7" style="color: var(--text-secondary);">Female, male, or couple booking.</p>
-              </div>
-              <div class="luxury-card rounded-[1.75rem] p-5">
-                <p class="text-xs uppercase tracking-[0.3em]" style="color: var(--gold-main);">Step 2</p>
-                <p class="mt-3 text-lg font-semibold">Set time and budget</p>
-                <p class="mt-2 text-sm leading-7" style="color: var(--text-secondary);">Use the slider and fixed budget choices.</p>
-              </div>
-              <div class="luxury-card rounded-[1.75rem] p-5">
-                <p class="text-xs uppercase tracking-[0.3em]" style="color: var(--gold-main);">Step 3</p>
-                <p class="mt-3 text-lg font-semibold">Open package section</p>
-                <p class="mt-2 text-sm leading-7" style="color: var(--text-secondary);">See the matching package cards instantly.</p>
-              </div>
+        <div class="mx-auto max-w-4xl text-center">
+          <p class="text-xs uppercase tracking-[0.45em]" style="color: var(--gold-main);">Packages</p>
+          <h1 class="mt-4 text-4xl sm:text-5xl font-bold leading-tight">Welcome to booking</h1>
+          <p class="mt-5 text-base sm:text-lg leading-8" style="color: var(--text-secondary);">Heal your body, mind and spirit with a simple step-by-step package booking flow.</p>
+        </div>
+
+        <div class="mx-auto mt-10 max-w-4xl booking-stage-shell p-4 sm:p-5">
+          <form id="package-form" class="space-y-8">
+            <div class="booking-progress">
+              <div id="booking-progress-bar" class="booking-progress-bar" style="width: 20%;">20%</div>
             </div>
-          </div>
 
-          <div class="luxury-card rounded-[2rem] p-6 sm:p-8">
-            <form id="package-form" class="space-y-8">
-              <div>
-                <div class="flex items-center justify-between gap-3">
-                  <h2 class="text-xl sm:text-2xl font-semibold">Package Selector</h2>
-                  <span class="text-xs uppercase tracking-[0.28em]" style="color: var(--gold-main);">Form Method</span>
-                </div>
-              </div>
-
-              <fieldset>
-                <legend class="text-sm font-semibold uppercase tracking-[0.24em]" style="color: var(--gold-main);">Who is the session for?</legend>
-                <div class="mt-4 grid gap-4">
+            <div class="px-2 sm:px-4 pb-2">
+              <section class="booking-step" data-step="0">
+                <p class="text-sm font-semibold tracking-[0.16em] uppercase" style="color: #2e8b3d;">Step 1 of 5</p>
+                <h2 class="booking-copy mt-4 text-2xl sm:text-3xl font-bold">Welcome to Booking! Are you..?</h2>
+                <p class="booking-muted mt-3 text-sm sm:text-base">Choose the matching guest type to continue.</p>
+                <div class="mt-8 space-y-4 text-left">
                   <div>
                     <input class="option-input" type="radio" name="guestType" id="guest-female" value="female" required>
-                    <label for="guest-female" class="choice-card rounded-[1.5rem] p-5">
-                      <p class="text-lg font-semibold">I&rsquo;m a female</p>
-                      <p class="mt-2 text-sm leading-7" style="color: var(--text-secondary);">Open the female package options.</p>
-                    </label>
+                    <label for="guest-female" class="wizard-choice">I&rsquo;m a Lady</label>
                   </div>
                   <div>
                     <input class="option-input" type="radio" name="guestType" id="guest-couple" value="couple">
-                    <label for="guest-couple" class="choice-card rounded-[1.5rem] p-5">
-                      <p class="text-lg font-semibold">We are a couple</p>
-                      <p class="mt-2 text-sm leading-7" style="color: var(--text-secondary);">For male and female couple sessions.</p>
-                    </label>
+                    <label for="guest-couple" class="wizard-choice">We are Couple</label>
                   </div>
                   <div>
                     <input class="option-input" type="radio" name="guestType" id="guest-male" value="male">
-                    <label for="guest-male" class="choice-card rounded-[1.5rem] p-5">
-                      <p class="text-lg font-semibold">I&rsquo;m a male</p>
-                      <p class="mt-2 text-sm leading-7" style="color: var(--text-secondary);">Open the male package options.</p>
-                    </label>
+                    <label for="guest-male" class="wizard-choice">I&rsquo;m a Man</label>
                   </div>
                 </div>
-              </fieldset>
+              </section>
 
-              <div>
-                <div class="flex items-center justify-between gap-4">
-                  <label for="session-duration" class="text-sm font-semibold uppercase tracking-[0.24em]" style="color: var(--gold-main);">How long do you need?</label>
-                  <span id="duration-value" class="text-lg font-semibold">1 Hour</span>
+              <section class="booking-step" data-step="1" hidden>
+                <p class="text-sm font-semibold tracking-[0.16em] uppercase" style="color: #2e8b3d;">Step 2 of 5</p>
+                <h2 class="booking-copy mt-4 text-2xl sm:text-3xl font-bold">How long do you need the session?</h2>
+                <p class="booking-muted mt-3 text-sm sm:text-base">Use the slider to choose your preferred time.</p>
+                <div class="mt-10">
+                  <div class="flex items-center justify-between gap-4">
+                    <label for="session-duration" class="booking-copy text-base font-semibold">Session Duration</label>
+                    <span id="duration-value" class="booking-copy text-xl font-bold">1 Hour</span>
+                  </div>
+                  <input id="session-duration" name="duration" type="range" min="1" max="3" step="1" value="1" class="range-track mt-6 w-full">
+                  <div class="mt-3 flex justify-between text-sm" style="color: rgba(23, 23, 23, 0.72);">
+                    <span>1 hour</span>
+                    <span>2 hours</span>
+                    <span>3 hours</span>
+                  </div>
                 </div>
-                <input id="session-duration" name="duration" type="range" min="1" max="3" step="1" value="1" class="range-track mt-5 w-full">
-                <div class="mt-3 flex justify-between text-xs uppercase tracking-[0.18em]" style="color: var(--text-secondary);">
-                  <span>1 hr</span>
-                  <span>2 hr</span>
-                  <span>3 hr</span>
-                </div>
-              </div>
+              </section>
 
-              <fieldset>
-                <legend class="text-sm font-semibold uppercase tracking-[0.24em]" style="color: var(--gold-main);">Choose your budget</legend>
-                <div class="mt-4 grid grid-cols-2 gap-4">
+              <section class="booking-step" data-step="2" hidden>
+                <p class="text-sm font-semibold tracking-[0.16em] uppercase" style="color: #2e8b3d;">Step 3 of 5</p>
+                <h2 class="booking-copy mt-4 text-2xl sm:text-3xl font-bold">Choose your budget</h2>
+                <p class="booking-muted mt-3 text-sm sm:text-base">Pick the amount that fits your booking plan.</p>
+                <div class="wizard-budget-grid mt-8">
                   <div>
                     <input class="budget-input" type="radio" name="budget" id="budget-250" value="250" required>
-                    <label for="budget-250" class="choice-card rounded-2xl p-4 text-center">
-                      <p class="text-lg font-semibold">RM 250</p>
-                    </label>
+                    <label for="budget-250" class="wizard-budget-pill">RM 250</label>
                   </div>
                   <div>
                     <input class="budget-input" type="radio" name="budget" id="budget-300" value="300">
-                    <label for="budget-300" class="choice-card rounded-2xl p-4 text-center">
-                      <p class="text-lg font-semibold">RM 300</p>
-                    </label>
+                    <label for="budget-300" class="wizard-budget-pill">RM 300</label>
                   </div>
                   <div>
                     <input class="budget-input" type="radio" name="budget" id="budget-400" value="400">
-                    <label for="budget-400" class="choice-card rounded-2xl p-4 text-center">
-                      <p class="text-lg font-semibold">RM 400</p>
-                    </label>
+                    <label for="budget-400" class="wizard-budget-pill">RM 400</label>
                   </div>
                   <div>
                     <input class="budget-input" type="radio" name="budget" id="budget-600" value="600">
-                    <label for="budget-600" class="choice-card rounded-2xl p-4 text-center">
-                      <p class="text-lg font-semibold">RM 600</p>
-                    </label>
+                    <label for="budget-600" class="wizard-budget-pill">RM 600</label>
                   </div>
                 </div>
-              </fieldset>
+              </section>
 
-              <div>
-                <label for="location" class="text-sm font-semibold uppercase tracking-[0.24em]" style="color: var(--gold-main);">Your location</label>
-                <input id="location" name="location" type="text" list="kl-areas" required placeholder="Example: KLCC / Mont Kiara / Bangsar" class="mt-4 w-full rounded-2xl border bg-transparent px-5 py-4 text-base outline-none" style="border-color: rgba(255, 255, 255, 0.12);">
-                <datalist id="kl-areas">
-                  <option value="KLCC"></option>
-                  <option value="Bukit Bintang"></option>
-                  <option value="Mont Kiara"></option>
-                  <option value="Bangsar"></option>
-                  <option value="Damansara Heights"></option>
-                  <option value="Petaling Jaya"></option>
-                  <option value="Subang Jaya"></option>
-                  <option value="Shah Alam"></option>
-                </datalist>
+              <section class="booking-step" data-step="3" hidden>
+                <p class="text-sm font-semibold tracking-[0.16em] uppercase" style="color: #2e8b3d;">Step 4 of 5</p>
+                <h2 class="booking-copy mt-4 text-2xl sm:text-3xl font-bold">Where are you located?</h2>
+                <p class="booking-muted mt-3 text-sm sm:text-base">Add your area so the booking can match your location.</p>
+                <div class="mt-8">
+                  <label for="location" class="booking-copy text-base font-semibold">Your Location</label>
+                  <input id="location" name="location" type="text" list="kl-areas" required placeholder="Example: KLCC / Mont Kiara / Bangsar" class="booking-input mt-4">
+                  <datalist id="kl-areas">
+                    <option value="KLCC"></option>
+                    <option value="Bukit Bintang"></option>
+                    <option value="Mont Kiara"></option>
+                    <option value="Bangsar"></option>
+                    <option value="Damansara Heights"></option>
+                    <option value="Petaling Jaya"></option>
+                    <option value="Subang Jaya"></option>
+                    <option value="Shah Alam"></option>
+                  </datalist>
+                </div>
+              </section>
+
+              <section class="booking-step" data-step="4" hidden>
+                <p class="text-sm font-semibold tracking-[0.16em] uppercase" style="color: #2e8b3d;">Step 5 of 5</p>
+                <h2 class="booking-copy mt-4 text-2xl sm:text-3xl font-bold">Agree and open your packages</h2>
+                <p class="booking-muted mt-3 text-sm sm:text-base">Confirm the booking terms before viewing the matching package section.</p>
+                <div class="mt-8 rounded-[1.5rem] border border-black/10 bg-white/50 p-5 text-left">
+                  <label class="flex items-start gap-3 cursor-pointer">
+                    <input id="terms" name="terms" type="checkbox" required class="mt-1 h-4 w-4 shrink-0 rounded border" style="accent-color: #35a94b;">
+                    <span class="booking-muted text-sm leading-7">I agree to the terms and conditions, respectful communication, and booking confirmation requirements before opening the package options.</span>
+                  </label>
+                </div>
+              </section>
+
+              <div class="mt-10 flex flex-col gap-3 sm:flex-row sm:justify-center">
+                <button id="wizard-back" type="button" class="wizard-nav-button wizard-back" hidden>Back</button>
+                <button id="wizard-next" type="button" class="wizard-nav-button wizard-next">Next Step</button>
+                <button id="wizard-submit" type="submit" class="package-open-button inline-flex items-center justify-center px-8 py-4 text-base font-semibold tracking-[0.18em] uppercase" hidden>See Packages</button>
               </div>
-
-              <div class="rounded-[1.5rem] border p-4" style="border-color: rgba(255, 255, 255, 0.1); background: rgba(255, 255, 255, 0.03);">
-                <label class="flex items-start gap-3 cursor-pointer">
-                  <input id="terms" name="terms" type="checkbox" required class="mt-1 h-4 w-4 shrink-0 rounded border" style="accent-color: #d4af37;">
-                  <span class="text-sm leading-7" style="color: var(--text-secondary);">I agree to the terms and conditions, respectful communication, and booking confirmation requirements before opening the package options.</span>
-                </label>
-              </div>
-
-              <button type="submit" class="gold-button inline-flex w-full items-center justify-center rounded-full px-8 py-4 text-base font-semibold">Open Matching Packages</button>
-            </form>
-          </div>
+            </div>
+          </form>
         </div>
       </div>
     </section>
@@ -503,6 +633,13 @@
     const packageForm = document.querySelector("#package-form");
     const durationInput = document.querySelector("#session-duration");
     const durationValue = document.querySelector("#duration-value");
+    const bookingSteps = Array.from(document.querySelectorAll(".booking-step"));
+    const bookingProgressBar = document.querySelector("#booking-progress-bar");
+    const wizardBack = document.querySelector("#wizard-back");
+    const wizardNext = document.querySelector("#wizard-next");
+    const wizardSubmit = document.querySelector("#wizard-submit");
+    const locationInput = document.querySelector("#location");
+    const termsInput = document.querySelector("#terms");
     const resultsPanel = document.querySelector("#results-panel");
     const resultHeading = document.querySelector("#result-heading");
     const summaryGuest = document.querySelector("#summary-guest");
@@ -530,10 +667,78 @@
       male: "male-packages"
     };
 
+    let currentStep = 0;
+
     const formatDuration = (value) => `${value} ${Number(value) === 1 ? "Hour" : "Hours"}`;
 
     const updateDurationLabel = () => {
       durationValue.textContent = formatDuration(durationInput.value);
+    };
+
+    const reportStepIssue = (stepIndex) => {
+      if (stepIndex === 0) {
+        const firstGuestOption = packageForm.querySelector('#guest-female');
+        if (firstGuestOption) {
+          firstGuestOption.reportValidity();
+        }
+        return;
+      }
+
+      if (stepIndex === 2) {
+        const firstBudgetOption = packageForm.querySelector('#budget-250');
+        if (firstBudgetOption) {
+          firstBudgetOption.reportValidity();
+        }
+        return;
+      }
+
+      if (stepIndex === 3) {
+        locationInput.reportValidity();
+        return;
+      }
+
+      if (stepIndex === 4) {
+        termsInput.reportValidity();
+        return;
+      }
+    };
+
+    const validateStep = (stepIndex) => {
+      if (stepIndex === 0) {
+        return Boolean(packageForm.querySelector('input[name="guestType"]:checked'));
+      }
+
+      if (stepIndex === 1) {
+        return true;
+      }
+
+      if (stepIndex === 2) {
+        return Boolean(packageForm.querySelector('input[name="budget"]:checked'));
+      }
+
+      if (stepIndex === 3) {
+        return locationInput.value.trim().length > 0;
+      }
+
+      if (stepIndex === 4) {
+        return termsInput.checked;
+      }
+
+      return true;
+    };
+
+    const showStep = (stepIndex) => {
+      currentStep = stepIndex;
+      bookingSteps.forEach((step, index) => {
+        step.hidden = index !== stepIndex;
+      });
+
+      const progress = Math.round(((stepIndex + 1) / bookingSteps.length) * 100);
+      bookingProgressBar.style.width = `${progress}%`;
+      bookingProgressBar.textContent = `${progress}%`;
+      wizardBack.hidden = stepIndex === 0;
+      wizardNext.hidden = stepIndex === bookingSteps.length - 1;
+      wizardSubmit.hidden = stepIndex !== bookingSteps.length - 1;
     };
 
     const pickRecommendedCard = (section, selectedDuration, selectedBudget) => {
@@ -559,11 +764,26 @@
 
     updateDurationLabel();
     durationInput.addEventListener("input", updateDurationLabel);
+    showStep(0);
+
+    wizardNext.addEventListener("click", () => {
+      if (!validateStep(currentStep)) {
+        reportStepIssue(currentStep);
+        return;
+      }
+
+      showStep(Math.min(currentStep + 1, bookingSteps.length - 1));
+    });
+
+    wizardBack.addEventListener("click", () => {
+      showStep(Math.max(currentStep - 1, 0));
+    });
 
     packageForm.addEventListener("submit", (event) => {
       event.preventDefault();
 
-      if (!packageForm.reportValidity()) {
+      if (!validateStep(currentStep)) {
+        reportStepIssue(currentStep);
         return;
       }
 
