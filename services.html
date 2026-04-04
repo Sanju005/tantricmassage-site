@@ -217,12 +217,26 @@
       background: rgba(212, 175, 55, 0.08);
     }
 
+    .wizard-choice.is-selected {
+      border-color: rgba(212, 175, 55, 0.6);
+      background: rgba(212, 175, 55, 0.08);
+    }
+
     .option-input:checked + .wizard-choice::before {
       border-color: rgba(255, 255, 255, 0.6);
       background: transparent;
     }
 
+    .wizard-choice.is-selected::before {
+      border-color: rgba(255, 255, 255, 0.6);
+      background: transparent;
+    }
+
     .option-input:checked + .wizard-choice .choice-check {
+      opacity: 1;
+    }
+
+    .wizard-choice.is-selected .choice-check {
       opacity: 1;
     }
 
@@ -777,7 +791,15 @@
       }
 
       input.addEventListener("change", () => {
+        const genderLabels = Array.from(document.querySelectorAll('label[for="guest-female"], label[for="guest-male"], label[for="guest-couple"]'));
+        genderLabels.forEach((label) => label.classList.remove("is-selected"));
+
         if (input.checked) {
+          const activeLabel = document.querySelector(`label[for="${input.id}"]`);
+          if (activeLabel) {
+            activeLabel.classList.add("is-selected");
+          }
+
           if (input.id === "guest-female") {
             selectedGender = "lady";
             genderSelectedNote.textContent = "You selected lady";
