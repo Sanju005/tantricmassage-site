@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Packages | Tantric KL</title>
+  <meta name="description" content="Choose your preferred package by guest type, session length, budget, and location before opening the best matching package options.">
+  <link rel="canonical" href="https://tantricmassagekl.com/services.html">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --bg-main: #0b0b0b;
+      --bg-secondary: #161616;
+      --gold-main: #d4af37;
+      --gold-soft: #ffd700;
+      --text-main: #ffffff;
+      --text-secondary: #cccccc;
+      --accent-wine: rgba(137, 38, 77, 0.26);
+      --accent-violet: rgba(88, 42, 120, 0.18);
+      --border-soft: rgba(212, 175, 55, 0.18);
+      --shadow-luxury: 0 20px 60px rgba(0, 0, 0, 0.44);
+    }
+
+    body {
+      font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+      background:
+        radial-gradient(circle at top left, var(--accent-wine), transparent 22%),
+        radial-gradient(circle at top right, var(--accent-violet), transparent 28%),
+        linear-gradient(180deg, #090909 0%, #111111 100%);
+      color: var(--text-main);
+    }
+
+    .luxury-card {
+      background: linear-gradient(180deg, rgba(26, 26, 26, 0.96), rgba(17, 17, 17, 0.96));
+      border: 1px solid var(--border-soft);
+      box-shadow: var(--shadow-luxury);
+    }
+
+    .gold-button {
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(to right, var(--gold-main), var(--gold-soft));
+      color: #000;
+      box-shadow: 0 14px 34px rgba(212, 175, 55, 0.22);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+    }
+
+    .gold-button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 18px 40px rgba(212, 175, 55, 0.28);
+      filter: brightness(1.03);
+    }
+
+    .option-input,
+    .budget-input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .choice-card {
+      display: block;
+      cursor: pointer;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.03);
+      transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+    }
+
+    .choice-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(212, 175, 55, 0.36);
+    }
+
+    .option-input:checked + .choice-card,
+    .budget-input:checked + .choice-card {
+      border-color: rgba(255, 215, 0, 0.9);
+      background: linear-gradient(180deg, rgba(212, 175, 55, 0.18), rgba(212, 175, 55, 0.06));
+      box-shadow: inset 0 0 0 1px rgba(255, 215, 0, 0.24);
+    }
+
+    .range-track {
+      accent-color: #d4af37;
+    }
+
+    .package-card {
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.03);
+      transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .package-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(212, 175, 55, 0.28);
+    }
+
+    .package-card.is-recommended {
+      border-color: rgba(255, 215, 0, 0.85);
+      box-shadow: 0 0 0 1px rgba(255, 215, 0, 0.2), 0 18px 38px rgba(0, 0, 0, 0.34);
+      background: linear-gradient(180deg, rgba(212, 175, 55, 0.15), rgba(255, 255, 255, 0.04));
+    }
+
+    .recommended-badge {
+      display: none;
+    }
+
+    .package-card.is-recommended .recommended-badge {
+      display: inline-flex;
+    }
+
+    .package-section[hidden] {
+      display: none !important;
+    }
+  </style>
+</head>
+<body class="min-h-screen">
+  <header class="sticky top-0 z-30 border-b backdrop-blur-xl" style="background-color: rgba(11, 11, 11, 0.88); border-color: rgba(255, 255, 255, 0.08);">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      <div class="flex items-center justify-between py-4">
+        <a href="/index.html" class="text-lg sm:text-xl font-semibold tracking-[0.2em] uppercase text-white">Tantric KL</a>
+        <a href="/index.html" class="gold-button inline-flex items-center justify-center rounded-full px-5 py-2.5 text-sm font-semibold">Back Home</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="py-16 sm:py-20">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6">
+        <div class="grid gap-10 lg:grid-cols-[1.1fr,0.9fr] lg:items-start">
+          <div>
+            <p class="text-xs uppercase tracking-[0.45em]" style="color: var(--gold-main);">Packages</p>
+            <h1 class="mt-4 text-4xl sm:text-5xl font-bold leading-tight">Choose your package in a simple step-by-step flow</h1>
+            <p class="mt-6 max-w-2xl text-base sm:text-lg leading-8" style="color: var(--text-secondary);">Select who the session is for, set your preferred duration, pick your budget, add your location, and then open the matching package section.</p>
+            <div class="mt-8 grid gap-4 sm:grid-cols-3">
+              <div class="luxury-card rounded-[1.75rem] p-5">
+                <p class="text-xs uppercase tracking-[0.3em]" style="color: var(--gold-main);">Step 1</p>
+                <p class="mt-3 text-lg font-semibold">Choose guest type</p>
+                <p class="mt-2 text-sm leading-7" style="color: var(--text-secondary);">Female, male, or couple booking.</p>
+              </div>
+              <div class="luxury-card rounded-[1.75rem] p-5">
+                <p class="text-xs uppercase tracking-[0.3em]" style="color: var(--gold-main);">Step 2</p>
+                <p class="mt-3 text-lg font-semibold">Set time and budget</p>
+                <p class="mt-2 text-sm leading-7" style="color: var(--text-secondary);">Use the slider and fixed budget choices.</p>
+              </div>
+              <div class="luxury-card rounded-[1.75rem] p-5">
+                <p class="text-xs uppercase tracking-[0.3em]" style="color: var(--gold-main);">Step 3</p>
+                <p class="mt-3 text-lg font-semibold">Open package section</p>
+                <p class="mt-2 text-sm leading-7" style="color: var(--text-secondary);">See the matching package cards instantly.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="luxury-card rounded-[2rem] p-6 sm:p-8">
+            <form id="package-form" class="space-y-8">
+              <div>
+                <div class="flex items-center justify-between gap-3">
+                  <h2 class="text-xl sm:text-2xl font-semibold">Package Selector</h2>
+                  <span class="text-xs uppercase tracking-[0.28em]" style="color: var(--gold-main);">Form Method</span>
+                </div>
+              </div>
+
+              <fieldset>
+                <legend class="text-sm font-semibold uppercase tracking-[0.24em]" style="color: var(--gold-main);">Who is the session for?</legend>
+                <div class="mt-4 grid gap-4">
+                  <div>
+                    <input class="option-input" type="radio" name="guestType" id="guest-female" value="female" required>
+                    <label for="guest-female" class="choice-card rounded-[1.5rem] p-5">
+                      <p class="text-lg font-semibold">I&rsquo;m a female</p>
+                      <p class="mt-2 text-sm leading-7" style="color: var(--text-secondary);">Open the female package options.</p>
+                    </label>
+                  </div>
+                  <div>
+                    <input class="option-input" type="radio" name="guestType" id="guest-couple" value="couple">
+                    <label for="guest-couple" class="choice-card rounded-[1.5rem] p-5">
+                      <p class="text-lg font-semibold">We are a couple</p>
+                      <p class="mt-2 text-sm leading-7" style="color: var(--text-secondary);">For male and female couple sessions.</p>
+                    </label>
+                  </div>
+                  <div>
+                    <input class="option-input" type="radio" name="guestType" id="guest-male" value="male">
+                    <label for="guest-male" class="choice-card rounded-[1.5rem] p-5">
+                      <p class="text-lg font-semibold">I&rsquo;m a male</p>
+                      <p class="mt-2 text-sm leading-7" style="color: var(--text-secondary);">Open the male package options.</p>
+                    </label>
+                  </div>
+                </div>
+              </fieldset>
+
+              <div>
+                <div class="flex items-center justify-between gap-4">
+                  <label for="session-duration" class="text-sm font-semibold uppercase tracking-[0.24em]" style="color: var(--gold-main);">How long do you need?</label>
+                  <span id="duration-value" class="text-lg font-semibold">1 Hour</span>
+                </div>
+                <input id="session-duration" name="duration" type="range" min="1" max="3" step="1" value="1" class="range-track mt-5 w-full">
+                <div class="mt-3 flex justify-between text-xs uppercase tracking-[0.18em]" style="color: var(--text-secondary);">
+                  <span>1 hr</span>
+                  <span>2 hr</span>
+                  <span>3 hr</span>
+                </div>
+              </div>
+
+              <fieldset>
+                <legend class="text-sm font-semibold uppercase tracking-[0.24em]" style="color: var(--gold-main);">Choose your budget</legend>
+                <div class="mt-4 grid grid-cols-2 gap-4">
+                  <div>
+                    <input class="budget-input" type="radio" name="budget" id="budget-250" value="250" required>
+                    <label for="budget-250" class="choice-card rounded-2xl p-4 text-center">
+                      <p class="text-lg font-semibold">RM 250</p>
+                    </label>
+                  </div>
+                  <div>
+                    <input class="budget-input" type="radio" name="budget" id="budget-300" value="300">
+                    <label for="budget-300" class="choice-card rounded-2xl p-4 text-center">
+                      <p class="text-lg font-semibold">RM 300</p>
+                    </label>
+                  </div>
+                  <div>
+                    <input class="budget-input" type="radio" name="budget" id="budget-400" value="400">
+                    <label for="budget-400" class="choice-card rounded-2xl p-4 text-center">
+                      <p class="text-lg font-semibold">RM 400</p>
+                    </label>
+                  </div>
+                  <div>
+                    <input class="budget-input" type="radio" name="budget" id="budget-600" value="600">
+                    <label for="budget-600" class="choice-card rounded-2xl p-4 text-center">
+                      <p class="text-lg font-semibold">RM 600</p>
+                    </label>
+                  </div>
+                </div>
+              </fieldset>
+
+              <div>
+                <label for="location" class="text-sm font-semibold uppercase tracking-[0.24em]" style="color: var(--gold-main);">Your location</label>
+                <input id="location" name="location" type="text" list="kl-areas" required placeholder="Example: KLCC / Mont Kiara / Bangsar" class="mt-4 w-full rounded-2xl border bg-transparent px-5 py-4 text-base outline-none" style="border-color: rgba(255, 255, 255, 0.12);">
+                <datalist id="kl-areas">
+                  <option value="KLCC"></option>
+                  <option value="Bukit Bintang"></option>
+                  <option value="Mont Kiara"></option>
+                  <option value="Bangsar"></option>
+                  <option value="Damansara Heights"></option>
+                  <option value="Petaling Jaya"></option>
+                  <option value="Subang Jaya"></option>
+                  <option value="Shah Alam"></option>
+                </datalist>
+              </div>
+
+              <div class="rounded-[1.5rem] border p-4" style="border-color: rgba(255, 255, 255, 0.1); background: rgba(255, 255, 255, 0.03);">
+                <label class="flex items-start gap-3 cursor-pointer">
+                  <input id="terms" name="terms" type="checkbox" required class="mt-1 h-4 w-4 shrink-0 rounded border" style="accent-color: #d4af37;">
+                  <span class="text-sm leading-7" style="color: var(--text-secondary);">I agree to the terms and conditions, respectful communication, and booking confirmation requirements before opening the package options.</span>
+                </label>
+              </div>
+
+              <button type="submit" class="gold-button inline-flex w-full items-center justify-center rounded-full px-8 py-4 text-base font-semibold">Open Matching Packages</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="results-panel" class="pb-20" hidden>
+      <div class="max-w-6xl mx-auto px-4 sm:px-6">
+        <div class="luxury-card rounded-[2rem] p-6 sm:p-8">
+          <div class="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+            <div>
+              <p class="text-xs uppercase tracking-[0.4em]" style="color: var(--gold-main);">Your Selection</p>
+              <h2 id="result-heading" class="mt-4 text-3xl sm:text-4xl font-bold">Recommended packages for you</h2>
+              <p class="mt-4 max-w-2xl text-sm sm:text-base leading-8" style="color: var(--text-secondary);">The matching package group is now open below. The highlighted card is the closest fit for your time and budget.</p>
+            </div>
+            <a id="whatsapp-link" href="https://wa.me/YOURNUMBER" class="gold-button inline-flex items-center justify-center rounded-full px-7 py-4 text-sm font-semibold">Send This Selection on WhatsApp</a>
+          </div>
+
+          <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <div class="rounded-[1.5rem] border p-4" style="border-color: rgba(255, 255, 255, 0.08);">
+              <p class="text-xs uppercase tracking-[0.2em]" style="color: var(--gold-main);">Guest Type</p>
+              <p id="summary-guest" class="mt-2 text-lg font-semibold"></p>
+            </div>
+            <div class="rounded-[1.5rem] border p-4" style="border-color: rgba(255, 255, 255, 0.08);">
+              <p class="text-xs uppercase tracking-[0.2em]" style="color: var(--gold-main);">Duration</p>
+              <p id="summary-duration" class="mt-2 text-lg font-semibold"></p>
+            </div>
+            <div class="rounded-[1.5rem] border p-4" style="border-color: rgba(255, 255, 255, 0.08);">
+              <p class="text-xs uppercase tracking-[0.2em]" style="color: var(--gold-main);">Budget</p>
+              <p id="summary-budget" class="mt-2 text-lg font-semibold"></p>
+            </div>
+            <div class="rounded-[1.5rem] border p-4" style="border-color: rgba(255, 255, 255, 0.08);">
+              <p class="text-xs uppercase tracking-[0.2em]" style="color: var(--gold-main);">Location</p>
+              <p id="summary-location" class="mt-2 text-lg font-semibold"></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-10 space-y-8">
+          <section id="female-packages" class="package-section" hidden>
+            <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <p class="text-xs uppercase tracking-[0.4em]" style="color: var(--gold-main);">Female Packages</p>
+                <h3 class="mt-3 text-3xl font-bold">Packages for female guests</h3>
+              </div>
+              <p class="text-sm leading-7" style="color: var(--text-secondary);">Comfort-first sessions with a private, premium atmosphere.</p>
+            </div>
+            <div class="mt-6 grid gap-6 lg:grid-cols-2">
+              <article class="package-card rounded-[1.8rem] p-6" data-duration="1" data-budget="250">
+                <span class="recommended-badge rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em]" style="background: rgba(255, 215, 0, 0.16); color: var(--gold-soft);">Recommended for you</span>
+                <h4 class="mt-4 text-2xl font-semibold">Female Soft Relaxation</h4>
+                <p class="mt-3 text-sm leading-7" style="color: var(--text-secondary);">A gentle 1-hour starter session focused on calmness and comfort.</p>
+                <div class="mt-6 flex items-center justify-between">
+                  <span class="text-sm uppercase tracking-[0.16em]" style="color: var(--gold-main);">1 Hour</span>
+                  <span class="text-2xl font-bold">RM 250</span>
+                </div>
+              </article>
+              <article class="package-card rounded-[1.8rem] p-6" data-duration="2" data-budget="300">
+                <span class="recommended-badge rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em]" style="background: rgba(255, 215, 0, 0.16); color: var(--gold-soft);">Recommended for you</span>
+                <h4 class="mt-4 text-2xl font-semibold">Female Signature Flow</h4>
+                <p class="mt-3 text-sm leading-7" style="color: var(--text-secondary);">A more spacious 2-hour session with slower pacing and deeper relaxation.</p>
+                <div class="mt-6 flex items-center justify-between">
+                  <span class="text-sm uppercase tracking-[0.16em]" style="color: var(--gold-main);">2 Hours</span>
+                  <span class="text-2xl font-bold">RM 300</span>
+                </div>
+              </article>
+              <article class="package-card rounded-[1.8rem] p-6" data-duration="3" data-budget="400">
+                <span class="recommended-badge rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em]" style="background: rgba(255, 215, 0, 0.16); color: var(--gold-soft);">Recommended for you</span>
+                <h4 class="mt-4 text-2xl font-semibold">Female Luxury Escape</h4>
+                <p class="mt-3 text-sm leading-7" style="color: var(--text-secondary);">A 3-hour premium session for clients who want more time and a slower rhythm.</p>
+                <div class="mt-6 flex items-center justify-between">
+                  <span class="text-sm uppercase tracking-[0.16em]" style="color: var(--gold-main);">3 Hours</span>
+                  <span class="text-2xl font-bold">RM 400</span>
+                </div>
+              </article>
+              <article class="package-card rounded-[1.8rem] p-6" data-duration="3" data-budget="600">
+                <span class="recommended-badge rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em]" style="background: rgba(255, 215, 0, 0.16); color: var(--gold-soft);">Recommended for you</span>
+                <h4 class="mt-4 text-2xl font-semibold">Female Elite Ritual</h4>
+                <p class="mt-3 text-sm leading-7" style="color: var(--text-secondary);">An extended premium package with the most spacious timing available.</p>
+                <div class="mt-6 flex items-center justify-between">
+                  <span class="text-sm uppercase tracking-[0.16em]" style="color: var(--gold-main);">3 Hours+</span>
+                  <span class="text-2xl font-bold">RM 600</span>
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <section id="couple-packages" class="package-section" hidden>
+            <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <p class="text-xs uppercase tracking-[0.4em]" style="color: var(--gold-main);">Couple Packages</p>
+                <h3 class="mt-3 text-3xl font-bold">Packages for couples</h3>
+              </div>
+              <p class="text-sm leading-7" style="color: var(--text-secondary);">Designed for male and female couple sessions with a smooth, private flow.</p>
+            </div>
+            <div class="mt-6 grid gap-6 lg:grid-cols-2">
+              <article class="package-card rounded-[1.8rem] p-6" data-duration="1" data-budget="250">
+                <span class="recommended-badge rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em]" style="background: rgba(255, 215, 0, 0.16); color: var(--gold-soft);">Recommended for you</span>
+                <h4 class="mt-4 text-2xl font-semibold">Couple Intro Session</h4>
+                <p class="mt-3 text-sm leading-7" style="color: var(--text-secondary);">A 1-hour intro package for couples who want a shorter private session.</p>
+                <div class="mt-6 flex items-center justify-between">
+                  <span class="text-sm uppercase tracking-[0.16em]" style="color: var(--gold-main);">1 Hour</span>
+                  <span class="text-2xl font-bold">RM 250</span>
+                </div>
+              </article>
+              <article class="package-card rounded-[1.8rem] p-6" data-duration="2" data-budget="300">
+                <span class="recommended-badge rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em]" style="background: rgba(255, 215, 0, 0.16); color: var(--gold-soft);">Recommended for you</span>
+                <h4 class="mt-4 text-2xl font-semibold">Couple Harmony</h4>
+                <p class="mt-3 text-sm leading-7" style="color: var(--text-secondary);">A 2-hour booking with more time for comfort, setup, and pacing.</p>
+                <div class="mt-6 flex items-center justify-between">
+                  <span class="text-sm uppercase tracking-[0.16em]" style="color: var(--gold-main);">2 Hours</span>
+                  <span class="text-2xl font-bold">RM 300</span>
+                </div>
+              </article>
+              <article class="package-card rounded-[1.8rem] p-6" data-duration="3" data-budget="400">
+                <span class="recommended-badge rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em]" style="background: rgba(255, 215, 0, 0.16); color: var(--gold-soft);">Recommended for you</span>
+                <h4 class="mt-4 text-2xl font-semibold">Couple Signature Escape</h4>
+                <p class="mt-3 text-sm leading-7" style="color: var(--text-secondary);">A longer 3-hour experience for a more relaxed premium visit.</p>
+                <div class="mt-6 flex items-center justify-between">
+                  <span class="text-sm uppercase tracking-[0.16em]" style="color: var(--gold-main);">3 Hours</span>
+                  <span class="text-2xl font-bold">RM 400</span>
+                </div>
+              </article>
+              <article class="package-card rounded-[1.8rem] p-6" data-duration="3" data-budget="600">
+                <span class="recommended-badge rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em]" style="background: rgba(255, 215, 0, 0.16); color: var(--gold-soft);">Recommended for you</span>
+                <h4 class="mt-4 text-2xl font-semibold">Couple Private Deluxe</h4>
+                <p class="mt-3 text-sm leading-7" style="color: var(--text-secondary);">An extended deluxe option for couples wanting the fullest package.</p>
+                <div class="mt-6 flex items-center justify-between">
+                  <span class="text-sm uppercase tracking-[0.16em]" style="color: var(--gold-main);">3 Hours+</span>
+                  <span class="text-2xl font-bold">RM 600</span>
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <section id="male-packages" class="package-section" hidden>
+            <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <p class="text-xs uppercase tracking-[0.4em]" style="color: var(--gold-main);">Male Packages</p>
+                <h3 class="mt-3 text-3xl font-bold">Packages for male guests</h3>
+              </div>
+              <p class="text-sm leading-7" style="color: var(--text-secondary);">Private male package options matched to your preferred timing and spend.</p>
+            </div>
+            <div class="mt-6 grid gap-6 lg:grid-cols-2">
+              <article class="package-card rounded-[1.8rem] p-6" data-duration="1" data-budget="250">
+                <span class="recommended-badge rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em]" style="background: rgba(255, 215, 0, 0.16); color: var(--gold-soft);">Recommended for you</span>
+                <h4 class="mt-4 text-2xl font-semibold">Male Quick Reset</h4>
+                <p class="mt-3 text-sm leading-7" style="color: var(--text-secondary);">A neat 1-hour option for clients who want a shorter premium session.</p>
+                <div class="mt-6 flex items-center justify-between">
+                  <span class="text-sm uppercase tracking-[0.16em]" style="color: var(--gold-main);">1 Hour</span>
+                  <span class="text-2xl font-bold">RM 250</span>
+                </div>
+              </article>
+              <article class="package-card rounded-[1.8rem] p-6" data-duration="2" data-budget="300">
+                <span class="recommended-badge rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em]" style="background: rgba(255, 215, 0, 0.16); color: var(--gold-soft);">Recommended for you</span>
+                <h4 class="mt-4 text-2xl font-semibold">Male Signature Calm</h4>
+                <p class="mt-3 text-sm leading-7" style="color: var(--text-secondary);">A balanced 2-hour package with more time for a smooth, unhurried pace.</p>
+                <div class="mt-6 flex items-center justify-between">
+                  <span class="text-sm uppercase tracking-[0.16em]" style="color: var(--gold-main);">2 Hours</span>
+                  <span class="text-2xl font-bold">RM 300</span>
+                </div>
+              </article>
+              <article class="package-card rounded-[1.8rem] p-6" data-duration="3" data-budget="400">
+                <span class="recommended-badge rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em]" style="background: rgba(255, 215, 0, 0.16); color: var(--gold-soft);">Recommended for you</span>
+                <h4 class="mt-4 text-2xl font-semibold">Male Deep Relax</h4>
+                <p class="mt-3 text-sm leading-7" style="color: var(--text-secondary);">A longer 3-hour package built for deeper relaxation and comfort.</p>
+                <div class="mt-6 flex items-center justify-between">
+                  <span class="text-sm uppercase tracking-[0.16em]" style="color: var(--gold-main);">3 Hours</span>
+                  <span class="text-2xl font-bold">RM 400</span>
+                </div>
+              </article>
+              <article class="package-card rounded-[1.8rem] p-6" data-duration="3" data-budget="600">
+                <span class="recommended-badge rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em]" style="background: rgba(255, 215, 0, 0.16); color: var(--gold-soft);">Recommended for you</span>
+                <h4 class="mt-4 text-2xl font-semibold">Male Premium Reserve</h4>
+                <p class="mt-3 text-sm leading-7" style="color: var(--text-secondary);">The most spacious premium package for clients choosing the top tier.</p>
+                <div class="mt-6 flex items-center justify-between">
+                  <span class="text-sm uppercase tracking-[0.16em]" style="color: var(--gold-main);">3 Hours+</span>
+                  <span class="text-2xl font-bold">RM 600</span>
+                </div>
+              </article>
+            </div>
+          </section>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="border-t py-8" style="border-color: rgba(255, 255, 255, 0.08);">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+      <p class="text-sm" style="color: var(--text-secondary);">Tantric KL premium package selection for Kuala Lumpur outcall bookings.</p>
+      <div class="flex items-center gap-5 text-sm" style="color: var(--text-secondary);">
+        <a href="/index.html">Home</a>
+        <a href="/whyme.html">Why Me</a>
+        <a href="/gallery.html">Gallery</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const packageForm = document.querySelector("#package-form");
+    const durationInput = document.querySelector("#session-duration");
+    const durationValue = document.querySelector("#duration-value");
+    const resultsPanel = document.querySelector("#results-panel");
+    const resultHeading = document.querySelector("#result-heading");
+    const summaryGuest = document.querySelector("#summary-guest");
+    const summaryDuration = document.querySelector("#summary-duration");
+    const summaryBudget = document.querySelector("#summary-budget");
+    const summaryLocation = document.querySelector("#summary-location");
+    const whatsappLink = document.querySelector("#whatsapp-link");
+    const packageSections = document.querySelectorAll(".package-section");
+
+    const guestLabels = {
+      female: "Female",
+      couple: "Couple",
+      male: "Male"
+    };
+
+    const sectionLabels = {
+      female: "female packages",
+      couple: "couple packages",
+      male: "male packages"
+    };
+
+    const sectionIds = {
+      female: "female-packages",
+      couple: "couple-packages",
+      male: "male-packages"
+    };
+
+    const formatDuration = (value) => `${value} ${Number(value) === 1 ? "Hour" : "Hours"}`;
+
+    const updateDurationLabel = () => {
+      durationValue.textContent = formatDuration(durationInput.value);
+    };
+
+    const pickRecommendedCard = (section, selectedDuration, selectedBudget) => {
+      const cards = Array.from(section.querySelectorAll(".package-card"));
+      cards.forEach((card) => card.classList.remove("is-recommended"));
+
+      const bestCard = cards.reduce((best, card) => {
+        const duration = Number(card.dataset.duration);
+        const budget = Number(card.dataset.budget);
+        const score = Math.abs(duration - selectedDuration) * 1000 + Math.abs(budget - selectedBudget);
+
+        if (!best || score < best.score) {
+          return { card, score };
+        }
+
+        return best;
+      }, null);
+
+      if (bestCard) {
+        bestCard.card.classList.add("is-recommended");
+      }
+    };
+
+    updateDurationLabel();
+    durationInput.addEventListener("input", updateDurationLabel);
+
+    packageForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      if (!packageForm.reportValidity()) {
+        return;
+      }
+
+      const formData = new FormData(packageForm);
+      const guestType = formData.get("guestType");
+      const duration = Number(formData.get("duration"));
+      const budget = Number(formData.get("budget"));
+      const location = String(formData.get("location")).trim();
+      const sectionId = sectionIds[guestType];
+      const activeSection = document.querySelector(`#${sectionId}`);
+
+      if (!activeSection) {
+        return;
+      }
+
+      summaryGuest.textContent = guestLabels[guestType];
+      summaryDuration.textContent = formatDuration(duration);
+      summaryBudget.textContent = `RM ${budget}`;
+      summaryLocation.textContent = location;
+      resultHeading.textContent = `Showing ${sectionLabels[guestType]} for your selection`;
+
+      packageSections.forEach((section) => {
+        section.hidden = section !== activeSection;
+      });
+
+      pickRecommendedCard(activeSection, duration, budget);
+
+      const message = encodeURIComponent(
+        `Hello, I would like to ask about the ${guestLabels[guestType]} package.\n` +
+        `Duration: ${formatDuration(duration)}\n` +
+        `Budget: RM ${budget}\n` +
+        `Location: ${location}`
+      );
+
+      whatsappLink.href = `https://wa.me/YOURNUMBER?text=${message}`;
+      whatsappLink.setAttribute("aria-label", `Send ${guestLabels[guestType]} package selection on WhatsApp`);
+
+      resultsPanel.hidden = false;
+      resultsPanel.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  </script>
+</body>
+</html>
