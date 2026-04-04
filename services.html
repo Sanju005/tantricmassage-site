@@ -197,8 +197,8 @@
       content: "";
       width: 0.35rem;
       height: 0.7rem;
-      border-right: 2px solid #0a0a0a;
-      border-bottom: 2px solid #0a0a0a;
+      border-right: 2px solid #ffffff;
+      border-bottom: 2px solid #ffffff;
       transform: rotate(45deg);
       margin-left: -1.5rem;
       opacity: 0;
@@ -213,7 +213,7 @@
     .option-input:checked + .wizard-choice::before {
       border-color: var(--green-main);
       background: var(--green-main);
-      box-shadow: inset 0 0 0 3px #0a0a0a;
+      box-shadow: none;
     }
 
     .option-input:checked + .wizard-choice::after {
@@ -395,28 +395,23 @@
     }
 
     .intro-list {
-      margin-top: 1.5rem;
+      margin-top: 1.6rem;
       display: grid;
-      gap: 0.9rem;
+      gap: 1rem;
     }
 
     .intro-item {
       display: flex;
-      align-items: center;
-      gap: 0.9rem;
-      min-height: 4rem;
-      padding: 1rem 1.05rem;
-      border-radius: 1rem;
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      background: rgba(255, 255, 255, 0.03);
+      align-items: flex-start;
+      gap: 0.85rem;
       color: var(--text-main);
-      line-height: 1.55;
+      line-height: 1.6;
       user-select: none;
     }
 
     .intro-icon {
-      width: 2.1rem;
-      height: 2.1rem;
+      width: 1.7rem;
+      height: 1.7rem;
       flex: 0 0 auto;
       border-radius: 9999px;
       display: inline-flex;
@@ -429,6 +424,29 @@
 
     .intro-copy {
       font-size: 1rem;
+      padding-top: 0.05rem;
+    }
+
+    .range-track::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 4px;
+      background: var(--green-main);
+      border: 0;
+      box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.08);
+      cursor: pointer;
+    }
+
+    .range-track::-moz-range-thumb {
+      width: 18px;
+      height: 18px;
+      border-radius: 4px;
+      background: var(--green-main);
+      border: 0;
+      box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.08);
+      cursor: pointer;
     }
 
     @media (max-width: 640px) {
@@ -596,7 +614,7 @@
               <div class="terms-box">
                 <label class="terms-label">
                   <input id="terms" name="terms" type="checkbox" required>
-                  <span>Terms and conditions and sensual massage providing by male masseur. No female masseuse available.</span>
+                  <span>Agree terms and conditions.</span>
                 </label>
               </div>
             </section>
