@@ -176,6 +176,22 @@
       transition: border-color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
     }
 
+    .choice-check {
+      position: absolute;
+      left: 0.72rem;
+      top: 50%;
+      transform: translateY(-56%);
+      color: #5fe177;
+      font-size: 1.75rem;
+      font-weight: 800;
+      line-height: 1;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+      z-index: 2;
+      pointer-events: none;
+      text-shadow: 0 0 10px rgba(95, 225, 119, 0.25);
+    }
+
     .wizard-choice:hover,
     .budget-chip:hover {
       transform: translateY(-1px);
@@ -196,23 +212,6 @@
       transition: border-color 0.2s ease, background-color 0.2s ease;
     }
 
-    .wizard-choice::after {
-      content: "\2713";
-      position: absolute;
-      left: 0.72rem;
-      top: 50%;
-      color: #5fe177;
-      font-size: 1.75rem;
-      font-weight: 800;
-      line-height: 1;
-      transform: translateY(-56%);
-      opacity: 0;
-      transition: opacity 0.2s ease;
-      z-index: 2;
-      pointer-events: none;
-      text-shadow: 0 0 10px rgba(95, 225, 119, 0.25);
-    }
-
     .option-input:checked + .wizard-choice {
       border-color: rgba(212, 175, 55, 0.6);
       background: rgba(212, 175, 55, 0.08);
@@ -223,7 +222,7 @@
       background: transparent;
     }
 
-    .option-input:checked + .wizard-choice::after {
+    .option-input:checked + .wizard-choice .choice-check {
       opacity: 1;
     }
 
@@ -577,15 +576,15 @@
               <div class="choice-list">
                 <div>
                   <input class="sr-only peer" type="radio" name="guestType" id="guest-female" value="lady">
-                  <label class="wizard-choice peer-checked:scale-[1.03] peer-checked:border-amber-400 peer-checked:bg-zinc-900/90" for="guest-female">I&rsquo;m a Lady</label>
+                  <label class="wizard-choice peer-checked:scale-[1.03] peer-checked:border-amber-400 peer-checked:bg-zinc-900/90" for="guest-female"><span class="choice-check">✓</span>I&rsquo;m a Lady</label>
                 </div>
                 <div>
                   <input class="sr-only peer" type="radio" name="guestType" id="guest-couple" value="couple">
-                  <label class="wizard-choice peer-checked:scale-[1.03] peer-checked:border-amber-400 peer-checked:bg-zinc-900/90" for="guest-couple">We are a Couple (Male &amp; Female)</label>
+                  <label class="wizard-choice peer-checked:scale-[1.03] peer-checked:border-amber-400 peer-checked:bg-zinc-900/90" for="guest-couple"><span class="choice-check">✓</span>We are a Couple (Male &amp; Female)</label>
                 </div>
                 <div>
                   <input class="sr-only peer" type="radio" name="guestType" id="guest-male" value="male">
-                  <label class="wizard-choice peer-checked:scale-[1.03] peer-checked:border-amber-400 peer-checked:bg-zinc-900/90" for="guest-male">I&rsquo;m a Man</label>
+                  <label class="wizard-choice peer-checked:scale-[1.03] peer-checked:border-amber-400 peer-checked:bg-zinc-900/90" for="guest-male"><span class="choice-check">✓</span>I&rsquo;m a Man</label>
                 </div>
               </div>
               <p id="gender-selected-note" class="selected-note hidden"></p>
