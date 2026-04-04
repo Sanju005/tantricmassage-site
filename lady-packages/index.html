@@ -106,6 +106,54 @@
       }
     }
 
+
+    .hero-package {
+      position: relative;
+      background:
+        radial-gradient(circle at 50% 14%, rgba(255, 203, 87, 0.12), transparent 16%),
+        radial-gradient(circle at 82% 86%, rgba(255, 196, 64, 0.16), transparent 20%),
+        linear-gradient(180deg, #26221d 0%, #111111 100%);
+      border: 2px solid rgba(212, 175, 55, 0.85);
+      box-shadow:
+        inset 0 0 0 2px rgba(255, 215, 0, 0.18),
+        0 20px 50px rgba(0, 0, 0, 0.42);
+      overflow: hidden;
+    }
+
+    .hero-package::before {
+      content: "";
+      position: absolute;
+      inset: 10px;
+      border-radius: 1.45rem;
+      border: 1px solid rgba(255, 215, 0, 0.24);
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 14rem;
+      padding: 0.72rem 1.3rem;
+      border-radius: 0 0 1rem 1rem;
+      background: linear-gradient(180deg, #ffd86a 0%, #c48811 100%);
+      color: #2b200d;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      box-shadow: 0 8px 22px rgba(0, 0, 0, 0.28);
+    }
+
+    .gold-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255, 210, 103, 0.9), transparent);
+      box-shadow: 0 0 12px rgba(255, 200, 80, 0.24);
+    }
+
+    .glow-text {
+      text-shadow: 0 2px 14px rgba(255, 191, 74, 0.18);
+    }
     @media (min-width: 768px) {
       .package-slider {
         grid-auto-columns: minmax(31%, 31%);
@@ -129,47 +177,59 @@
     </div>
 
     <section id="package-slider" class="package-slider">
-      <article class="package-card">
-        <h2 class="text-center text-[2rem] font-black uppercase leading-none text-[var(--accent)]">Unlimited<br>Package</h2>
-        <div class="mt-4 flex items-center justify-center gap-3 text-sm font-semibold">
-          <span>Rating 5/5:</span>
-          <span class="tracking-[0.18em]" style="color: var(--gold);">★★★★★</span>
+      <article class="package-card hero-package flex flex-col">
+        <div class="flex justify-center">
+          <div class="hero-badge">Most Popular</div>
         </div>
 
-        <div class="feature-panel mt-4 p-4">
-          <h3 class="text-lg font-bold">Highlights of the Package</h3>
-          <ul class="mt-3 space-y-2 text-sm font-bold uppercase">
-            <li class="flex gap-3"><span style="color: var(--green);">✓</span><span>Tantric Pleasure</span></li>
-            <li class="flex gap-3"><span style="color: var(--green);">✓</span><span>Free Oral Pleasure</span></li>
-            <li class="flex gap-3"><span style="color: var(--green);">✓</span><span>Yoni &amp; Yoni Egg Massage&trade;</span></li>
-            <li class="flex gap-3"><span style="color: var(--green);">✓</span><span>Full Body Massage</span></li>
-            <li class="flex gap-3"><span style="color: var(--green);">✓</span><span>Full Body Orgasm&trade;</span></li>
-          </ul>
+        <div class="px-4 pt-5 pb-2 text-center">
+          <h2 class="glow-text text-[2.6rem] font-black uppercase leading-[0.95] text-[var(--gold)] sm:text-[3rem]">Unlimited<br>Package</h2>
+          <p class="mt-3 text-2xl italic text-[#d7c9bb]">The Ultimate Full Experience</p>
         </div>
 
-        <div class="mt-5 text-base font-bold">What Includes?</div>
-        <ul class="mt-3 space-y-2 text-[0.98rem] leading-7">
-          <li class="flex gap-3"><span style="color: var(--green);">⬤</span><span>Relaxing Meditation</span></li>
-          <li class="flex gap-3"><span style="color: var(--green);">⬤</span><span>Sensual Connection&trade;</span></li>
-          <li class="flex gap-3"><span style="color: var(--green);">⬤</span><span>Full Body Massage</span></li>
-          <li class="flex gap-3"><span style="color: var(--green);">⬤</span><span>Leg &amp; Feet Massage</span></li>
-          <li class="flex gap-3"><span style="color: var(--green);">⬤</span><span>Yoni Massage with Yoni Egg&trade;</span></li>
-          <li class="flex gap-3"><span style="color: var(--green);">⬤</span><span>Breast Massage &amp; Upper Body Massage</span></li>
-          <li class="flex gap-3"><span style="color: var(--green);">⬤</span><span>Happy Ending (Optional)</span></li>
-          <li class="flex gap-3"><span style="color: var(--green);">◔</span><span>Approx : 1.30 - 2.00 hrs</span></li>
+        <div class="gold-divider mt-4"></div>
+
+        <div class="px-4 pt-5 text-center">
+          <p class="text-[1.65rem] font-black text-[var(--gold)]">What You&rsquo;ll Experience</p>
+        </div>
+
+        <ul class="mt-4 space-y-3 px-5 text-[1.18rem] leading-8 text-[#f6ead8]">
+          <li class="flex gap-3"><span class="font-black text-[var(--gold)]">&#10003;</span><span>Tantric Pleasure</span></li>
+          <li class="flex gap-3"><span class="font-black text-[var(--gold)]">&#10003;</span><span>Full Body Massage</span></li>
+          <li class="flex gap-3"><span class="font-black text-[var(--gold)]">&#10003;</span><span>Sensual Connection</span></li>
+          <li class="flex gap-3"><span class="font-black text-[var(--gold)]">&#10003;</span><span>Deep Relaxation</span></li>
         </ul>
 
-        <div class="mt-5 border-2 border-red-500 px-4 py-3 text-center text-[1.02rem] font-medium text-yellow-300">
-          In this package, some massage techniques are only for 18+. Click &ldquo;SEE FULL PACKAGE&rdquo; to see the full detailed package
+        <div class="gold-divider mt-6"></div>
+
+        <p class="px-5 py-5 text-center text-[1.18rem] italic leading-8 text-[#eadbc7]">Perfect for those who want to fully unwind, disconnect from stress, and enjoy a complete premium experience without limits.</p>
+
+        <div class="gold-divider"></div>
+
+        <div class="px-5 pt-5">
+          <p class="text-[1.55rem] font-black text-[var(--gold)]">What&rsquo;s Included:</p>
+          <ul class="mt-4 space-y-2.5 text-[1.05rem] leading-7 text-[#f6ead8]">
+            <li class="flex gap-3"><span class="text-[var(--gold)]">�</span><span>Relaxing Meditation</span></li>
+            <li class="flex gap-3"><span class="text-[var(--gold)]">�</span><span>Sensual Connection&trade;</span></li>
+            <li class="flex gap-3"><span class="text-[var(--gold)]">�</span><span>Full Body Massage</span></li>
+            <li class="flex gap-3"><span class="text-[var(--gold)]">�</span><span>Yoni &amp; Yoni Egg&trade; Massage</span></li>
+            <li class="flex gap-3"><span class="text-[var(--gold)]">�</span><span>Breast &amp; Upper Body Massage</span></li>
+            <li class="flex gap-3"><span class="text-[var(--gold)]">�</span><span>Optional Add-ons Available</span></li>
+          </ul>
+          <p class="mt-4 text-lg font-black text-[var(--gold)]">Duration: 1.5 - 2 Hours</p>
         </div>
 
-        <div class="mt-4 text-center">
-          <p class="text-4xl font-black text-white/45 line-through">RM 480.00</p>
-          <p class="text-2xl font-black">Offer Price RM 380.00</p>
-        </div>
+        <div class="mt-auto px-5 pb-5 pt-6 text-center">
+          <div class="mb-4">
+            <p class="text-3xl font-black text-white/35 line-through">RM 480</p>
+            <p class="mt-1 text-[2rem] font-black text-[var(--gold)]">Now Only RM 380</p>
+            <p class="mt-1 text-base font-semibold text-[#eadbc7]">Save RM 100 Today</p>
+          </div>
 
-        <a href="#" class="package-button mt-4 inline-flex min-h-[3.6rem] w-full items-center justify-center px-6 text-lg font-black uppercase">See Full Package</a>
-        <p class="mt-5 text-center text-base font-semibold">Offer Valid : More 28 days</p>
+          <a href="#" class="package-button inline-flex min-h-[3.9rem] w-full items-center justify-center px-6 text-[1.35rem] font-black">Book This Experience -&gt;</a>
+          <p class="mt-4 text-lg italic text-[#eadbc7]">Limited slots available today</p>
+          <p class="mt-3 text-sm text-[#d1c0aa]">*18+ only. Full details available inside.</p>
+        </div>
       </article>
 
       <article class="package-card">
@@ -287,6 +347,8 @@
   </script>
 </body>
 </html>
+
+
 
 
 
