@@ -253,7 +253,7 @@
 
     .selected-note {
       margin-top: 1rem;
-      color: var(--gold-soft);
+      color: #ffffff;
       font-size: 0.92rem;
       font-weight: 600;
     }
@@ -526,7 +526,6 @@
                   <span class="intro-copy">A more exciting &amp; indulgent experience</span>
                 </div>
               </div>
-              <input id="session-duration" name="duration" type="hidden" value="">
             </section>
 
             <section class="step-panel hidden transition-all duration-300 ease-out" data-step="1">
@@ -597,11 +596,7 @@
               <div class="terms-box">
                 <label class="terms-label">
                   <input id="terms" name="terms" type="checkbox" required>
-                  <span>I agree to the terms and conditions.</span>
-                </label>
-                <label class="terms-label mt-4">
-                  <input id="sensual-note" name="sensualNote" type="checkbox" required>
-                  <span>I understand this is a sensual massage.</span>
+                  <span>Terms and conditions and sensual massage providing by male masseur. No female masseuse available.</span>
                 </label>
               </div>
             </section>
@@ -639,7 +634,6 @@
     const hoursSelectedNote = document.querySelector("#hours-selected-note");
     const locationInput = document.querySelector("#location");
     const termsInput = document.querySelector("#terms");
-    const sensualNoteInput = document.querySelector("#sensual-note");
     const loadingScreen = document.querySelector("#loading-screen");
     const hourOptions = ["1 Hour", "1.30 Hours", "2 Hours", "2.30 Hours", "3 Hours"];
 
@@ -670,7 +664,7 @@
       }
 
       if (stepIndex === 4) {
-        return termsInput.checked && sensualNoteInput.checked;
+        return termsInput.checked;
       }
 
       return true;
@@ -690,7 +684,7 @@
       }
 
       if (stepIndex === 4) {
-        alert("Please confirm the terms and sensual massage acknowledgment first.");
+        alert("Please agree to the terms and conditions first.");
       }
     };
 
@@ -774,7 +768,7 @@
       nextButton.textContent = stepIndex === 0 ? "Continue ->" : "Next Step";
       backButton.textContent = "Back";
 
-      if (stepIndex === 0 || stepIndex === 1) {
+      if (stepIndex === 0 || stepIndex === 1 || stepIndex === 2 || stepIndex === 3) {
         nextButton.classList.add("order-1", "w-full");
         backButton.classList.add("order-2", "mx-auto", "min-w-0");
         backButton.style.width = "7.5rem";
@@ -820,8 +814,8 @@
     packageForm.addEventListener("submit", (event) => {
       event.preventDefault();
 
-      if (!termsInput.checked || !sensualNoteInput.checked) {
-        alert("Please confirm the terms and sensual massage acknowledgment first.");
+      if (!termsInput.checked) {
+        alert("Please agree to the terms and conditions first.");
         return;
       }
 
