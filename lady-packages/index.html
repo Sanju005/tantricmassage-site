@@ -8,13 +8,13 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     :root {
-      --bg-page: #f3dede;
-      --card-bg: #3b2a1b;
+      --bg-page: #0b0b0b;
+      --card-bg: #171717;
       --panel-bg: #f3e2e2;
-      --panel-border: #7d6b60;
-      --pink: #ff0a9b;
-      --gold: #ffbf4a;
-      --green: #1ee737;
+      --panel-border: #8b7767;
+      --accent: #d4af37;
+      --gold: #ffd267;
+      --green: #41c463;
       --white: #ffffff;
       --muted: rgba(255, 255, 255, 0.78);
     }
@@ -22,8 +22,9 @@
     body {
       font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
       background:
-        radial-gradient(circle at top, rgba(255, 255, 255, 0.32), transparent 26%),
-        linear-gradient(180deg, #f7e6e6 0%, var(--bg-page) 100%);
+        radial-gradient(circle at top, rgba(212, 175, 55, 0.08), transparent 24%),
+        radial-gradient(circle at bottom right, rgba(125, 27, 68, 0.16), transparent 24%),
+        linear-gradient(180deg, #030303 0%, var(--bg-page) 100%);
       color: var(--white);
     }
 
@@ -45,9 +46,10 @@
     .package-card {
       scroll-snap-align: start;
       background: var(--card-bg);
+      border: 1px solid rgba(212, 175, 55, 0.16);
       border-radius: 1.9rem;
       padding: 1rem;
-      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.22);
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.34);
     }
 
     .feature-panel {
@@ -115,15 +117,20 @@
   <main class="max-w-7xl mx-auto px-4 py-6 sm:px-6 sm:py-8">
     <div class="mb-6 flex items-center justify-between gap-4">
       <div>
-        <p class="text-xs font-bold uppercase tracking-[0.35em]" style="color: #8e5f16;">Ladies Packages</p>
-        <h1 class="mt-2 text-3xl sm:text-4xl font-extrabold text-[#40220f]">Choose your full package</h1>
+        <p class="text-xs font-bold uppercase tracking-[0.35em]" style="color: var(--accent);">Ladies Packages</p>
+        <h1 class="mt-2 text-3xl sm:text-4xl font-extrabold text-white">Choose your full package</h1>
       </div>
-      <a href="/services.html" class="inline-flex items-center justify-center rounded-full border border-[#40220f]/20 bg-white/40 px-5 py-2.5 text-sm font-semibold text-[#40220f]">Back</a>
+      <a href="/services.html" class="inline-flex items-center justify-center rounded-full border border-white/10 bg-white/5 px-5 py-2.5 text-sm font-semibold text-white">Back</a>
     </div>
 
-    <section class="package-slider">
+    <div class="mb-4 flex items-center justify-end gap-3">
+      <button id="prev-package" type="button" class="inline-flex min-h-[2.8rem] items-center justify-center rounded-full border border-white/10 bg-white/5 px-5 text-sm font-semibold text-white">Prev Package</button>
+      <button id="next-package" type="button" class="inline-flex min-h-[2.8rem] items-center justify-center rounded-full border border-amber-400/30 bg-amber-400/10 px-5 text-sm font-semibold text-[var(--gold)]">Next Package</button>
+    </div>
+
+    <section id="package-slider" class="package-slider">
       <article class="package-card">
-        <h2 class="text-center text-[2rem] font-black uppercase leading-none text-[var(--pink)]">Unlimited<br>Package</h2>
+        <h2 class="text-center text-[2rem] font-black uppercase leading-none text-[var(--accent)]">Unlimited<br>Package</h2>
         <div class="mt-4 flex items-center justify-center gap-3 text-sm font-semibold">
           <span>Rating 5/5:</span>
           <span class="tracking-[0.18em]" style="color: var(--gold);">★★★★★</span>
@@ -166,7 +173,7 @@
       </article>
 
       <article class="package-card">
-        <h2 class="text-center text-[2rem] font-black uppercase leading-none text-[var(--pink)]">Extreme<br>Package</h2>
+        <h2 class="text-center text-[2rem] font-black uppercase leading-none text-[var(--accent)]">Extreme<br>Package</h2>
         <div class="mt-4 flex items-center justify-center gap-3 text-sm font-semibold">
           <span>Rating 4/5:</span>
           <span class="tracking-[0.18em]" style="color: var(--gold);">★★★★☆</span>
@@ -206,7 +213,7 @@
       </article>
 
       <article class="package-card">
-        <h2 class="text-center text-[2rem] font-black uppercase leading-none text-[var(--pink)]">Day<br>Package</h2>
+        <h2 class="text-center text-[2rem] font-black uppercase leading-none text-[var(--accent)]">Day<br>Package</h2>
         <div class="mt-4 flex items-center justify-center gap-3 text-sm font-semibold">
           <span>Rating 4.5/5:</span>
           <span class="tracking-[0.18em]" style="color: var(--gold);">★★★★✦</span>
@@ -250,5 +257,37 @@
       </article>
     </section>
   </main>
+  <script>
+    const packageSlider = document.querySelector("#package-slider");
+    const nextPackageButton = document.querySelector("#next-package");
+    const prevPackageButton = document.querySelector("#prev-package");
+
+    const slidePackages = (direction) => {
+      if (!packageSlider) {
+        return;
+      }
+
+      const card = packageSlider.querySelector(".package-card");
+      const gap = 16;
+      const moveAmount = card ? card.getBoundingClientRect().width + gap : 280;
+
+      packageSlider.scrollBy({
+        left: direction * moveAmount,
+        behavior: "smooth"
+      });
+    };
+
+    if (nextPackageButton) {
+      nextPackageButton.addEventListener("click", () => slidePackages(1));
+    }
+
+    if (prevPackageButton) {
+      prevPackageButton.addEventListener("click", () => slidePackages(-1));
+    }
+  </script>
 </body>
 </html>
+
+
+
+
