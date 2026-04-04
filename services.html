@@ -508,86 +508,85 @@
 
             <section class="step-panel hidden transition-all duration-300 ease-out" data-step="1">
               <p class="step-kicker">Step 2 of 5</p>
-              <h2 class="step-title">What would you like from your session?</h2>
-              <p class="step-copy">Choose one or more preferences. This is the only multi-select step.</p>
+              <h2 class="step-title">Are you a:</h2>
 
-              <div class="budget-grid">
+              <div class="choice-list">
                 <div>
-                  <input class="sr-only peer" type="checkbox" name="sessionFocus" id="focus-relax" value="Relaxation">
-                  <label class="budget-chip peer-checked:scale-[1.03] peer-checked:border-amber-400 peer-checked:bg-zinc-900/90 peer-checked:text-amber-200" for="focus-relax">Relaxation</label>
+                  <input class="sr-only peer" type="radio" name="guestType" id="guest-female" value="lady">
+                  <label class="wizard-choice peer-checked:scale-[1.03] peer-checked:border-amber-400 peer-checked:bg-zinc-900/90" for="guest-female">I&rsquo;m a Lady</label>
                 </div>
                 <div>
-                  <input class="sr-only peer" type="checkbox" name="sessionFocus" id="focus-healing" value="Healing">
-                  <label class="budget-chip peer-checked:scale-[1.03] peer-checked:border-amber-400 peer-checked:bg-zinc-900/90 peer-checked:text-amber-200" for="focus-healing">Healing</label>
+                  <input class="sr-only peer" type="radio" name="guestType" id="guest-couple" value="couple">
+                  <label class="wizard-choice peer-checked:scale-[1.03] peer-checked:border-amber-400 peer-checked:bg-zinc-900/90" for="guest-couple">We are a Couple (Male &amp; Female)</label>
                 </div>
                 <div>
-                  <input class="sr-only peer" type="checkbox" name="sessionFocus" id="focus-stress" value="Stress Relief">
-                  <label class="budget-chip peer-checked:scale-[1.03] peer-checked:border-amber-400 peer-checked:bg-zinc-900/90 peer-checked:text-amber-200" for="focus-stress">Stress Relief</label>
-                </div>
-                <div>
-                  <input class="sr-only peer" type="checkbox" name="sessionFocus" id="focus-premium" value="Premium Care">
-                  <label class="budget-chip peer-checked:scale-[1.03] peer-checked:border-amber-400 peer-checked:bg-zinc-900/90 peer-checked:text-amber-200" for="focus-premium">Premium Care</label>
+                  <input class="sr-only peer" type="radio" name="guestType" id="guest-male" value="male">
+                  <label class="wizard-choice peer-checked:scale-[1.03] peer-checked:border-amber-400 peer-checked:bg-zinc-900/90" for="guest-male">I&rsquo;m a Man</label>
                 </div>
               </div>
             </section>
 
             <section class="step-panel hidden transition-all duration-300 ease-out" data-step="2">
               <p class="step-kicker">Step 3 of 5</p>
-              <h2 class="step-title">What is your budget?</h2>
-              <p class="step-copy">Select the range that matches your booking plan.</p>
+              <h2 class="step-title">How many hrs you need the session?</h2>
 
               <div class="budget-grid">
                 <div>
-                  <input class="sr-only peer" type="radio" name="budget" id="budget-250" value="250">
-                  <label class="budget-chip peer-checked:scale-[1.03] peer-checked:border-amber-400 peer-checked:bg-zinc-900/90 peer-checked:text-amber-200" for="budget-250">RM 250</label>
+                  <input class="sr-only peer" type="radio" name="sessionHours" id="hours-1" value="1 hour">
+                  <label class="budget-chip peer-checked:scale-[1.03] peer-checked:border-amber-400 peer-checked:bg-zinc-900/90 peer-checked:text-amber-200" for="hours-1">1 Hour</label>
                 </div>
                 <div>
-                  <input class="sr-only peer" type="radio" name="budget" id="budget-300" value="300">
-                  <label class="budget-chip peer-checked:scale-[1.03] peer-checked:border-amber-400 peer-checked:bg-zinc-900/90 peer-checked:text-amber-200" for="budget-300">RM 300</label>
+                  <input class="sr-only peer" type="radio" name="sessionHours" id="hours-130" value="1.30 hours">
+                  <label class="budget-chip peer-checked:scale-[1.03] peer-checked:border-amber-400 peer-checked:bg-zinc-900/90 peer-checked:text-amber-200" for="hours-130">1.30 Hours</label>
                 </div>
                 <div>
-                  <input class="sr-only peer" type="radio" name="budget" id="budget-400" value="400">
-                  <label class="budget-chip peer-checked:scale-[1.03] peer-checked:border-amber-400 peer-checked:bg-zinc-900/90 peer-checked:text-amber-200" for="budget-400">RM 400</label>
+                  <input class="sr-only peer" type="radio" name="sessionHours" id="hours-2" value="2 hours">
+                  <label class="budget-chip peer-checked:scale-[1.03] peer-checked:border-amber-400 peer-checked:bg-zinc-900/90 peer-checked:text-amber-200" for="hours-2">2 Hours</label>
                 </div>
                 <div>
-                  <input class="sr-only peer" type="radio" name="budget" id="budget-600" value="600">
-                  <label class="budget-chip peer-checked:scale-[1.03] peer-checked:border-amber-400 peer-checked:bg-zinc-900/90 peer-checked:text-amber-200" for="budget-600">RM 600</label>
+                  <input class="sr-only peer" type="radio" name="sessionHours" id="hours-230" value="2.30 hours">
+                  <label class="budget-chip peer-checked:scale-[1.03] peer-checked:border-amber-400 peer-checked:bg-zinc-900/90 peer-checked:text-amber-200" for="hours-230">2.30 Hours</label>
+                </div>
+                <div class="sm:col-span-2">
+                  <input class="sr-only peer" type="radio" name="sessionHours" id="hours-3" value="3 hours">
+                  <label class="budget-chip peer-checked:scale-[1.03] peer-checked:border-amber-400 peer-checked:bg-zinc-900/90 peer-checked:text-amber-200" for="hours-3">3 Hours</label>
                 </div>
               </div>
             </section>
 
             <section class="step-panel hidden transition-all duration-300 ease-out" data-step="3">
               <p class="step-kicker">Step 4 of 5</p>
-              <h2 class="step-title">Who is the session for?</h2>
-              <p class="step-copy">This choice decides which package page opens in the final step.</p>
+              <h2 class="step-title">Location</h2>
 
-              <div class="choice-list">
-                <div>
-                  <input class="sr-only peer" type="radio" name="guestType" id="guest-female" value="lady">
-                  <label class="wizard-choice peer-checked:scale-[1.03] peer-checked:border-amber-400 peer-checked:bg-zinc-900/90" for="guest-female">Lady</label>
-                </div>
-                <div>
-                  <input class="sr-only peer" type="radio" name="guestType" id="guest-male" value="male">
-                  <label class="wizard-choice peer-checked:scale-[1.03] peer-checked:border-amber-400 peer-checked:bg-zinc-900/90" for="guest-male">Male</label>
-                </div>
-                <div>
-                  <input class="sr-only peer" type="radio" name="guestType" id="guest-couple" value="couple">
-                  <label class="wizard-choice peer-checked:scale-[1.03] peer-checked:border-amber-400 peer-checked:bg-zinc-900/90" for="guest-couple">Couple</label>
-                </div>
+              <div class="field-wrap">
+                <label class="field-label" for="location">Your Location</label>
+                <input id="location" name="location" type="text" list="kl-areas" class="booking-input" placeholder="Example: KLCC / Mont Kiara / Bangsar" required>
+                <datalist id="kl-areas">
+                  <option value="KLCC"></option>
+                  <option value="Bukit Bintang"></option>
+                  <option value="Mont Kiara"></option>
+                  <option value="Bangsar"></option>
+                  <option value="Damansara Heights"></option>
+                  <option value="Petaling Jaya"></option>
+                  <option value="Subang Jaya"></option>
+                  <option value="Shah Alam"></option>
+                </datalist>
               </div>
-
-              <input id="location" name="location" type="hidden" value="">
             </section>
 
             <section class="step-panel hidden transition-all duration-300 ease-out" data-step="4">
               <p class="step-kicker">Step 5 of 5</p>
               <h2 class="step-title">Confirm and open your package</h2>
-              <p class="step-copy">Agree to the terms before continuing to the matching package page.</p>
+              <p class="step-copy">Please confirm the following before continuing.</p>
 
               <div class="terms-box">
                 <label class="terms-label">
                   <input id="terms" name="terms" type="checkbox" required>
-                  <span>I agree to the terms and conditions, respectful communication, and booking confirmation requirements.</span>
+                  <span>I agree to the terms and conditions.</span>
+                </label>
+                <label class="terms-label mt-4">
+                  <input id="sensual-note" name="sensualNote" type="checkbox" required>
+                  <span>I understand this is a sensual massage.</span>
                 </label>
               </div>
             </section>
@@ -619,9 +618,10 @@
     const nextButton = document.querySelector("#wizard-next");
     const submitButton = document.querySelector("#wizard-submit");
     const durationInput = document.querySelector("#session-duration");
-    const durationButtons = Array.from(document.querySelectorAll('input[name="sessionLength"]'));
+    const durationButtons = Array.from(document.querySelectorAll('input[name="sessionHours"]'));
     const locationInput = document.querySelector("#location");
     const termsInput = document.querySelector("#terms");
+    const sensualNoteInput = document.querySelector("#sensual-note");
     const loadingScreen = document.querySelector("#loading-screen");
 
     const packageTargets = {
@@ -639,19 +639,19 @@
       }
 
       if (stepIndex === 1) {
-        return Boolean(packageForm.querySelector('input[name="sessionFocus"]:checked'));
-      }
-
-      if (stepIndex === 2) {
-        return Boolean(packageForm.querySelector('input[name="budget"]:checked'));
-      }
-
-      if (stepIndex === 3) {
         return Boolean(packageForm.querySelector('input[name="guestType"]:checked'));
       }
 
+      if (stepIndex === 2) {
+        return Boolean(packageForm.querySelector('input[name="sessionHours"]:checked'));
+      }
+
+      if (stepIndex === 3) {
+        return locationInput.value.trim().length > 0;
+      }
+
       if (stepIndex === 4) {
-        return termsInput.checked;
+        return termsInput.checked && sensualNoteInput.checked;
       }
 
       return true;
@@ -659,19 +659,19 @@
 
     const reportStepIssue = (stepIndex) => {
       if (stepIndex === 1) {
-        alert("Please choose at least one session preference.");
+        alert("Please choose Lady, Couple, or Man.");
       }
 
       if (stepIndex === 2) {
-        alert("Please choose your budget.");
+        alert("Please choose how many hours you need.");
       }
 
       if (stepIndex === 3) {
-        alert("Please choose Lady, Male, or Couple.");
+        alert("Please enter your location.");
       }
 
       if (stepIndex === 4) {
-        alert("Please agree to the terms first.");
+        alert("Please confirm the terms and sensual massage acknowledgment first.");
       }
     };
 
@@ -703,7 +703,7 @@
     };
 
     const syncDuration = () => {
-      const selectedLength = packageForm.querySelector('input[name="sessionLength"]:checked');
+      const selectedLength = packageForm.querySelector('input[name="sessionHours"]:checked');
       durationInput.value = selectedLength ? selectedLength.value : "";
     };
 
@@ -794,8 +794,8 @@
     packageForm.addEventListener("submit", (event) => {
       event.preventDefault();
 
-      if (!termsInput.checked) {
-        alert("Please agree to the terms first.");
+      if (!termsInput.checked || !sensualNoteInput.checked) {
+        alert("Please confirm the terms and sensual massage acknowledgment first.");
         return;
       }
 
