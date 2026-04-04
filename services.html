@@ -197,19 +197,20 @@
     }
 
     .wizard-choice::after {
-      content: "\02C7";
+      content: "\2713";
       position: absolute;
-      left: 1.29rem;
+      left: 0.72rem;
       top: 50%;
-      color: #ffffff;
-      font-size: 0.95rem;
+      color: #5fe177;
+      font-size: 1.75rem;
       font-weight: 800;
       line-height: 1;
-      transform: translateY(-54%);
+      transform: translateY(-56%);
       opacity: 0;
       transition: opacity 0.2s ease;
       z-index: 2;
       pointer-events: none;
+      text-shadow: 0 0 10px rgba(95, 225, 119, 0.25);
     }
 
     .option-input:checked + .wizard-choice {
@@ -218,8 +219,8 @@
     }
 
     .option-input:checked + .wizard-choice::before {
-      border-color: var(--green-main);
-      background: var(--green-main);
+      border-color: rgba(255, 255, 255, 0.6);
+      background: transparent;
     }
 
     .option-input:checked + .wizard-choice::after {
