@@ -578,7 +578,7 @@
         normalPrice: "RM 430.00",
         price: "RM 380.00",
         popularity: [
-          "<span class='rating-stars'>&#9733;&#9733;&#9733;&#9733;&#9733;</span>",
+          "5 Star Rating",
           "100% Private & Discreet"
         ],
         items: [
@@ -587,6 +587,7 @@
           "Deep Stress Relief & Total Relaxation",
           "Full Body Massage & Energy Flow",
           "Yoni Egg & G-Spot Pleasure",
+          "Body-to-Body Massage",
           "Complete Physical & Emotional Release",
           "Deep Oral Pleasures",
           "Hands, Legs & Feet Massage"
@@ -712,7 +713,7 @@
       modalNormalPriceRow.classList.toggle("hidden", !details.normalPrice);
       modalList.innerHTML = details.items.map((item) => `<li class="flex gap-3"><span class="text-[var(--gold)]">&rarr;</span><span>${item}</span></li>`).join("");
       modalPopularityBlock.classList.toggle("hidden", !details.popularity);
-      modalPopularityList.innerHTML = details.popularity ? details.popularity.map((item) => `<li>${item}</li>`).join("") : "";
+      modalPopularityList.innerHTML = details.popularity ? details.popularity.map((item, index) => `<li class="flex items-center gap-2">${index === 0 ? `<span class="rating-stars">&#9733;</span>` : `<span class="text-[var(--gold)]">&#128274;</span>`}<span>${item}</span></li>`).join("") : "";
       modalCustomizeBlock.classList.toggle("hidden", !details.customize);
       modalCustomizeText.textContent = details.customize || "";
       modalFlowBlock.classList.toggle("hidden", !details.flowLines);
@@ -759,6 +760,7 @@
   </script>
 </body>
 </html>
+
 
 
 
