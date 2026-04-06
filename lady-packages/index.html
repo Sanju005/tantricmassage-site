@@ -472,7 +472,7 @@
         <div class="flex items-start justify-between gap-4">
           <div>
             <p id="modal-package-kicker" class="text-[0.78rem] font-semibold uppercase tracking-[0.24em] text-[var(--gold)]">Private Experience</p>
-            <h2 id="modal-package-title" class="mt-2 text-[2rem] leading-[0.94] text-white package-modal__section-title">Package Details</h2>
+            <h2 id="modal-package-title" class="mt-2 text-[1.72rem] leading-[0.96] text-white package-modal__section-title font-bold uppercase">Package Details</h2>
           </div>
           <button type="button" id="package-modal-close" class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-lg text-white">&times;</button>
         </div>
@@ -482,7 +482,7 @@
         <div id="modal-popularity-block" class="mt-4 hidden">
           <div class="gold-divider"></div>
           <div class="mt-4">
-            <h3 class="package-modal__section-title text-[1.1rem] font-semibold uppercase tracking-[0.06em] text-[var(--gold)]">Package Popularity</h3>
+            <h3 class="package-modal__section-title text-[0.8rem] font-semibold uppercase tracking-[0.12em] text-[#ffcf75]">Package Popularity</h3>
             <ul id="modal-popularity-list" class="mt-3 space-y-2 text-[0.92rem] leading-5 text-white/84"></ul>
           </div>
         </div>
@@ -490,14 +490,14 @@
         <div class="gold-divider mt-4"></div>
 
         <div class="mt-4">
-          <h3 id="modal-list-heading" class="package-modal__section-title text-[1.1rem] font-semibold uppercase tracking-[0.06em] text-[var(--gold)]">What&apos;s Included?</h3>
+          <h3 id="modal-list-heading" class="package-modal__section-title text-[0.8rem] font-semibold uppercase tracking-[0.12em] text-[#ffcf75]">What Includes?</h3>
           <ul id="modal-package-list" class="mt-3 space-y-2 text-[0.95rem] leading-5 text-white/84"></ul>
         </div>
 
         <div id="modal-customize-block" class="mt-4 hidden">
           <div class="gold-divider"></div>
           <div class="mt-4">
-            <h3 class="package-modal__section-title text-[1.1rem] font-semibold uppercase tracking-[0.06em] text-[var(--gold)]">Can I Customize the Session?</h3>
+            <h3 class="package-modal__section-title text-[0.8rem] font-semibold uppercase tracking-[0.12em] text-[#ffcf75]">Can I Customize the Session?</h3>
             <p id="modal-customize-text" class="mt-3 text-[0.92rem] leading-5 text-white/80"></p>
           </div>
         </div>
@@ -505,7 +505,7 @@
         <div id="modal-flow-block" class="mt-4 hidden">
           <div class="gold-divider"></div>
           <div class="mt-4">
-            <h3 class="package-modal__section-title text-[1.1rem] font-semibold uppercase tracking-[0.06em] text-[var(--gold)]">How Does the Session Start &amp; Flow?</h3>
+            <h3 class="package-modal__section-title text-[0.8rem] font-semibold uppercase tracking-[0.12em] text-[#ffcf75]">How Does the Session Start &amp; Flow?</h3>
             <p id="modal-flow-intro" class="mt-3 text-[0.92rem] leading-5 text-white/84"></p>
             <div id="modal-flow-lines" class="mt-3 space-y-2 text-[0.92rem] leading-5 text-white/80"></div>
           </div>
@@ -514,12 +514,12 @@
         <div class="gold-divider mt-4"></div>
 
         <div class="mt-4 grid gap-2 text-[0.92rem] leading-5 text-white/80">
-          <p><span class="text-white">Session:</span> <span id="modal-package-duration"></span></p>
-          <p><span class="text-white">Location:</span> Out Call Private session</p>
+          <p class="text-[0.8rem] font-semibold uppercase tracking-[0.12em] text-[#ffcf75]"><span>Session:</span> <span id="modal-package-duration" class="text-white"></span></p>
+          <p class="text-[0.8rem] font-semibold uppercase tracking-[0.12em] text-[#ffcf75]"><span>Location:</span> <span class="text-white">Out Call Private session</span></p>
         </div>
 
         <div class="mt-4">
-          <h3 class="package-modal__section-title text-[1.1rem] font-semibold uppercase tracking-[0.06em] text-[var(--gold)]">Pricing</h3>
+          <h3 class="package-modal__section-title text-[0.8rem] font-semibold uppercase tracking-[0.12em] text-[#ffcf75]">Pricing</h3>
           <div class="mt-3 space-y-1 text-[0.95rem] leading-5 text-white/84">
             <p id="modal-normal-price-row"><span class="text-white">Normal Price:</span> <span id="modal-package-normal-price"></span></p>
             <p><span class="text-white">Promotion Price:</span> <span id="modal-package-price"></span></p>
@@ -530,7 +530,7 @@
 
         <div class="gold-divider mt-4"></div>
 
-        <p class="mt-4 text-center text-[0.82rem] font-semibold uppercase leading-5 tracking-[0.06em] text-white/72">
+        <p class="mt-4 text-center text-[0.72rem] leading-4 text-white/62">
           PRIVATE DETAILS ARE SHARED DIRECTLY WITH YOU AFTER BOOKING CONFIRMATION.
         </p>
 
@@ -569,7 +569,7 @@
 
     const packageDetails = {
       unlimited: {
-        kicker: "UNLIMITED EXPERIENCE",
+        kicker: "UNLIMITED PACKAGE",
         title: "Escape. Relax. Feel Everything.",
         description: "",
         listHeading: "What Includes?",
@@ -742,6 +742,7 @@
   </script>
 </body>
 </html>
+
 
 
 
