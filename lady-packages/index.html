@@ -515,7 +515,7 @@
 
         <div class="mt-4 grid gap-2 text-[0.92rem] leading-5 text-white/80">
           <p class="text-[0.8rem] font-semibold uppercase tracking-[0.12em] text-[#ffcf75]"><span>Session:</span> <span id="modal-package-duration" class="text-white"></span></p>
-          <p class="text-[0.8rem] font-semibold uppercase tracking-[0.12em] text-[#ffcf75]"><span>Location:</span> <span class="text-white">Out Call Private session</span></p>
+          <p id="modal-location-row" class="text-[0.8rem] font-semibold uppercase tracking-[0.12em] text-[#ffcf75]"><span>Location:</span> <span class="text-white">Out Call Private session</span></p>
         </div>
 
         <div class="mt-4">
@@ -563,6 +563,7 @@
     const modalDuration = document.querySelector("#modal-package-duration");
     const modalPrice = document.querySelector("#modal-package-price");
     const modalNormalPrice = document.querySelector("#modal-package-normal-price");
+    const modalLocationRow = document.querySelector("#modal-location-row");
     const modalNormalPriceRow = document.querySelector("#modal-normal-price-row");
     const modalLimitedNote = document.querySelector("#modal-limited-note");
     const modalWhatsappLink = document.querySelector("#modal-whatsapp-link");
@@ -570,14 +571,14 @@
     const packageDetails = {
       unlimited: {
         kicker: "UNLIMITED PACKAGE",
-        title: "Escape. Relax. Feel Everything.",
+        title: "",
         description: "",
         listHeading: "What Includes?",
         duration: "1.5 - 2 Hours",
         normalPrice: "RM 430.00",
         price: "RM 380.00",
         popularity: [
-          "Most Chosen Experience",
+          "<span class='rating-stars'>&#9733;&#9733;&#9733;&#9733;&#9733;</span>",
           "100% Private & Discreet"
         ],
         items: [
@@ -593,15 +594,14 @@
         customize: "Yes. Your session can be tailored based on your comfort level and preference — whether you want a more relaxing, more connected, or a deeper experience.",
         flowIntro: "I will guide you through the entire experience.",
         flowLines: [
-          "The session begins with calming meditation and gentle connection to help you fully relax…",
-          "Then flows into a full body massage, including hands, legs, and feet to release tension…",
-          "Gradually moving into more intimate and engaging techniques, based on your comfort and preference…",
+          "The session begins with calming meditation and gentle connection to help you fully relax...",
+          "Then flows into a full body massage, including hands, legs, and feet to release tension...",
+          "Gradually moving into more intimate and engaging techniques, based on your comfort and preference...",
           "Ending with a deeply relaxing and satisfying experience."
         ],
-        limitedNote: "Limited sessions available per day",
-        bookingLabel: "[ Book My Private Session Now ]"
-      },
-      extreme: {
+        hideLocation: true,
+        bookingLabel: "Book My Private Session"
+      },      extreme: {
         kicker: "EXTREME EXPERIENCE",
         title: "Short. Intense",
         description: "",
@@ -695,16 +695,22 @@
         return;
       }
 
-      modalKicker.textContent = details.kicker;
-      modalTitle.textContent = details.title;
+      modalKicker.innerHTML = details.kicker;
+      const isUnlimited = details.kicker === "UNLIMITED PACKAGE";
+      modalKicker.className = isUnlimited
+        ? "text-[1.18rem] font-extrabold uppercase leading-5 text-[var(--gold)]"
+        : "text-[0.78rem] font-semibold uppercase tracking-[0.24em] text-[var(--gold)]";
+      modalTitle.textContent = details.title || details.kicker;
+      modalTitle.classList.toggle("hidden", !details.title);
       modalDescription.textContent = details.description || "";
       modalDescription.classList.toggle("hidden", !details.description);
       modalListHeading.textContent = details.listHeading || "What Includes?";
       modalDuration.textContent = details.duration;
       modalPrice.textContent = details.price;
       modalNormalPrice.textContent = details.normalPrice || "";
+      modalLocationRow.classList.toggle("hidden", !!details.hideLocation);
       modalNormalPriceRow.classList.toggle("hidden", !details.normalPrice);
-      modalList.innerHTML = details.items.map((item) => `<li class="flex gap-3"><span class="text-[var(--gold)]">•</span><span>${item}</span></li>`).join("");
+      modalList.innerHTML = details.items.map((item) => `<li class="flex gap-3"><span class="text-[var(--gold)]">&rarr;</span><span>${item}</span></li>`).join("");
       modalPopularityBlock.classList.toggle("hidden", !details.popularity);
       modalPopularityList.innerHTML = details.popularity ? details.popularity.map((item) => `<li>${item}</li>`).join("") : "";
       modalCustomizeBlock.classList.toggle("hidden", !details.customize);
@@ -753,6 +759,11 @@
   </script>
 </body>
 </html>
+
+
+
+
+
 
 
 
