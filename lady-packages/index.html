@@ -386,7 +386,9 @@
           <button type="button" data-package-open="extreme" class="package-button mt-1 inline-flex min-h-[3rem] w-full items-center justify-center whitespace-nowrap px-4 text-[0.96rem] font-semibold">View Private Experience</button>
           <p class="mt-4 whitespace-nowrap text-[0.8rem] leading-5 text-white/75">&#128274; 100% Private &middot; Discreet &middot; Professional</p>
         </div>
-      </article>`r`n`r`n      <article class="package-card hero-package flex flex-col p-3.5 sm:p-4">
+      </article>
+
+      <article class="package-card hero-package flex flex-col p-3.5 sm:p-4">
         <div class="px-2 pt-2 text-center">
           <p class="mt-3 text-[2.05rem] font-semibold uppercase leading-[0.94] text-[var(--gold)] sm:text-[2.3rem]">Day Package</p>
           <p class="mt-2 text-[0.92rem] font-semibold uppercase leading-5 text-white">Rating <span class="rating-stars">&#9733;&#9733;&#9733;&#9733;&#9734;</span></p>
@@ -550,31 +552,63 @@
     const modalTitle = document.querySelector("#modal-package-title");
     const modalDescription = document.querySelector("#modal-package-description");
     const modalList = document.querySelector("#modal-package-list");
+    const modalListHeading = document.querySelector("#modal-list-heading");
+    const modalPopularityBlock = document.querySelector("#modal-popularity-block");
+    const modalPopularityList = document.querySelector("#modal-popularity-list");
+    const modalCustomizeBlock = document.querySelector("#modal-customize-block");
+    const modalCustomizeText = document.querySelector("#modal-customize-text");
+    const modalFlowBlock = document.querySelector("#modal-flow-block");
+    const modalFlowIntro = document.querySelector("#modal-flow-intro");
+    const modalFlowLines = document.querySelector("#modal-flow-lines");
     const modalDuration = document.querySelector("#modal-package-duration");
     const modalPrice = document.querySelector("#modal-package-price");
+    const modalNormalPrice = document.querySelector("#modal-package-normal-price");
+    const modalNormalPriceRow = document.querySelector("#modal-normal-price-row");
+    const modalLimitedNote = document.querySelector("#modal-limited-note");
     const modalWhatsappLink = document.querySelector("#modal-whatsapp-link");
 
     const packageDetails = {
       unlimited: {
-        kicker: "Unlimited Package",
-        title: "Full Private Experience",
-        description: "A deeply relaxing premium session designed for total body release, sensual connection, and full private indulgence.",
+        kicker: "UNLIMITED EXPERIENCE",
+        title: "Escape. Relax. Feel Everything.",
+        description: "",
+        listHeading: "What Includes?",
         duration: "1.5 - 2 Hours",
-        price: "RM 380",
+        normalPrice: "RM 430.00",
+        price: "RM 380.00",
+        popularity: [
+          "Most Chosen Experience",
+          "100% Private & Discreet"
+        ],
         items: [
-          "Tantric & Yoni massage journey",
-          "Deep full body relaxation",
-          "Yoni egg pleasure and stimulation",
-          "Private premium out call session",
-          "Sensual connection and stress release"
-        ]
+          "Relaxing Meditation",
+          "Tantric & Yoni Massage Experience",
+          "Deep Stress Relief & Total Relaxation",
+          "Full Body Massage & Energy Flow",
+          "Yoni Egg & G-Spot Pleasure",
+          "Complete Physical & Emotional Release",
+          "Deep Oral Pleasures",
+          "Hands, Legs & Feet Massage"
+        ],
+        customize: "Yes. Your session can be tailored based on your comfort level and preference — whether you want a more relaxing, more connected, or a deeper experience.",
+        flowIntro: "I will guide you through the entire experience.",
+        flowLines: [
+          "The session begins with calming meditation and gentle connection to help you fully relax…",
+          "Then flows into a full body massage, including hands, legs, and feet to release tension…",
+          "Gradually moving into more intimate and engaging techniques, based on your comfort and preference…",
+          "Ending with a deeply relaxing and satisfying experience."
+        ],
+        limitedNote: "Limited sessions available per day",
+        bookingLabel: "[ Book My Private Session Now ]"
       },
       extreme: {
         kicker: "Extreme Package",
         title: "Bold Private Escape",
         description: "A shorter but more intense private session focused on body release, intimate energy, and daring premium pleasure.",
+        listHeading: "What Includes?",
         duration: "0.45 Hours",
-        price: "RM 290",
+        normalPrice: "RM 330.00",
+        price: "RM 290.00",
         items: [
           "Tantric pleasure and sensual touch",
           "Yoni massage and intimate stimulation",
@@ -587,7 +621,9 @@
         kicker: "Customize Package",
         title: "Build Your Own Session",
         description: "Choose only the individual services you want and message us on WhatsApp to create a private session that fits your budget.",
+        listHeading: "What Includes?",
         duration: "Flexible Duration",
+        normalPrice: "Custom Based",
         price: "From RM 80",
         items: [
           "Yoni Massage - RM 100",
@@ -602,8 +638,10 @@
         kicker: "Day Package",
         title: "Luxury Extended Session",
         description: "A longer premium private session for slow build-up, deeper connection, and a more luxurious sensual experience.",
+        listHeading: "What Includes?",
         duration: "2 - 3 Hours",
-        price: "RM 600",
+        normalPrice: "RM 680.00",
+        price: "RM 600.00",
         items: [
           "Extended tantric pleasure session",
           "Yoni egg massage and stimulation",
@@ -648,10 +686,24 @@
 
       modalKicker.textContent = details.kicker;
       modalTitle.textContent = details.title;
-      modalDescription.textContent = details.description;
+      modalDescription.textContent = details.description || "";
+      modalDescription.classList.toggle("hidden", !details.description);
+      modalListHeading.textContent = details.listHeading || "What Includes?";
       modalDuration.textContent = details.duration;
       modalPrice.textContent = details.price;
+      modalNormalPrice.textContent = details.normalPrice || "";
+      modalNormalPriceRow.classList.toggle("hidden", !details.normalPrice);
       modalList.innerHTML = details.items.map((item) => `<li class="flex gap-3"><span class="text-[var(--gold)]">•</span><span>${item}</span></li>`).join("");
+      modalPopularityBlock.classList.toggle("hidden", !details.popularity);
+      modalPopularityList.innerHTML = details.popularity ? details.popularity.map((item) => `<li>${item}</li>`).join("") : "";
+      modalCustomizeBlock.classList.toggle("hidden", !details.customize);
+      modalCustomizeText.textContent = details.customize || "";
+      modalFlowBlock.classList.toggle("hidden", !details.flowLines);
+      modalFlowIntro.textContent = details.flowIntro || "";
+      modalFlowLines.innerHTML = details.flowLines ? details.flowLines.map((item) => `<p>${item}</p>`).join("") : "";
+      modalLimitedNote.classList.toggle("hidden", !details.limitedNote);
+      modalLimitedNote.textContent = details.limitedNote || "";
+      modalWhatsappLink.textContent = details.bookingLabel || "Book via WhatsApp";
       modalWhatsappLink.href = `https://wa.me/YOURNUMBER?text=${encodeURIComponent(`Hi, I want to book the ${details.kicker} (${details.price}).`)}`;
       packageModal.classList.add("is-open");
       packageModal.setAttribute("aria-hidden", "false");
@@ -690,6 +742,10 @@
   </script>
 </body>
 </html>
+
+
+
+
 
 
 
