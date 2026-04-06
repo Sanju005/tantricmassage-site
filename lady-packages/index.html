@@ -176,6 +176,46 @@
       font-family: "Raleway", "Segoe UI", Arial, sans-serif;
       letter-spacing: 0.01em;
     }
+
+    .package-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 60;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      background: rgba(0, 0, 0, 0.76);
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 180ms ease, visibility 180ms ease;
+    }
+
+    .package-modal.is-open {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+
+    .package-modal__panel {
+      width: min(100%, 30rem);
+      max-height: min(88vh, 48rem);
+      overflow-y: auto;
+      border-radius: 1.5rem;
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      background: linear-gradient(180deg, #171310 0%, #0f0d0b 100%);
+      box-shadow: 0 28px 60px rgba(0, 0, 0, 0.55);
+    }
+
+    .package-modal__panel::-webkit-scrollbar {
+      width: 0;
+      height: 0;
+    }
+
+    .package-modal__section-title {
+      font-family: "Cormorant Garamond", serif;
+    }
     @media (min-width: 768px) {
       .package-slider {
         grid-auto-columns: minmax(31%, 31%);
@@ -264,7 +304,7 @@
             </div>
           </div>
 
-          <a href="https://wa.me/YOURNUMBER" class="package-button mt-4 inline-flex min-h-[3rem] w-full items-center justify-center whitespace-nowrap px-4 text-[0.96rem] font-semibold">View Private Experience</a>
+          <button type="button" data-package-open="unlimited" class="package-button mt-4 inline-flex min-h-[3rem] w-full items-center justify-center whitespace-nowrap px-4 text-[0.96rem] font-semibold">View Private Experience</button>
 
           <p class="mt-4 whitespace-nowrap text-[0.8rem] leading-5 text-white/75">&#128274; 100% Private &middot; Discreet &middot; Professional</p>
         </div>
@@ -334,7 +374,7 @@
             </div>
           </div>
 
-          <a href="#" class="package-button mt-4 inline-flex min-h-[3rem] w-full items-center justify-center whitespace-nowrap px-4 text-[0.96rem] font-semibold">View Private Experience</a>
+          <button type="button" data-package-open="extreme" class="package-button mt-4 inline-flex min-h-[3rem] w-full items-center justify-center whitespace-nowrap px-4 text-[0.96rem] font-semibold">View Private Experience</button>
 
           <p class="mt-4 whitespace-nowrap text-[0.8rem] leading-5 text-white/75">&#128274; 100% Private &middot; Discreet &middot; Professional</p>
         </div>
@@ -404,17 +444,107 @@
             </div>
           </div>
 
-          <a href="#" class="package-button mt-4 inline-flex min-h-[3rem] w-full items-center justify-center whitespace-nowrap px-4 text-[0.96rem] font-semibold">View Private Experience</a>
+          <button type="button" data-package-open="day" class="package-button mt-4 inline-flex min-h-[3rem] w-full items-center justify-center whitespace-nowrap px-4 text-[0.96rem] font-semibold">View Private Experience</button>
 
           <p class="mt-4 whitespace-nowrap text-[0.8rem] leading-5 text-white/75">&#128274; 100% Private &middot; Discreet &middot; Professional</p>
         </div>
       </article>
     </section>
+
+    <div id="package-modal" class="package-modal" aria-hidden="true">
+      <div class="package-modal__panel p-4 sm:p-5">
+        <div class="flex items-start justify-between gap-4">
+          <div>
+            <p id="modal-package-kicker" class="text-[0.78rem] font-semibold uppercase tracking-[0.24em] text-[var(--gold)]">Private Experience</p>
+            <h2 id="modal-package-title" class="mt-2 text-[2rem] leading-[0.94] text-white package-modal__section-title">Package Details</h2>
+          </div>
+          <button type="button" id="package-modal-close" class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-lg text-white">&times;</button>
+        </div>
+
+        <p id="modal-package-description" class="mt-3 text-[0.96rem] leading-5 text-white/78"></p>
+
+        <div class="gold-divider mt-4"></div>
+
+        <div class="mt-4">
+          <h3 class="package-modal__section-title text-[1.55rem] font-semibold text-[var(--gold)]">What&apos;s Included</h3>
+          <ul id="modal-package-list" class="mt-3 space-y-2 text-[0.95rem] leading-5 text-white/84"></ul>
+        </div>
+
+        <div class="gold-divider mt-4"></div>
+
+        <div class="mt-4 grid gap-2 text-[0.92rem] leading-5 text-white/80">
+          <p><span class="text-white">Session:</span> <span id="modal-package-duration"></span></p>
+          <p><span class="text-white">Location:</span> Out Call Private session</p>
+          <p><span class="text-white">Price:</span> <span id="modal-package-price"></span></p>
+        </div>
+
+        <p class="mt-4 text-center text-[0.82rem] font-semibold uppercase leading-5 tracking-[0.06em] text-white/72">
+          PRIVATE DETAILS ARE SHARED DIRECTLY WITH YOU AFTER BOOKING CONFIRMATION.
+        </p>
+
+        <a id="modal-whatsapp-link" href="https://wa.me/YOURNUMBER" class="package-button mt-5 inline-flex min-h-[3rem] w-full items-center justify-center whitespace-nowrap px-4 text-[0.96rem] font-semibold">Book via WhatsApp</a>
+      </div>
+    </div>
   </main>
   <script>
     const packageSlider = document.querySelector("#package-slider");
     const nextPackageButton = document.querySelector("#next-package");
     const prevPackageButton = document.querySelector("#prev-package");
+    const packageModal = document.querySelector("#package-modal");
+    const packageModalClose = document.querySelector("#package-modal-close");
+    const packageButtons = document.querySelectorAll("[data-package-open]");
+    const modalKicker = document.querySelector("#modal-package-kicker");
+    const modalTitle = document.querySelector("#modal-package-title");
+    const modalDescription = document.querySelector("#modal-package-description");
+    const modalList = document.querySelector("#modal-package-list");
+    const modalDuration = document.querySelector("#modal-package-duration");
+    const modalPrice = document.querySelector("#modal-package-price");
+    const modalWhatsappLink = document.querySelector("#modal-whatsapp-link");
+
+    const packageDetails = {
+      unlimited: {
+        kicker: "Unlimited Package",
+        title: "Full Private Experience",
+        description: "A deeply relaxing premium session designed for total body release, sensual connection, and full private indulgence.",
+        duration: "1.5 - 2 Hours",
+        price: "RM 380",
+        items: [
+          "Tantric & Yoni massage journey",
+          "Deep full body relaxation",
+          "Yoni egg pleasure and stimulation",
+          "Private premium out call session",
+          "Sensual connection and stress release"
+        ]
+      },
+      extreme: {
+        kicker: "Extreme Package",
+        title: "Bold Private Escape",
+        description: "A shorter but more intense private session focused on body release, intimate energy, and daring premium pleasure.",
+        duration: "0.45 Hours",
+        price: "RM 290",
+        items: [
+          "Tantric pleasure and sensual touch",
+          "Yoni massage and intimate stimulation",
+          "Full body relaxation flow",
+          "Upper body and leg release",
+          "Private out call premium session"
+        ]
+      },
+      day: {
+        kicker: "Day Package",
+        title: "Luxury Extended Session",
+        description: "A longer premium private session for slow build-up, deeper connection, and a more luxurious sensual experience.",
+        duration: "2 - 3 Hours",
+        price: "RM 600",
+        items: [
+          "Extended tantric pleasure session",
+          "Yoni egg massage and stimulation",
+          "Long full body relaxation flow",
+          "Private sensual indulgence without rush",
+          "Luxury out call premium session"
+        ]
+      }
+    };
 
     const slidePackages = (direction) => {
       if (!packageSlider) {
@@ -431,6 +561,35 @@
       });
     };
 
+    const closePackageModal = () => {
+      if (!packageModal) {
+        return;
+      }
+
+      packageModal.classList.remove("is-open");
+      packageModal.setAttribute("aria-hidden", "true");
+      document.body.classList.remove("overflow-hidden");
+    };
+
+    const openPackageModal = (packageKey) => {
+      const details = packageDetails[packageKey];
+
+      if (!packageModal || !details) {
+        return;
+      }
+
+      modalKicker.textContent = details.kicker;
+      modalTitle.textContent = details.title;
+      modalDescription.textContent = details.description;
+      modalDuration.textContent = details.duration;
+      modalPrice.textContent = details.price;
+      modalList.innerHTML = details.items.map((item) => `<li class="flex gap-3"><span class="text-[var(--gold)]">•</span><span>${item}</span></li>`).join("");
+      modalWhatsappLink.href = `https://wa.me/YOURNUMBER?text=${encodeURIComponent(`Hi, I want to book the ${details.kicker} (${details.price}).`)}`;
+      packageModal.classList.add("is-open");
+      packageModal.setAttribute("aria-hidden", "false");
+      document.body.classList.add("overflow-hidden");
+    };
+
     if (nextPackageButton) {
       nextPackageButton.addEventListener("click", () => slidePackages(1));
     }
@@ -438,9 +597,33 @@
     if (prevPackageButton) {
       prevPackageButton.addEventListener("click", () => slidePackages(-1));
     }
+
+    packageButtons.forEach((button) => {
+      button.addEventListener("click", () => openPackageModal(button.dataset.packageOpen));
+    });
+
+    if (packageModalClose) {
+      packageModalClose.addEventListener("click", closePackageModal);
+    }
+
+    if (packageModal) {
+      packageModal.addEventListener("click", (event) => {
+        if (event.target === packageModal) {
+          closePackageModal();
+        }
+      });
+    }
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        closePackageModal();
+      }
+    });
   </script>
 </body>
 </html>
+
+
 
 
 
