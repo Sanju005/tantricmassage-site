@@ -644,6 +644,94 @@
       color: var(--gold-soft);
     }
 
+    .site-menu {
+      position: fixed;
+      inset: 0;
+      z-index: 60;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 5.5rem 1rem 1rem;
+      background: rgba(0, 0, 0, 0.62);
+      backdrop-filter: blur(10px);
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 180ms ease, visibility 180ms ease;
+    }
+
+    .site-menu.is-open {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+
+    .site-menu__panel {
+      width: min(100%, 28rem);
+      border: 1px solid rgba(212, 175, 55, 0.22);
+      border-radius: 1.6rem;
+      background: linear-gradient(180deg, rgba(20, 15, 18, 0.98), rgba(10, 10, 10, 0.98));
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.42);
+      overflow: hidden;
+    }
+
+    .site-menu__head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 1rem 1rem 0.75rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .site-menu__title {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--gold-main);
+    }
+
+    .site-menu__close {
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 9999px;
+      border: 1px solid rgba(212, 175, 55, 0.25);
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text-main);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.15rem;
+    }
+
+    .site-menu__links {
+      padding: 0.7rem;
+      display: grid;
+      gap: 0.55rem;
+    }
+
+    .site-menu__link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      min-height: 3.6rem;
+      padding: 0.95rem 1rem;
+      border-radius: 1rem;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--text-main);
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .site-menu__link span:last-child {
+      color: var(--gold-main);
+      font-size: 0.95rem;
+    }
+
     .bottom-nav {
       position: fixed;
       left: 50%;
@@ -778,6 +866,22 @@
       </div>
     </div>
   </header>
+
+  <div id="site-menu" class="site-menu" aria-hidden="true">
+    <div class="site-menu__panel">
+      <div class="site-menu__head">
+        <p class="site-menu__title">Menu</p>
+        <button id="site-menu-close" type="button" class="site-menu__close" aria-label="Close menu">&times;</button>
+      </div>
+      <div class="site-menu__links">
+        <a href="/about.html" class="site-menu__link"><span>About the Service</span><span>&rarr;</span></a>
+        <a href="/whyme.html" class="site-menu__link"><span>Why Me</span><span>&rarr;</span></a>
+        <a href="/gallery.html" class="site-menu__link"><span>Reviews</span><span>&rarr;</span></a>
+        <a href="/services.html" class="site-menu__link"><span>Packages</span><span>&rarr;</span></a>
+        <a href="/contact.html" class="site-menu__link"><span>Contact</span><span>&rarr;</span></a>
+      </div>
+    </div>
+  </div>
 
   <main class="app-frame">
     <section class="relative min-h-screen overflow-hidden">
@@ -1328,9 +1432,9 @@
     <div class="app-block px-4 sm:px-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
       <p class="text-sm" style="color: var(--text-secondary);">Tantric KL premium outcall massage services in Kuala Lumpur.</p>
       <div class="flex items-center gap-5 text-sm" style="color: var(--text-secondary);">
-        <a href="/services.html">Services</a>
-        <a href="/contact.html">Contact</a>
-        <a href="/">Home</a>
+        <a href="/about.html">About the Service</a>
+        <a href="/whyme.html">Why Me</a>
+        <a href="/gallery.html">Reviews</a>
       </div>
     </div>
   </footer>
@@ -1391,6 +1495,46 @@
       }, 1000);
     }
 
+    const openSiteMenu = () => {
+      if (!siteMenu) {
+        return;
+      }
+
+      siteMenu.classList.add('is-open');
+      siteMenu.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    };
+
+    const closeSiteMenu = () => {
+      if (!siteMenu) {
+        return;
+      }
+
+      siteMenu.classList.remove('is-open');
+      siteMenu.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    };
+
+    if (menuButton) {
+      menuButton.addEventListener('click', openSiteMenu);
+    }
+
+    if (siteMenuClose) {
+      siteMenuClose.addEventListener('click', closeSiteMenu);
+    }
+
+    if (siteMenu) {
+      siteMenu.addEventListener('click', (event) => {
+        if (event.target === siteMenu) {
+          closeSiteMenu();
+        }
+      });
+
+      siteMenu.querySelectorAll('a').forEach((link) => {
+        link.addEventListener('click', closeSiteMenu);
+      });
+    }
+
     if (galleryEnterButton && galleryAgeInput && galleryAgeMessage) {
       galleryEnterButton.addEventListener('click', () => {
         const age = Number(galleryAgeInput.value);
@@ -1415,6 +1559,13 @@
         window.location.href = '/gallery.html';
       });
     }
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        closeSiteMenu();
+      }
+    });
   </script>
 </body>
 </html>
+
