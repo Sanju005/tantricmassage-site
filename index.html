@@ -568,24 +568,6 @@
       isolation: isolate;
     }
 
-    .welcome-particle-canvas {
-      width: 100%;
-      height: auto;
-      aspect-ratio: 3.3 / 1.15;
-      display: block;
-      opacity: 0;
-      transform: translateY(16px) scale(0.97);
-      transition:
-        opacity 1s ease,
-        transform 1s cubic-bezier(0.22, 1, 0.36, 1);
-      filter: drop-shadow(0 0 18px rgba(212, 175, 55, 0.12));
-    }
-
-    .welcome-reveal.is-visible .welcome-particle-canvas {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-    }
-
     .welcome-reveal.is-canvas-ready .welcome-fallback {
       opacity: 0;
     }
@@ -791,16 +773,6 @@
       <div class="relative app-block min-h-screen px-4 sm:px-6 pt-7 pb-8 sm:pt-10 sm:pb-12 flex items-start">
         <div class="w-full max-w-3xl mx-auto text-center">
           <div class="welcome-reveal reveal-copy">
-            <div class="welcome-particles" aria-hidden="true">
-              <span class="welcome-particle"></span>
-              <span class="welcome-particle"></span>
-              <span class="welcome-particle"></span>
-              <span class="welcome-particle"></span>
-              <span class="welcome-particle"></span>
-              <span class="welcome-particle"></span>
-              <span class="welcome-particle"></span>
-              <span class="welcome-particle"></span>
-            </div>
             <p class="text-xs sm:text-sm uppercase tracking-[0.38em] font-semibold leading-[1.35]" style="color: var(--gold-main);">Welcome To<br>Premium Private Wellness</p>
           </div>
           <h1 class="reveal-copy reveal-copy-delay mt-5 mx-auto max-w-[18ch] text-[1.34rem] sm:text-[1.95rem] lg:text-[2.55rem] font-extrabold leading-[1.1]">Premium Private Massage <strong>in Kuala Lumpur</strong><br>Relaxation &amp; Wellness Experience</h1>
