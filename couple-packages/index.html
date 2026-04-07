@@ -191,6 +191,51 @@
       font-family: "Cormorant Garamond", serif;
     }
 
+    .package-modal__scroll-cue {
+      position: sticky;
+      bottom: 0.85rem;
+      z-index: 2;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45rem;
+      margin: -3rem auto 0;
+      padding: 0.5rem 0.8rem;
+      border: 1px solid rgba(212, 175, 55, 0.32);
+      border-radius: 9999px;
+      background: rgba(17, 13, 11, 0.92);
+      color: #ffcf75;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      box-shadow: 0 14px 26px rgba(0, 0, 0, 0.28);
+      opacity: 0;
+      transform: translateY(0.4rem);
+      pointer-events: none;
+      transition: opacity 180ms ease, transform 180ms ease;
+    }
+
+    .package-modal__scroll-cue.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .package-modal__scroll-arrow {
+      font-size: 0.8rem;
+      animation: modal-scroll-nudge 1.2s ease-in-out infinite;
+    }
+
+    @keyframes modal-scroll-nudge {
+      0%, 100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(0.24rem);
+      }
+    }
+
     @media (min-width: 768px) {
       .package-slider {
         grid-auto-columns: minmax(48.4%, 48.4%);
@@ -436,6 +481,10 @@
         <div class="mt-4">
           <a href="https://wa.me/YOURNUMBER" class="package-button mt-3 inline-flex min-h-[3rem] w-full items-center justify-center whitespace-nowrap px-4 text-[0.96rem] font-semibold">Book via WhatsApp</a>
         </div>
+        <div id="package-modal-scroll-cue" class="package-modal__scroll-cue" aria-hidden="true">
+          <span>Scroll for more</span>
+          <span class="package-modal__scroll-arrow">&#8595;</span>
+        </div>
       </div>
     </div>
   </main>
@@ -445,6 +494,8 @@
     const nextPackageButton = document.querySelector("#next-package");
     const prevPackageButton = document.querySelector("#prev-package");
     const packageModal = document.querySelector("#package-modal");
+    const packageModalPanel = document.querySelector(".package-modal__panel");
+    const packageModalScrollCue = document.querySelector("#package-modal-scroll-cue");
     const packageModalClose = document.querySelector("#package-modal-close");
     const packageButtons = document.querySelectorAll("[data-package-open]");
     const modalKicker = document.querySelector("#modal-package-kicker");
@@ -532,6 +583,17 @@
       });
     };
 
+    const updatePackageModalScrollCue = () => {
+      if (!packageModalPanel || !packageModalScrollCue || !packageModal.classList.contains("is-open")) {
+        packageModalScrollCue?.classList.remove("is-visible");
+        return;
+      }
+
+      const hasOverflow = packageModalPanel.scrollHeight - packageModalPanel.clientHeight > 24;
+      const nearTop = packageModalPanel.scrollTop < 24;
+      packageModalScrollCue.classList.toggle("is-visible", hasOverflow && nearTop);
+    };
+
     const closePackageModal = () => {
       if (!packageModal) {
         return;
@@ -540,6 +602,7 @@
       packageModal.classList.remove("is-open");
       packageModal.setAttribute("aria-hidden", "true");
       document.body.style.overflow = "";
+      updatePackageModalScrollCue();
     };
 
     const openPackageModal = (packageKey) => {
@@ -561,9 +624,14 @@
       modalNormalPrice.textContent = details.normalPrice;
       modalPrice.textContent = details.price;
 
+      if (packageModalPanel) {
+        packageModalPanel.scrollTop = 0;
+      }
+
       packageModal.classList.add("is-open");
       packageModal.setAttribute("aria-hidden", "false");
       document.body.style.overflow = "hidden";
+      requestAnimationFrame(updatePackageModalScrollCue);
     };
 
     if (nextPackageButton) {
@@ -582,6 +650,10 @@
       packageModalClose.addEventListener("click", closePackageModal);
     }
 
+    if (packageModalPanel) {
+      packageModalPanel.addEventListener("scroll", updatePackageModalScrollCue);
+    }
+
     if (packageModal) {
       packageModal.addEventListener("click", (event) => {
         if (event.target === packageModal) {
@@ -598,4 +670,6 @@
   </script>
 </body>
 </html>
+
+
 
