@@ -1,0 +1,24 @@
+User-agent: *
+Allow: /
+
+# Block sensitive / risky pages (important for your niche)
+Disallow: /admin/
+Disallow: /private/
+Disallow: /booking-confirmation/
+Disallow: /thank-you/
+Disallow: /checkout/
+
+# Optional: block explicit sections (if you create later)
+Disallow: /yoni/
+Disallow: /gallery-private/
+
+# Allow important SEO pages
+Allow: /services
+Allow: /about
+Allow: /contact
+Allow: /lady-packages
+Allow: /man-packages
+Allow: /couple-packages
+
+# Sitemap location
+Sitemap: https://massagekl.com/sitemap.xml
