@@ -27,7 +27,9 @@
   <link rel="canonical" href="https://massagekl.com/">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
+  <link rel="preload" as="image" href="/images/Tantric%20yoni%20massage%20in%20kl%20slide%201.webp" fetchpriority="high">
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     :root {
@@ -721,6 +723,8 @@
 
     .section-divider {
       position: relative;
+      content-visibility: auto;
+      contain-intrinsic-size: 1px 960px;
     }
 
     .section-divider::before {
@@ -734,6 +738,14 @@
       height: 2px;
       background: linear-gradient(90deg, transparent 0%, rgba(201, 79, 138, 0.12) 18%, rgba(201, 79, 138, 0.75) 50%, rgba(201, 79, 138, 0.12) 82%, transparent 100%);
       pointer-events: none;
+    }
+
+    .gallery-age-message--default {
+      color: rgba(255, 255, 255, 0.88);
+    }
+
+    .gallery-age-message--error {
+      color: #FCA5A5;
     }
 
     @media (min-width: 640px) {
@@ -752,7 +764,7 @@
     <div class="app-block px-4 sm:px-6">
       <div class="flex items-center justify-between py-4">
         <a href="/" aria-label="Home" class="inline-flex h-12 items-center">
-          <img src="/images/logo.png" alt="Tantric Yoni Massage Kuala Lumpur logo" class="h-10 w-auto object-contain" />
+          <img src="/images/logo.png" alt="Tantric Yoni Massage Kuala Lumpur logo" width="316" height="324" loading="lazy" decoding="async" class="h-10 w-auto object-contain" />
         </a>
         <div class="flex items-center gap-3">
           <button type="button" aria-label="Open menu" class="menu-button">
@@ -1265,7 +1277,7 @@
           <div class="gallery-age-gate">
             <input id="gallery-age-input" class="age-input" type="number" min="18" placeholder="Type Your Age" inputmode="numeric" />
             <button id="gallery-enter-button" type="button" class="gallery-cta">View Gallery</button>
-            <p id="gallery-age-message" class="text-xs font-medium" style="color: rgba(255, 255, 255, 0.88);"></p>
+            <p id="gallery-age-message" class="gallery-age-message--default text-xs font-medium"></p>
           </div>
         </div>
       </div>
@@ -1384,17 +1396,21 @@
 
         if (!Number.isFinite(age) || galleryAgeInput.value.trim() === '') {
           galleryAgeMessage.textContent = 'Please enter your age first.';
-          galleryAgeMessage.style.color = '#FFFFFF';
+          galleryAgeMessage.classList.remove('gallery-age-message--error');
+          galleryAgeMessage.classList.add('gallery-age-message--default');
           return;
         }
 
         if (age < 18) {
           galleryAgeMessage.textContent = 'Access is only available for visitors aged 18 and above.';
-          galleryAgeMessage.style.color = '#FCA5A5';
+          galleryAgeMessage.classList.remove('gallery-age-message--default');
+          galleryAgeMessage.classList.add('gallery-age-message--error');
           return;
         }
 
         galleryAgeMessage.textContent = '';
+        galleryAgeMessage.classList.remove('gallery-age-message--error');
+        galleryAgeMessage.classList.add('gallery-age-message--default');
         window.location.href = '/gallery.html';
       });
     }
