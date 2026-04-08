@@ -30,6 +30,9 @@
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600&display=swap" onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
   <link rel="preload" as="image" href="/images/Tantric%20yoni%20massage%20in%20kl%20slide%201.webp" fetchpriority="high">
+  <link rel="preload" as="image" href="/images/Tantric%20yoni%20massage%20in%20kl%20slide%202.webp">
+  <link rel="preload" as="image" href="/images/Tantric%20yoni%20massage%20in%20kl%20slide%203.webp">
+  <link rel="preload" as="image" href="/images/Tantric%20yoni%20massage%20in%20kl%20slide%204.webp">
   <link rel="preload" href="/styles/tailwind.css" as="style">
   <link rel="stylesheet" href="/styles/tailwind.css">
   <!-- LOCAL BUSINESS SCHEMA -->
@@ -386,15 +389,15 @@
 
     .hero-slider-track {
       display: flex;
-      width: 300%;
-      animation: hero-slide 9s linear infinite;
+      width: 400%;
+      animation: hero-slide 12s linear infinite;
     }
 
     .hero-slide {
       width: 100%;
       flex: 0 0 100%;
       height: 12rem;
-      background-size: contain;
+      background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
       position: relative;
@@ -408,14 +411,17 @@
     }
 
     @keyframes hero-slide {
-      0%, 30% {
+      0%, 20% {
         transform: translateX(0);
       }
-      33%, 63% {
-        transform: translateX(-33.3333%);
+      25%, 45% {
+        transform: translateX(-25%);
       }
-      66%, 96% {
-        transform: translateX(-66.6667%);
+      50%, 70% {
+        transform: translateX(-50%);
+      }
+      75%, 95% {
+        transform: translateX(-75%);
       }
       100% {
         transform: translateX(0);
@@ -1213,26 +1219,21 @@
     }
 
     .bottom-nav-main {
-      position: relative;
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
       width: 75%;
-      min-height: 3.7rem;
       padding: 1rem 1.1rem;
       font-size: 0.82rem;
       font-weight: 700;
       letter-spacing: 0.2em;
       text-transform: uppercase;
-      color: var(--text-main);
-      border: 1.8px solid rgba(212, 175, 55, 0.9);
-      border-radius: 9999px;
-      background: rgba(12, 12, 12, 0.94);
-      backdrop-filter: blur(16px);
+      color: #111111;
+      border: 2px solid rgba(0, 0, 0, 0.88);
+      background: linear-gradient(180deg, #f1cd58 0%, #d4af37 52%, #b58d1b 100%);
       box-shadow:
-        0 18px 40px rgba(0, 0, 0, 0.38),
-        inset 0 1px 0 rgba(255, 255, 255, 0.06);
+        inset 0 2px 0 rgba(255, 249, 210, 0.72),
+        inset 0 -4px 0 rgba(108, 75, 0, 0.28),
+        0 12px 0 rgba(0, 0, 0, 0.22),
+        0 18px 34px rgba(0, 0, 0, 0.28),
+        0 0 28px rgba(255, 215, 0, 0.24);
     }
 
     .bottom-nav-main::before {
