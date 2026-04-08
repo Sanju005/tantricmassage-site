@@ -700,6 +700,56 @@
       background-size: cover;
       background-position: center;
     }
+    .faq-accordion {
+      display: grid;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .faq-item {
+      border-radius: 1.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: linear-gradient(180deg, rgba(24, 24, 24, 0.96), rgba(18, 18, 18, 0.96));
+      overflow: hidden;
+    }
+
+    .faq-question {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      text-align: left;
+      padding: 1.15rem 1.25rem;
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    .faq-icon {
+      flex-shrink: 0;
+      color: var(--gold-main);
+      font-size: 1.6rem;
+      line-height: 1;
+      transition: transform 0.25s ease;
+    }
+
+    .faq-item.is-open .faq-icon {
+      transform: rotate(45deg);
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+
+    .faq-answer p {
+      padding: 0 1.25rem 1.2rem;
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      line-height: 1.8;
+    }
+
     .reviews-slider {
       display: grid;
       grid-auto-flow: column;
@@ -709,6 +759,7 @@
       scrollbar-width: none;
       -ms-overflow-style: none;
       padding-bottom: 0.35rem;
+      scroll-behavior: smooth;
     }
 
     .reviews-slider::-webkit-scrollbar {
@@ -717,11 +768,11 @@
 
     .review-card-home {
       scroll-snap-align: start;
-      min-height: 15.5rem;
+      min-height: 16.5rem;
       border-radius: 1.75rem;
       padding: 1.5rem;
       background: linear-gradient(180deg, rgba(58, 58, 58, 0.92), rgba(42, 42, 42, 0.94));
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.92);
       box-shadow: 0 18px 34px rgba(0, 0, 0, 0.28);
     }
 
@@ -732,12 +783,34 @@
       justify-content: center;
       text-align: center;
       gap: 1rem;
-      border: 1px dashed rgba(212, 175, 55, 0.4);
+      border: 1px dashed rgba(255, 255, 255, 0.92);
       background: linear-gradient(180deg, rgba(42, 42, 42, 0.88), rgba(28, 28, 28, 0.94));
+    }
+
+    .review-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
     }
 
     .review-name {
       color: #60A5FA;
+    }
+
+    .review-location {
+      margin-top: 0.2rem;
+      color: rgba(255, 255, 255, 0.72);
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .review-stars {
+      color: #FFD700;
+      letter-spacing: 0.16em;
+      font-size: 0.9rem;
+      white-space: nowrap;
     }
 
     .review-rating {
