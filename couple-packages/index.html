@@ -479,7 +479,7 @@
         </p>
 
         <div class="mt-4">
-          <a href="https://wa.me/YOURNUMBER" class="package-button mt-3 inline-flex min-h-[3rem] w-full items-center justify-center whitespace-nowrap px-4 text-[0.96rem] font-semibold">Book via WhatsApp</a>
+          <a id="modal-whatsapp-link" href="https://wa.me/60164646008" class="package-button mt-3 inline-flex min-h-[3rem] w-full items-center justify-center whitespace-nowrap px-4 text-[0.96rem] font-semibold">Book via WhatsApp</a>
         </div>
         <div id="package-modal-scroll-cue" class="package-modal__scroll-cue" aria-hidden="true">
           <span>Scroll for more</span>
@@ -509,9 +509,17 @@
     const modalDuration = document.querySelector("#modal-package-duration");
     const modalPrice = document.querySelector("#modal-package-price");
     const modalNormalPrice = document.querySelector("#modal-package-normal-price");
+    const modalWhatsappLink = document.querySelector("#modal-whatsapp-link");
+    const whatsappNumber = "60164646008";
+
+    const buildWhatsappUrl = (packageLabel) => {
+      const message = `Hi :) I would like to book the ${packageLabel} for Couple.`;
+      return `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+    };
 
     const packageDetails = {
       premium: {
+        whatsappLabel: "Premium Package",
         kicker: "PREMIUM PACKAGE",
         title: "Premium Couple Experience",
         description: "A deeper black-and-gold premium package with longer timing, advanced intimate techniques, and a richer couple flow.",
@@ -541,6 +549,7 @@
         price: "RM 480"
       },
       standard: {
+        whatsappLabel: "Standard Package",
         kicker: "STANDARD PACKAGE",
         title: "Standard Couple Experience",
         description: "A smooth couple package with the core black-and-gold session flow, intimate relaxation, and a balanced duration.",
@@ -569,7 +578,7 @@
       }
     };
 
-    const slidePackages = (direction) => {
+    const slidePackages = (direction) => {const slidePackages = (direction) => {
       if (!packageSlider) {
         return;
       }
@@ -623,6 +632,7 @@
       modalDuration.textContent = details.duration;
       modalNormalPrice.textContent = details.normalPrice;
       modalPrice.textContent = details.price;
+      modalWhatsappLink.href = buildWhatsappUrl(details.whatsappLabel || details.kicker);
 
       if (packageModalPanel) {
         packageModalPanel.scrollTop = 0;
@@ -670,6 +680,7 @@
   </script>
 </body>
 </html>
+
 
 
 

@@ -602,7 +602,7 @@
         </p>
 
         <div class="mt-4">
-          <a id="modal-whatsapp-link" href="https://wa.me/YOURNUMBER" class="package-button mt-3 inline-flex min-h-[3rem] w-full items-center justify-center whitespace-nowrap px-4 text-[0.96rem] font-semibold">Book via WhatsApp</a>
+          <a id="modal-whatsapp-link" href="https://wa.me/60164646008" class="package-button mt-3 inline-flex min-h-[3rem] w-full items-center justify-center whitespace-nowrap px-4 text-[0.96rem] font-semibold">Book via WhatsApp</a>
         </div>
         <div id="package-modal-scroll-cue" class="package-modal__scroll-cue" aria-hidden="true">
           <span>Scroll for more</span>
@@ -640,8 +640,15 @@
     const modalLimitedNote = document.querySelector("#modal-limited-note");
     const modalWhatsappLink = document.querySelector("#modal-whatsapp-link");
 
+    const whatsappNumber = "60164646008";
+    const buildWhatsappUrl = (packageLabel) => {
+      const message = `Hi :) I would like to book the ${packageLabel} for Lady.`;
+      return `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+    };
+
     const packageDetails = {
       unlimited: {
+        whatsappLabel: "Unlimited Package",
         kicker: "UNLIMITED PACKAGE",
         title: "",
         description: "",
@@ -664,7 +671,7 @@
           "Deep Oral Pleasures",
           "Hands, Legs & Feet Massage"
         ],
-        customize: "Yes. Your session can be tailored based on your comfort level and preference � whether you want a more relaxing, more connected, or a deeper experience.",
+        customize: "Yes. Your session can be tailored based on your comfort level and preference ??? whether you want a more relaxing, more connected, or a deeper experience.",
         flowIntro: "I will guide you through the entire experience.",
         flowLines: [
           "The session begins with calming meditation and gentle connection to help you fully relax...",
@@ -674,7 +681,9 @@
         ],
         hideLocation: true,
         bookingLabel: "Book My Private Session"
-      },      extreme: {
+      },
+      extreme: {
+        whatsappLabel: "Extreme Experience Package",
         kicker: "EXTREME EXPERIENCE",
         title: "Short. Intense",
         description: "",
@@ -693,7 +702,7 @@
           "Hands, Legs & Feet Massage",
           "Deep Relaxation & Stress Relief"
         ],
-        customize: "Yes. Your session can be tailored based on your comfort level and preference � whether you prefer a more relaxing or slightly more engaging experience.",
+        customize: "Yes. Your session can be tailored based on your comfort level and preference ??? whether you prefer a more relaxing or slightly more engaging experience.",
         flowIntro: "I will guide you through the entire experience.",
         flowLines: [
           "The session begins with a calming moment and medidation to help you relax and settle in...",
@@ -701,7 +710,9 @@
           "Designed to quickly release tension, refresh your body, and leave you feeling relaxed and recharged."
         ],
         bookingLabel: "[ Book My Private Session Now ]"
-      },      custom: {
+      },
+      custom: {
+        whatsappLabel: "Customize Package",
         kicker: "Customize Package",
         title: "Build Your Own Session",
         description: "Choose only the individual services you want and message us on WhatsApp to create a private session that fits your budget.",
@@ -719,6 +730,7 @@
       },
 
       day: {
+        whatsappLabel: "Day Package",
         kicker: "Day Package",
         title: "Luxury Extended Session",
         description: "A longer premium private session for slow build-up, deeper connection, and a more luxurious sensual experience.",
@@ -736,7 +748,7 @@
       }
     };
 
-    const slidePackages = (direction) => {
+    const slidePackages = (direction) => {const slidePackages = (direction) => {
       if (!packageSlider) {
         return;
       }
@@ -806,7 +818,7 @@
       modalLimitedNote.classList.toggle("hidden", !details.limitedNote);
       modalLimitedNote.textContent = details.limitedNote || "";
       modalWhatsappLink.textContent = details.bookingLabel || "Book via WhatsApp";
-      modalWhatsappLink.href = `https://wa.me/YOURNUMBER?text=${encodeURIComponent(`Hi, I want to book the ${details.kicker} (${details.price}).`)}`;
+      modalWhatsappLink.href = buildWhatsappUrl(details.whatsappLabel || details.kicker);
       if (packageModalPanel) {
         packageModalPanel.scrollTop = 0;
       }
@@ -852,6 +864,9 @@
   </script>
 </body>
 </html>
+
+
+
 
 
 

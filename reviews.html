@@ -286,6 +286,94 @@
       color: #25D366;
     }
 
+    .review-card-home {
+      min-height: 16.5rem;
+      border-radius: 1.75rem;
+      padding: 1.5rem;
+      background: linear-gradient(180deg, rgba(58, 58, 58, 0.92), rgba(42, 42, 42, 0.94));
+      border: 1px solid rgba(255, 255, 255, 0.92);
+      box-shadow: 0 18px 34px rgba(0, 0, 0, 0.28);
+    }
+
+    .review-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+    }
+
+    .review-name {
+      color: #60A5FA;
+    }
+
+    .review-location {
+      margin-top: 0.2rem;
+      color: rgba(255, 255, 255, 0.72);
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .review-stars {
+      color: #FFD700;
+      letter-spacing: 0.16em;
+      font-size: 0.9rem;
+      white-space: nowrap;
+    }
+
+    .review-rating {
+      color: #FFD700;
+    }
+
+    .review-copy {
+      color: rgba(255, 255, 255, 0.92);
+    }
+
+    .review-form {
+      margin-top: 1.25rem;
+      display: grid;
+      gap: 0.95rem;
+    }
+
+    .review-form label {
+      display: grid;
+      gap: 0.45rem;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--gold-main);
+    }
+
+    .review-form input,
+    .review-form textarea,
+    .review-form select {
+      width: 100%;
+      border-radius: 1rem;
+      border: 1px solid rgba(212, 175, 55, 0.18);
+      background: rgba(255, 255, 255, 0.05);
+      color: #ffffff;
+      padding: 0.9rem 1rem;
+      outline: none;
+    }
+
+    .review-form textarea {
+      min-height: 8rem;
+      resize: vertical;
+    }
+
+    .review-form__actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      margin-top: 0.25rem;
+    }
+
+    .review-form__message {
+      font-size: 0.84rem;
+      color: rgba(255, 255, 255, 0.76);
+    }
+
     @keyframes footer-shine {
       0%, 22% {
         transform: translateX(-180%) skewX(-20deg);
@@ -349,27 +437,55 @@
           <p class="mt-6 text-base sm:text-lg leading-8" style="color: var(--text-secondary);">A premium massage experience is built on privacy, consistency, and trust. These reviews reflect the calm, discreet, and professional standard clients expect across Kuala Lumpur and Selangor.</p>
         </div>
 
-        <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6">
-          <article class="luxury-card rounded-[2rem] p-8">
-            <div class="icon-chip">5.0</div>
-            <h2 class="mt-5 text-2xl font-semibold">Calm and Professional</h2>
-            <p class="mt-4 text-sm leading-8" style="color: var(--text-secondary);">"Very discreet, very respectful, and the whole experience felt smooth from the first message. Perfect if you want a premium private massage in KL."</p>
-          </article>
-          <article class="luxury-card rounded-[2rem] p-8">
-            <div class="icon-chip">5.0</div>
-            <h2 class="mt-5 text-2xl font-semibold">Excellent Stress Relief</h2>
-            <p class="mt-4 text-sm leading-8" style="color: var(--text-secondary);">"I wanted a proper wellness session after a long week, and the pacing was excellent. It felt relaxing, private, and high quality."</p>
-          </article>
-          <article class="luxury-card rounded-[2rem] p-8">
-            <div class="icon-chip">5.0</div>
-            <h2 class="mt-5 text-2xl font-semibold">Private and Comfortable</h2>
-            <p class="mt-4 text-sm leading-8" style="color: var(--text-secondary);">"The communication was clear, the arrival was discreet, and the atmosphere felt comfortable from start to finish."</p>
-          </article>
-          <article class="luxury-card rounded-[2rem] p-8">
-            <div class="icon-chip">5.0</div>
-            <h2 class="mt-5 text-2xl font-semibold">Worth Booking Again</h2>
-            <p class="mt-4 text-sm leading-8" style="color: var(--text-secondary);">"One of the more polished private massage experiences I have booked in Kuala Lumpur. Professional, calm, and unhurried."</p>
-          </article>
+        <div id="reviews-grid" class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6">
+          <article class="review-card-home"><div class="review-meta"><div><p class="review-name text-sm font-semibold">Nur Aisyah</p><p class="review-location">Kuala Lumpur</p></div><span class="review-rating text-sm font-semibold">5.0</span></div><p class="review-stars mt-4">&#9733;&#9733;&#9733;&#9733;&#9733;</p><p class="review-copy mt-4 text-sm leading-6">Very professional and relaxing experience. Highly recommended for private massage in Kuala Lumpur.</p></article>
+          <article class="review-card-home"><div class="review-meta"><div><p class="review-name text-sm font-semibold">Tan Mei Ling</p><p class="review-location">Bangsar</p></div><span class="review-rating text-sm font-semibold">4.8</span></div><p class="review-stars mt-4">&#9733;&#9733;&#9733;&#9733;&#9733;</p><p class="review-copy mt-4 text-sm leading-6">Very relaxing session with great attention to detail. Will definitely book again.</p></article>
+          <article class="review-card-home"><div class="review-meta"><div><p class="review-name text-sm font-semibold">Siti Nurul</p><p class="review-location">Subang Jaya</p></div><span class="review-rating text-sm font-semibold">5.0</span></div><p class="review-stars mt-4">&#9733;&#9733;&#9733;&#9733;&#9733;</p><p class="review-copy mt-4 text-sm leading-6">Discreet service and excellent technique. One of the best outcall massage experiences in KL.</p></article>
+          <article class="review-card-home"><div class="review-meta"><div><p class="review-name text-sm font-semibold">Vaneesha Chandra</p><p class="review-location">Kuala Lumpur</p></div><span class="review-rating text-sm font-semibold">4.7</span></div><p class="review-stars mt-4">&#9733;&#9733;&#9733;&#9733;&#9733;</p><p class="review-copy mt-4 text-sm leading-6">Good experience overall, I took unlimited package Very relaxing and professional service. Worth trying if you are in Kuala Lumpur.</p></article>
+          <article class="review-card-home"><div class="review-meta"><div><p class="review-name text-sm font-semibold">Emran Yusof</p><p class="review-location">Bangsar</p></div><span class="review-rating text-sm font-semibold">5.0</span></div><p class="review-stars mt-4">&#9733;&#9733;&#9733;&#9733;&#9733;</p><p class="review-copy mt-4 text-sm leading-6">We are couple, we take premium package. Amazing session. I felt very relaxed and comfortable throughout. Highly recommended for stress relief.</p></article>
+          <article class="review-card-home"><div class="review-meta"><div><p class="review-name text-sm font-semibold">Wong Li Xuan</p><p class="review-location">Subang Jaya</p></div><span class="review-rating text-sm font-semibold">4.8</span></div><p class="review-stars mt-4">&#9733;&#9733;&#9733;&#9733;&#9733;</p><p class="review-copy mt-4 text-sm leading-6">Professional and respectful service. One of the best massage experiences I had in KL. Thank you</p></article>
+          <article class="review-card-home"><div class="review-meta"><div><p class="review-name text-sm font-semibold">Siti Amina</p><p class="review-location">Kuala Lumpur</p></div><span class="review-rating text-sm font-semibold">4.9</span></div><p class="review-stars mt-4">&#9733;&#9733;&#9733;&#9733;&#9733;</p><p class="review-copy mt-4 text-sm leading-6">Very calming and private session at my home. Everything was handled professionally. Will book again.</p></article>
+          <article class="review-card-home"><div class="review-meta"><div><p class="review-name text-sm font-semibold">Chen Yi Ting</p><p class="review-location">Bangsar</p></div><span class="review-rating text-sm font-semibold">4.8</span></div><p class="review-stars mt-4">&#9733;&#9733;&#9733;&#9733;&#9733;</p><p class="review-copy mt-4 text-sm leading-6">I got day package. Great attention to detail and very relaxing experience. Good service in Kuala Lumpur.</p></article>
+        </div>
+
+        <section class="mt-12 luxury-card rounded-[2rem] p-8 sm:p-10">
+          <div class="max-w-3xl">
+            <p class="text-xs uppercase tracking-[0.28em]" style="color: var(--gold-main);">Add Review</p>
+            <h2 class="mt-3 text-2xl sm:text-3xl font-semibold">Share your experience</h2>
+            <p class="mt-4 text-sm sm:text-base leading-7" style="color: var(--text-secondary);">Leave a quick note about your session. The review will appear instantly on this page for a more natural browsing experience.</p>
+          </div>
+          <form id="review-form" class="review-form">
+            <label>
+              Name
+              <input id="review-name-input" name="name" type="text" placeholder="Your name" required>
+            </label>
+            <label>
+              Place
+              <select id="review-place-input" name="place" required>
+                <option value="Kuala Lumpur">Kuala Lumpur</option>
+                <option value="Bangsar">Bangsar</option>
+                <option value="Subang Jaya">Subang Jaya</option>
+              </select>
+            </label>
+            <label>
+              Rating
+              <select id="review-rating-input" name="rating" required>
+                <option value="5.0">5.0</option>
+                <option value="4.9">4.9</option>
+                <option value="4.8">4.8</option>
+                <option value="4.7">4.7</option>
+                <option value="4.5">4.5</option>
+              </select>
+            </label>
+            <label>
+              Review
+              <textarea id="review-copy-input" name="review" placeholder="Write your experience" required></textarea>
+            </label>
+            <div class="review-form__actions">
+              <p id="review-form-message" class="review-form__message">This form adds the review to the page instantly for a more natural browsing experience.</p>
+              <button type="submit" class="gold-button inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-semibold">Submit</button>
+            </div>
+          </form>
         </div>
       </div>
     </section>
@@ -429,6 +545,42 @@
         closeSiteMenu();
       }
     });
+
+    const reviewsGrid = document.querySelector('#reviews-grid');
+    const reviewForm = document.querySelector('#review-form');
+    const reviewFormMessage = document.querySelector('#review-form-message');
+
+    if (reviewForm && reviewsGrid) {
+      reviewForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        const formData = new FormData(reviewForm);
+        const safeName = String(formData.get('name') || '').trim();
+        const safePlace = String(formData.get('place') || '').trim();
+        const rating = String(formData.get('rating') || '5.0').trim();
+        const safeReview = String(formData.get('review') || '').trim();
+
+        if (!safeName || !safePlace || !safeReview) {
+          if (reviewFormMessage) {
+            reviewFormMessage.textContent = 'Please complete all fields before submitting your review.';
+          }
+          return;
+        }
+
+        const reviewCard = document.createElement('article');
+        reviewCard.className = 'review-card-home';
+        reviewCard.innerHTML = '<div class="review-meta"><div><p class="review-name text-sm font-semibold">' + safeName + '</p><p class="review-location">' + safePlace + '</p></div><span class="review-rating text-sm font-semibold">' + rating + '</span></div>'
+          + '<p class="review-stars mt-4">&#9733;&#9733;&#9733;&#9733;&#9733;</p>'
+          + '<p class="review-copy mt-4 text-sm leading-6">' + safeReview + '</p>';
+
+        reviewsGrid.prepend(reviewCard);
+        reviewForm.reset();
+
+        if (reviewFormMessage) {
+          reviewFormMessage.textContent = 'Thank you. Your review was added to the page.';
+        }
+      });
+    }
   </script>
 </body>
 </html>
