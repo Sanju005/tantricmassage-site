@@ -2077,15 +2077,15 @@
           return;
         }
 
+        const safeName = name.replace(/[<>]/g, '');
+        const safeReview = review.replace(/[<>]/g, '');
         const reviewCard = document.createElement('article');
         reviewCard.className = 'review-card-home';
-        reviewCard.innerHTML = 
-          <div class="flex items-center justify-between gap-3">
-            <p class="review-name text-sm font-semibold"></p>
-            <span class="review-rating text-sm font-semibold"></span>
-          </div>
-          <p class="review-copy mt-4 text-sm leading-7"></p>
-        ;
+        reviewCard.innerHTML = '<div class="flex items-center justify-between gap-3">'
+          + '<p class="review-name text-sm font-semibold">' + safeName + '</p>'
+          + '<span class="review-rating text-sm font-semibold">' + rating + '</span>'
+          + '</div>'
+          + '<p class="review-copy mt-4 text-sm leading-7">' + safeReview + '</p>';
 
         reviewsSlider.insertBefore(reviewCard, reviewsSlider.lastElementChild);
         reviewForm.reset();
