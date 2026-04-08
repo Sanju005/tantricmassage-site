@@ -418,8 +418,8 @@
       <div class="package-modal__panel p-4 sm:p-5">
         <div class="flex items-start justify-between gap-4">
           <div>
-            <p id="modal-package-kicker" class="text-[0.78rem] font-semibold uppercase tracking-[0.24em] text-[var(--gold)]">Couple Experience</p>
-            <h2 id="modal-package-title" class="mt-2 text-[1.72rem] leading-[0.96] text-white package-modal__section-title font-bold uppercase">Package Details</h2>
+            <p id="modal-package-kicker" class="text-[1.18rem] font-extrabold uppercase leading-5 text-[var(--gold)]">PREMIUM PACKAGE</p>
+            <h2 id="modal-package-title" class="mt-2 text-[1.72rem] leading-[0.96] text-white package-modal__section-title font-bold uppercase">PRIVATE EXPERIENCE</h2>
           </div>
           <button type="button" id="package-modal-close" class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-lg text-white">&times;</button>
         </div>
@@ -519,7 +519,7 @@
     const slidePackages = (direction) => { if (!packageSlider) return; const card = packageSlider.querySelector(".package-card"); const offset = card ? card.getBoundingClientRect().width + 12 : 320; packageSlider.scrollBy({ left: direction * offset, behavior: "smooth" }); };
     const updatePackageModalScrollCue = () => { if (!packageModalPanel || !packageModalScrollCue || !packageModal.classList.contains("is-open")) { packageModalScrollCue?.classList.remove("is-visible"); return; } const hasOverflow = packageModalPanel.scrollHeight - packageModalPanel.clientHeight > 24; const nearTop = packageModalPanel.scrollTop < 24; packageModalScrollCue.classList.toggle("is-visible", hasOverflow && nearTop); };
     const closePackageModal = () => { if (!packageModal) return; packageModal.classList.remove("is-open"); packageModal.setAttribute("aria-hidden", "true"); document.body.style.overflow = ""; updatePackageModalScrollCue(); };
-    const openPackageModal = (packageKey) => { const details = packageDetails[packageKey]; if (!packageModal || !details) return; modalKicker.textContent = details.kicker; modalTitle.textContent = details.title; modalDescription.textContent = details.description; modalPopularityList.innerHTML = details.popularity.map((item) => `<li>${item}</li>`).join(""); modalListHeading.textContent = details.listHeading; modalList.innerHTML = details.list.map((item) => `<li>${item}</li>`).join(""); modalCustomizeText.textContent = details.customize; modalFlowIntro.textContent = details.flow; modalDuration.textContent = details.duration; modalNormalPrice.textContent = details.normalPrice; modalPrice.textContent = details.price; modalWhatsappLink.href = buildWhatsappUrl(details.whatsappLabel || details.kicker); if (packageModalPanel) packageModalPanel.scrollTop = 0; packageModal.classList.add("is-open"); packageModal.setAttribute("aria-hidden", "false"); document.body.style.overflow = "hidden"; requestAnimationFrame(updatePackageModalScrollCue); };
+    const openPackageModal = (packageKey) => { const details = packageDetails[packageKey]; if (!packageModal || !details) return; modalKicker.textContent = details.kicker; modalTitle.textContent = "PRIVATE EXPERIENCE"; modalDescription.textContent = details.description; modalPopularityList.innerHTML = details.popularity.map((item) => `<li>${item}</li>`).join(""); modalListHeading.textContent = details.listHeading; modalList.innerHTML = details.list.map((item) => `<li>${item}</li>`).join(""); modalCustomizeText.textContent = details.customize; modalFlowIntro.textContent = details.flow; modalDuration.textContent = details.duration; modalNormalPrice.textContent = details.normalPrice; modalPrice.textContent = details.price; modalWhatsappLink.href = buildWhatsappUrl(details.whatsappLabel || details.kicker); if (packageModalPanel) packageModalPanel.scrollTop = 0; packageModal.classList.add("is-open"); packageModal.setAttribute("aria-hidden", "false"); document.body.style.overflow = "hidden"; requestAnimationFrame(updatePackageModalScrollCue); };
     if (nextPackageButton) nextPackageButton.addEventListener("click", () => slidePackages(1));
     if (prevPackageButton) prevPackageButton.addEventListener("click", () => slidePackages(-1));
     packageButtons.forEach((button) => { button.addEventListener("click", () => openPackageModal(button.dataset.packageOpen)); });
@@ -530,6 +530,7 @@
   </script>
 </body>
 </html>
+
 
 
 
