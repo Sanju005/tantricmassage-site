@@ -730,6 +730,22 @@
       font-weight: 600;
     }
 
+    .faq-question span:first-child {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.65rem;
+    }
+
+    .faq-question span:first-child::before {
+      content: "";
+      width: 0.5rem;
+      height: 0.5rem;
+      flex-shrink: 0;
+      border-radius: 9999px;
+      background: #25D366;
+      box-shadow: 0 0 10px rgba(37, 211, 102, 0.68);
+    }
+
     .faq-icon {
       flex-shrink: 0;
       color: var(--gold-main);
