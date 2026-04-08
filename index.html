@@ -389,13 +389,13 @@
 
     .hero-slider-track {
       display: flex;
-      width: 400%;
+      width: 100%;
       animation: hero-slide 12s linear infinite;
     }
 
     .hero-slide {
       width: 100%;
-      flex: 0 0 100%;
+      flex: 0 0 25%;
       height: 12rem;
       background-size: cover;
       background-position: center;
@@ -1216,6 +1216,19 @@
     .bottom-nav-wrap {
       display: flex;
       gap: 0.65rem;
+    }
+
+    .bottom-nav-main,
+    .bottom-nav-chat {
+      position: relative;
+      overflow: hidden;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 3.7rem;
+      border-radius: 9999px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+      backdrop-filter: blur(16px);
     }
 
     .bottom-nav-main {
