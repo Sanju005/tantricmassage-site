@@ -755,6 +755,40 @@
       line-height: 1.8;
     }
 
+    .faq-live-dots {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.38rem;
+    }
+
+    .faq-live-dot {
+      width: 0.48rem;
+      height: 0.48rem;
+      border-radius: 9999px;
+      background: #25D366;
+      box-shadow: 0 0 10px rgba(37, 211, 102, 0.72);
+      animation: faq-live-blink 1.2s ease-in-out infinite;
+    }
+
+    .faq-live-dot:nth-child(2) {
+      animation-delay: 0.18s;
+    }
+
+    .faq-live-dot:nth-child(3) {
+      animation-delay: 0.36s;
+    }
+
+    @keyframes faq-live-blink {
+      0%, 80%, 100% {
+        opacity: 0.22;
+        transform: scale(0.72);
+      }
+      40% {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
     .reviews-slider {
       display: grid;
       grid-auto-flow: column;
@@ -1791,10 +1825,10 @@
         </div>
         <div class="mt-4 mb-5 inline-flex items-center gap-2 text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-[var(--gold-main)]">
           <span>Recently asked question</span>
-          <span class="inline-flex items-center gap-1.5" aria-hidden="true">
-            <span class="h-2 w-2 rounded-full bg-[#25D366] animate-pulse shadow-[0_0_10px_rgba(37,211,102,0.7)]"></span>
-            <span class="h-2 w-2 rounded-full bg-[#25D366] animate-pulse shadow-[0_0_10px_rgba(37,211,102,0.7)]" style="animation-delay: 0.18s;"></span>
-            <span class="h-2 w-2 rounded-full bg-[#25D366] animate-pulse shadow-[0_0_10px_rgba(37,211,102,0.7)]" style="animation-delay: 0.36s;"></span>
+          <span class="faq-live-dots" aria-hidden="true">
+            <span class="faq-live-dot"></span>
+            <span class="faq-live-dot"></span>
+            <span class="faq-live-dot"></span>
           </span>
         </div>
         <div class="faq-accordion">
