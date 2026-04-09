@@ -2252,7 +2252,7 @@
         const safePlace = place.replace(/[<>]/g, '');
         const safeReview = review.replace(/[<>]/g, '');
         const ratingNumber = parseFloat(rating);
-        const ratingStars = ratingNumber >= 5 ? '*****' : ratingNumber >= 4 ? '****' : '***';
+        const ratingStars = ratingNumber >= 5 ? '★★★★★' : ratingNumber >= 4 ? '★★★★' : '★★★';
         const reviewCard = document.createElement('article');
         reviewCard.className = 'review-card-home';
         reviewCard.innerHTML = '<div class="review-meta"><div><p class="review-name text-sm font-semibold">' + safeName + '</p><p class="review-location">' + safePlace + '</p></div><span class="review-rating text-sm font-semibold">' + rating + '</span></div>'
@@ -2277,7 +2277,7 @@
         const starsEl = card.querySelector('.review-stars');
         const ratingValue = parseFloat(ratingText);
         if (!starsEl || Number.isNaN(ratingValue)) return;
-        starsEl.textContent = ratingValue >= 5 ? '*****' : ratingValue >= 4 ? '****' : '***';
+        starsEl.textContent = ratingValue >= 5 ? '★★★★★' : ratingValue >= 4 ? '★★★★' : '★★★';
       });
     }
 
