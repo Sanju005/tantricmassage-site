@@ -732,73 +732,31 @@
     }
 
     .article-card {
-      appearance: none;
       display: block;
-      width: 100%;
-      text-align: left;
+      overflow: hidden;
       color: inherit;
-      cursor: pointer;
     }
 
     .article-card:hover {
       border-color: rgba(212, 175, 55, 0.36);
     }
 
-    .article-reader {
-      position: fixed;
-      inset: 0;
-      z-index: 90;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 1rem;
-      background: rgba(0, 0, 0, 0.78);
-      backdrop-filter: blur(14px);
+    .article-card__image {
+      aspect-ratio: 16 / 10;
+      background-size: cover;
+      background-position: center;
     }
 
-    .article-reader.is-open {
-      display: flex;
-    }
-
-    .article-reader__panel {
-      position: relative;
-      width: min(100%, 760px);
-      max-height: 86vh;
-      overflow-y: auto;
-      border: 1px solid rgba(212, 175, 55, 0.22);
-      border-radius: 2rem;
-      background:
-        radial-gradient(circle at top left, rgba(212, 175, 55, 0.12), transparent 32%),
-        linear-gradient(180deg, rgba(22, 22, 22, 0.98), rgba(8, 8, 8, 0.98));
-      box-shadow: 0 28px 90px rgba(0, 0, 0, 0.62);
-    }
-
-    .article-reader__close {
-      position: sticky;
-      top: 1rem;
-      float: right;
+    .article-tag {
       display: inline-flex;
       align-items: center;
-      justify-content: center;
-      width: 2.5rem;
-      height: 2.5rem;
-      margin: 1rem 1rem 0 0;
-      border: 1px solid rgba(255, 255, 255, 0.14);
+      border: 1px solid rgba(212, 175, 55, 0.24);
       border-radius: 999px;
-      color: #ffffff;
-      background: rgba(255, 255, 255, 0.08);
-      font-size: 1.5rem;
+      padding: 0.28rem 0.6rem;
+      color: rgba(255, 255, 255, 0.74);
+      background: rgba(255, 255, 255, 0.04);
+      font-size: 0.68rem;
       line-height: 1;
-    }
-
-    .article-reader__content {
-      display: none;
-      padding: 2rem;
-      clear: both;
-    }
-
-    .article-reader__content.is-active {
-      display: block;
     }
 
     .coverage-pin {
@@ -1205,51 +1163,80 @@
           <p class="reveal-copy reveal-copy-delay section-subcopy mt-4">This page can work as the main KLCC content hub, with local guides that support stronger relevance for hotel, residence, and city-centre massage searches.</p>
         </div>
 
-        <div class="mt-8 grid grid-cols-1 gap-4 md:grid-cols-3">
-          <button type="button" class="article-card luxury-card rounded-[1.75rem] p-6 transition hover:-translate-y-1" data-article-target="klcc-hotel-guide">
-            <p class="text-xs uppercase tracking-[0.24em]" style="color: var(--gold-main);">Guide 01</p>
-            <h3 class="mt-3 text-xl font-semibold">Private massage in KLCC hotels and residences</h3>
-            <p class="mt-3 text-sm leading-7" style="color: var(--text-secondary);">A local guide for clients booking discreet outcall sessions in KLCC hotels, serviced apartments, and residences.</p>
-            <span class="mt-5 inline-flex text-sm font-semibold" style="color: var(--gold-soft);">Open article</span>
-          </button>
-          <button type="button" class="article-card luxury-card rounded-[1.75rem] p-6 transition hover:-translate-y-1" data-article-target="klcc-business-travel">
-            <p class="text-xs uppercase tracking-[0.24em]" style="color: var(--gold-main);">Guide 02</p>
-            <h3 class="mt-3 text-xl font-semibold">Outcall massage in KLCC for business travellers</h3>
-            <p class="mt-3 text-sm leading-7" style="color: var(--text-secondary);">What clients staying near the city centre usually want after meetings, flights, and long workdays.</p>
-            <span class="mt-5 inline-flex text-sm font-semibold" style="color: var(--gold-soft);">Open article</span>
-          </button>
-          <button type="button" class="article-card luxury-card rounded-[1.75rem] p-6 transition hover:-translate-y-1" data-article-target="klcc-booking-time">
-            <p class="text-xs uppercase tracking-[0.24em]" style="color: var(--gold-main);">Guide 03</p>
-            <h3 class="mt-3 text-xl font-semibold">Best time to book a KLCC session</h3>
-            <p class="mt-3 text-sm leading-7" style="color: var(--text-secondary);">How earlier booking, hotel details, and timing help make the KLCC booking process smoother.</p>
-            <span class="mt-5 inline-flex text-sm font-semibold" style="color: var(--gold-soft);">Open article</span>
-          </button>
+        <div class="mt-8 flex items-center justify-between">
+          <p class="text-xs uppercase tracking-[0.24em]" style="color: var(--text-secondary);">Showing 3 featured KLCC articles</p>
+          <div class="flex gap-2" aria-label="Article pagination">
+            <span class="inline-flex h-10 w-10 items-center justify-center rounded-full border opacity-40" style="border-color: rgba(212, 175, 55, 0.24); color: var(--gold-main);">&larr;</span>
+            <span class="inline-flex h-10 w-10 items-center justify-center rounded-full border" style="border-color: rgba(212, 175, 55, 0.34); color: var(--gold-main);">&rarr;</span>
+          </div>
         </div>
 
-        <div id="article-reader" class="article-reader" aria-hidden="true">
-          <div class="article-reader__panel" role="dialog" aria-modal="true" aria-label="KLCC article reader">
-            <button id="article-reader-close" type="button" class="article-reader__close" aria-label="Close article">&times;</button>
-            <article id="klcc-hotel-guide" class="article-reader__content">
-              <p class="text-xs uppercase tracking-[0.24em]" style="color: var(--gold-main);">KLCC Hotel Guide</p>
-              <h3 class="mt-3 text-2xl font-semibold">Private massage in KLCC hotels and residences</h3>
-              <p class="mt-4 text-sm leading-8" style="color: var(--text-secondary);">KLCC bookings often come from city hotels, serviced residences, and short-stay apartments. Many clients in this area want a session that feels calm, private, and easy to arrange without leaving the building after a long day. That makes outcall massage especially suitable for the KLCC area.</p>
-              <p class="mt-4 text-sm leading-8" style="color: var(--text-secondary);">For clients searching Massage KLCC or Private Massage KLCC, the most important details are usually privacy, timing, and clear communication. Sharing the hotel or residence name, room readiness, and preferred session time early helps confirm whether the visit can be arranged smoothly.</p>
-            </article>
+        <div class="mt-5 grid grid-cols-1 gap-4 md:grid-cols-3">
+          <a href="#klcc-hotel-guide" class="article-card luxury-card rounded-[1.75rem] transition hover:-translate-y-1">
+            <div class="article-card__image" style="background-image: url('/images/Tanta-Touch.jpg');" role="img" aria-label="Private massage in KLCC hotels and residences"></div>
+            <div class="p-6">
+              <p class="text-xs uppercase tracking-[0.24em]" style="color: var(--gold-main);">KLCC Massage</p>
+              <h2 class="mt-3 text-xl font-semibold">Private massage in KLCC hotels and residences</h2>
+              <div class="mt-4 flex flex-wrap gap-2">
+                <span class="article-tag">Hotel Massage</span>
+                <span class="article-tag">Residences</span>
+                <span class="article-tag">Outcall KLCC</span>
+              </div>
+              <p class="mt-4 text-sm leading-7" style="color: var(--text-secondary);">A local guide for clients booking discreet outcall sessions in KLCC hotels, serviced apartments, and residences.</p>
+              <span class="mt-5 inline-flex text-sm font-semibold" style="color: var(--gold-soft);">Read article &rarr;</span>
+            </div>
+          </a>
+          <a href="#klcc-business-travel" class="article-card luxury-card rounded-[1.75rem] transition hover:-translate-y-1">
+            <div class="article-card__image" style="background-image: url('/images/Tantric%20yoni%20massage%20in%20kl%20slide%202.webp');" role="img" aria-label="Outcall massage in KLCC for business travellers"></div>
+            <div class="p-6">
+              <p class="text-xs uppercase tracking-[0.24em]" style="color: var(--gold-main);">KLCC Massage</p>
+              <h2 class="mt-3 text-xl font-semibold">Outcall massage in KLCC for business travellers</h2>
+              <div class="mt-4 flex flex-wrap gap-2">
+                <span class="article-tag">Business Travel</span>
+                <span class="article-tag">City Centre</span>
+                <span class="article-tag">Stress Relief</span>
+              </div>
+              <p class="mt-4 text-sm leading-7" style="color: var(--text-secondary);">What clients staying near the city centre usually want after meetings, flights, and long workdays.</p>
+              <span class="mt-5 inline-flex text-sm font-semibold" style="color: var(--gold-soft);">Read article &rarr;</span>
+            </div>
+          </a>
+          <a href="#klcc-booking-time" class="article-card luxury-card rounded-[1.75rem] transition hover:-translate-y-1">
+            <div class="article-card__image" style="background-image: url('/images/Tantric%20yoni%20massage%20in%20kl%20slide%203.webp');" role="img" aria-label="Best time to book a KLCC massage session"></div>
+            <div class="p-6">
+              <p class="text-xs uppercase tracking-[0.24em]" style="color: var(--gold-main);">KLCC Massage</p>
+              <h2 class="mt-3 text-xl font-semibold">Best time to book a KLCC session</h2>
+              <div class="mt-4 flex flex-wrap gap-2">
+                <span class="article-tag">Booking Tips</span>
+                <span class="article-tag">Same Day</span>
+                <span class="article-tag">KLCC Hotels</span>
+              </div>
+              <p class="mt-4 text-sm leading-7" style="color: var(--text-secondary);">How earlier booking, hotel details, and timing help make the KLCC booking process smoother.</p>
+              <span class="mt-5 inline-flex text-sm font-semibold" style="color: var(--gold-soft);">Read article &rarr;</span>
+            </div>
+          </a>
+        </div>
 
-            <article id="klcc-business-travel" class="article-reader__content">
-              <p class="text-xs uppercase tracking-[0.24em]" style="color: var(--gold-main);">City-Centre Wellness</p>
-              <h3 class="mt-3 text-2xl font-semibold">Outcall massage in KLCC for business travellers</h3>
-              <p class="mt-4 text-sm leading-8" style="color: var(--text-secondary);">KLCC is one of the most common areas for business travellers, conference guests, and short-stay visitors. After meetings, travel, or a long day in the city, many clients want a session that helps them unwind without needing to commute anywhere else.</p>
-              <p class="mt-4 text-sm leading-8" style="color: var(--text-secondary);">A good outcall massage in KLCC should feel efficient to book but unhurried during the session itself. That balance matters in a fast-moving city-centre area, where convenience is important but clients still expect a premium and comfortable wellness experience.</p>
-            </article>
+        <div class="mt-10 space-y-6">
+          <article id="klcc-hotel-guide" class="luxury-card rounded-[2rem] p-7 sm:p-8 scroll-mt-24">
+            <p class="text-xs uppercase tracking-[0.24em]" style="color: var(--gold-main);">KLCC Massage</p>
+            <h2 class="mt-3 text-2xl font-semibold">Private massage in KLCC hotels and residences</h2>
+            <p class="mt-4 text-sm leading-8" style="color: var(--text-secondary);">KLCC bookings often come from city hotels, serviced residences, and short-stay apartments. Many clients in this area want a session that feels calm, private, and easy to arrange without leaving the building after a long day. That makes outcall massage especially suitable for the KLCC area.</p>
+            <p class="mt-4 text-sm leading-8" style="color: var(--text-secondary);">For clients searching Massage KLCC or Private Massage KLCC, the most important details are usually privacy, timing, and clear communication. Sharing the hotel or residence name, room readiness, and preferred session time early helps confirm whether the visit can be arranged smoothly.</p>
+          </article>
 
-            <article id="klcc-booking-time" class="article-reader__content">
-              <p class="text-xs uppercase tracking-[0.24em]" style="color: var(--gold-main);">Booking Tips</p>
-              <h3 class="mt-3 text-2xl font-semibold">Best time to book a KLCC session</h3>
-              <p class="mt-4 text-sm leading-8" style="color: var(--text-secondary);">KLCC slots can fill faster in the evening, especially on weekdays and weekends when hotel stays are busiest. Earlier messages usually make it easier to confirm timing, travel coverage, and the preferred package before the most popular hours are taken.</p>
-              <p class="mt-4 text-sm leading-8" style="color: var(--text-secondary);">For quicker confirmation, it helps to send the package, exact KLCC location, and preferred start time in the first message. Over time, this section can keep growing with more KLCC-focused guides so the page becomes a stronger local resource as well as a service page.</p>
-            </article>
-          </div>
+          <article id="klcc-business-travel" class="luxury-card rounded-[2rem] p-7 sm:p-8 scroll-mt-24">
+            <p class="text-xs uppercase tracking-[0.24em]" style="color: var(--gold-main);">KLCC Massage</p>
+            <h2 class="mt-3 text-2xl font-semibold">Outcall massage in KLCC for business travellers</h2>
+            <p class="mt-4 text-sm leading-8" style="color: var(--text-secondary);">KLCC is one of the most common areas for business travellers, conference guests, and short-stay visitors. After meetings, travel, or a long day in the city, many clients want a session that helps them unwind without needing to commute anywhere else.</p>
+            <p class="mt-4 text-sm leading-8" style="color: var(--text-secondary);">A good outcall massage in KLCC should feel efficient to book but unhurried during the session itself. That balance matters in a fast-moving city-centre area, where convenience is important but clients still expect a premium and comfortable wellness experience.</p>
+          </article>
+
+          <article id="klcc-booking-time" class="luxury-card rounded-[2rem] p-7 sm:p-8 scroll-mt-24">
+            <p class="text-xs uppercase tracking-[0.24em]" style="color: var(--gold-main);">KLCC Massage</p>
+            <h2 class="mt-3 text-2xl font-semibold">Best time to book a KLCC session</h2>
+            <p class="mt-4 text-sm leading-8" style="color: var(--text-secondary);">KLCC slots can fill faster in the evening, especially on weekdays and weekends when hotel stays are busiest. Earlier messages usually make it easier to confirm timing, travel coverage, and the preferred package before the most popular hours are taken.</p>
+            <p class="mt-4 text-sm leading-8" style="color: var(--text-secondary);">For quicker confirmation, it helps to send the package, exact KLCC location, and preferred start time in the first message. Over time, this section can keep growing with more KLCC-focused guides so the page becomes a stronger local resource as well as a service page.</p>
+          </article>
         </div>
       </div>
     </section>
@@ -1288,10 +1275,6 @@
     const galleryAgeInput = document.querySelector('#gallery-age-input');
     const galleryEnterButton = document.querySelector('#gallery-enter-button');
     const galleryAgeMessage = document.querySelector('#gallery-age-message');
-    const articleReader = document.querySelector('#article-reader');
-    const articleReaderClose = document.querySelector('#article-reader-close');
-    const articleCards = document.querySelectorAll('[data-article-target]');
-    const articleContents = document.querySelectorAll('.article-reader__content');
     const revealObserver = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
@@ -1370,49 +1353,6 @@
       });
     }
 
-    const openArticle = (articleId) => {
-      if (!articleReader) {
-        return;
-      }
-
-      articleContents.forEach((article) => {
-        article.classList.toggle('is-active', article.id === articleId);
-      });
-
-      articleReader.classList.add('is-open');
-      articleReader.setAttribute('aria-hidden', 'false');
-      document.body.style.overflow = 'hidden';
-    };
-
-    const closeArticle = () => {
-      if (!articleReader) {
-        return;
-      }
-
-      articleReader.classList.remove('is-open');
-      articleReader.setAttribute('aria-hidden', 'true');
-      articleContents.forEach((article) => article.classList.remove('is-active'));
-      document.body.style.overflow = '';
-    };
-
-    articleCards.forEach((card) => {
-      card.addEventListener('click', () => {
-        openArticle(card.dataset.articleTarget);
-      });
-    });
-
-    if (articleReaderClose) {
-      articleReaderClose.addEventListener('click', closeArticle);
-    }
-
-    if (articleReader) {
-      articleReader.addEventListener('click', (event) => {
-        if (event.target === articleReader) {
-          closeArticle();
-        }
-      });
-    }
-
     if (galleryEnterButton && galleryAgeInput && galleryAgeMessage) {
       galleryEnterButton.addEventListener('click', () => {
         const age = Number(galleryAgeInput.value);
@@ -1440,7 +1380,6 @@
 
     document.addEventListener('keydown', (event) => {
       if (event.key === 'Escape') {
-        closeArticle();
         closeSiteMenu();
       }
     });
