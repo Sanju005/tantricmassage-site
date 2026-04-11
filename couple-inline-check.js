@@ -3,7 +3,7 @@
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
     gtag('config', 'G-9PCZZ8BQPS');
-  
+
 
     const packageSlider = document.querySelector("#package-slider");
     const nextPackageButton = document.querySelector("#next-package");
@@ -25,10 +25,10 @@
     const modalPrice = document.querySelector("#modal-package-price");
     const modalNormalPrice = document.querySelector("#modal-package-normal-price");
     const modalWhatsappLink = document.querySelector("#modal-whatsapp-link");
-    const whatsappNumber = "60164646008";
+    const whatsappNumber = "60164649008";
 
     const buildWhatsappUrl = (packageLabel) => {
-      const message = `Hi :) I would like to book the ${packageLabel} for Couple.`;
+      const message = `Hi I would like to book the ${packageLabel} for Couple. 🙂`;
       return `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
     };
 
@@ -192,4 +192,4 @@
         closePackageModal();
       }
     });
-  
+

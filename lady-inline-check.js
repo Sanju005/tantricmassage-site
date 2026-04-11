@@ -4,7 +4,7 @@
     gtag('js', new Date());
 
     gtag('config', 'G-9PCZZ8BQPS');
-  
+
 
     const packageSlider = document.querySelector("#package-slider");
     const nextPackageButton = document.querySelector("#next-package");
@@ -34,9 +34,9 @@
     const modalLimitedNote = document.querySelector("#modal-limited-note");
     const modalWhatsappLink = document.querySelector("#modal-whatsapp-link");
 
-    const whatsappNumber = "60164646008";
+    const whatsappNumber = "60164649008";
     const buildWhatsappUrl = (packageLabel) => {
-      const message = `Hi :) I would like to book the ${packageLabel} for Lady.`;
+      const message = `Hi I would like to book the ${packageLabel} for Lady. 🙂`;
       return `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
     };
 
@@ -255,4 +255,4 @@
         closePackageModal();
       }
     });
-  
+
