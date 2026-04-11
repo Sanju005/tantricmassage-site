@@ -355,7 +355,7 @@
 
     .booking-input {
       width: 100%;
-      min-height: 3.7rem;
+      min-height: 3.35rem;
       border-radius: 1rem;
       border: 1px solid rgba(255, 255, 255, 0.1);
       background: rgba(255, 255, 255, 0.05);
@@ -714,7 +714,7 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-height: 3.7rem;
+      min-height: 3.35rem;
       border-radius: 9999px;
       transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
       backdrop-filter: blur(16px);
@@ -722,11 +722,13 @@
 
     .bottom-nav-main {
       width: 75%;
-      padding: 1rem 1.1rem;
-      font-size: 0.82rem;
+      padding: 0.8rem 0.75rem;
+      font-size: 0.76rem;
       font-weight: 700;
-      letter-spacing: 0.2em;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
+      white-space: nowrap;
+      line-height: 1;
       color: #111111;
       border: 2px solid rgba(0, 0, 0, 0.88);
       background: linear-gradient(180deg, #f1cd58 0%, #d4af37 52%, #b58d1b 100%);
@@ -916,10 +918,6 @@
                   <input class="sr-only peer" type="radio" name="guestType" id="guest-couple" value="couple">
                   <label class="wizard-choice peer-checked:scale-[1.03] peer-checked:border-amber-400 peer-checked:bg-zinc-900/90" for="guest-couple"><span class="choice-check">✓</span>We are a Couple (Male &amp; Female)</label>
                 </div>
-                <div>
-                  <input class="sr-only peer" type="radio" name="guestType" id="guest-male" value="male">
-                  <label class="wizard-choice peer-checked:scale-[1.03] peer-checked:border-amber-400 peer-checked:bg-zinc-900/90" for="guest-male"><span class="choice-check">✓</span>I&rsquo;m a Man</label>
-                </div>
               </div>
               <p id="gender-selected-note" class="selected-note hidden"></p>
             </section>
@@ -1014,7 +1012,6 @@
 
     const packageTargets = {
       lady: "/lady-packages",
-      male: "/male-packages",
       couple: "/couple-packages"
     };
 
@@ -1047,7 +1044,7 @@
 
     const reportStepIssue = (stepIndex) => {
       if (stepIndex === 1) {
-        alert("Please choose Lady, Couple, or Man.");
+        alert("Please choose Lady or Couple.");
       }
 
       if (stepIndex === 2) {
@@ -1104,14 +1101,14 @@
       hoursSlider.addEventListener("input", syncDuration);
     }
 
-    ["guest-female", "guest-male", "guest-couple"].forEach((id) => {
+    ["guest-female", "guest-couple"].forEach((id) => {
       const input = document.querySelector(`#${id}`);
       if (!input) {
         return;
       }
 
       input.addEventListener("change", () => {
-        const genderLabels = Array.from(document.querySelectorAll('label[for="guest-female"], label[for="guest-male"], label[for="guest-couple"]'));
+        const genderLabels = Array.from(document.querySelectorAll('label[for="guest-female"], label[for="guest-couple"]'));
         genderLabels.forEach((label) => label.classList.remove("is-selected"));
 
         if (input.checked) {
@@ -1123,11 +1120,6 @@
           if (input.id === "guest-female") {
             selectedGender = "lady";
             genderSelectedNote.textContent = "You selected lady";
-          }
-
-          if (input.id === "guest-male") {
-            selectedGender = "male";
-            genderSelectedNote.textContent = "You selected man";
           }
 
           if (input.id === "guest-couple") {
@@ -1206,7 +1198,7 @@
       }
 
       if (!selectedGender) {
-        alert("Please select Lady, Male, or Couple first.");
+        alert("Please select Lady or Couple first.");
         return;
       }
 
