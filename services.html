@@ -703,6 +703,7 @@
               <div class="choice-list">
                 <button id="package-presets-button" type="button" class="wizard-choice text-left">Show Pre Packages</button>
                 <button id="package-custom-button" type="button" class="wizard-choice text-left">Build Own Package</button>
+                <button id="couple-package-button" type="button" class="wizard-choice text-left hidden">Show Couple Package</button>
               </div>
 
               <div class="terms-box">
@@ -745,6 +746,7 @@
     const hoursSelectedNote = document.querySelector("#hours-selected-note");
     const packagePresetsButton = document.querySelector("#package-presets-button");
     const packageCustomButton = document.querySelector("#package-custom-button");
+    const couplePackageButton = document.querySelector("#couple-package-button");
     const termsInput = document.querySelector("#terms");
     const loadingScreen = document.querySelector("#loading-screen");
     const hourOptions = ["1 Hour", "1.30 Hours", "2 Hours", "2.30 Hours", "3 Hours"];
@@ -844,13 +846,17 @@
           if (input.id === "guest-female") {
             selectedGender = "lady";
             genderSelectedNote.textContent = "You selected lady";
+            packagePresetsButton?.classList.remove("hidden");
             packageCustomButton?.classList.remove("hidden");
+            couplePackageButton?.classList.add("hidden");
           }
 
           if (input.id === "guest-couple") {
             selectedGender = "couple";
             genderSelectedNote.textContent = "You selected couple";
+            packagePresetsButton?.classList.add("hidden");
             packageCustomButton?.classList.add("hidden");
+            couplePackageButton?.classList.remove("hidden");
             selectedPackagePath = "";
           }
 
@@ -893,6 +899,17 @@
     if (packageCustomButton) {
       packageCustomButton.addEventListener("click", () => {
         selectedPackagePath = "custom";
+        if (!termsInput.checked) {
+          alert("Please agree to the terms and conditions first.");
+          return;
+        }
+        openSelectedPackagePath();
+      });
+    }
+
+    if (couplePackageButton) {
+      couplePackageButton.addEventListener("click", () => {
+        selectedPackagePath = "couple";
         if (!termsInput.checked) {
           alert("Please agree to the terms and conditions first.");
           return;
