@@ -697,8 +697,8 @@
 
             <section class="step-panel hidden transition-all duration-300 ease-out" data-step="2">
               <p class="step-kicker">Step 3 of 3</p>
-              <h2 class="step-title">Would you like to see pre packages or customise your own package?</h2>
-              <p class="step-copy">Choose preset packages to see the packages we already created, or open a separate page to build your own.</p>
+              <h2 id="package-step-title" class="step-title">Would you like to see pre packages or customise your own package?</h2>
+              <p id="package-step-copy" class="step-copy">Choose preset packages to see the packages we already created, or open a separate page to build your own.</p>
 
               <div class="choice-list">
                 <button id="package-presets-button" type="button" class="wizard-choice text-left">Show Pre Packages</button>
@@ -744,6 +744,8 @@
     const durationValue = document.querySelector("#duration-value");
     const genderSelectedNote = document.querySelector("#gender-selected-note");
     const hoursSelectedNote = document.querySelector("#hours-selected-note");
+    const packageStepTitle = document.querySelector("#package-step-title");
+    const packageStepCopy = document.querySelector("#package-step-copy");
     const packagePresetsButton = document.querySelector("#package-presets-button");
     const packageCustomButton = document.querySelector("#package-custom-button");
     const couplePackageButton = document.querySelector("#couple-package-button");
@@ -827,6 +829,23 @@
       hoursSlider.addEventListener("input", syncDuration);
     }
 
+    const syncPackageStepContent = () => {
+      if (selectedGender === "couple") {
+        if (packageStepTitle) packageStepTitle.textContent = "Please agree to the terms and conditions";
+        if (packageStepCopy) packageStepCopy.textContent = "Once you agree, continue directly to the couple package page.";
+        packagePresetsButton?.classList.add("hidden");
+        packageCustomButton?.classList.add("hidden");
+        couplePackageButton?.classList.remove("hidden");
+        return;
+      }
+
+      if (packageStepTitle) packageStepTitle.textContent = "Would you like to see pre packages or customise your own package?";
+      if (packageStepCopy) packageStepCopy.textContent = "Choose preset packages to see the packages we already created, or open a separate page to build your own.";
+      packagePresetsButton?.classList.remove("hidden");
+      packageCustomButton?.classList.remove("hidden");
+      couplePackageButton?.classList.add("hidden");
+    };
+
     ["guest-female", "guest-couple"].forEach((id) => {
       const input = document.querySelector(`#${id}`);
       if (!input) {
@@ -846,19 +865,15 @@
           if (input.id === "guest-female") {
             selectedGender = "lady";
             genderSelectedNote.textContent = "You selected lady";
-            packagePresetsButton?.classList.remove("hidden");
-            packageCustomButton?.classList.remove("hidden");
-            couplePackageButton?.classList.add("hidden");
           }
 
           if (input.id === "guest-couple") {
             selectedGender = "couple";
             genderSelectedNote.textContent = "You selected couple";
-            packagePresetsButton?.classList.add("hidden");
-            packageCustomButton?.classList.add("hidden");
-            couplePackageButton?.classList.remove("hidden");
             selectedPackagePath = "";
           }
+
+          syncPackageStepContent();
 
           genderSelectedNote.classList.remove("hidden");
         }
@@ -951,6 +966,7 @@
     });
 
     syncDuration();
+    syncPackageStepContent();
     showStep(0);
 
     nextButton.addEventListener("click", () => {
