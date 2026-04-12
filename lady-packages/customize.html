@@ -96,7 +96,7 @@
           <p class="text-[0.92rem] font-semibold uppercase leading-5 text-white">Customize Your Own Package</p>
           <h1 class="mt-3 text-[1.8rem] font-semibold uppercase leading-tight text-white sm:text-[2.1rem]">Build your private session.</h1>
           <p class="mx-auto mt-3 max-w-[26rem] text-[0.92rem] leading-6 text-white/75">
-            Choose the massage options you want, reveal your custom price, then send everything directly to WhatsApp.
+            Custom package starts from RM 200. Each selected add-on adds RM 50 to the final price.
           </p>
         </div>
 
@@ -105,13 +105,13 @@
         <div class="mt-5">
           <div class="feature-panel px-4 py-4">
             <h2 class="text-[1.02rem] font-semibold uppercase leading-5 text-black">Choose Your Options</h2>
-            <div id="custom-package-options" class="mt-3 grid gap-2 text-left text-[0.88rem] leading-5 text-black">
-              <label class="flex items-start gap-2"><input type="checkbox" value="Full Body Massage (exclude Yoni/Breast, includes shoulder, hip, leg and feet)" data-price="200" class="mt-1 h-4 w-4 accent-black"><span>Full Body Massage <span class="block text-black/60">(Exclude Yoni/Breast) Includes shoulder, hip, leg and feet</span></span></label>
-              <label class="flex items-start gap-2"><input type="checkbox" value="Yoni Massage" data-price="100" class="mt-1 h-4 w-4 accent-black"><span>Yoni Massage</span></label>
-              <label class="flex items-start gap-2"><input type="checkbox" value="Breast Massage" data-price="50" class="mt-1 h-4 w-4 accent-black"><span>Breast Massage</span></label>
-              <label class="flex items-start gap-2"><input type="checkbox" value="Body-to-Body" data-price="50" class="mt-1 h-4 w-4 accent-black"><span>Body-to-Body</span></label>
-              <label class="flex items-start gap-2"><input type="checkbox" value="Only Leg Massage" data-price="100" class="mt-1 h-4 w-4 accent-black"><span>Only Leg Massage</span></label>
-              <label class="flex items-start gap-2"><input type="checkbox" value="Yoni Egg" data-price="50" class="mt-1 h-4 w-4 accent-black"><span>Yoni Egg</span></label>
+            <div id="custom-package-options" class="mt-3 grid gap-3 text-left text-[0.88rem] leading-5 text-black">
+              <label class="flex items-start gap-2"><input type="checkbox" value="Full Body Massage" data-price="50" class="mt-1 h-4 w-4 accent-black"><span><strong>Full Body Massage</strong><span class="block text-black/60">Relaxing full body massage with focus on shoulders, hips, legs, and feet.</span></span></label>
+              <label class="flex items-start gap-2"><input type="checkbox" value="Yoni Massage" data-price="50" class="mt-1 h-4 w-4 accent-black"><span><strong>Yoni Massage</strong><span class="block text-black/60">Yoni massage with clitoris &amp; G-spot stimulation with oral pleasures.</span></span></label>
+              <label class="flex items-start gap-2"><input type="checkbox" value="Breast Massage" data-price="50" class="mt-1 h-4 w-4 accent-black"><span><strong>Breast Massage</strong><span class="block text-black/60">Full breast massage &amp; nipple stimulation with oral pleasures.</span></span></label>
+              <label class="flex items-start gap-2"><input type="checkbox" value="Body-to-Body" data-price="50" class="mt-1 h-4 w-4 accent-black"><span><strong>Body-to-Body</strong><span class="block text-black/60">Slow skin-to-skin body glide for deeper relaxation, teasing touch, and warm sensual connection.</span></span></label>
+              <label class="flex items-start gap-2"><input type="checkbox" value="Only Leg Massage" data-price="50" class="mt-1 h-4 w-4 accent-black"><span><strong>Only Leg Massage</strong><span class="block text-black/60">Focused leg massage to release tension, improve comfort, and leave your lower body feeling lighter.</span></span></label>
+              <label class="flex items-start gap-2"><input type="checkbox" value="Yoni Egg" data-price="50" class="mt-1 h-4 w-4 accent-black"><span><strong>Yoni Egg</strong><span class="block text-black/60">Gentle yoni egg play for added stimulation, teasing buildup, and deeper intimate pleasure.</span></span></label>
             </div>
           </div>
         </div>
@@ -121,8 +121,8 @@
         <div class="mt-5">
           <h2 class="text-[1.05rem] font-semibold uppercase leading-5 text-[var(--gold)]">How It Works</h2>
           <ul class="mt-3 space-y-2 text-[0.88rem] leading-5 text-white/78">
-            <li class="flex gap-3"><span class="text-[var(--gold)]">&rarr;</span><span>Choose one or more massage options</span></li>
-            <li class="flex gap-3"><span class="text-[var(--gold)]">&rarr;</span><span>Tap get price to reveal your final package price</span></li>
+            <li class="flex gap-3"><span class="text-[var(--gold)]">&rarr;</span><span>Package starts from RM 200</span></li>
+            <li class="flex gap-3"><span class="text-[var(--gold)]">&rarr;</span><span>Each selected option adds RM 50</span></li>
             <li class="flex gap-3"><span class="text-[var(--gold)]">&rarr;</span><span>Book on WhatsApp with your selected options included</span></li>
           </ul>
         </div>
@@ -151,13 +151,8 @@
     const whatsappNumber = "60164649008";
 
     const getCustomPrice = (selectedOptions) => {
-      const selectedCount = selectedOptions.length;
-      if (selectedCount <= 0) return 0;
-      if (selectedCount === 1) return selectedOptions[0].price;
-      if (selectedCount === 2) return 250;
-      if (selectedCount === 3) return 300;
-      if (selectedCount >= 6) return 400;
-      return 350;
+      if (!selectedOptions.length) return 0;
+      return 200 + (selectedOptions.length * 50);
     };
 
     const getCustomSelectedOptions = () => Array.from(customPackageOptions?.querySelectorAll("input[type='checkbox']:checked") || []).map((input) => ({
