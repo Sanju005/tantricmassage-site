@@ -539,10 +539,10 @@
             <span class="block text-[1.72rem] font-extrabold uppercase sm:text-[1.95rem]">Customize</span>
             <span class="block text-[1.08rem] font-normal uppercase">Your Package</span>
           </div>
-          <p class="mt-2 text-[0.92rem] font-semibold uppercase leading-5 text-white">Choose Your Options</p>
-          <h2 class="mt-3 text-[1.26rem] font-semibold uppercase leading-[1.08] text-white sm:text-[1.5rem]">Build it your way.</h2>
+          <p class="mt-2 text-[0.92rem] font-semibold uppercase leading-5 text-white">Separate Custom Page</p>
+          <h2 class="mt-3 text-[1.26rem] font-semibold uppercase leading-[1.08] text-white sm:text-[1.5rem]">Build your own session.</h2>
           <p class="package-title-raleway mx-auto mt-3 max-w-[18rem] text-[0.8rem] leading-4 text-white/75 sm:max-w-none">
-            Select the massage options you prefer, get your private price, then send everything directly to WhatsApp.
+            Open the custom package page, choose your massage options, get your price, then book on WhatsApp.
           </p>
         </div>
 
@@ -550,15 +550,12 @@
 
         <div class="px-2 pt-3.5">
           <div class="feature-panel px-4 py-4">
-            <h3 class="text-[1.02rem] font-semibold uppercase leading-5 text-black">Choosing Options</h3>
-            <div id="custom-package-options" class="mt-3 grid gap-2 text-left text-[0.82rem] leading-4 text-black">
-              <label class="flex items-start gap-2"><input type="checkbox" value="Full Body Massage (exclude Yoni/Breast, includes shoulder, hip, leg and feet)" data-price="200" class="mt-0.5 h-4 w-4 accent-black"><span>Full Body Massage <span class="block text-black/60">(Exclude Yoni/Breast) Includes shoulder, hip, leg and feet</span></span></label>
-              <label class="flex items-start gap-2"><input type="checkbox" value="Yoni Massage" data-price="100" class="mt-0.5 h-4 w-4 accent-black"><span>Yoni Massage</span></label>
-              <label class="flex items-start gap-2"><input type="checkbox" value="Breast Massage" data-price="50" class="mt-0.5 h-4 w-4 accent-black"><span>Breast Massage</span></label>
-              <label class="flex items-start gap-2"><input type="checkbox" value="Body-to-Body" data-price="50" class="mt-0.5 h-4 w-4 accent-black"><span>Body-to-Body</span></label>
-              <label class="flex items-start gap-2"><input type="checkbox" value="Only Leg Massage" data-price="100" class="mt-0.5 h-4 w-4 accent-black"><span>Only Leg Massage</span></label>
-              <label class="flex items-start gap-2"><input type="checkbox" value="Yoni Egg" data-price="50" class="mt-0.5 h-4 w-4 accent-black"><span>Yoni Egg</span></label>
-            </div>
+            <h3 class="text-[1.02rem] font-semibold uppercase leading-5 text-black">What You Can Do</h3>
+            <ul class="mt-3 grid gap-2 text-left text-[0.82rem] leading-4 text-black">
+              <li class="flex gap-2"><span>&rarr;</span><span>Choose only the massage options you want</span></li>
+              <li class="flex gap-2"><span>&rarr;</span><span>See your custom price before booking</span></li>
+              <li class="flex gap-2"><span>&rarr;</span><span>Send your selected options directly to WhatsApp</span></li>
+            </ul>
           </div>
         </div>
 
@@ -567,20 +564,14 @@
         <div class="px-2 pt-3.5">
           <h3 class="text-[1.12rem] font-semibold uppercase leading-5 text-[var(--gold)]">How It Works</h3>
           <ul class="mt-2.5 space-y-1.5 text-[0.82rem] leading-4 text-white/78">
-            <li class="flex gap-3"><span class="text-[var(--gold)]">&rarr;</span><span>Choose the massage options you want</span></li>
-            <li class="flex gap-3"><span class="text-[var(--gold)]">&rarr;</span><span>Tap get price to reveal your package price</span></li>
-            <li class="flex gap-3"><span class="text-[var(--gold)]">&rarr;</span><span>Book on WhatsApp with your chosen options included</span></li>
+            <li class="flex gap-3"><span class="text-[var(--gold)]">&rarr;</span><span>Open the custom package page</span></li>
+            <li class="flex gap-3"><span class="text-[var(--gold)]">&rarr;</span><span>Choose your options and get your price</span></li>
+            <li class="flex gap-3"><span class="text-[var(--gold)]">&rarr;</span><span>Book on WhatsApp with your chosen package</span></li>
           </ul>
         </div>
 
         <div class="mt-auto px-2 pb-1 pt-4 text-center">
-          <button type="button" id="custom-price-button" class="package-button mt-1 inline-flex min-h-[3rem] w-full items-center justify-center whitespace-nowrap px-4 text-[0.96rem] font-semibold">Get Price</button>
-          <div id="custom-price-result" class="mt-4 hidden rounded-lg border border-amber-400/35 bg-black/35 p-3 text-center">
-            <p class="text-[0.76rem] font-semibold uppercase tracking-[0.12em] text-white/65">Your Custom Price</p>
-            <p id="custom-price-text" class="mt-1 text-[1.65rem] font-black text-[var(--gold)]"></p>
-            <a id="custom-whatsapp-link" href="https://wa.me/60164649008" class="package-button mt-3 hidden min-h-[3rem] w-full items-center justify-center whitespace-nowrap px-4 text-[0.96rem] font-semibold">Book Custom Package</a>
-          </div>
-          <p id="custom-price-error" class="mt-3 hidden text-[0.8rem] font-semibold leading-5 text-[#ffcf75]">Please choose at least one option first.</p>
+          <a href="/lady-packages/customize.html" class="package-button mt-1 inline-flex min-h-[3rem] w-full items-center justify-center whitespace-nowrap px-4 text-[0.96rem] font-semibold">Open Custom Page</a>
           <p class="mt-4 whitespace-nowrap text-[0.8rem] leading-5 text-white/75">&#128274; 100% Private &middot; Discreet &middot; Professional</p>
         </div>
       </article>
@@ -691,12 +682,6 @@
     const modalNormalPriceRow = document.querySelector("#modal-normal-price-row");
     const modalLimitedNote = document.querySelector("#modal-limited-note");
     const modalWhatsappLink = document.querySelector("#modal-whatsapp-link");
-    const customPackageOptions = document.querySelector("#custom-package-options");
-    const customPriceButton = document.querySelector("#custom-price-button");
-    const customPriceResult = document.querySelector("#custom-price-result");
-    const customPriceText = document.querySelector("#custom-price-text");
-    const customWhatsappLink = document.querySelector("#custom-whatsapp-link");
-    const customPriceError = document.querySelector("#custom-price-error");
     const whatsappNumber = "60164649008";
     const buildWhatsappUrl = (packageLabel) => {
       const message = `Hi I would like to book the ${packageLabel} for Lady. 🙂`;
@@ -708,54 +693,12 @@
       custom: { whatsappLabel: "Customize Package", kicker: "Customize Package", title: "Build Your Own Session", description: "Choose the massage options you prefer and get your final custom price before booking.", listHeading: "Choosing Options", duration: "Flexible Duration", normalPrice: "", price: "Get price after choosing", items: ["Full Body Massage", "Yoni Massage", "Breast Massage", "Body-to-Body", "Only Leg Massage", "Yoni Egg"], bookingLabel: "BOOK CUSTOM PACKAGE" },
       day: { whatsappLabel: "Day Package", kicker: "Day Package", title: "Luxury Extended Session", description: "A longer premium private session for slow build-up, deeper connection, and a more luxurious sensual experience.", listHeading: "What Includes?", duration: "2 - 3 Hours", normalPrice: "RM 680.00", price: "RM 600.00", items: ["Extended tantric pleasure session", "Yoni egg massage and stimulation", "Long full body relaxation flow", "Private sensual indulgence without rush", "Luxury out call premium session"], bookingLabel: "BOOK DAY PACKAGE" }
     };
-    const getCustomPrice = (selectedOptions) => {
-      const selectedCount = selectedOptions.length;
-      if (selectedCount <= 0) return 0;
-      if (selectedCount === 1) return selectedOptions[0].price;
-      if (selectedCount === 2) return 250;
-      if (selectedCount === 3) return 300;
-      if (selectedCount >= 6) return 400;
-      return 350;
-    };
-    const getCustomSelectedOptions = () => Array.from(customPackageOptions?.querySelectorAll("input[type='checkbox']:checked") || []).map((input) => ({
-      label: input.value,
-      price: Number(input.dataset.price || 0)
-    }));
-    const resetCustomPrice = () => {
-      customPriceResult?.classList.add("hidden");
-      customWhatsappLink?.classList.add("hidden");
-      customWhatsappLink?.classList.remove("inline-flex");
-      customPriceError?.classList.add("hidden");
-    };
-    const showCustomPrice = () => {
-      const selectedOptions = getCustomSelectedOptions();
-      if (!selectedOptions.length) {
-        customPriceResult?.classList.add("hidden");
-        customWhatsappLink?.classList.add("hidden");
-        customWhatsappLink?.classList.remove("inline-flex");
-        customPriceError?.classList.remove("hidden");
-        return;
-      }
-      const finalPrice = getCustomPrice(selectedOptions);
-      const selectedLabels = selectedOptions.map((option) => option.label);
-      const message = `Hi I would like to book a Customize Package for Lady.\nSelected options: ${selectedLabels.join(", ")}.\nFinal price: RM ${finalPrice}. 🙂`;
-      if (customPriceText) customPriceText.textContent = `RM ${finalPrice}`;
-      if (customWhatsappLink) {
-        customWhatsappLink.href = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
-        customWhatsappLink.classList.remove("hidden");
-        customWhatsappLink.classList.add("inline-flex");
-      }
-      customPriceResult?.classList.remove("hidden");
-      customPriceError?.classList.add("hidden");
-    };
     const slidePackages = (direction) => { if (!packageSlider) return; const card = packageSlider.querySelector(".package-card"); const gap = 16; const moveAmount = card ? card.getBoundingClientRect().width + gap : 280; packageSlider.scrollBy({ left: direction * moveAmount, behavior: "smooth" }); };
     const updatePackageModalScrollCue = () => { if (!packageModalPanel || !packageModalScrollCue || !packageModal.classList.contains("is-open")) { packageModalScrollCue?.classList.remove("is-visible"); return; } const hasOverflow = packageModalPanel.scrollHeight - packageModalPanel.clientHeight > 24; const nearTop = packageModalPanel.scrollTop < 24; packageModalScrollCue.classList.toggle("is-visible", hasOverflow && nearTop); };
     const closePackageModal = () => { if (!packageModal) return; packageModal.classList.remove("is-open"); packageModal.setAttribute("aria-hidden", "true"); document.body.classList.remove("overflow-hidden"); updatePackageModalScrollCue(); };
-    const openPackageModal = (packageKey) => { const details = packageDetails[packageKey]; if (!packageModal || !details) return; const packageDisplayNames = { unlimited: "UNLIMITED PACKAGE", extreme: "EXTREME PACKAGE", custom: "CUSTOM PACKAGE", day: "DAY PACKAGE" }; modalKicker.textContent = packageDisplayNames[packageKey] || details.kicker; modalKicker.className = "text-[1.58rem] sm:text-[1.8rem] font-extrabold uppercase leading-none text-[var(--gold)] text-center"; modalTitle.textContent = "PRIVATE EXPERIENCE"; modalTitle.classList.remove("hidden"); modalDescription.textContent = details.description || ""; modalDescription.classList.toggle("hidden", !details.description); modalListHeading.textContent = details.listHeading || "What Includes?"; modalDuration.textContent = details.duration; modalPrice.textContent = details.price; modalNormalPrice.textContent = details.normalPrice || ""; modalLocationRow.classList.toggle("hidden", !!details.hideLocation); modalNormalPriceRow.classList.toggle("hidden", !details.normalPrice); modalList.innerHTML = details.items.map((item) => `<li class="flex gap-3"><span class="text-[var(--gold)]">&rarr;</span><span>${item}</span></li>`).join(""); modalPopularityBlock.classList.toggle("hidden", !details.popularity); modalPopularityList.innerHTML = details.popularity ? details.popularity.map((item, index) => `<li class="flex items-center gap-2">${index === 0 ? `<span class="rating-stars">&#9733;</span>` : `<span class="text-[var(--gold)]">&#128274;</span>`}<span>${item}</span></li>`).join("") : ""; modalCustomizeBlock.classList.toggle("hidden", !details.customize); modalCustomizeText.textContent = details.customize || ""; modalFlowBlock.classList.toggle("hidden", !details.flowLines); modalFlowIntro.textContent = details.flowIntro || ""; modalFlowLines.innerHTML = details.flowLines ? details.flowLines.map((item) => `<p>${item}</p>`).join("") : ""; modalLimitedNote.classList.toggle("hidden", !details.limitedNote); modalLimitedNote.textContent = details.limitedNote || ""; modalWhatsappLink.textContent = details.bookingLabel || "Book via WhatsApp"; modalWhatsappLink.href = buildWhatsappUrl(details.whatsappLabel || details.kicker); if (packageModalPanel) packageModalPanel.scrollTop = 0; packageModal.classList.add("is-open"); packageModal.setAttribute("aria-hidden", "false"); document.body.classList.add("overflow-hidden"); requestAnimationFrame(updatePackageModalScrollCue); };
+    const openPackageModal = (packageKey) => { const details = packageDetails[packageKey]; if (!packageModal || !details) return; const packageDisplayNames = { unlimited: "UNLIMITED PACKAGE", extreme: "EXTREME PACKAGE", custom: "CUSTOM PACKAGE", day: "DAY PACKAGE" }; modalKicker.textContent = packageDisplayNames[packageKey] || details.kicker; modalKicker.className = "text-[1.58rem] sm:text-[1.8rem] font-extrabold uppercase leading-none text-[var(--gold)] text-center"; modalTitle.textContent = "PRIVATE EXPERIENCE"; modalTitle.classList.remove("hidden"); modalDescription.textContent = details.description || ""; modalDescription.classList.toggle("hidden", !details.description); modalListHeading.textContent = details.listHeading || "What Includes?"; modalDuration.textContent = details.duration; modalPrice.textContent = details.price; modalNormalPrice.textContent = details.normalPrice || ""; modalLocationRow.classList.toggle("hidden", !!details.hideLocation); modalNormalPriceRow.classList.toggle("hidden", !details.normalPrice); modalList.innerHTML = details.items.map((item) => `<li class="flex gap-3"><span class="text-[var(--gold)]">&rarr;</span><span>${item}</span></li>`).join(""); modalPopularityBlock.classList.toggle("hidden", !details.popularity); modalPopularityList.innerHTML = details.popularity ? details.popularity.map((item, index) => `<li class="flex items-center gap-2">${index === 0 ? `<span class="rating-stars">&#9733;</span>` : `<span class="text-[var(--gold)]">&#128274;</span>`}<span>${item}</span></li>`).join("") : ""; modalCustomizeBlock.classList.toggle("hidden", !details.customize); modalCustomizeText.textContent = details.customize || ""; modalFlowBlock.classList.toggle("hidden", !details.flowLines); modalFlowIntro.textContent = details.flowIntro || ""; modalFlowLines.innerHTML = details.flowLines ? details.flowLines.map((item) => `<p>${item}</p>`).join("") : ""; modalLimitedNote.classList.toggle("hidden", !details.limitedNote); modalLimitedNote.textContent = details.limitedNote || ""; if (packageKey === "custom") { modalWhatsappLink.textContent = "OPEN CUSTOM PAGE"; modalWhatsappLink.href = "/lady-packages/customize.html"; } else { modalWhatsappLink.textContent = details.bookingLabel || "Book via WhatsApp"; modalWhatsappLink.href = buildWhatsappUrl(details.whatsappLabel || details.kicker); } if (packageModalPanel) packageModalPanel.scrollTop = 0; packageModal.classList.add("is-open"); packageModal.setAttribute("aria-hidden", "false"); document.body.classList.add("overflow-hidden"); requestAnimationFrame(updatePackageModalScrollCue); };
     if (nextPackageButton) nextPackageButton.addEventListener("click", () => slidePackages(1));
     if (prevPackageButton) prevPackageButton.addEventListener("click", () => slidePackages(-1));
-    if (customPriceButton) customPriceButton.addEventListener("click", showCustomPrice);
-    if (customPackageOptions) customPackageOptions.addEventListener("change", resetCustomPrice);
     packageButtons.forEach((button) => { button.addEventListener("click", () => openPackageModal(button.dataset.packageOpen)); });
     if (packageModalClose) packageModalClose.addEventListener("click", closePackageModal);
     if (packageModalPanel) packageModalPanel.addEventListener("scroll", updatePackageModalScrollCue);
@@ -764,6 +707,7 @@
   </script>
 </body>
 </html>
+
 
 
 

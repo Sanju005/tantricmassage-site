@@ -697,19 +697,22 @@
 
             <section class="step-panel hidden transition-all duration-300 ease-out" data-step="2">
               <p class="step-kicker">Step 3 of 4</p>
-              <h2 class="step-title">Location</h2>
+              <h2 class="step-title">Would you like to see pre packages or customise your own package?</h2>
+              <p class="step-copy">Choose preset packages to see the packages we already created, or open a separate page to build your own.</p>
 
-              <div class="field-wrap">
-                <label class="field-label" for="location">Your Location</label>
-                <input id="location" name="location" type="text" list="kl-areas" class="booking-input" placeholder="Example: Kuala Lumpur / PJ" required>
-                <datalist id="kl-areas">
-                  <option value="Kuala Lumpur"></option>
-                  <option value="PJ"></option>
-                  <option value="Petaling Jaya"></option>
-                  <option value="Subang Jaya"></option>
-                  <option value="Shah Alam"></option>
-                </datalist>
+              <div class="choice-list">
+                <div>
+                  <input class="sr-only peer" type="radio" name="packagePath" id="package-presets" value="presets">
+                  <label class="wizard-choice peer-checked:scale-[1.03] peer-checked:border-amber-400 peer-checked:bg-zinc-900/90" for="package-presets"><span class="choice-check">✓</span>Show Pre Packages</label>
+                </div>
+                <div id="custom-package-choice">
+                  <input class="sr-only peer" type="radio" name="packagePath" id="package-custom" value="custom">
+                  <label class="wizard-choice peer-checked:scale-[1.03] peer-checked:border-amber-400 peer-checked:bg-zinc-900/90" for="package-custom"><span class="choice-check">✓</span>Customise Own Package</label>
+                </div>
               </div>
+
+              <p id="package-selected-note" class="selected-note hidden"></p>
+              <p id="custom-package-note" class="selected-note hidden">Customise own package opens on a separate page.</p>
             </section>
 
             <section class="step-panel hidden transition-all duration-300 ease-out" data-step="3">
@@ -757,18 +760,16 @@
     const durationValue = document.querySelector("#duration-value");
     const genderSelectedNote = document.querySelector("#gender-selected-note");
     const hoursSelectedNote = document.querySelector("#hours-selected-note");
-    const locationInput = document.querySelector("#location");
+    const packageSelectedNote = document.querySelector("#package-selected-note");
+    const customPackageChoice = document.querySelector("#custom-package-choice");
+    const customPackageNote = document.querySelector("#custom-package-note");
     const termsInput = document.querySelector("#terms");
     const loadingScreen = document.querySelector("#loading-screen");
     const hourOptions = ["1 Hour", "1.30 Hours", "2 Hours", "2.30 Hours", "3 Hours"];
 
-    const packageTargets = {
-      lady: "/lady-packages",
-      couple: "/couple-packages"
-    };
-
     let currentStep = 0;
     let selectedGender = "";
+    let selectedPackagePath = "";
 
     const validateStep = (stepIndex) => {
       if (stepIndex === 0) {
@@ -780,7 +781,7 @@
       }
 
       if (stepIndex === 2) {
-        return locationInput.value.trim().length > 0;
+        return Boolean(packageForm.querySelector('input[name="packagePath"]:checked'));
       }
 
       if (stepIndex === 3) {
@@ -800,7 +801,7 @@
       }
 
       if (stepIndex === 2) {
-        alert("Please enter your location.");
+        alert("Please choose pre packages or customise your own package.");
       }
 
       if (stepIndex === 3) {
@@ -868,17 +869,53 @@
           if (input.id === "guest-female") {
             selectedGender = "lady";
             genderSelectedNote.textContent = "You selected lady";
+            customPackageChoice?.classList.remove("hidden");
+            customPackageNote?.classList.remove("hidden");
           }
 
           if (input.id === "guest-couple") {
             selectedGender = "couple";
             genderSelectedNote.textContent = "You selected couple";
+            customPackageChoice?.classList.add("hidden");
+            customPackageNote?.classList.add("hidden");
+
+            const customOption = document.querySelector("#package-custom");
+            const presetsOption = document.querySelector("#package-presets");
+            if (customOption?.checked) {
+              customOption.checked = false;
+              packageSelectedNote.classList.add("hidden");
+            }
+            if (presetsOption) {
+              presetsOption.checked = true;
+              selectedPackagePath = "presets";
+              packageSelectedNote.textContent = "Couple booking will show the pre packages.";
+              packageSelectedNote.classList.remove("hidden");
+            }
           }
 
           genderSelectedNote.classList.remove("hidden");
         }
       }
       );
+    });
+
+    ["package-presets", "package-custom"].forEach((id) => {
+      const input = document.querySelector(`#${id}`);
+      if (!input) {
+        return;
+      }
+
+      input.addEventListener("change", () => {
+        if (!input.checked) {
+          return;
+        }
+
+        selectedPackagePath = input.value;
+        packageSelectedNote.textContent = input.value === "custom"
+          ? "Customise own package will open in a new page."
+          : "Pre packages means the packages already created: Extreme, Unlimited, and Day.";
+        packageSelectedNote.classList.remove("hidden");
+      });
     });
 
     const showStep = (stepIndex) => {
@@ -915,6 +952,13 @@
     });
 
     syncDuration();
+    const presetsOption = document.querySelector("#package-presets");
+    if (presetsOption) {
+      presetsOption.checked = true;
+      selectedPackagePath = "presets";
+      packageSelectedNote.textContent = "Pre packages means the packages already created: Extreme, Unlimited, and Day.";
+      packageSelectedNote.classList.remove("hidden");
+    }
     showStep(0);
 
     nextButton.addEventListener("click", () => {
@@ -952,11 +996,26 @@
         return;
       }
 
+      if (!selectedPackagePath) {
+        alert("Please choose pre packages or customise your own package.");
+        return;
+      }
+
       loadingScreen.classList.remove("hidden");
       loadingScreen.classList.add("flex");
 
       setTimeout(() => {
-        window.location.href = packageTargets[selectedGender];
+        if (selectedGender === "lady" && selectedPackagePath === "custom") {
+          window.location.href = "/lady-packages/customize.html";
+          return;
+        }
+
+        if (selectedGender === "lady") {
+          window.location.href = "/lady-packages";
+          return;
+        }
+
+        window.location.href = "/couple-packages";
       }, 1000);
     });
   </script>
