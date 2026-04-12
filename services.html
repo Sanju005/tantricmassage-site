@@ -509,6 +509,32 @@
       opacity: 0.8;
     }
 
+    .package-action-button {
+      width: 100%;
+      min-height: 3.35rem;
+      border-radius: 9999px;
+      border: 1px solid rgba(255, 215, 0, 0.82);
+      background:
+        radial-gradient(circle at 84% 18%, rgba(255, 255, 255, 0.92) 0, rgba(255, 255, 255, 0.3) 4%, rgba(255, 255, 255, 0) 10%),
+        linear-gradient(180deg, #ffe38a 0%, #d4af37 56%, #b8860b 100%);
+      color: #000000;
+      font-weight: 800;
+      text-align: center;
+      box-shadow:
+        inset 0 2px 0 rgba(255, 255, 255, 0.34),
+        inset 0 -4px 10px rgba(120, 82, 0, 0.28),
+        0 18px 30px rgba(0, 0, 0, 0.24);
+      transition: transform 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .package-action-button:hover {
+      transform: translateY(-1px);
+      box-shadow:
+        inset 0 2px 0 rgba(255, 255, 255, 0.34),
+        inset 0 -4px 10px rgba(120, 82, 0, 0.28),
+        0 20px 34px rgba(0, 0, 0, 0.3);
+    }
+
     .wizard-submit .button-label {
       position: relative;
       z-index: 1;
@@ -701,9 +727,9 @@
               <p id="package-step-copy" class="step-copy">Choose preset packages to see the packages we already created, or open a separate page to build your own.</p>
 
               <div class="choice-list">
-                <button id="package-presets-button" type="button" class="wizard-choice text-left">Show Pre Packages</button>
-                <button id="package-custom-button" type="button" class="wizard-choice text-left">Build Own Package</button>
-                <button id="couple-package-button" type="button" class="wizard-choice text-left hidden">Show Couple Package</button>
+                <button id="package-presets-button" type="button" class="package-action-button">Show Pre Packages</button>
+                <button id="package-custom-button" type="button" class="package-action-button">Build Own Package</button>
+                <button id="couple-package-button" type="button" class="package-action-button hidden">Show Couple Package</button>
               </div>
 
               <div class="terms-box">
@@ -834,16 +860,22 @@
         if (packageStepTitle) packageStepTitle.textContent = "Please agree to the terms and conditions";
         if (packageStepCopy) packageStepCopy.textContent = "Once you agree, continue directly to the couple package page.";
         packagePresetsButton?.classList.add("hidden");
+        if (packagePresetsButton) packagePresetsButton.hidden = true;
         packageCustomButton?.classList.add("hidden");
+        if (packageCustomButton) packageCustomButton.hidden = true;
         couplePackageButton?.classList.remove("hidden");
+        if (couplePackageButton) couplePackageButton.hidden = false;
         return;
       }
 
       if (packageStepTitle) packageStepTitle.textContent = "Would you like to see pre packages or customise your own package?";
       if (packageStepCopy) packageStepCopy.textContent = "Choose preset packages to see the packages we already created, or open a separate page to build your own.";
       packagePresetsButton?.classList.remove("hidden");
+      if (packagePresetsButton) packagePresetsButton.hidden = false;
       packageCustomButton?.classList.remove("hidden");
+      if (packageCustomButton) packageCustomButton.hidden = false;
       couplePackageButton?.classList.add("hidden");
+      if (couplePackageButton) couplePackageButton.hidden = true;
     };
 
     ["guest-female", "guest-couple"].forEach((id) => {
