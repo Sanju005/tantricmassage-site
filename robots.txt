@@ -6,7 +6,6 @@ Disallow: /private/
 Disallow: /booking-confirmation/
 Disallow: /thank-you/
 Disallow: /checkout/
-Disallow: /gallery.html
 Disallow: /gallery-private/
 Disallow: /yoni/
 
