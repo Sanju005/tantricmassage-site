@@ -696,33 +696,18 @@
             </section>
 
             <section class="step-panel hidden transition-all duration-300 ease-out" data-step="2">
-              <p class="step-kicker">Step 3 of 4</p>
+              <p class="step-kicker">Step 3 of 3</p>
               <h2 class="step-title">Would you like to see pre packages or customise your own package?</h2>
               <p class="step-copy">Choose preset packages to see the packages we already created, or open a separate page to build your own.</p>
 
               <div class="choice-list">
-                <div>
-                  <input class="sr-only peer" type="radio" name="packagePath" id="package-presets" value="presets">
-                  <label class="wizard-choice peer-checked:scale-[1.03] peer-checked:border-amber-400 peer-checked:bg-zinc-900/90" for="package-presets"><span class="choice-check">✓</span>Show Pre Packages</label>
-                </div>
-                <div id="custom-package-choice">
-                  <input class="sr-only peer" type="radio" name="packagePath" id="package-custom" value="custom">
-                  <label class="wizard-choice peer-checked:scale-[1.03] peer-checked:border-amber-400 peer-checked:bg-zinc-900/90" for="package-custom"><span class="choice-check">✓</span>Customise Own Package</label>
-                </div>
+                <button id="package-presets-button" type="button" class="wizard-choice text-left">Show Pre Packages</button>
+                <button id="package-custom-button" type="button" class="wizard-choice text-left">Build Own Package</button>
               </div>
-
-              <p id="package-selected-note" class="selected-note hidden"></p>
-              <p id="custom-package-note" class="selected-note hidden">Customise own package opens on a separate page.</p>
-            </section>
-
-            <section class="step-panel hidden transition-all duration-300 ease-out" data-step="3">
-              <p class="step-kicker">Step 4 of 4</p>
-              <h2 class="step-title">Confirm and open your package</h2>
-              <p class="step-copy">Please confirm the following before continuing.</p>
 
               <div class="terms-box">
                 <label class="terms-label">
-                  <input id="terms" name="terms" type="checkbox" required>
+                  <input id="terms" name="terms" type="checkbox" checked required>
                   <span>I understand male masseurs will provide the service. No female masseur is available. I agree to the <a href="/terms.html" class="terms-link">terms and conditions</a>.</span>
                 </label>
               </div>
@@ -731,7 +716,6 @@
             <div class="nav-row">
               <button id="wizard-back" type="button" class="wizard-button wizard-back" hidden>Back</button>
               <button id="wizard-next" type="button" class="wizard-button wizard-next">Next Step</button>
-              <button id="wizard-submit" type="submit" class="wizard-button wizard-submit" hidden><span class="shine-wipe"></span><span class="button-label">Show Package</span></button>
             </div>
           </div>
         </form>
@@ -753,16 +737,14 @@
     const progressBar = document.querySelector("#progress-bar");
     const backButton = document.querySelector("#wizard-back");
     const nextButton = document.querySelector("#wizard-next");
-    const submitButton = document.querySelector("#wizard-submit");
     const navRow = document.querySelector(".nav-row");
     const durationInput = document.querySelector("#session-duration");
     const hoursSlider = document.querySelector("#hours-slider");
     const durationValue = document.querySelector("#duration-value");
     const genderSelectedNote = document.querySelector("#gender-selected-note");
     const hoursSelectedNote = document.querySelector("#hours-selected-note");
-    const packageSelectedNote = document.querySelector("#package-selected-note");
-    const customPackageChoice = document.querySelector("#custom-package-choice");
-    const customPackageNote = document.querySelector("#custom-package-note");
+    const packagePresetsButton = document.querySelector("#package-presets-button");
+    const packageCustomButton = document.querySelector("#package-custom-button");
     const termsInput = document.querySelector("#terms");
     const loadingScreen = document.querySelector("#loading-screen");
     const hourOptions = ["1 Hour", "1.30 Hours", "2 Hours", "2.30 Hours", "3 Hours"];
@@ -781,11 +763,7 @@
       }
 
       if (stepIndex === 2) {
-        return Boolean(packageForm.querySelector('input[name="packagePath"]:checked'));
-      }
-
-      if (stepIndex === 3) {
-        return termsInput.checked;
+        return selectedPackagePath.length > 0;
       }
 
       return true;
@@ -804,9 +782,6 @@
         alert("Please choose pre packages or customise your own package.");
       }
 
-      if (stepIndex === 3) {
-        alert("Please agree to the terms and conditions first.");
-      }
     };
 
     const animateStep = (nextIndex) => {
@@ -869,28 +844,14 @@
           if (input.id === "guest-female") {
             selectedGender = "lady";
             genderSelectedNote.textContent = "You selected lady";
-            customPackageChoice?.classList.remove("hidden");
-            customPackageNote?.classList.remove("hidden");
+            packageCustomButton?.classList.remove("hidden");
           }
 
           if (input.id === "guest-couple") {
             selectedGender = "couple";
             genderSelectedNote.textContent = "You selected couple";
-            customPackageChoice?.classList.add("hidden");
-            customPackageNote?.classList.add("hidden");
-
-            const customOption = document.querySelector("#package-custom");
-            const presetsOption = document.querySelector("#package-presets");
-            if (customOption?.checked) {
-              customOption.checked = false;
-              packageSelectedNote.classList.add("hidden");
-            }
-            if (presetsOption) {
-              presetsOption.checked = true;
-              selectedPackagePath = "presets";
-              packageSelectedNote.textContent = "Couple booking will show the pre packages.";
-              packageSelectedNote.classList.remove("hidden");
-            }
+            packageCustomButton?.classList.add("hidden");
+            selectedPackagePath = "";
           }
 
           genderSelectedNote.classList.remove("hidden");
@@ -899,24 +860,46 @@
       );
     });
 
-    ["package-presets", "package-custom"].forEach((id) => {
-      const input = document.querySelector(`#${id}`);
-      if (!input) {
-        return;
-      }
+    const openSelectedPackagePath = () => {
+      loadingScreen.classList.remove("hidden");
+      loadingScreen.classList.add("flex");
 
-      input.addEventListener("change", () => {
-        if (!input.checked) {
+      setTimeout(() => {
+        if (selectedGender === "lady" && selectedPackagePath === "custom") {
+          window.location.href = "/lady-packages/customize.html";
           return;
         }
 
-        selectedPackagePath = input.value;
-        packageSelectedNote.textContent = input.value === "custom"
-          ? "Customise own package will open in a new page."
-          : "Pre packages means the packages already created: Extreme, Unlimited, and Day.";
-        packageSelectedNote.classList.remove("hidden");
+        if (selectedGender === "lady") {
+          window.location.href = "/lady-packages";
+          return;
+        }
+
+        window.location.href = "/couple-packages";
+      }, 1000);
+    };
+
+    if (packagePresetsButton) {
+      packagePresetsButton.addEventListener("click", () => {
+        selectedPackagePath = "presets";
+        if (!termsInput.checked) {
+          alert("Please agree to the terms and conditions first.");
+          return;
+        }
+        openSelectedPackagePath();
       });
-    });
+    }
+
+    if (packageCustomButton) {
+      packageCustomButton.addEventListener("click", () => {
+        selectedPackagePath = "custom";
+        if (!termsInput.checked) {
+          alert("Please agree to the terms and conditions first.");
+          return;
+        }
+        openSelectedPackagePath();
+      });
+    }
 
     const showStep = (stepIndex) => {
       animateStep(stepIndex);
@@ -926,8 +909,7 @@
       progressBar.style.width = `${progress}%`;
       progressBar.textContent = `${progress}%`;
       backButton.hidden = false;
-      nextButton.hidden = stepIndex === stepPanels.length - 1;
-      submitButton.hidden = stepIndex !== stepPanels.length - 1;
+      nextButton.hidden = stepIndex === 2 || stepIndex === stepPanels.length - 1;
       nextButton.textContent = "Next Step";
       backButton.textContent = "Back";
 
@@ -952,13 +934,6 @@
     });
 
     syncDuration();
-    const presetsOption = document.querySelector("#package-presets");
-    if (presetsOption) {
-      presetsOption.checked = true;
-      selectedPackagePath = "presets";
-      packageSelectedNote.textContent = "Pre packages means the packages already created: Extreme, Unlimited, and Day.";
-      packageSelectedNote.classList.remove("hidden");
-    }
     showStep(0);
 
     nextButton.addEventListener("click", () => {
@@ -983,41 +958,6 @@
       showStep(Math.max(currentStep - 1, 0));
     });
 
-    packageForm.addEventListener("submit", (event) => {
-      event.preventDefault();
-
-      if (!termsInput.checked) {
-        alert("Please agree to the terms and conditions first.");
-        return;
-      }
-
-      if (!selectedGender) {
-        alert("Please select Lady or Couple first.");
-        return;
-      }
-
-      if (!selectedPackagePath) {
-        alert("Please choose pre packages or customise your own package.");
-        return;
-      }
-
-      loadingScreen.classList.remove("hidden");
-      loadingScreen.classList.add("flex");
-
-      setTimeout(() => {
-        if (selectedGender === "lady" && selectedPackagePath === "custom") {
-          window.location.href = "/lady-packages/customize.html";
-          return;
-        }
-
-        if (selectedGender === "lady") {
-          window.location.href = "/lady-packages";
-          return;
-        }
-
-        window.location.href = "/couple-packages";
-      }, 1000);
-    });
   </script>
 </body>
 </html>
