@@ -32,9 +32,10 @@
       }
     });
   </script>
-  <title>Terms & Conditions | Massage Kuala Lumpur</title>
-  <meta name="description" content="Read the terms and conditions for booking a private wellness massage session in Kuala Lumpur.">
-  <link rel="canonical" href="https://www.massagekl.com/terms.html">
+  <title>Privacy Policy | Massage Kuala Lumpur</title>
+  <meta name="description" content="Read the privacy policy for Massage Kuala Lumpur wellness and relaxation services.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://www.massagekl.com/privacy-policy.html">
   <link rel="preload" href="/styles/tailwind.css" as="style">
   <link rel="stylesheet" href="/styles/tailwind.css">
   <style>
@@ -72,12 +73,6 @@
       background: linear-gradient(115deg, transparent 30%, rgba(255, 255, 255, 0.48) 50%, transparent 70%);
       transform: translateX(-140%);
       transition: transform 0.8s ease;
-    }
-
-    .gold-button:hover {
-      transform: translateY(-1px) scale(1.02);
-      box-shadow: 0 18px 40px rgba(212, 175, 55, 0.28);
-      filter: brightness(1.03);
     }
 
     .gold-button:hover::before {
@@ -219,68 +214,54 @@
       padding: 0.8rem 0.75rem;
       font-size: 0.76rem;
       font-weight: 700;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
-      white-space: nowrap;
-      line-height: 1;
-      color: #111111;
-      border: 2px solid rgba(0, 0, 0, 0.88);
-      background: linear-gradient(180deg, #f1cd58 0%, #d4af37 52%, #b58d1b 100%);
-      box-shadow:
-        inset 0 2px 0 rgba(255, 249, 210, 0.72),
-        inset 0 -4px 0 rgba(108, 75, 0, 0.28),
-        0 12px 0 rgba(0, 0, 0, 0.22),
-        0 18px 34px rgba(0, 0, 0, 0.28),
-        0 0 28px rgba(255, 215, 0, 0.24);
+      color: #101010;
+      background: linear-gradient(to right, var(--gold-main), var(--gold-soft));
+      box-shadow: 0 16px 36px rgba(212, 175, 55, 0.22);
+      text-align: center;
     }
 
     .bottom-nav-chat {
       width: 25%;
-      border: 1.8px solid rgba(212, 175, 55, 0.6);
-      background: rgba(12, 12, 12, 0.94);
-      box-shadow:
-        0 18px 40px rgba(0, 0, 0, 0.34),
-        inset 0 1px 0 rgba(255, 255, 255, 0.08);
-      color: #FFFFFF;
+      color: var(--gold-soft);
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      background: rgba(20, 20, 20, 0.88);
+      box-shadow: 0 16px 30px rgba(0, 0, 0, 0.28);
     }
 
     .bottom-nav-chat svg {
       width: 1.4rem;
       height: 1.4rem;
-      color: #25D366;
     }
   </style>
 </head>
-<body class="min-h-screen text-white">
-  <header class="sticky top-0 z-30 border-b backdrop-blur-xl" style="background-color: rgba(11, 11, 11, 0.88); border-color: rgba(255, 255, 255, 0.08);">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6">
-      <div class="flex items-center justify-between py-4">
-        <a href="/" aria-label="Home" class="inline-flex h-12 items-center">
-          <img src="/images/logo.png" alt="Tantric Yoni Massage Kuala Lumpur logo" width="316" height="324" loading="lazy" decoding="async" class="h-10 w-auto object-contain" />
-        </a>
-        <div class="flex items-center gap-3">
-          <button type="button" aria-label="Open menu" class="menu-button">
-            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-            </svg>
-          </button>
-          <a href="/services.html" class="gold-button inline-flex items-center justify-center rounded-full px-5 py-2.5 text-sm font-semibold">Book Now</a>
-        </div>
-      </div>
+<body>
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 py-5 flex items-center justify-between">
+    <a href="/" class="inline-flex items-center gap-3">
+      <img src="/images/logo.webp" alt="Massage Kuala Lumpur Logo" class="h-12 w-12 rounded-full object-cover border border-white/10">
+    </a>
+    <div class="flex items-center gap-3">
+      <button type="button" class="menu-button" aria-label="Open navigation menu">
+        <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+          <path d="M4 7h16M4 12h16M4 17h16" stroke-linecap="round"/>
+        </svg>
+      </button>
+      <a href="/services.html" class="gold-button inline-flex items-center justify-center rounded-full px-5 py-3 text-sm font-semibold">Book Now</a>
     </div>
-  </header>
+  </div>
 
   <div id="site-menu" class="site-menu" aria-hidden="true">
     <div class="site-menu__panel">
       <div class="site-menu__head">
         <p class="site-menu__title">Menu</p>
-        <button id="site-menu-close" type="button" class="site-menu__close" aria-label="Close menu">&times;</button>
+        <button id="site-menu-close" type="button" class="site-menu__close" aria-label="Close navigation menu">&times;</button>
       </div>
       <div class="site-menu__links">
+        <a href="/" class="site-menu__link"><span>Home</span><span>&rarr;</span></a>
         <a href="/about.html" class="site-menu__link"><span>About the Service</span><span>&rarr;</span></a>
-        <a href="/whyme.html" class="site-menu__link"><span>Why Me</span><span>&rarr;</span></a>
-        <a href="/reviews.html" class="site-menu__link"><span>Reviews</span><span>&rarr;</span></a>
         <a href="/services.html" class="site-menu__link"><span>Packages</span><span>&rarr;</span></a>
+        <a href="/reviews.html" class="site-menu__link"><span>Reviews</span><span>&rarr;</span></a>
         <a href="/contact.html" class="site-menu__link"><span>Contact</span><span>&rarr;</span></a>
       </div>
     </div>
@@ -290,75 +271,93 @@
     <section class="py-20 sm:py-24">
       <div class="max-w-6xl mx-auto px-4 sm:px-6">
         <div class="max-w-3xl">
-          <p class="text-xs uppercase tracking-[0.45em]" style="color: var(--gold-main);">Terms</p>
-          <h1 class="mt-4 text-3xl sm:text-4xl font-bold leading-tight">Terms &amp; Conditions</h1>
-          <p class="mt-5 text-sm sm:text-base leading-7" style="color: var(--text-secondary);">Please review these terms before confirming your session. Booking a session means you agree to the conditions below.</p>
+          <p class="text-xs uppercase tracking-[0.45em]" style="color: var(--gold-main);">Privacy</p>
+          <h1 class="mt-4 text-3xl sm:text-4xl font-bold leading-tight">Privacy Policy</h1>
+          <p class="mt-5 text-sm sm:text-base leading-7" style="color: var(--text-secondary);">Your privacy matters. Please review how your information is collected, used, and protected.</p>
         </div>
 
         <div class="mt-12 space-y-6">
           <article class="luxury-card rounded-[2rem] p-8">
-            <h2 class="text-xl font-semibold">1. Eligibility</h2>
-            <p class="mt-3 text-sm leading-7" style="color: var(--text-secondary);">All services are strictly available for individuals aged 18 years and above only. By booking a session, you confirm that you meet this requirement.</p>
+            <h2 class="text-xl font-semibold">1. Introduction</h2>
+            <p class="mt-3 text-sm leading-7" style="color: var(--text-secondary);">Your privacy is important to us. This Privacy Policy explains how we collect, use, and protect your personal information when you use our website and services.</p>
           </article>
 
           <article class="luxury-card rounded-[2rem] p-8">
-            <h2 class="text-xl font-semibold">2. Nature of Service</h2>
-            <p class="mt-3 text-sm leading-7" style="color: var(--text-secondary);">This service is provided as a professional wellness and relaxation experience. All sessions are conducted in a respectful, ethical, and professional manner. No female therapist or female staff is available. Only a male masseur will provide all kinds of services for ladies and couples.</p>
+            <h2 class="text-xl font-semibold">2. Information We Collect</h2>
+            <ul class="mt-3 space-y-2 text-sm leading-7" style="color: var(--text-secondary);">
+              <li>Name (if provided)</li>
+              <li>Contact details such as phone number or WhatsApp</li>
+              <li>Booking details and preferences</li>
+              <li>Basic communication records</li>
+            </ul>
+            <p class="mt-3 text-sm leading-7" style="color: var(--text-secondary);">We do not collect sensitive personal data unless voluntarily provided.</p>
           </article>
 
           <article class="luxury-card rounded-[2rem] p-8">
-            <h2 class="text-xl font-semibold">3. Service Provider</h2>
-            <p class="mt-3 text-sm leading-7" style="color: var(--text-secondary);">Only a professional male masseur is available for all massage services. No female masseur, female therapist, or female staff is available. Only a male masseur will provide all kinds of services for ladies and couples. By booking, clients understand and accept that the session will be provided by a professional male masseur.</p>
+            <h2 class="text-xl font-semibold">3. How We Use Your Information</h2>
+            <ul class="mt-3 space-y-2 text-sm leading-7" style="color: var(--text-secondary);">
+              <li>Managing bookings and appointments</li>
+              <li>Communicating with you regarding your session</li>
+              <li>Improving service quality and user experience</li>
+              <li>Ensuring safety and professionalism</li>
+            </ul>
+            <p class="mt-3 text-sm leading-7" style="color: var(--text-secondary);">We do not sell, rent, or share your personal data with third parties.</p>
           </article>
 
           <article class="luxury-card rounded-[2rem] p-8">
-            <h2 class="text-xl font-semibold">4. Booking Policy</h2>
-            <p class="mt-3 text-sm leading-7" style="color: var(--text-secondary);">Advance booking is strongly recommended to secure your preferred time slot. New clients may be required to make a small advance payment to confirm the booking. Bookings are considered confirmed only after payment, if applicable.</p>
+            <h2 class="text-xl font-semibold">4. Confidentiality</h2>
+            <p class="mt-3 text-sm leading-7" style="color: var(--text-secondary);">All client information is handled with strict confidentiality. We do not disclose any personal details, booking history, or identity of clients.</p>
           </article>
 
           <article class="luxury-card rounded-[2rem] p-8">
-            <h2 class="text-xl font-semibold">5. Punctuality &amp; Availability</h2>
-            <p class="mt-3 text-sm leading-7" style="color: var(--text-secondary);">Clients are expected to be punctual for their scheduled session. Delays may result in reduced session time or rescheduling, depending on availability.</p>
+            <h2 class="text-xl font-semibold">5. Data Protection</h2>
+            <p class="mt-3 text-sm leading-7" style="color: var(--text-secondary);">We take reasonable steps to protect your data from unauthorized access, misuse, or disclosure.</p>
           </article>
 
           <article class="luxury-card rounded-[2rem] p-8">
-            <h2 class="text-xl font-semibold">6. Hygiene &amp; Cleanliness</h2>
-            <p class="mt-3 text-sm leading-7" style="color: var(--text-secondary);">A clean, safe, and hygienic environment is strictly maintained. Clients are expected to maintain personal hygiene before the session. The service provider reserves the right to refuse service if hygiene standards are not met.</p>
+            <h2 class="text-xl font-semibold">6. Cookies &amp; Website Tracking</h2>
+            <p class="mt-3 text-sm leading-7" style="color: var(--text-secondary);">This website may use cookies and analytics tools to improve user experience and performance. These tools do not personally identify users.</p>
           </article>
 
           <article class="luxury-card rounded-[2rem] p-8">
-            <h2 class="text-xl font-semibold">7. Conduct &amp; Respect</h2>
-            <p class="mt-3 text-sm leading-7" style="color: var(--text-secondary);">All sessions are conducted with mutual respect and professional boundaries. Any form of inappropriate, abusive, or disrespectful behavior will result in immediate termination of the session without refund.</p>
+            <h2 class="text-xl font-semibold">7. Third-Party Links</h2>
+            <p class="mt-3 text-sm leading-7" style="color: var(--text-secondary);">Our website may contain links to third-party platforms such as WhatsApp or social media. We are not responsible for the privacy practices of external websites or platforms.</p>
           </article>
 
           <article class="luxury-card rounded-[2rem] p-8">
-            <h2 class="text-xl font-semibold">8. Consent &amp; Boundaries</h2>
-            <p class="mt-3 text-sm leading-7" style="color: var(--text-secondary);">Services are provided with clear consent and professional boundaries at all times. The service provider reserves the right to refuse or stop the session at any point if boundaries are not respected.</p>
+            <h2 class="text-xl font-semibold">8. Your Consent</h2>
+            <p class="mt-3 text-sm leading-7" style="color: var(--text-secondary);">By using this website and booking our services, you agree to this Privacy Policy.</p>
           </article>
 
           <article class="luxury-card rounded-[2rem] p-8">
-            <h2 class="text-xl font-semibold">9. Privacy &amp; Confidentiality</h2>
-            <p class="mt-3 text-sm leading-7" style="color: var(--text-secondary);">Client privacy is strictly protected at all times. No personal information, session details, or client identity will be shared. Photography, video recording, or audio recording is strictly prohibited.</p>
+            <h2 class="text-xl font-semibold">9. Updates</h2>
+            <p class="mt-3 text-sm leading-7" style="color: var(--text-secondary);">We may update this Privacy Policy from time to time. Any changes will be reflected on this page.</p>
           </article>
 
           <article class="luxury-card rounded-[2rem] p-8">
-            <h2 class="text-xl font-semibold">10. Payments &amp; Cancellation</h2>
-            <p class="mt-3 text-sm leading-7" style="color: var(--text-secondary);">Advance payments, if required, are non-refundable in case of late cancellation or no-show. Any cancellation or rescheduling should be communicated in advance.</p>
+            <h2 class="text-xl font-semibold">10. Contact</h2>
+            <p class="mt-3 text-sm leading-7" style="color: var(--text-secondary);">If you have any questions regarding this Privacy Policy, you may contact us through our official communication channels.</p>
           </article>
 
           <article class="luxury-card rounded-[2rem] p-8">
-            <h2 class="text-xl font-semibold">11. Service Disclaimer</h2>
-            <p class="mt-3 text-sm leading-7" style="color: var(--text-secondary);">This service is strictly for wellness, relaxation, and stress relief purposes only. No illegal or inappropriate services are offered or tolerated.</p>
-          </article>
-
-          <article class="luxury-card rounded-[2rem] p-8">
-            <h2 class="text-xl font-semibold">12. Right to Refuse Service</h2>
-            <p class="mt-3 text-sm leading-7" style="color: var(--text-secondary);">The service provider reserves the right to refuse or discontinue service at their discretion to ensure safety, professionalism, and comfort.</p>
+            <h2 class="text-xl font-semibold">11. Compliance with Malaysian Law</h2>
+            <p class="mt-3 text-sm leading-7" style="color: var(--text-secondary);">This Privacy Policy is aligned with the principles of the Personal Data Protection Act 2010 (PDPA) of Malaysia. We are committed to handling personal data responsibly and in accordance with applicable data protection standards.</p>
           </article>
         </div>
       </div>
     </section>
   </main>
+
+  <footer class="border-t py-8" style="border-color: rgba(255, 255, 255, 0.08);">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+      <p class="text-sm" style="color: var(--text-secondary);">Tantric KL premium outcall massage services in Kuala Lumpur.</p>
+      <div class="flex flex-wrap items-center gap-5 text-sm" style="color: var(--text-secondary);">
+        <a href="/terms.html">Terms</a>
+        <a href="/privacy-policy.html">Privacy Policy</a>
+        <a href="/disclaimer.html">Disclaimer</a>
+      </div>
+    </div>
+  </footer>
 
   <nav class="bottom-nav">
     <div class="bottom-nav-wrap">
@@ -410,5 +409,3 @@
   </script>
 </body>
 </html>
-
-
