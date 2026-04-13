@@ -1150,6 +1150,27 @@
       transition-delay: 0.12s;
     }
 
+    .home-hero.hero-animate .reveal-copy {
+      animation: heroReveal 0.85s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    .home-hero.hero-animate .reveal-copy-delay {
+      animation-delay: 0.12s;
+    }
+
+    @keyframes heroReveal {
+      from {
+        opacity: 0;
+        transform: translateY(22px) scale(0.985);
+        filter: blur(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
+      }
+    }
+
     .welcome-reveal {
       position: relative;
       display: inline-flex;
@@ -1484,7 +1505,7 @@
   </div>
 
   <main class="app-frame">
-    <section class="relative min-h-screen overflow-hidden">
+    <section class="home-hero relative min-h-screen overflow-hidden">
       <div class="absolute inset-0" style="background: radial-gradient(circle at top, rgba(201, 79, 138, 0.10), transparent 28%), linear-gradient(180deg, #17101b 0%, #0f0b14 38%, #0b0b0b 100%);"></div>
       <div class="hero-overlay absolute inset-0"></div>
       <div class="relative app-block min-h-screen px-4 sm:px-6 pt-7 pb-8 sm:pt-10 sm:pb-12 flex items-start">
@@ -2090,6 +2111,11 @@
       </a>
     </div>
   </nav>
+  <script>
+    window.requestAnimationFrame(() => {
+      document.querySelector('.home-hero')?.classList.add('hero-animate');
+    });
+  </script>
   <script>
     const revealItems = document.querySelectorAll('.reveal-copy');
     const guaranteeFills = document.querySelectorAll('.guarantee-fill');
