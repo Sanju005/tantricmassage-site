@@ -590,10 +590,10 @@
         event.preventDefault();
 
         const formData = new FormData(reviewForm);
-        const safeName = String(formData.get('name') || ').trim();
-        const safePlace = String(formData.get('place') || ').trim();
+        const safeName = String(formData.get('name') || '').trim();
+        const safePlace = String(formData.get('place') || '').trim();
         const rating = String(formData.get('rating') || '5.0').trim();
-        const safeReview = String(formData.get('review') || ').trim();
+        const safeReview = String(formData.get('review') || '').trim();
 
         if (!safeName || !safePlace || !safeReview) {
           if (reviewFormMessage) {

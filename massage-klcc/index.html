@@ -1362,7 +1362,7 @@
       galleryEnterButton.addEventListener('click', () => {
         const age = Number(galleryAgeInput.value);
 
-        if (!Number.isFinite(age) || galleryAgeInput.value.trim() === ') {
+        if (!Number.isFinite(age) || galleryAgeInput.value.trim() === '') {
           galleryAgeMessage.textContent = 'Please enter your age first.';
           galleryAgeMessage.classList.remove('gallery-age-message--error');
           galleryAgeMessage.classList.add('gallery-age-message--default');
@@ -1376,7 +1376,7 @@
           return;
         }
 
-        galleryAgeMessage.textContent = ';
+        galleryAgeMessage.textContent = '';
         galleryAgeMessage.classList.remove('gallery-age-message--error');
         galleryAgeMessage.classList.add('gallery-age-message--default');
         window.location.href = '/gallery.html';

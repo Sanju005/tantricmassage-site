@@ -1130,9 +1130,9 @@
     }
 
     .reveal-copy {
-      opacity: 0;
-      transform: translateY(22px) scale(0.985);
-      filter: blur(10px);
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      filter: blur(0);
       transition:
         opacity 0.85s ease,
         transform 0.85s cubic-bezier(0.22, 1, 0.36, 1),
@@ -2294,19 +2294,19 @@
         event.preventDefault();
 
         const formData = new FormData(reviewForm);
-        const name = String(formData.get('name') || ').trim();
-        const place = String(formData.get('place') || ').trim();
-        const rating = String(formData.get('rating') || ').trim();
-        const review = String(formData.get('review') || ').trim();
+        const name = String(formData.get('name') || '').trim();
+        const place = String(formData.get('place') || '').trim();
+        const rating = String(formData.get('rating') || '').trim();
+        const review = String(formData.get('review') || '').trim();
 
         if (!name || !place || !rating || !review) {
           reviewFormMessage.textContent = 'Please complete all fields before submitting.';
           return;
         }
 
-        const safeName = name.replace(/[<>]/g, ');
-        const safePlace = place.replace(/[<>]/g, ');
-        const safeReview = review.replace(/[<>]/g, ');
+        const safeName = name.replace(/[<>]/g, '');
+        const safePlace = place.replace(/[<>]/g, '');
+        const safeReview = review.replace(/[<>]/g, '');
         const ratingNumber = parseFloat(rating);
         const ratingStars = ratingNumber >= 5 ? '★★★★★' : ratingNumber >= 4 ? '★★★★' : '★★★';
         const reviewCard = document.createElement('article');
@@ -2329,7 +2329,7 @@
 
       document.querySelectorAll('#reviews-slider .review-card-home').forEach((card) => {
         if (card.classList.contains('review-card-home--add')) return;
-        const ratingText = card.querySelector('.review-rating')?.textContent?.trim() || ';
+        const ratingText = card.querySelector('.review-rating')?.textContent?.trim() || '';
         const starsEl = card.querySelector('.review-stars');
         const ratingValue = parseFloat(ratingText);
         if (!starsEl || Number.isNaN(ratingValue)) return;
@@ -2341,7 +2341,7 @@
       galleryEnterButton.addEventListener('click', () => {
         const age = Number(galleryAgeInput.value);
 
-        if (!Number.isFinite(age) || galleryAgeInput.value.trim() === ') {
+        if (!Number.isFinite(age) || galleryAgeInput.value.trim() === '') {
           galleryAgeMessage.textContent = 'Please enter your age first.';
           galleryAgeMessage.classList.remove('gallery-age-message--error');
           galleryAgeMessage.classList.add('gallery-age-message--default');
@@ -2355,7 +2355,7 @@
           return;
         }
 
-        galleryAgeMessage.textContent = ';
+        galleryAgeMessage.textContent = '';
         galleryAgeMessage.classList.remove('gallery-age-message--error');
         galleryAgeMessage.classList.add('gallery-age-message--default');
         window.location.href = '/gallery.html';
