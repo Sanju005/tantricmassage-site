@@ -3,21 +3,34 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-9PCZZ8BQPS"></script>
   <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-
-    gtag('config', 'G-9PCZZ8BQPS');
-  </script>
-  <script type="text/javascript">
-    (function(c,l,a,r,i,t,y){
-        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-    })(window, document, "clarity", "script", "w7r9hwtiv1");
+    window.addEventListener('load', function () {
+      const loadTracking = function () {
+        if (!window.__massageKlTrackingLoaded) {
+          window.__massageKlTrackingLoaded = true;
+          window.dataLayer = window.dataLayer || [];
+          window.gtag = window.gtag || function(){dataLayer.push(arguments);};
+          const gaScript = document.createElement('script');
+          gaScript.async = true;
+          gaScript.src = 'https://www.googletagmanager.com/gtag/js?id=G-9PCZZ8BQPS';
+          gaScript.onload = function () {
+            gtag('js', new Date());
+            gtag('config', 'G-9PCZZ8BQPS');
+          };
+          document.head.appendChild(gaScript);
+          (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src='https://www.clarity.ms/tag/'+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+          })(window, document, 'clarity', 'script', 'w7r9hwtiv1');
+        }
+      };
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(loadTracking, { timeout: 3000 });
+      } else {
+        setTimeout(loadTracking, 1500);
+      }
+    });
   </script>
   <title>Best Massage in Kuala Lumpur (KL) | Private Outcall Massage Near You</title>
   <meta name="description" content="Premium private massage services in Kuala Lumpur. Relaxation, stress relief, and wellness sessions with discreet outcall service across KL &amp; Selangor. Book your session today.">
@@ -37,14 +50,7 @@
   <meta name="twitter:description" content="Premium private massage services in Kuala Lumpur. Relaxation, stress relief, and wellness sessions with discreet outcall service across KL &amp; Selangor. Book your session today.">
   <meta name="twitter:image" content="https://www.massagekl.com/images/Tanta-Touch.jpg">
   <meta name="twitter:image:alt" content="Best Massage KL private outcall service">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600&display=swap" onload="this.onload=null;this.rel='stylesheet'">
-  <noscript><link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
   <link rel="preload" as="image" href="/images/Tantric%20yoni%20massage%20in%20kl%20slide%201.webp" fetchpriority="high">
-  <link rel="preload" as="image" href="/images/Tantric%20yoni%20massage%20in%20kl%20slide%202.webp">
-  <link rel="preload" as="image" href="/images/Tantric%20yoni%20massage%20in%20kl%20slide%203.webp">
-  <link rel="preload" as="image" href="/images/Tantric%20yoni%20massage%20in%20kl%20slide%204.webp">
   <link rel="preload" href="/styles/tailwind.css" as="style">
   <link rel="stylesheet" href="/styles/tailwind.css">
   <!-- LOCAL BUSINESS SCHEMA -->
@@ -2156,7 +2162,7 @@
 
       siteMenu.classList.remove('is-open');
       siteMenu.setAttribute('aria-hidden', 'true');
-      document.body.style.overflow = '';
+      document.body.style.overflow = ';
     };
 
     if (menuButton) {
@@ -2197,7 +2203,7 @@
 
       reviewFormModal.classList.remove('is-open');
       reviewFormModal.setAttribute('aria-hidden', 'true');
-      document.body.style.overflow = '';
+      document.body.style.overflow = ';
     };
 
     if (openReviewFormButton) {
@@ -2288,19 +2294,19 @@
         event.preventDefault();
 
         const formData = new FormData(reviewForm);
-        const name = String(formData.get('name') || '').trim();
-        const place = String(formData.get('place') || '').trim();
-        const rating = String(formData.get('rating') || '').trim();
-        const review = String(formData.get('review') || '').trim();
+        const name = String(formData.get('name') || ').trim();
+        const place = String(formData.get('place') || ').trim();
+        const rating = String(formData.get('rating') || ').trim();
+        const review = String(formData.get('review') || ').trim();
 
         if (!name || !place || !rating || !review) {
           reviewFormMessage.textContent = 'Please complete all fields before submitting.';
           return;
         }
 
-        const safeName = name.replace(/[<>]/g, '');
-        const safePlace = place.replace(/[<>]/g, '');
-        const safeReview = review.replace(/[<>]/g, '');
+        const safeName = name.replace(/[<>]/g, ');
+        const safePlace = place.replace(/[<>]/g, ');
+        const safeReview = review.replace(/[<>]/g, ');
         const ratingNumber = parseFloat(rating);
         const ratingStars = ratingNumber >= 5 ? '★★★★★' : ratingNumber >= 4 ? '★★★★' : '★★★';
         const reviewCard = document.createElement('article');
@@ -2323,7 +2329,7 @@
 
       document.querySelectorAll('#reviews-slider .review-card-home').forEach((card) => {
         if (card.classList.contains('review-card-home--add')) return;
-        const ratingText = card.querySelector('.review-rating')?.textContent?.trim() || '';
+        const ratingText = card.querySelector('.review-rating')?.textContent?.trim() || ';
         const starsEl = card.querySelector('.review-stars');
         const ratingValue = parseFloat(ratingText);
         if (!starsEl || Number.isNaN(ratingValue)) return;
@@ -2335,7 +2341,7 @@
       galleryEnterButton.addEventListener('click', () => {
         const age = Number(galleryAgeInput.value);
 
-        if (!Number.isFinite(age) || galleryAgeInput.value.trim() === '') {
+        if (!Number.isFinite(age) || galleryAgeInput.value.trim() === ') {
           galleryAgeMessage.textContent = 'Please enter your age first.';
           galleryAgeMessage.classList.remove('gallery-age-message--error');
           galleryAgeMessage.classList.add('gallery-age-message--default');
@@ -2349,7 +2355,7 @@
           return;
         }
 
-        galleryAgeMessage.textContent = '';
+        galleryAgeMessage.textContent = ';
         galleryAgeMessage.classList.remove('gallery-age-message--error');
         galleryAgeMessage.classList.add('gallery-age-message--default');
         window.location.href = '/gallery.html';
@@ -2365,6 +2371,9 @@
   </script>
 </body>
 </html>
+
+
+
 
 
 
