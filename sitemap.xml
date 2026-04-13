@@ -86,28 +86,70 @@
   </url>
 
   <url>
-    <loc>https://www.massagekl.com/blog/klcc-best-time-book-massage.html</loc>
-    <lastmod>2026-04-12</lastmod>
+    <loc>https://www.massagekl.com/massage-klcc/</loc>
+    <lastmod>2026-04-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://www.massagekl.com/massage-klcc/private-massage-hotels-residences/</loc>
+    <lastmod>2026-04-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
-    <loc>https://www.massagekl.com/blog/bangsar-hotel-outcall-massage-guide.html</loc>
-    <lastmod>2026-04-12</lastmod>
+    <loc>https://www.massagekl.com/massage-klcc/business-traveller-guide/</loc>
+    <lastmod>2026-04-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
-    <loc>https://www.massagekl.com/blog/mont-kiara-private-massage-booking-tips.html</loc>
-    <lastmod>2026-04-12</lastmod>
+    <loc>https://www.massagekl.com/massage-klcc/best-time-to-book/</loc>
+    <lastmod>2026-04-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
-    <loc>https://www.massagekl.com/blog/premium-massage-in-kuala-lumpur-relaxation-wellness-near-you.html</loc>
+    <loc>https://www.massagekl.com/massage-bangsar/</loc>
+    <lastmod>2026-04-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://www.massagekl.com/massage-bangsar/hotel-outcall-guide/</loc>
+    <lastmod>2026-04-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://www.massagekl.com/massage-mont-kiara/</loc>
+    <lastmod>2026-04-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://www.massagekl.com/massage-mont-kiara/booking-tips/</loc>
+    <lastmod>2026-04-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://www.massagekl.com/massage-kuala-lumpur/</loc>
+    <lastmod>2026-04-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://www.massagekl.com/massage-kuala-lumpur/premium-relaxation-wellness/</loc>
     <lastmod>2026-04-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -127,40 +169,6 @@
     <priority>0.8</priority>
   </url>
 
-  <url>
-    <loc>https://www.massagekl.com/massage-bangsar.html</loc>
-    <lastmod>2026-04-09</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-
-  <url>
-    <loc>https://www.massagekl.com/massage-klcc.html</loc>
-    <lastmod>2026-04-09</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-
-  <url>
-    <loc>https://www.massagekl.com/klcc-hotel-residence-massage.html</loc>
-    <lastmod>2026-04-11</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <url>
-    <loc>https://www.massagekl.com/klcc-business-traveller-massage.html</loc>
-    <lastmod>2026-04-11</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <url>
-    <loc>https://www.massagekl.com/klcc-best-time-book-massage.html</loc>
-    <lastmod>2026-04-11</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
   <url>
     <loc>https://www.massagekl.com/massage-bukit-bintang.html</loc>
     <lastmod>2026-04-11</lastmod>
