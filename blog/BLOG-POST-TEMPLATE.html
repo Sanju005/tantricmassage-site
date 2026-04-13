@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>[ARTICLE TITLE]</title>
+  <meta name="description" content="[META DESCRIPTION 140-160 CHARACTERS]">
+  <link rel="canonical" href="https://www.massagekl.com/blog/[article-slug].html">
+  <link rel="preload" href="/styles/tailwind.css" as="style">
+  <link rel="stylesheet" href="/styles/tailwind.css">
+</head>
+<body class="min-h-screen bg-black text-white">
+  <article class="mx-auto max-w-4xl px-4 py-10 sm:px-6 sm:py-14">
+    <a href="/blog/[place-slug]/" class="text-sm font-semibold text-amber-300">Back to [PLACE NAME]</a>
+
+    <!-- Featured image
+      Recommended size:
+      1600 x 900 px
+      Minimum:
+      1200 x 675 px
+      Format:
+      .webp preferred
+    -->
+    <div
+      class="mt-6 min-h-[280px] rounded-[1.5rem] bg-cover bg-center"
+      style="background-image:url('/images/[featured-image-file].webp');"
+      role="img"
+      aria-label="[FEATURED IMAGE ALT TEXT]"></div>
+
+    <!-- Tags -->
+    <div class="mt-6 flex flex-wrap gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-amber-300">
+      <span>[PLACE NAME]</span>
+      <span>[TAG 1]</span>
+      <span>[TAG 2]</span>
+      <span>[TAG 3]</span>
+    </div>
+
+    <!-- Published date -->
+    <p class="mt-4 text-xs uppercase tracking-[0.22em] text-white/55">Created: [MONTH DAY, YEAR]</p>
+
+    <!-- Main heading -->
+    <h1 class="mt-4 text-4xl font-bold leading-tight">[H1 ARTICLE TITLE]</h1>
+
+    <!-- Intro -->
+    <p class="mt-5 text-base leading-8 text-white/72">
+      [INTRO PARAGRAPH ABOUT THE PLACE, USER NEED, AND WHAT THIS ARTICLE HELPS WITH.]
+    </p>
+
+    <!-- Section 1 -->
+    <h2 class="mt-8 text-2xl font-semibold">[H2 SECTION TITLE]</h2>
+    <p class="mt-4 text-base leading-8 text-white/72">
+      [SECTION CONTENT]
+    </p>
+
+    <!-- Section 2 -->
+    <h2 class="mt-8 text-2xl font-semibold">[H2 SECTION TITLE]</h2>
+    <p class="mt-4 text-base leading-8 text-white/72">
+      [SECTION CONTENT]
+    </p>
+
+    <!-- Section 3 -->
+    <h2 class="mt-8 text-2xl font-semibold">[H2 SECTION TITLE]</h2>
+    <p class="mt-4 text-base leading-8 text-white/72">
+      [SECTION CONTENT]
+    </p>
+
+    <!-- Internal link back to place page -->
+    <h2 class="mt-8 text-2xl font-semibold">Best internal page to check next</h2>
+    <p class="mt-4 text-base leading-8 text-white/72">
+      Continue to <a href="/massage-[place-slug].html" class="text-amber-300 underline underline-offset-4">Massage [PLACE NAME]</a> for the local service page and next booking step.
+    </p>
+  </article>
+</body>
+</html>
+
+<!--
+BLOG POST CHECKLIST
+
+1. Choose one main place only
+   Example: KLCC, Bangsar, Mont Kiara
+
+2. Use this URL format
+   /blog/[place]-[topic].html
+
+3. Keep 2 to 4 tags max
+
+4. H1 should match the main search intent
+
+5. Add 3 to 4 H2 sections
+
+6. Always link back to the matching place page
+
+7. Add the article to:
+   - /blog/index.html
+   - /blog/[place-slug]/index.html
+   - the matching place page article cards
+   - sitemap.xml
+-->
+
+<!--
+ARTICLE CARD TEMPLATE FOR PLACE PAGE
+
+Paste this into a place page like massage-klcc.html
+
+<a href="/blog/[article-slug].html" class="article-card luxury-card rounded-[1.75rem] transition hover:-translate-y-1">
+  <div class="article-card__image" style="background-image: url('/images/[featured-image-file].webp');" role="img" aria-label="[ARTICLE IMAGE ALT TEXT]"></div>
+  <div class="p-6">
+    <p class="text-xs uppercase tracking-[0.24em]" style="color: var(--gold-main);">[PLACE NAME]</p>
+    <p class="mt-3 text-xs uppercase tracking-[0.22em]" style="color: var(--text-secondary);">Created: [MONTH DAY, YEAR]</p>
+    <h2 class="mt-3 text-xl font-semibold">[CARD TITLE]</h2>
+    <div class="mt-4 flex flex-wrap gap-2">
+      <span class="article-tag">[TAG 1]</span>
+      <span class="article-tag">[TAG 2]</span>
+      <span class="article-tag">[TAG 3]</span>
+    </div>
+    <p class="mt-4 text-sm leading-7" style="color: var(--text-secondary);">[SHORT EXCERPT 1-2 LINES]</p>
+    <span class="mt-5 inline-flex text-sm font-semibold" style="color: var(--gold-soft);">Read article &rarr;</span>
+  </div>
+</a>
+-->
