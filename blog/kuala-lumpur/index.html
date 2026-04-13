@@ -8,23 +8,76 @@
   <link rel="canonical" href="https://www.massagekl.com/blog/kuala-lumpur/">
   <link rel="preload" href="/styles/tailwind.css" as="style">
   <link rel="stylesheet" href="/styles/tailwind.css">
+  <style>
+    :root {
+      --bg-main: #0b0b0b;
+      --bg-card: #171717;
+      --gold-main: #d4af37;
+      --gold-soft: #ffd700;
+      --text-main: #ffffff;
+      --text-secondary: #cccccc;
+      --border-soft: rgba(212, 175, 55, 0.18);
+    }
+
+    body {
+      margin: 0;
+      background: linear-gradient(180deg, #0a0a0a 0%, #110d18 100%);
+      color: var(--text-main);
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
+
+    .wrap {
+      width: min(1120px, calc(100% - 2rem));
+      margin: 0 auto;
+    }
+
+    .card {
+      background: linear-gradient(180deg, rgba(26, 26, 26, 0.96), rgba(16, 16, 16, 0.96));
+      border: 1px solid var(--border-soft);
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.28);
+    }
+
+    .hero-image {
+      min-height: 260px;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.35rem 0.65rem;
+      border-radius: 9999px;
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-secondary);
+      font-size: 0.74rem;
+      font-weight: 600;
+    }
+  </style>
 </head>
-<body class="min-h-screen bg-black text-white">
-  <main class="mx-auto max-w-5xl px-4 py-10 sm:px-6 sm:py-14">
-    <p class="text-xs font-bold uppercase tracking-[0.34em] text-amber-400">Kuala Lumpur (KL)</p>
-    <h1 class="mt-4 text-4xl font-bold leading-tight">Kuala Lumpur massage booking guides</h1>
-    <p class="mt-4 max-w-3xl text-base leading-8 text-white/70">This category groups blog posts focused on Kuala Lumpur, including private massage, outcall wellness, and practical booking advice across KL.</p>
-    <article class="mt-10 rounded-[1.5rem] overflow-hidden border border-amber-400/20 bg-zinc-950/90">
-      <div class="min-h-[250px] bg-cover bg-center" style="background-image:url('/blog/KL/Premium-Massage-in-Kuala-Lumpur-Relaxation-%26-Wellness-Near-You.jpg');"></div>
-      <div class="p-6 sm:p-8">
-        <div class="flex flex-wrap gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-amber-300">
-          <span>Kuala Lumpur (KL)</span><span>massagekl</span><span>best massage</span>
+<body>
+  <main class="py-10 sm:py-14">
+    <div class="wrap">
+      <p class="text-xs font-bold uppercase tracking-[0.34em]" style="color: var(--gold-main);">Kuala Lumpur (KL)</p>
+      <h1 class="mt-4 text-4xl font-bold leading-tight sm:text-5xl">Kuala Lumpur massage booking guides</h1>
+      <p class="mt-4 max-w-3xl text-base leading-8" style="color: var(--text-secondary);">This category groups blog posts focused on Kuala Lumpur, including private massage, outcall wellness, and practical booking advice across KL.</p>
+
+      <article class="card mt-10">
+        <div class="hero-image" style="background-image:url('/blog/KL/Premium-Massage-in-Kuala-Lumpur-Relaxation-%26-Wellness-Near-You.jpg');"></div>
+        <div class="p-6 sm:p-8">
+          <div class="flex flex-wrap gap-2 text-xs font-semibold uppercase tracking-[0.2em]" style="color: var(--gold-soft);">
+            <span class="tag">Kuala Lumpur (KL)</span>
+            <span class="tag">massagekl</span>
+            <span class="tag">best massage</span>
+          </div>
+          <h2 class="mt-4 text-3xl font-semibold leading-tight sm:text-4xl">Premium Massage in Kuala Lumpur - Relaxation &amp; Wellness Near You</h2>
+          <p class="mt-4 text-base leading-8" style="color: var(--text-secondary);">A clean introduction to private massage in KL, covering comfort, privacy, same-day availability, and why guests choose outcall sessions in Kuala Lumpur.</p>
+          <a href="/blog/premium-massage-in-kuala-lumpur-relaxation-wellness-near-you.html" class="mt-5 inline-flex text-sm font-semibold" style="color: var(--gold-soft);">Read article</a>
         </div>
-        <h2 class="mt-4 text-3xl font-semibold leading-tight">Premium Massage in Kuala Lumpur - Relaxation &amp; Wellness Near You</h2>
-        <p class="mt-4 text-base leading-8 text-white/72">A clean introduction to private massage in KL, covering comfort, privacy, same-day availability, and why guests choose outcall sessions in Kuala Lumpur.</p>
-        <a href="/blog/premium-massage-in-kuala-lumpur-relaxation-wellness-near-you.html" class="mt-5 inline-flex text-sm font-semibold text-amber-300">Read article</a>
-      </div>
-    </article>
+      </article>
+    </div>
   </main>
 </body>
 </html>
