@@ -630,11 +630,12 @@
         0 0 22px rgba(255, 255, 255, 0.12);
     }
 
-    .shortcut-card svg {
+    .shortcut-card img {
       width: 1.35rem;
       height: 1.35rem;
-      color: #f5f5f5;
       flex-shrink: 0;
+      object-fit: contain;
+      filter: brightness(0) invert(1);
     }
 
     .guarantee-fill {
@@ -1106,7 +1107,7 @@
           0 0 22px rgba(255, 255, 255, 0.12);
       }
 
-      .shortcut-card svg {
+      .shortcut-card img {
         width: 1.5rem;
         height: 1.5rem;
       }
@@ -1557,68 +1558,39 @@
       <div class="app-block px-4 sm:px-6">
         <div class="shortcut-grid">
           <a href="#why-home" class="shortcut-card">
-            <svg viewBox="0 0 64 64" fill="none" aria-hidden="true">
-              <path d="M24 30V18c0-3.31 2.69-6 6-6h2v18" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M24 30h18.5c3.04 0 5.5 2.46 5.5 5.5 0 .8-.17 1.58-.49 2.31l-4.18 9.52A6 6 0 0 1 37.84 51H24a4 4 0 0 1-4-4V34a4 4 0 0 1 4-4Z" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/>
-              <path d="M20 34v17" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
-            </svg>
+            <img src="/images/home%20icon%20set%201/why%20me-01.svg" alt="" aria-hidden="true">
             <span>Why Me</span>
           </a>
           <a href="#benefits" class="shortcut-card">
-            <svg viewBox="0 0 64 64" fill="none" aria-hidden="true">
-              <path d="M32 15c3.5 7.5 10.5 10.5 17 10.5-1 12-7.5 20-17 24.5C22.5 45.5 16 37.5 15 25.5 21.5 25.5 28.5 22.5 32 15Z" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/>
-              <path d="M32 22c-1.9 4.1-5.7 6.3-9.5 6.3 0 7.4 3.7 12.4 9.5 15.8 5.8-3.4 9.5-8.4 9.5-15.8-3.8 0-7.6-2.2-9.5-6.3Z" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/>
-            </svg>
+            <img src="/images/home%20icon%20set%201/benefits-01.svg" alt="" aria-hidden="true">
             <span>Benefits</span>
           </a>
           <a href="#how-to-book" class="shortcut-card">
-            <svg viewBox="0 0 64 64" fill="none" aria-hidden="true">
-              <rect x="14" y="18" width="36" height="32" rx="3" stroke="currentColor" stroke-width="2.5"/>
-              <path d="M14 28h36M24 14v8M40 14v8M24 36h6M34 36h6M24 44h6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
-            </svg>
+            <img src="/images/home%20icon%20set%201/how%20to%20book-01.svg" alt="" aria-hidden="true">
             <span>How to Book</span>
           </a>
           <a href="#privacy" class="shortcut-card">
-            <svg viewBox="0 0 64 64" fill="none" aria-hidden="true">
-              <path d="M32 12 48 18v12c0 12-8.5 19-16 22-7.5-3-16-10-16-22V18l16-6Z" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/>
-              <path d="M26 31l4 4 8-9" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
+            <img src="/images/home%20icon%20set%201/privacy-01.svg" alt="" aria-hidden="true">
             <span>Privacy</span>
           </a>
           <a href="#guarantee" class="shortcut-card">
-            <svg viewBox="0 0 64 64" fill="none" aria-hidden="true">
-              <path d="M32 12 48 18v12c0 12-8.5 19-16 22-7.5-3-16-10-16-22V18l16-6Z" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/>
-              <path d="M25.5 32l4.5 4.5L38.5 28" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
+            <img src="/images/home%20icon%20set%201/gurantee-01.svg" alt="" aria-hidden="true">
             <span>Guarantee</span>
           </a>
           <a href="#gallery-education" class="shortcut-card">
-            <svg viewBox="0 0 64 64" fill="none" aria-hidden="true">
-              <rect x="14" y="18" width="36" height="28" rx="4" stroke="currentColor" stroke-width="2.5"/>
-              <path d="m22 38 8-8 6 6 6-8" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-              <circle cx="24" cy="26" r="2.5" fill="currentColor"/>
-            </svg>
+            <img src="/images/home%20icon%20set%201/gallery-01.svg" alt="" aria-hidden="true">
             <span>Gallery &amp; Education</span>
           </a>
           <a href="#faq" class="shortcut-card">
-            <svg viewBox="0 0 64 64" fill="none" aria-hidden="true">
-              <circle cx="32" cy="32" r="18" stroke="currentColor" stroke-width="2.5"/>
-              <path d="M26.5 26.5c1.1-2.2 3.24-3.5 5.9-3.5 3.6 0 6.6 2.27 6.6 5.86 0 2.47-1.33 4.09-3.43 5.34-1.99 1.18-3.57 2.31-3.57 4.8" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
-              <circle cx="32" cy="44" r="1.8" fill="currentColor"/>
-            </svg>
+            <img src="/images/home%20icon%20set%201/faq-01.svg" alt="" aria-hidden="true">
             <span>FAQ</span>
           </a>
           <a href="/blog/" class="shortcut-card">
-            <svg viewBox="0 0 64 64" fill="none" aria-hidden="true">
-              <rect x="16" y="14" width="32" height="36" rx="4" stroke="currentColor" stroke-width="2.5"/>
-              <path d="M24 24h16M24 32h16M24 40h10" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
-            </svg>
+            <img src="/images/home%20icon%20set%201/blog-01.svg" alt="" aria-hidden="true">
             <span>Blog</span>
           </a>
           <a href="#reviews-home" class="shortcut-card">
-            <svg viewBox="0 0 64 64" fill="none" aria-hidden="true">
-              <path d="m32 14 5.25 10.64 11.75 1.71-8.5 8.28 2.01 11.7L32 40.82l-10.51 5.51 2.01-11.7-8.5-8.28 11.75-1.71L32 14Z" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/>
-            </svg>
+            <img src="/images/home%20icon%20set%201/review-01.svg" alt="" aria-hidden="true">
             <span>Reviews</span>
           </a>
         </div>
