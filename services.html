@@ -94,6 +94,18 @@
       padding: 1.25rem;
     }
 
+    .sr-only-heading {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
     .form-modal {
       width: min(100%, 760px);
       border-radius: 2rem;
@@ -679,6 +691,7 @@
 </head>
 <body>
   <main class="page-shell">
+    <h1 class="sr-only-heading">Massage Packages in Kuala Lumpur</h1>
     <div class="form-modal" role="dialog" aria-modal="true" aria-labelledby="wizard-title">
       <div class="modal-head">
         <div class="modal-dot-row" aria-hidden="true">
