@@ -630,12 +630,19 @@
         0 0 22px rgba(255, 255, 255, 0.12);
     }
 
-    .shortcut-card svg {
+    .shortcut-card svg,
+    .shortcut-card img {
       width: 1.35rem;
       height: 1.35rem;
       flex-shrink: 0;
       color: #f5f5f5;
       fill: currentColor;
+    }
+
+    .shortcut-card img {
+      display: block;
+      object-fit: contain;
+      filter: brightness(0) invert(1);
     }
 
     .guarantee-fill {
@@ -1107,7 +1114,8 @@
           0 0 22px rgba(255, 255, 255, 0.12);
       }
 
-      .shortcut-card svg {
+      .shortcut-card svg,
+      .shortcut-card img {
         width: 1.5rem;
         height: 1.5rem;
       }
@@ -1594,39 +1602,39 @@
       <div class="app-block px-4 sm:px-6">
         <div class="shortcut-grid">
           <a href="#why-home" class="shortcut-card">
-            <svg viewBox="0 0 100 100" aria-hidden="true"><use href="#icon-why-me"></use></svg>
+            <img src="/images/home%20icon%20set%201/why%20me-01.svg" alt="" aria-hidden="true">
             <span>Why Me</span>
           </a>
           <a href="#benefits" class="shortcut-card">
-            <svg viewBox="0 0 100 100" aria-hidden="true"><use href="#icon-benefits"></use></svg>
+            <img src="/images/home%20icon%20set%201/benefits-01.svg" alt="" aria-hidden="true">
             <span>Benefits</span>
           </a>
           <a href="#how-to-book" class="shortcut-card">
-            <svg viewBox="0 0 100 100" aria-hidden="true"><use href="#icon-how-to-book"></use></svg>
+            <img src="/images/home%20icon%20set%201/how%20to%20book-01.svg" alt="" aria-hidden="true">
             <span>How to Book</span>
           </a>
           <a href="#privacy" class="shortcut-card">
-            <svg viewBox="0 0 100 100" aria-hidden="true"><use href="#icon-privacy"></use></svg>
+            <img src="/images/home%20icon%20set%201/privacy-01.svg" alt="" aria-hidden="true">
             <span>Privacy</span>
           </a>
           <a href="#guarantee" class="shortcut-card">
-            <svg viewBox="0 0 100 100" aria-hidden="true"><use href="#icon-guarantee"></use></svg>
+            <img src="/images/home%20icon%20set%201/gurantee-01.svg" alt="" aria-hidden="true">
             <span>Guarantee</span>
           </a>
           <a href="#gallery-education" class="shortcut-card">
-            <svg viewBox="0 0 100 100" aria-hidden="true"><use href="#icon-gallery"></use></svg>
+            <img src="/images/home%20icon%20set%201/gallery-01.svg" alt="" aria-hidden="true">
             <span>Gallery &amp; Education</span>
           </a>
           <a href="#faq" class="shortcut-card">
-            <svg viewBox="0 0 100 100" aria-hidden="true"><use href="#icon-faq"></use></svg>
+            <img src="/images/home%20icon%20set%201/faq-01.svg" alt="" aria-hidden="true">
             <span>FAQ</span>
           </a>
           <a href="/blog/" class="shortcut-card">
-            <svg viewBox="0 0 100 100" aria-hidden="true"><use href="#icon-blog"></use></svg>
+            <img src="/images/home%20icon%20set%201/blog-01.svg" alt="" aria-hidden="true">
             <span>Blog</span>
           </a>
           <a href="#reviews-home" class="shortcut-card">
-            <svg viewBox="0 0 100 100" aria-hidden="true"><use href="#icon-reviews"></use></svg>
+            <img src="/images/home%20icon%20set%201/review-01.svg" alt="" aria-hidden="true">
             <span>Reviews</span>
           </a>
         </div>
