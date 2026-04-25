@@ -1089,8 +1089,19 @@
 
     @media (min-width: 768px) {
       .reviews-header-wrap {
-        grid-template-columns: auto minmax(0, 1fr);
-        gap: 1.5rem;
+        min-height: 16rem;
+        padding-right: 15rem;
+      }
+
+      .reviews-lottie-card {
+        width: 16rem;
+        min-height: 16rem;
+        right: 0;
+        top: -1.25rem;
+      }
+
+      .reviews-lottie-card dotlottie-player {
+        min-height: 16rem;
       }
     }
 
@@ -1215,64 +1226,62 @@
     .online-now-badge {
       display: inline-flex;
       align-items: center;
-      gap: 0.7rem;
-      padding: 0.7rem 1rem;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.16);
+      gap: 0.3rem;
+      padding: 0;
+      border-radius: 0;
+      background: none;
+      border: 0;
+      box-shadow: none;
     }
 
     .online-now-dot {
-      width: 0.6rem;
-      height: 0.6rem;
-      border-radius: 999px;
-      background: #25D366;
-      box-shadow: 0 0 12px rgba(37, 211, 102, 0.72);
-      animation: onlineNowPulse 1.25s ease-in-out infinite;
-      flex-shrink: 0;
+      display: none;
     }
 
     .online-now-label {
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.18em;
-      color: var(--gold-main);
-      font-weight: 700;
+      font-size: 1.6rem;
+      text-transform: none;
+      letter-spacing: 0;
+      color: var(--text-main);
+      font-weight: 500;
+      line-height: 1;
     }
 
     .online-now-count {
-      min-width: 2.4rem;
-      text-align: center;
-      font-size: 1.1rem;
-      font-weight: 800;
-      color: var(--text-main);
+      min-width: auto;
+      text-align: left;
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: var(--gold-soft);
+      line-height: 1;
     }
 
     .reviews-header-wrap {
-      display: grid;
-      gap: 1rem;
-      align-items: start;
+      position: relative;
+      display: block;
+      min-height: 14rem;
+      padding-right: 8.5rem;
     }
 
     .reviews-lottie-card {
-      width: min(100%, 18rem);
-      min-height: 18rem;
-      margin: 0 0 -2.25rem;
+      width: 11rem;
+      min-height: 11rem;
+      margin: 0;
       overflow: visible;
       background: none;
       border: 0;
       box-shadow: none;
-      justify-self: start;
-      align-self: end;
-      position: relative;
+      position: absolute;
+      right: -0.25rem;
+      top: -0.75rem;
       z-index: 1;
+      pointer-events: none;
     }
 
     .reviews-lottie-card dotlottie-player {
       width: 100%;
       height: 100%;
-      min-height: 18rem;
+      min-height: 11rem;
       display: block;
       background: transparent;
     }
@@ -1771,8 +1780,7 @@
           <div class="reveal-copy reveal-copy-delay reviews-lottie-card" aria-hidden="true">
             <dotlottie-player src="/images/Animation - 1723340568402.lottie" autoplay loop background="transparent"></dotlottie-player>
           </div>
-          <div class="max-w-3xl">
-            <p class="reveal-copy text-xs uppercase tracking-[0.4em]" style="color: var(--gold-main);">Reviews</p>
+          <div class="max-w-[18rem] sm:max-w-[24rem]">
             <div class="reveal-copy reveal-copy-delay mt-4">
               <div class="online-now-badge" aria-live="polite">
                 <span class="online-now-dot" aria-hidden="true"></span>
@@ -1781,7 +1789,6 @@
               </div>
             </div>
             <h2 class="reveal-copy reveal-copy-delay section-title section-heading-display mt-4 text-[1.75rem] sm:text-[2.2rem] leading-[1.02]">What clients say after their session</h2>
-            <p class="reveal-copy reveal-copy-delay section-subcopy mt-4">Real feedback that reflects the calm, discreet, and premium private wellness experience in Kuala Lumpur.</p>
           </div>
         </div>
         <div class="reviews-slider mt-8 gap-4 sm:gap-5" id="reviews-slider">
