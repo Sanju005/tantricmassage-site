@@ -762,18 +762,17 @@
 
             <section class="step-panel hidden transition-all duration-300 ease-out" data-step="2">
               <p class="step-kicker">Step 3 of 3</p>
-              <h2 id="package-step-title" class="step-title">Would you like to see pre packages or customise your own package?</h2>
-              <p id="package-step-copy" class="step-copy">Choose preset packages to see the packages we already created, or open a separate page to build your own.</p>
+              <h2 id="package-step-title" class="step-title">Would you like to see our pre packages?</h2>
+              <p id="package-step-copy" class="step-copy">Choose preset packages to view the packages we already created for lady bookings.</p>
 
               <div class="choice-list">
                 <button id="package-presets-button" type="button" class="package-action-button">Show Pre Packages</button>
-                <button id="package-custom-button" type="button" class="package-action-button">Build Own Package</button>
                 <button id="couple-package-button" type="button" class="package-action-button hidden">Show Couple Package</button>
               </div>
 
               <div class="terms-box">
                 <label class="terms-label">
-                  <input id="terms" name="terms" type="checkbox" checked required>
+                  <input id="terms" name="terms" type="checkbox" required>
                   <span><strong class="text-[#ffcf75]">I understand male masseurs will provide the service. No female masseur is available.</strong> I agree to the <a href="/terms.html" class="terms-link">terms and conditions</a>.</span>
                 </label>
               </div>
@@ -848,7 +847,7 @@
       }
 
       if (stepIndex === 2) {
-        alert("Please choose pre packages or customise your own package.");
+        alert("Please choose a package option and agree to the terms.");
       }
 
     };
@@ -907,12 +906,12 @@
         return;
       }
 
-      if (packageStepTitle) packageStepTitle.textContent = "Would you like to see pre packages or customise your own package?";
-      if (packageStepCopy) packageStepCopy.textContent = "Choose preset packages to see the packages we already created, or open a separate page to build your own.";
+      if (packageStepTitle) packageStepTitle.textContent = "Would you like to see our pre packages?";
+      if (packageStepCopy) packageStepCopy.textContent = "Choose preset packages to view the packages we already created for lady bookings.";
       packagePresetsButton?.classList.remove("hidden");
       if (packagePresetsButton) packagePresetsButton.hidden = false;
-      packageCustomButton?.classList.remove("hidden");
-      if (packageCustomButton) packageCustomButton.hidden = false;
+      packageCustomButton?.classList.add("hidden");
+      if (packageCustomButton) packageCustomButton.hidden = true;
       couplePackageButton?.classList.add("hidden");
       if (couplePackageButton) couplePackageButton.hidden = true;
     };
