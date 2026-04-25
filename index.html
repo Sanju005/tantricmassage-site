@@ -1129,8 +1129,9 @@ elegant serif feel      display: flex;
 
     @media (min-width: 768px) {
       .reviews-header-wrap {
-        min-height: 20rem;
-        padding-right: 25vw;
+        min-height: 0;
+        padding-top: 25vw;
+        padding-right: 0;
       }
 
       .online-now-badge-wrap {
@@ -1139,21 +1140,22 @@ elegant serif feel      display: flex;
       }
 
       .reviews-lottie-card {
-        width: 25vw;
-        min-height: 25vw;
-        max-width: 22rem;
-        max-height: 22rem;
+        width: 37.5vw;
+        min-height: 37.5vw;
+        max-width: 33rem;
+        max-height: 33rem;
         right: 0;
-        top: -1.1rem;
+        top: 0;
+        left: auto;
       }
 
       .reviews-lottie-card dotlottie-player {
-        min-height: 25vw;
-        max-height: 22rem;
+        min-height: 37.5vw;
+        max-height: 33rem;
       }
 
       .reviews-heading-block {
-        margin-top: 2.75rem;
+        margin-top: 0;
         max-width: 24rem;
       }
     }
@@ -1244,15 +1246,15 @@ elegant serif feel      display: flex;
       justify-content: center;
       white-space: nowrap;
       min-width: auto;
-      min-height: 2.1rem;
-      padding: 0.42rem 0.78rem;
-      border-radius: 999px;
-      border: 1px solid rgba(255, 122, 182, 0.28);
-      background: linear-gradient(180deg, rgba(255, 122, 182, 0.11), rgba(255, 122, 182, 0.05));
-      box-shadow: 0 0 0 1px rgba(255, 122, 182, 0.05), 0 0 18px rgba(255, 122, 182, 0.09);
+      min-height: auto;
+      padding: 0;
+      border-radius: 0;
+      border: 0;
+      background: none;
+      box-shadow: none;
       color: #ff7ab6;
       letter-spacing: 0.08em;
-      font-size: 0.62rem;
+      font-size: 0.68rem;
       line-height: 1;
       text-transform: uppercase;
       opacity: 1;
@@ -1320,7 +1322,8 @@ elegant serif feel      display: flex;
     .reviews-header-wrap {
       position: relative;
       display: block;
-      min-height: auto;
+      min-height: 0;
+      padding-top: 68vw;
       padding-right: 0;
     }
 
@@ -1332,8 +1335,8 @@ elegant serif feel      display: flex;
     }
 
     .reviews-lottie-card {
-      width: calc(100% + 2rem);
-      min-height: 68vw;
+      width: calc(100% + 3rem);
+      min-height: 102vw;
       max-width: none;
       max-height: none;
       margin: 0;
@@ -1341,10 +1344,10 @@ elegant serif feel      display: flex;
       background: none;
       border: 0;
       box-shadow: none;
-      position: relative;
+      position: absolute;
       right: auto;
-      top: auto;
-      left: -1rem;
+      top: 0;
+      left: -1.5rem;
       z-index: 1;
       pointer-events: none;
     }
@@ -1352,7 +1355,7 @@ elegant serif feel      display: flex;
     .reviews-lottie-card dotlottie-player {
       width: 100%;
       height: 100%;
-      min-height: 68vw;
+      min-height: 102vw;
       max-height: none;
       display: block;
       background: transparent;
@@ -1361,8 +1364,13 @@ elegant serif feel      display: flex;
     .reviews-heading-block {
       position: relative;
       z-index: 2;
-      margin-top: -0.8rem;
+      margin-top: 0;
       max-width: 19rem;
+    }
+
+    .reviews-slider {
+      position: relative;
+      z-index: 2;
     }
 
     @keyframes onlineNowPulse {
@@ -1765,14 +1773,14 @@ elegant serif feel      display: flex;
       <div class="relative app-block min-h-screen px-4 sm:px-6 pt-5 pb-7 sm:pt-8 sm:pb-10 flex items-start">
         <div class="w-full max-w-3xl mx-auto text-center">
           <div class="welcome-reveal reveal-copy">
-            <p class="uppercase font-normal leading-[1.15] opacity-70" style="color: var(--gold-main); font-family: Georgia, 'Times New Roman', serif; font-size: 0.42rem; letter-spacing: 0.18em;">Welcome To Premium Private Wellness</p>
+            <p class="uppercase font-normal leading-[1.15] opacity-70" style="color: var(--gold-main); font-family: Georgia, 'Times New Roman', serif; font-size: 0.30rem; letter-spacing: 0.18em;">Welcome To Premium Private Wellness</p>
           </div>
-          <h1 class="reveal-copy reveal-copy-delay mt-5 mx-auto max-w-[15ch] text-[1.28rem] sm:text-[1.95rem] lg:text-[2.55rem] font-extrabold leading-[1.08]">Best Private Outcall Massage in Kuala Lumpur (KL) - Relaxation &amp; Wellness Experience</h1>
+          <h2 class="reveal-copy reveal-copy-delay mt-4 text-[0.72rem] sm:text-[0.82rem] font-semibold tracking-[0.22em] uppercase opacity-90" style="color: var(--gold-main);">Professional Wellness Massage Experience in KL</h2>
+          <h1 class="reveal-copy reveal-copy-delay mt-5 mx-auto max-w-[15ch] text-[1.5rem] sm:text-[2.15rem] lg:text-[2.85rem] font-extrabold leading-[1.04]">Best Private Outcall Massage in Kuala Lumpur (KL) - Relaxation &amp; Wellness Experience</h1>
           <p class="reveal-copy reveal-copy-delay mt-3 text-[0.65rem] sm:text-[0.74rem] font-semibold">
             <span class="hero-highlight" id="hero-highlight-text">Exclusive for Ladies &amp; Couples Only</span>
           </p>
           <p class="reveal-copy reveal-copy-delay mt-3 text-[0.8rem] sm:text-[0.94rem] leading-[1.7] max-w-[18.5rem] sm:max-w-xl mx-auto" style="color: var(--text-secondary);">Discreet Private Tantric Massage Sessions for Deep Relaxation, Stress Relief, and Total Body Wellness in Kuala Lumpur, Selangor &amp; Near You!</p>
-          <h2 class="reveal-copy reveal-copy-delay mt-5 text-[0.72rem] sm:text-[0.82rem] font-semibold tracking-[0.22em] uppercase opacity-90" style="color: var(--gold-main);">Professional Wellness Massage Experience in KL</h2>
           <div class="trust-strip scroll-float scroll-float-delay mt-7 rounded-[1.6rem]">
             <div class="trust-item">
               <svg class="trust-icon" viewBox="0 0 64 64" fill="none" aria-hidden="true">
@@ -1781,7 +1789,7 @@ elegant serif feel      display: flex;
                 <path d="M24 18c2.5 2 5.16 3 8 3s5.5-1 8-3" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
               </svg>
               <p class="trust-kicker">Discreet</p>
-              <p class="trust-stat">100%</p>
+              <p class="trust-stat" data-count-from="95" data-count-to="100" data-count-suffix="%">95%</p>
               <p class="trust-copy">Guarantee</p>
             </div>
             <div class="trust-item">
@@ -1791,7 +1799,7 @@ elegant serif feel      display: flex;
                 <circle cx="32" cy="32" r="14" stroke="currentColor" stroke-width="2.5"/>
               </svg>
               <p class="trust-kicker">Outcall</p>
-              <p class="trust-stat">12/7</p>
+              <p class="trust-stat" data-count-from="10" data-count-to="12" data-count-suffix="/7">10/7</p>
               <p class="trust-copy">All The Places</p>
             </div>
             <div class="trust-item">
@@ -1800,7 +1808,7 @@ elegant serif feel      display: flex;
                 <circle cx="32" cy="24" r="7" stroke="currentColor" stroke-width="2.5"/>
               </svg>
               <p class="trust-kicker">Trusted</p>
-              <p class="trust-stat">800+</p>
+              <p class="trust-stat" data-count-from="760" data-count-to="800" data-count-suffix="+">760+</p>
               <p class="trust-copy">Over Client</p>
             </div>
             <div class="trust-item">
@@ -1810,7 +1818,7 @@ elegant serif feel      display: flex;
                 <path d="m28.5 33 2.4 2.4 4.6-4.8" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
               <p class="trust-kicker">Professional</p>
-              <p class="trust-stat">100%</p>
+              <p class="trust-stat" data-count-from="95" data-count-to="100" data-count-suffix="%">95%</p>
               <p class="trust-copy">Guarantee</p>
             </div>
           </div>
@@ -2413,6 +2421,7 @@ elegant serif feel      display: flex;
     const reviewFormMessage = document.querySelector('#review-form-message');
     const faqItems = document.querySelectorAll('.faq-item');
     const scrollFloatItems = document.querySelectorAll('.scroll-float');
+    const trustStats = document.querySelectorAll('.trust-stat[data-count-to]');
     const revealObserver = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
@@ -2442,6 +2451,46 @@ elegant serif feel      display: flex;
     });
 
     scrollFloatItems.forEach((item) => scrollFloatObserver.observe(item));
+
+    const animateTrustStat = (element) => {
+      if (element.dataset.countAnimated === 'true') {
+        return;
+      }
+
+      element.dataset.countAnimated = 'true';
+
+      const startValue = Number(element.dataset.countFrom || 0);
+      const endValue = Number(element.dataset.countTo || 0);
+      const suffix = element.dataset.countSuffix || '';
+      const duration = 1200;
+      const startTime = performance.now();
+
+      const step = (now) => {
+        const progress = Math.min((now - startTime) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        const currentValue = Math.round(startValue + (endValue - startValue) * eased);
+        element.textContent = `${currentValue}${suffix}`;
+
+        if (progress < 1) {
+          window.requestAnimationFrame(step);
+        }
+      };
+
+      window.requestAnimationFrame(step);
+    };
+
+    const trustStatsObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          animateTrustStat(entry.target);
+          trustStatsObserver.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.45
+    });
+
+    trustStats.forEach((item) => trustStatsObserver.observe(item));
 
     const guaranteeObserver = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
@@ -2737,14 +2786,6 @@ elegant serif feel      display: flex;
   </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
 
 
 
