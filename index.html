@@ -1167,6 +1167,32 @@
       animation-delay: 0.12s;
     }
 
+    .hero-highlight {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.6rem 1rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 122, 182, 0.38);
+      background: linear-gradient(180deg, rgba(255, 122, 182, 0.16), rgba(255, 122, 182, 0.08));
+      box-shadow: 0 0 0 1px rgba(255, 122, 182, 0.08), 0 0 24px rgba(255, 122, 182, 0.14);
+      color: #ff7ab6;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      animation: heroHighlightPulse 2.8s ease-in-out infinite;
+    }
+
+    @keyframes heroHighlightPulse {
+      0%, 100% {
+        transform: translateY(0);
+        box-shadow: 0 0 0 1px rgba(255, 122, 182, 0.08), 0 0 20px rgba(255, 122, 182, 0.10);
+      }
+      50% {
+        transform: translateY(-1px);
+        box-shadow: 0 0 0 1px rgba(255, 122, 182, 0.12), 0 0 28px rgba(255, 122, 182, 0.18);
+      }
+    }
+
     @keyframes heroReveal {
       from {
         opacity: 0;
@@ -1559,6 +1585,9 @@
             <p class="text-xs sm:text-sm uppercase tracking-[0.38em] font-semibold leading-[1.35]" style="color: var(--gold-main);">Welcome To<br>Premium Private Wellness</p>
           </div>
           <h1 class="reveal-copy reveal-copy-delay mt-5 mx-auto max-w-[18ch] text-[1.34rem] sm:text-[1.95rem] lg:text-[2.55rem] font-extrabold leading-[1.1]">Best Private Outcall Massage in Kuala Lumpur (KL) - Relaxation &amp; Wellness Experience</h1>
+          <p class="reveal-copy reveal-copy-delay mt-4 text-[0.7rem] sm:text-[0.78rem] font-bold">
+            <span class="hero-highlight">Exclusive for Ladies &amp; Couples</span>
+          </p>
           <p class="reveal-copy reveal-copy-delay mt-4 text-[0.92rem] sm:text-[1.02rem] leading-6 max-w-xl mx-auto" style="color: var(--text-secondary);">Discreet Private Tantric Massage Sessions for Deep Relaxation, Stress Relief, and Total Body Wellness in Kuala Lumpur, Selangor &amp; Near You!</p>
           <h2 class="reveal-copy reveal-copy-delay mt-4 text-[0.9rem] sm:text-[1.05rem] font-semibold tracking-[0.08em] uppercase" style="color: var(--gold-main);">Professional Wellness Massage Experience in KL</h2>
           <div class="trust-strip mt-6 rounded-[1.6rem]">
