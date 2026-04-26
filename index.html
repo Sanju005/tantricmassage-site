@@ -1807,8 +1807,14 @@ elegant serif feel      display: flex;
 
     .section-divider {
       position: relative;
+      isolation: isolate;
       content-visibility: auto;
       contain-intrinsic-size: 1px 960px;
+    }
+
+    .section-divider > * {
+      position: relative;
+      z-index: 1;
     }
 
     .section-divider::before {
@@ -1830,6 +1836,7 @@ elegant serif feel      display: flex;
       mask-size: contain;
       opacity: 0.88;
       pointer-events: none;
+      z-index: 3;
     }
 
     @media (min-width: 640px) {
