@@ -1820,9 +1820,9 @@ elegant serif feel      display: flex;
     .section-divider::before {
       content: "";
       position: absolute;
-      top: 0;
+      top: 0.2rem;
       left: 50%;
-      transform: translate(-50%, -50%);
+      transform: translateX(-50%);
       width: min(92vw, 22rem);
       height: 2.75rem;
       background-color: rgba(255, 0, 150, 0.9);
@@ -1841,6 +1841,7 @@ elegant serif feel      display: flex;
 
     @media (min-width: 640px) {
       .section-divider::before {
+        top: 0.25rem;
         width: min(78vw, 28rem);
         height: 3rem;
       }
