@@ -1807,6 +1807,7 @@ elegant serif feel      display: flex;
       position: relative;
       content-visibility: auto;
       contain-intrinsic-size: 1px 960px;
+      padding-top: 0 !important;
     }
 
     .section-divider::before {
@@ -1814,7 +1815,7 @@ elegant serif feel      display: flex;
       display: block;
       width: min(84vw, 18rem);
       height: 2.25rem;
-      margin: 0 auto 1.1rem;
+      margin: 0 auto 0.95rem;
       background-color: rgba(255, 0, 150, 0.9);
       -webkit-mask-image: url('/images/home%20icon%20set%201/border-01.svg');
       -webkit-mask-repeat: no-repeat;
@@ -1832,8 +1833,26 @@ elegant serif feel      display: flex;
       .section-divider::before {
         width: min(70vw, 22rem);
         height: 2.45rem;
-        margin-bottom: 1.3rem;
+        margin-top: 0;
+        margin-bottom: 1.1rem;
       }
+    }
+
+    .hero-mini-divider {
+      width: min(44vw, 7.5rem);
+      height: 0.95rem;
+      margin: 0.4rem auto 0.55rem;
+      background-color: rgba(255, 0, 150, 0.9);
+      -webkit-mask-image: url('/images/home%20icon%20set%201/border-01.svg');
+      -webkit-mask-repeat: no-repeat;
+      -webkit-mask-position: center;
+      -webkit-mask-size: contain;
+      mask-image: url('/images/home%20icon%20set%201/border-01.svg');
+      mask-repeat: no-repeat;
+      mask-position: center;
+      mask-size: contain;
+      opacity: 0.82;
+      pointer-events: none;
     }
 
     .gallery-age-message--default {
@@ -1936,6 +1955,7 @@ elegant serif feel      display: flex;
             <p class="text-[0.72rem] sm:text-[0.84rem] font-normal tracking-[0.04em] uppercase opacity-90" style="color: #ffffff; font-family: 'Raleway', 'Segoe UI', Arial, sans-serif;">Welcome To Premium Private Wellness</p>
           </div>
           <h2 class="reveal-copy reveal-copy-delay mt-2 text-[0.80rem] sm:text-[.90rem] font-semibold leading-[1.14] tracking-[0.01em] uppercase opacity-90 max-w-[13ch] mx-auto" style="color: var(--gold-main); font-family: 'Raleway', 'Segoe UI', Arial, sans-serif;">Professional Wellness Massage<br>Experience in KL</h2>
+          <div class="hero-mini-divider" aria-hidden="true"></div>
           <h1 class="reveal-copy reveal-copy-delay hero-poster-title mt-4">Best Private Outcall<br>Massage in Kuala Lumpur (KL) Relaxation &amp; Wellness Experience</h1>
           <div class="scroll-float mt-5">
             <div class="hero-slider hero-poster-image">
