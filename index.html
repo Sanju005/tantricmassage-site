@@ -1807,26 +1807,17 @@ elegant serif feel      display: flex;
 
     .section-divider {
       position: relative;
-      isolation: isolate;
-      padding-top: 1.45rem;
-      padding-bottom: 1.45rem;
       content-visibility: auto;
       contain-intrinsic-size: 1px 960px;
     }
 
-    .section-divider > * {
-      position: relative;
-      z-index: 1;
-    }
-
     .section-divider::before {
       content: "";
-      position: absolute;
-      top: 0.2rem;
-      left: 50%;
-      transform: translateX(-50%);
+      display: block;
       width: min(92vw, 22rem);
       height: 2.75rem;
+      margin: 0 auto 1.35rem;
+      width: min(92vw, 22rem);
       background-color: rgba(255, 0, 150, 0.9);
       -webkit-mask-image: url('/images/home%20icon%20set%201/border-01.svg');
       -webkit-mask-repeat: no-repeat;
@@ -1838,19 +1829,13 @@ elegant serif feel      display: flex;
       mask-size: contain;
       opacity: 0.88;
       pointer-events: none;
-      z-index: 3;
     }
 
     @media (min-width: 640px) {
-      .section-divider {
-        padding-top: 1.7rem;
-        padding-bottom: 1.7rem;
-      }
-
       .section-divider::before {
-        top: 0.25rem;
         width: min(78vw, 28rem);
         height: 3rem;
+        margin-bottom: 1.6rem;
       }
     }
 
