@@ -455,7 +455,7 @@
       max-width: 16ch;
       margin-inline: auto;
       font-family: "Poppins", "Segoe UI", Arial, sans-serif;
-      font-size: 1.95rem;
+      font-size: 1.7rem;
       font-weight: 700;
       line-height: 1.04;
       letter-spacing: 0;
@@ -472,7 +472,7 @@
     @media (min-width: 640px) {
       .hero-poster-title {
         max-width: 16ch;
-        font-size: 2.85rem;
+        font-size: 2.55rem;
       }
     }
 
@@ -565,8 +565,8 @@
     }
 
     .trust-icon {
-      width: 1.35rem;
-      height: 1.35rem;
+      width: 1.5rem;
+      height: 1.5rem;
       margin: 0 auto;
       color: var(--gold-main);
       opacity: 0.9;
@@ -574,12 +574,13 @@
 
     .trust-kicker {
       margin-top: 0.55rem;
-      font-size: 0.44rem;
-      line-height: 1.2;
-      letter-spacing: 0.22em;
+      font-size: 0.52rem;
+      line-height: 1.1;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
       color: var(--gold-main);
       opacity: 0.92;
+      white-space: nowrap;
     }
 
     .trust-stat {
@@ -926,6 +927,35 @@
       -ms-overflow-style: none;
       padding-bottom: 0.35rem;
       scroll-behavior: smooth;
+    }
+
+    .reviews-slider-shell {
+      position: relative;
+    }
+
+    .reviews-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 3;
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: #1f1f1f;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      color: #ffffff;
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.24);
+    }
+
+    .reviews-nav--prev {
+      left: -0.35rem;
+    }
+
+    .reviews-nav--next {
+      right: -0.35rem;
     }
 
     .reviews-slider::-webkit-scrollbar {
@@ -1373,7 +1403,7 @@ elegant serif feel      display: flex;
 
     .trust-privacy-grid {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 0.9rem;
     }
 
@@ -1385,6 +1415,7 @@ elegant serif feel      display: flex;
       background: linear-gradient(180deg, rgba(28, 28, 28, 0.96), rgba(18, 18, 18, 0.98));
       border: 1px solid rgba(212, 175, 55, 0.16);
       box-shadow: 0 14px 30px rgba(0, 0, 0, 0.28);
+      text-align: center;
     }
 
     .trust-privacy-icon {
@@ -1999,7 +2030,14 @@ elegant serif feel      display: flex;
             <dotlottie-player src="/images/Animation - 1723340568402.lottie" autoplay loop background="transparent"></dotlottie-player>
           </div>
         </div>
-        <div class="reviews-slider scroll-float mt-8 gap-4 sm:gap-5" id="reviews-slider">
+        <div class="reviews-slider-shell mt-8">
+          <button type="button" class="reviews-nav reviews-nav--prev" id="reviews-prev" aria-label="Previous reviews">
+            <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" aria-hidden="true"><path d="m15 6-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <button type="button" class="reviews-nav reviews-nav--next" id="reviews-next" aria-label="Next reviews">
+            <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" aria-hidden="true"><path d="m9 6 6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        <div class="reviews-slider scroll-float gap-4 sm:gap-5" id="reviews-slider">
           <article class="review-card-home"><div class="review-meta"><div><p class="review-name text-sm font-semibold">Nur Aisyah</p><p class="review-location">Kuala Lumpur</p></div><span class="review-rating text-sm font-semibold">5</span></div><p class="review-stars mt-4">â˜…â˜…â˜…â˜…â˜…</p><div class="review-platforms" aria-label="Review platforms"><span class="review-platform-badge" title="Google" aria-label="Google"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" aria-hidden="true"><path d="M21 12.23c0-.72-.06-1.25-.19-1.8H12v3.39h5.18c-.1.84-.66 2.1-1.9 2.95l-.02.11 2.77 2.1.19.02c1.76-1.6 2.78-3.94 2.78-6.77Z" fill="#4285F4"/><path d="M12 21c2.53 0 4.65-.82 6.2-2.22l-2.95-2.23c-.79.54-1.84.91-3.25.91-2.48 0-4.58-1.6-5.34-3.82l-.1.01-2.88 2.18-.03.09A9.37 9.37 0 0 0 12 21Z" fill="#34A853"/><path d="M6.66 13.64A5.62 5.62 0 0 1 6.35 12c0-.57.11-1.12.29-1.64l-.01-.11-2.91-2.22-.1.04A9 9 0 0 0 3 12c0 1.45.35 2.82.97 4.03l2.69-2.39Z" fill="#FBBC05"/><path d="M12 6.54c1.78 0 2.99.75 3.68 1.38l2.69-2.57C16.64 3.82 14.52 3 12 3a9.37 9.37 0 0 0-8.35 4.93l3.02 2.29c.77-2.22 2.87-3.68 5.33-3.68Z" fill="#EA4335"/></svg></span></div><p class="review-copy mt-4 text-sm leading-6">Very professional and relaxing experience. Highly recommended for private massage in Kuala Lumpur.</p><div class="review-reply"><p class="review-reply-label">Reply</p><p class="review-reply-copy">Thank you for book Nur</p></div></article>
           <article class="review-card-home"><div class="review-meta"><div><p class="review-name text-sm font-semibold">Ming Yee Ch</p><p class="review-location">Mont Kiara</p></div><span class="review-rating text-sm font-semibold">4</span></div><p class="review-stars mt-4">â˜…â˜…â˜…â˜…â˜…</p><div class="review-platforms" aria-label="Review platforms"><span class="review-platform-badge" title="Google" aria-label="Google"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" aria-hidden="true"><path d="M21 12.23c0-.72-.06-1.25-.19-1.8H12v3.39h5.18c-.1.84-.66 2.1-1.9 2.95l-.02.11 2.77 2.1.19.02c1.76-1.6 2.78-3.94 2.78-6.77Z" fill="#4285F4"/><path d="M12 21c2.53 0 4.65-.82 6.2-2.22l-2.95-2.23c-.79.54-1.84.91-3.25.91-2.48 0-4.58-1.6-5.34-3.82l-.1.01-2.88 2.18-.03.09A9.37 9.37 0 0 0 12 21Z" fill="#34A853"/><path d="M6.66 13.64A5.62 5.62 0 0 1 6.35 12c0-.57.11-1.12.29-1.64l-.01-.11-2.91-2.22-.1.04A9 9 0 0 0 3 12c0 1.45.35 2.82.97 4.03l2.69-2.39Z" fill="#FBBC05"/><path d="M12 6.54c1.78 0 2.99.75 3.68 1.38l2.69-2.57C16.64 3.82 14.52 3 12 3a9.37 9.37 0 0 0-8.35 4.93l3.02 2.29c.77-2.22 2.87-3.68 5.33-3.68Z" fill="#EA4335"/></svg></span><span class="review-platform-badge" title="Facebook" aria-label="Facebook"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="currentColor" aria-hidden="true"><path d="M13.5 21v-7.2H16l.4-2.8h-2.9V9.2c0-.81.27-1.36 1.44-1.36h1.55V5.3c-.27-.04-1.19-.12-2.26-.12-2.23 0-3.76 1.3-3.76 3.9V11H8v2.8h2.48V21h3.02Z"/></svg></span><span class="review-platform-badge" title="Instagram" aria-label="Instagram"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="4.2" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="3.7" stroke="currentColor" stroke-width="1.8"/><circle cx="17.2" cy="6.8" r="1.1" fill="currentColor"/></svg></span></div><p class="review-copy mt-4 text-sm leading-6">I was tired and stress with my work, so i found this website via google. i booked unlimited packge, it was really nice, after the seesion i feel relief and good relaxation. Tx.</p><div class="review-reply"><p class="review-reply-label">Reply</p><p class="review-reply-copy">Im hapy that you are relaxed and feel good, See you again.</p></div></article>
           <article class="review-card-home"><div class="review-meta"><div><p class="review-name text-sm font-semibold">Tan Mei Ling</p><p class="review-location">Bangsar</p></div><span class="review-rating text-sm font-semibold">5</span></div><p class="review-stars mt-4">â˜…â˜…â˜…â˜…â˜…</p><div class="review-platforms" aria-label="Review platforms"><span class="review-platform-badge" title="Google" aria-label="Google"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" aria-hidden="true"><path d="M21 12.23c0-.72-.06-1.25-.19-1.8H12v3.39h5.18c-.1.84-.66 2.1-1.9 2.95l-.02.11 2.77 2.1.19.02c1.76-1.6 2.78-3.94 2.78-6.77Z" fill="#4285F4"/><path d="M12 21c2.53 0 4.65-.82 6.2-2.22l-2.95-2.23c-.79.54-1.84.91-3.25.91-2.48 0-4.58-1.6-5.34-3.82l-.1.01-2.88 2.18-.03.09A9.37 9.37 0 0 0 12 21Z" fill="#34A853"/><path d="M6.66 13.64A5.62 5.62 0 0 1 6.35 12c0-.57.11-1.12.29-1.64l-.01-.11-2.91-2.22-.1.04A9 9 0 0 0 3 12c0 1.45.35 2.82.97 4.03l2.69-2.39Z" fill="#FBBC05"/><path d="M12 6.54c1.78 0 2.99.75 3.68 1.38l2.69-2.57C16.64 3.82 14.52 3 12 3a9.37 9.37 0 0 0-8.35 4.93l3.02 2.29c.77-2.22 2.87-3.68 5.33-3.68Z" fill="#EA4335"/></svg></span><span class="review-platform-badge" title="Facebook" aria-label="Facebook"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="currentColor" aria-hidden="true"><path d="M13.5 21v-7.2H16l.4-2.8h-2.9V9.2c0-.81.27-1.36 1.44-1.36h1.55V5.3c-.27-.04-1.19-.12-2.26-.12-2.23 0-3.76 1.3-3.76 3.9V11H8v2.8h2.48V21h3.02Z"/></svg></span><span class="review-platform-badge" title="Instagram" aria-label="Instagram"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="4.2" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="3.7" stroke="currentColor" stroke-width="1.8"/><circle cx="17.2" cy="6.8" r="1.1" fill="currentColor"/></svg></span></div><p class="review-copy mt-4 text-sm leading-6">Very relaxing session with great attention to detail. Will definitely book again.</p><div class="review-reply"><p class="review-reply-label">Reply</p><p class="review-reply-copy">Yes always  ready</p></div></article>
@@ -2133,6 +2171,7 @@ elegant serif feel      display: flex;
             </div>
           </div>
         </div>
+        </div>
       </div>
     </section>
 
@@ -2140,8 +2179,7 @@ elegant serif feel      display: flex;
       <div class="app-block px-4 sm:px-6">
         <div class="max-w-3xl">
           <p class="reveal-copy text-xs uppercase tracking-[0.4em]" style="color: var(--gold-main);">Trust &amp; Privacy</p>
-          <h2 class="reveal-copy reveal-copy-delay section-title section-heading-display mt-4 text-[1.75rem] sm:text-[2.2rem] leading-[1.02]">What stays consistent in every session</h2>
-          <p class="reveal-copy reveal-copy-delay section-subcopy mt-4">A simple set of privacy and service standards that makes the experience feel calm, safe, and premium from start to finish.</p>
+          <h2 class="reveal-copy reveal-copy-delay section-title section-heading-display mt-4 text-[1.75rem] sm:text-[2.2rem] leading-[1.02]">What stays consistent<br>in every session</h2>
         </div>
         <div class="trust-privacy-grid mt-8">
           <article class="trust-privacy-card scroll-float">
@@ -2830,6 +2868,10 @@ elegant serif feel      display: flex;
 
     let reviewsAutoScroll = null;
     if (reviewsSlider) {
+      const reviewsPrev = document.querySelector('#reviews-prev');
+      const reviewsNext = document.querySelector('#reviews-next');
+      const reviewStep = () => Math.max(220, Math.round(reviewsSlider.clientWidth * 0.55));
+
       const startReviewsAutoScroll = () => {
         if (reviewsAutoScroll) {
           return;
@@ -2846,7 +2888,7 @@ elegant serif feel      display: flex;
             return;
           }
 
-          reviewsSlider.scrollBy({ left: Math.max(220, Math.round(reviewsSlider.clientWidth * 0.55)), behavior: 'smooth' });
+          reviewsSlider.scrollBy({ left: reviewStep(), behavior: 'smooth' });
         }, 3200);
       };
 
@@ -2860,6 +2902,14 @@ elegant serif feel      display: flex;
       };
 
       startReviewsAutoScroll();
+      reviewsPrev?.addEventListener('click', () => {
+        stopReviewsAutoScroll();
+        reviewsSlider.scrollBy({ left: -reviewStep(), behavior: 'smooth' });
+      });
+      reviewsNext?.addEventListener('click', () => {
+        stopReviewsAutoScroll();
+        reviewsSlider.scrollBy({ left: reviewStep(), behavior: 'smooth' });
+      });
       reviewsSlider.addEventListener('mouseenter', stopReviewsAutoScroll);
       reviewsSlider.addEventListener('mouseleave', startReviewsAutoScroll);
       reviewsSlider.addEventListener('touchstart', stopReviewsAutoScroll, { passive: true });
