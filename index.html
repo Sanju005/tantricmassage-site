@@ -1808,6 +1808,8 @@ elegant serif feel      display: flex;
     .section-divider {
       position: relative;
       isolation: isolate;
+      padding-top: 1.45rem;
+      padding-bottom: 1.45rem;
       content-visibility: auto;
       contain-intrinsic-size: 1px 960px;
     }
@@ -1840,6 +1842,11 @@ elegant serif feel      display: flex;
     }
 
     @media (min-width: 640px) {
+      .section-divider {
+        padding-top: 1.7rem;
+        padding-bottom: 1.7rem;
+      }
+
       .section-divider::before {
         top: 0.25rem;
         width: min(78vw, 28rem);
