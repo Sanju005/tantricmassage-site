@@ -452,7 +452,7 @@
     }
 
     .hero-poster-title {
-      max-width: 18ch;
+      max-width: 16ch;
       margin-inline: auto;
       font-family: "Poppins", "Segoe UI", Arial, sans-serif;
       font-size: 1.95rem;
@@ -471,7 +471,7 @@
 
     @media (min-width: 640px) {
       .hero-poster-title {
-        max-width: 18ch;
+        max-width: 16ch;
         font-size: 2.85rem;
       }
     }
@@ -976,9 +976,16 @@
       margin-top: 0.6rem !important;
       color: #FFD700;
       letter-spacing: 0.16em;
-      font-size: 0.9rem;
+      font-size: 0;
       white-space: nowrap;
       font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    }
+
+    .review-stars::before {
+      content: "★★★★★";
+      font-size: 0.9rem;
+      letter-spacing: 0.16em;
+      color: #FFD700;
     }
 
     .review-rating {
@@ -999,7 +1006,7 @@
     }
 
     .review-platforms {
-      display: flex;
+      display: none;
       align-items: center;
       gap: 0.55rem;
       margin-top: 0.55rem;
@@ -1165,6 +1172,10 @@ elegant serif feel      display: flex;
     }
 
     @media (min-width: 768px) {
+      .trust-privacy-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
       .reviews-header-wrap {
         min-height: 0;
         padding-top: 25vw;
@@ -1325,7 +1336,7 @@ elegant serif feel      display: flex;
       gap: 0.55rem;
       padding: 0.45rem 0.7rem;
       border-radius: 999px;
-      background: rgba(255, 255, 255, 0.08);
+      background: #1f1f1f;
       border: 1px solid rgba(255, 255, 255, 0.14);
       box-shadow: 0 10px 24px rgba(0, 0, 0, 0.14);
     }
@@ -1358,6 +1369,67 @@ elegant serif feel      display: flex;
       color: var(--text-main);
       line-height: 1;
       font-variant-numeric: tabular-nums;
+    }
+
+    .trust-privacy-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.9rem;
+    }
+
+    .trust-privacy-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: 1.35rem;
+      padding: 1rem 0.95rem 1.05rem;
+      background: linear-gradient(180deg, rgba(28, 28, 28, 0.96), rgba(18, 18, 18, 0.98));
+      border: 1px solid rgba(212, 175, 55, 0.16);
+      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.28);
+    }
+
+    .trust-privacy-icon {
+      width: 2.4rem;
+      height: 2.4rem;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gold-main);
+      background: rgba(212, 175, 55, 0.08);
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      animation: trustPulse 2.6s ease-in-out infinite;
+    }
+
+    .trust-privacy-card:nth-child(2) .trust-privacy-icon { animation-delay: 0.2s; }
+    .trust-privacy-card:nth-child(3) .trust-privacy-icon { animation-delay: 0.4s; }
+    .trust-privacy-card:nth-child(4) .trust-privacy-icon { animation-delay: 0.6s; }
+    .trust-privacy-card:nth-child(5) .trust-privacy-icon { animation-delay: 0.8s; }
+    .trust-privacy-card:nth-child(6) .trust-privacy-icon { animation-delay: 1s; }
+
+    .trust-privacy-title {
+      margin-top: 0.8rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      line-height: 1.2;
+      color: #ffffff;
+    }
+
+    .trust-privacy-copy {
+      margin-top: 0.45rem;
+      font-size: 0.77rem;
+      line-height: 1.45;
+      color: rgba(255, 255, 255, 0.74);
+    }
+
+    @keyframes trustPulse {
+      0%, 100% {
+        transform: translateY(0) scale(1);
+        box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.12);
+      }
+      50% {
+        transform: translateY(-4px) scale(1.03);
+        box-shadow: 0 0 0 8px rgba(212, 175, 55, 0);
+      }
     }
 
     .reviews-header-wrap {
@@ -1818,7 +1890,7 @@ elegant serif feel      display: flex;
             <p class="text-[0.72rem] sm:text-[0.84rem] font-normal tracking-[0.04em] uppercase opacity-90" style="color: #ffffff; font-family: 'Raleway', 'Segoe UI', Arial, sans-serif;">Welcome To Premium Private Wellness</p>
           </div>
           <h2 class="reveal-copy reveal-copy-delay mt-2 text-[0.96rem] sm:text-[1.08rem] font-semibold leading-[1.14] tracking-[0.01em] uppercase opacity-90 max-w-[13ch] mx-auto" style="color: var(--gold-main); font-family: 'Raleway', 'Segoe UI', Arial, sans-serif;">Professional Wellness Massage<br>Experience in KL</h2>
-          <h1 class="reveal-copy reveal-copy-delay hero-poster-title mt-4">Best Private Outcall Massage in Kuala Lumpur (KL) - Relaxation &amp; Wellness Experience</h1>
+          <h1 class="reveal-copy reveal-copy-delay hero-poster-title mt-4">Best Private Outcall<br>Massage in Kuala<br>Lumpur (KL) -<br>Relaxation &amp;<br>Wellness Experience</h1>
           <div class="scroll-float mt-5">
             <div class="hero-slider hero-poster-image">
               <div class="hero-slide" style="background-image: url('/images/Tantric%20yoni%20massage%20in%20kl%20slide%201.webp');"></div>
@@ -2060,6 +2132,60 @@ elegant serif feel      display: flex;
               <div class="guarantee-fill h-2 rounded-full" style="background: linear-gradient(to right, var(--gold-main), var(--gold-soft));"></div>
             </div>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="trust-privacy" class="section-divider py-10 sm:py-12">
+      <div class="app-block px-4 sm:px-6">
+        <div class="max-w-3xl">
+          <p class="reveal-copy text-xs uppercase tracking-[0.4em]" style="color: var(--gold-main);">Trust &amp; Privacy</p>
+          <h2 class="reveal-copy reveal-copy-delay section-title section-heading-display mt-4 text-[1.75rem] sm:text-[2.2rem] leading-[1.02]">What stays consistent in every session</h2>
+          <p class="reveal-copy reveal-copy-delay section-subcopy mt-4">A simple set of privacy and service standards that makes the experience feel calm, safe, and premium from start to finish.</p>
+        </div>
+        <div class="trust-privacy-grid mt-8">
+          <article class="trust-privacy-card scroll-float">
+            <span class="trust-privacy-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none"><path d="M12 3l7 3v5c0 5-3.5 8-7 10-3.5-2-7-5-7-10V6l7-3Z" stroke="currentColor" stroke-width="1.8"/><path d="m9.2 11.8 1.8 1.8 3.8-4.1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            <h3 class="trust-privacy-title">Discreet Booking</h3>
+            <p class="trust-privacy-copy">Bookings stay private and handled with direct, respectful communication only.</p>
+          </article>
+          <article class="trust-privacy-card scroll-float scroll-float-delay">
+            <span class="trust-privacy-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none"><rect x="5" y="10" width="14" height="10" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M8 10V8a4 4 0 1 1 8 0v2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            </span>
+            <h3 class="trust-privacy-title">Privacy First</h3>
+            <p class="trust-privacy-copy">Your location, timing, and session details are treated with full confidentiality.</p>
+          </article>
+          <article class="trust-privacy-card scroll-float">
+            <span class="trust-privacy-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none"><path d="M4 12h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M12 4v16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.8"/></svg>
+            </span>
+            <h3 class="trust-privacy-title">Outcall Coverage</h3>
+            <p class="trust-privacy-copy">Hotel, residence, and home visits are arranged clearly with no confusing process.</p>
+          </article>
+          <article class="trust-privacy-card scroll-float scroll-float-delay">
+            <span class="trust-privacy-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none"><path d="M6 12.5 10 16l8-9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            <h3 class="trust-privacy-title">Clear Expectations</h3>
+            <p class="trust-privacy-copy">Package, timing, and arrangements are explained upfront before the session starts.</p>
+          </article>
+          <article class="trust-privacy-card scroll-float">
+            <span class="trust-privacy-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none"><path d="M12 5c3.5 0 6 2.7 6 6s-2.5 6-6 8c-3.5-2-6-4.7-6-8s2.5-6 6-6Z" stroke="currentColor" stroke-width="1.8"/><path d="M12 9.5v3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="15.5" r=".9" fill="currentColor"/></svg>
+            </span>
+            <h3 class="trust-privacy-title">Comfort Focused</h3>
+            <p class="trust-privacy-copy">Sessions are paced to feel calm, professional, and comfortable throughout.</p>
+          </article>
+          <article class="trust-privacy-card scroll-float scroll-float-delay">
+            <span class="trust-privacy-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none"><path d="M12 3v18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M7 8c0-1.7 1.6-3 3.5-3S14 6.3 14 8s-1.2 2.6-3 3c-1.7.4-3 1.2-3 3s1.5 3 3.5 3S15 15.7 15 14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            </span>
+            <h3 class="trust-privacy-title">Respectful Service</h3>
+            <p class="trust-privacy-copy">Every interaction is handled with courtesy, calm communication, and professional boundaries.</p>
+          </article>
         </div>
       </div>
     </section>
