@@ -1817,11 +1817,26 @@ elegant serif feel      display: flex;
       top: 0;
       left: 50%;
       transform: translate(-50%, -50%);
-      width: 100%;
-      max-width: 30rem;
-      height: 3px;
-      background: linear-gradient(90deg, transparent 0%, rgba(255, 0, 150, 0.14) 18%, rgba(255, 0, 150, 0.9) 50%, rgba(255, 0, 150, 0.14) 82%, transparent 100%);
+      width: min(78vw, 17rem);
+      height: 2.1rem;
+      background-color: rgba(255, 0, 150, 0.9);
+      -webkit-mask-image: url('/images/home%20icon%20set%201/border-01.svg');
+      -webkit-mask-repeat: no-repeat;
+      -webkit-mask-position: center;
+      -webkit-mask-size: contain;
+      mask-image: url('/images/home%20icon%20set%201/border-01.svg');
+      mask-repeat: no-repeat;
+      mask-position: center;
+      mask-size: contain;
+      opacity: 0.88;
       pointer-events: none;
+    }
+
+    @media (min-width: 640px) {
+      .section-divider::before {
+        width: min(72vw, 22rem);
+        height: 2.35rem;
+      }
     }
 
     .gallery-age-message--default {
