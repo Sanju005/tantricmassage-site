@@ -1257,8 +1257,13 @@ elegant serif feel      display: flex;
 
     @media (min-width: 1024px) {
       .reviews-header-wrap {
+        position: static !important;
+        display: flex !important;
+        flex-direction: column;
+        align-items: flex-start;
         min-height: 0 !important;
         padding-top: 0 !important;
+        margin-bottom: 1rem;
       }
 
       .reviews-lottie-card {
@@ -1271,7 +1276,7 @@ elegant serif feel      display: flex;
         left: auto !important;
         z-index: 1 !important;
         display: block;
-        margin: 0 0 1rem !important;
+        margin: 0 !important;
       }
 
       .reviews-slider-shell {
