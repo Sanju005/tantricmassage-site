@@ -1971,7 +1971,7 @@ elegant serif feel      display: flex;
                 <path d="M24 18c2.5 2 5.16 3 8 3s5.5-1 8-3" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
               </svg>
               <p class="trust-kicker">Discreet</p>
-              <p class="trust-stat" data-count-from="90" data-count-to="100" data-count-suffix="%">90%</p>
+              <p class="trust-stat" data-count-from="75" data-count-to="100" data-count-suffix="%">75%</p>
               <p class="trust-copy">Guarantee</p>
             </div>
             <div class="trust-item">
@@ -1981,8 +1981,8 @@ elegant serif feel      display: flex;
                 <circle cx="32" cy="32" r="14" stroke="currentColor" stroke-width="2.5"/>
               </svg>
               <p class="trust-kicker">Outcall</p>
-              <p class="trust-stat" data-count-from="2" data-count-to="12" data-count-suffix="/7">2/7</p>
-              <p class="trust-copy">All The Places</p>
+              <p class="trust-stat" data-count-from="8" data-count-to="12" data-count-suffix="HRS">8HRS</p>
+              <p class="trust-copy">All Areas</p>
             </div>
             <div class="trust-item">
               <svg class="trust-icon" viewBox="0 0 64 64" fill="none" aria-hidden="true">
@@ -1991,7 +1991,7 @@ elegant serif feel      display: flex;
               </svg>
               <p class="trust-kicker">Trusted</p>
               <p class="trust-stat" data-count-from="700" data-count-to="800" data-count-suffix="+">700+</p>
-              <p class="trust-copy">Over Client</p>
+              <p class="trust-copy">Clients</p>
             </div>
             <div class="trust-item">
               <svg class="trust-icon" viewBox="0 0 64 64" fill="none" aria-hidden="true">
@@ -2000,8 +2000,8 @@ elegant serif feel      display: flex;
                 <path d="m28.5 33 2.4 2.4 4.6-4.8" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
               <p class="trust-kicker">Professional</p>
-              <p class="trust-stat" data-count-from="90" data-count-to="100" data-count-suffix="%">90%</p>
-              <p class="trust-copy">Guarantee</p>
+              <p class="trust-stat" data-count-from="75" data-count-to="100" data-count-suffix="%">75%</p>
+              <p class="trust-copy">Service</p>
             </div>
           </div>
         </div>
@@ -2696,7 +2696,7 @@ elegant serif feel      display: flex;
       const startValue = Number(element.dataset.countFrom || 0);
       const endValue = Number(element.dataset.countTo || 0);
       const suffix = element.dataset.countSuffix || '';
-      const duration = 1200;
+      const duration = 3000;
       const startTime = performance.now();
 
       const step = (now) => {
