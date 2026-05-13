@@ -228,7 +228,7 @@
 
       const finalPrice = getCustomPrice(selectedOptions);
       const selectedLabels = selectedOptions.map((option) => option.label);
-      const message = `Hi I would like to book a Customize Package for Lady.\nSelected options: ${selectedLabels.join(", ")}.\nFinal price: RM ${finalPrice}.`;
+      const message = `Hi I would like to book a Customize Package for Lady.\nSelected options: ${selectedLabels.join(", ")}.\nFinal price: RM ${finalPrice}. 🙂`;
 
       customPriceText.textContent = `RM ${finalPrice}`;
       customWhatsappLink.href = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
