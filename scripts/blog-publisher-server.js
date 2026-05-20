@@ -245,11 +245,11 @@ ${contentHtml}
           </div>
         </article>`;
 
-  const hubCard = `<article class="mt-10 rounded-[1.5rem] border border-amber-400/20 bg-zinc-950/90 overflow-hidden">
+  const buildPlaceRichCard = (page) => `<article class="mt-10 rounded-[1.5rem] border border-amber-400/20 bg-zinc-950/90 overflow-hidden">
       <div class="min-h-[250px] bg-cover bg-center" style="background-image:url('${escapeHtml(featuredImage)}');"></div>
       <div class="p-6 sm:p-8">
         <div class="flex flex-wrap gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-amber-300">
-          ${articleSections.map((label) => `<span>${escapeHtml(label)}</span>`).join("")}
+          <span>${escapeHtml(page.label)}</span><span>Featured Article</span>
         </div>
         <h2 class="mt-4 text-3xl font-semibold leading-tight">${escapeHtml(title)}</h2>
         <p class="mt-4 text-base leading-8 text-white/72">${escapeHtml(excerpt).slice(0, 220)}</p>
@@ -257,9 +257,9 @@ ${contentHtml}
       </div>
     </article>`;
 
-  const simplePlaceCard = `<a href="/blog/${escapeHtml(slug)}.html" class="card" style="display:block;">
+  const buildSimplePlaceCard = (page) => `<a href="/blog/${escapeHtml(slug)}.html" class="card" style="display:block;">
           <div class="card-image" style="background-image:url('${escapeHtml(featuredImage)}');" role="img" aria-label="${escapeHtml(altText)}"></div>
-          <div class="card-body"><p class="kicker">${escapeHtml(primaryPage.label)} Article</p><h2 class="card-title">${escapeHtml(title)}</h2><p class="card-copy">${escapeHtml(excerpt).slice(0, 220)}</p><div class="tag-row">${articleSections.map((label) => `<span class="tag">${escapeHtml(label)}</span>`).join("")}</div></div>
+          <div class="card-body"><p class="kicker">${escapeHtml(page.label)} Article</p><h2 class="card-title">${escapeHtml(title)}</h2><p class="card-copy">${escapeHtml(excerpt).slice(0, 220)}</p><div class="tag-row"><span class="tag">${escapeHtml(page.label)}</span><span class="tag">Featured Article</span></div></div>
         </a>`;
 
   const placeSchemaScript = (pageLabel, pageUrl) => `<!-- AUTO_RELATED_ARTICLE_SCHEMA_START:${slug} -->
@@ -289,8 +289,8 @@ ${contentHtml}
     selectedPageRecords,
     relatedHubs,
     blogIndexCard,
-    hubCard,
-    simplePlaceCard,
+    buildPlaceRichCard,
+    buildSimplePlaceCard,
     placeSchemaScript
   };
 }
@@ -347,12 +347,40 @@ function insertIntoPlacePage(html, richCardHtml, simpleCardHtml, slug) {
   }
 
   const gridStart = html.indexOf('<div class="grid">');
-  const contentBox = html.indexOf('<div class="content-box">', gridStart);
-  if (gridStart !== -1 && contentBox !== -1) {
-    return `${html.slice(0, contentBox)}        ${simpleCardHtml}\n${html.slice(contentBox)}`;
+  const gridEnd = findMatchingClosingDiv(html, gridStart);
+  if (gridStart !== -1 && gridEnd !== -1) {
+    return `${html.slice(0, gridEnd)}        ${simpleCardHtml}\n${html.slice(gridEnd)}`;
   }
 
   throw new Error("Could not find a supported article insertion point on the place page.");
+}
+
+function findMatchingClosingDiv(html, startIndex) {
+  if (startIndex === -1) {
+    return -1;
+  }
+
+  const divPattern = /<\/?div\b[^>]*>/g;
+  divPattern.lastIndex = startIndex;
+  let depth = 0;
+  let started = false;
+  let match;
+
+  while ((match = divPattern.exec(html)) !== null) {
+    const token = match[0];
+    if (token.startsWith("</div")) {
+      depth -= 1;
+      if (started && depth === 0) {
+        return divPattern.lastIndex;
+      }
+      continue;
+    }
+
+    depth += 1;
+    started = true;
+  }
+
+  return -1;
 }
 
 function insertPlaceSchema(html, schemaBlock, slug) {
@@ -442,7 +470,7 @@ function publish(payload) {
       continue;
     }
     let placeHtml = readText(placePath);
-    placeHtml = insertIntoPlacePage(placeHtml, article.hubCard, article.simplePlaceCard, article.slug);
+    placeHtml = insertIntoPlacePage(placeHtml, article.buildPlaceRichCard(page), article.buildSimplePlaceCard(page), article.slug);
     placeHtml = updateAutoArticleCount(placeHtml);
     placeHtml = insertPlaceSchema(placeHtml, article.placeSchemaScript(page.label, page.publicUrl), article.slug);
     writeText(placePath, placeHtml);
