@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Static Blog Publisher</title>
+  <style>
+    :root {
+      --page: #f4efe7;
+      --panel: rgba(255, 250, 242, 0.94);
+      --ink: #221c18;
+      --muted: #6f6357;
+      --line: #d7c6ae;
+      --accent: #8f5b2e;
+      --accent-soft: #f3e4d3;
+      --code: #20160f;
+      --code-text: #f6ead7;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at top left, rgba(143, 91, 46, 0.16), transparent 24%),
+        linear-gradient(180deg, #fbf4ea 0%, #f0e5d4 100%);
+      color: var(--ink);
+      font-family: Georgia, "Times New Roman", serif;
+    }
+
+    .shell {
+      width: min(1240px, calc(100% - 2rem));
+      margin: 0 auto;
+      padding: 2rem 0 3rem;
+    }
+
+    .hero,
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      box-shadow: 0 18px 45px rgba(79, 49, 22, 0.08);
+      overflow: hidden;
+    }
+
+    .hero {
+      padding: 1.75rem;
+      background: linear-gradient(135deg, #2c1d12, #8f5b2e);
+      color: #fffaf2;
+    }
+
+    .hero h1,
+    .panel h2 {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
+
+    .hero p,
+    .hint {
+      margin: 0.75rem 0 0;
+      color: rgba(255, 250, 242, 0.82);
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
+
+    .layout {
+      display: grid;
+      gap: 1.5rem;
+      grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
+      margin-top: 1.5rem;
+    }
+
+    .panel-body {
+      padding: 1.5rem;
+    }
+
+    .grid {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .field,
+    .field-full {
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+      margin-bottom: 1rem;
+    }
+
+    .field-full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      font: 600 0.95rem "Segoe UI", Arial, sans-serif;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      padding: 0.9rem 1rem;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #fff;
+      color: var(--ink);
+      font: 400 0.98rem "Segoe UI", Arial, sans-serif;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 160px;
+    }
+
+    select[multiple] {
+      min-height: 220px;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.85rem;
+      margin-top: 0.5rem;
+    }
+
+    button {
+      border: 0;
+      border-radius: 999px;
+      padding: 0.95rem 1.25rem;
+      cursor: pointer;
+      font: 700 0.95rem "Segoe UI", Arial, sans-serif;
+    }
+
+    .primary {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .secondary {
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+
+    .helper {
+      color: var(--muted);
+      font: 400 0.88rem "Segoe UI", Arial, sans-serif;
+    }
+
+    .status {
+      margin-top: 1rem;
+      padding: 0.9rem 1rem;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #fff;
+      color: var(--muted);
+      font: 500 0.9rem "Segoe UI", Arial, sans-serif;
+    }
+
+    .code-box {
+      width: 100%;
+      min-height: 260px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: var(--code);
+      color: var(--code-text);
+      font: 400 0.87rem Consolas, "Courier New", monospace;
+      white-space: pre-wrap;
+    }
+
+    .preview-wrap {
+      margin-top: 1.5rem;
+    }
+
+    .preview-frame {
+      width: 100%;
+      min-height: 420px;
+      border: 1px solid rgba(0, 0, 0, 0.12);
+      border-radius: 18px;
+      background: #000;
+    }
+
+    @media (max-width: 1024px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <section class="hero">
+      <h1>Static Blog Publisher</h1>
+      <p>Open this file directly in your browser, fill the form, and it will generate your blog HTML and `BlogPosting` schema with no PHP and no server needed.</p>
+    </section>
+
+    <div class="layout">
+      <section class="panel">
+        <div class="panel-body">
+          <h2>Post Details</h2>
+          <form id="postForm">
+            <div class="grid">
+              <div class="field">
+                <label for="title">Title</label>
+                <input id="title" name="title" type="text" required>
+              </div>
+
+              <div class="field">
+                <label for="slug">Slug</label>
+                <input id="slug" name="slug" type="text" placeholder="example-article-slug" required>
+              </div>
+
+              <div class="field-full">
+                <label for="metaDescription">Meta Description</label>
+                <textarea id="metaDescription" name="metaDescription" rows="3" required></textarea>
+              </div>
+
+              <div class="field-full">
+                <label for="featuredImage">Featured Image URL or Site Path</label>
+                <input id="featuredImage" name="featuredImage" type="text" placeholder="/blog/kuala-lumpur/images/example.jpg" required>
+              </div>
+
+              <div class="field-full">
+                <label for="altText">Alt Text</label>
+                <input id="altText" name="altText" type="text" required>
+              </div>
+
+              <div class="field">
+                <label for="publishedDate">Published Date</label>
+                <input id="publishedDate" name="publishedDate" type="date" required>
+              </div>
+
+              <div class="field">
+                <label for="publishedBy">Published By</label>
+                <input id="publishedBy" name="publishedBy" type="text" value="Massage KL" required>
+              </div>
+
+              <div class="field-full">
+                <label for="categories">Category</label>
+                <select id="categories" name="categories" multiple required>
+                  <option value="kuala-lumpur">Kuala Lumpur (KL)</option>
+                  <option value="klcc">KLCC</option>
+                  <option value="bukit-bintang">Bukit Bintang</option>
+                  <option value="bangsar">Bangsar</option>
+                  <option value="mid-valley">Mid Valley</option>
+                  <option value="mont-kiara">Mont Kiara</option>
+                  <option value="sri-petaling">Sri Petaling</option>
+                  <option value="cheras">Cheras</option>
+                  <option value="ampang">Ampang</option>
+                  <option value="petaling-jaya">Petaling Jaya</option>
+                  <option value="subang-jaya">Subang Jaya</option>
+                  <option value="puchong">Puchong</option>
+                  <option value="damansara">Damansara</option>
+                  <option value="ttdi">TTDI</option>
+                  <option value="setapak">Setapak</option>
+                  <option value="cyberjaya">Cyberjaya</option>
+                  <option value="putrajaya">Putrajaya</option>
+                </select>
+                <div class="helper">Hold `Ctrl` or `Cmd` to select multiple. The first selected one becomes the primary back-link hub.</div>
+              </div>
+
+              <div class="field-full">
+                <label for="content">Content</label>
+                <textarea id="content" name="content" rows="14" required></textarea>
+                <div class="helper">Use blank lines between paragraphs. Use `##` for H2, `###` for H3, and start lines with `-` for bullet points.</div>
+              </div>
+            </div>
+
+            <div class="actions">
+              <button class="primary" type="submit">Generate</button>
+              <button class="primary" type="button" id="connectFolder">Connect Site Folder</button>
+              <button class="primary" type="button" id="publishPost">Post to Site</button>
+              <button class="secondary" type="button" id="downloadHtml">Download HTML</button>
+              <button class="secondary" type="button" id="copySchema">Copy Schema</button>
+              <button class="secondary" type="button" id="copyHtml">Copy HTML</button>
+            </div>
+            <div id="statusBox" class="status">Open this file in Chrome or Edge, click `Connect Site Folder`, choose `D:\tantric-site`, then use `Post to Site`.</div>
+          </form>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-body">
+          <h2>Generated Schema</h2>
+          <textarea id="schemaOutput" class="code-box" readonly></textarea>
+
+          <h2 style="margin-top: 1.25rem;">Generated HTML</h2>
+          <textarea id="htmlOutput" class="code-box" readonly></textarea>
+        </div>
+      </section>
+    </div>
+
+    <section class="panel preview-wrap">
+      <div class="panel-body">
+        <h2>Live Preview</h2>
+        <iframe id="previewFrame" class="preview-frame"></iframe>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const siteBaseUrl = "https://www.massagekl.com";
+    const categories = {
+      "kuala-lumpur": "Kuala Lumpur (KL)",
+      "klcc": "KLCC",
+      "bukit-bintang": "Bukit Bintang",
+      "bangsar": "Bangsar",
+      "mid-valley": "Mid Valley",
+      "mont-kiara": "Mont Kiara",
+      "sri-petaling": "Sri Petaling",
+      "cheras": "Cheras",
+      "ampang": "Ampang",
+      "petaling-jaya": "Petaling Jaya",
+      "subang-jaya": "Subang Jaya",
+      "puchong": "Puchong",
+      "damansara": "Damansara",
+      "ttdi": "TTDI",
+      "setapak": "Setapak",
+      "cyberjaya": "Cyberjaya",
+      "putrajaya": "Putrajaya"
+    };
+
+    const form = document.getElementById("postForm");
+    const schemaOutput = document.getElementById("schemaOutput");
+    const htmlOutput = document.getElementById("htmlOutput");
+    const previewFrame = document.getElementById("previewFrame");
+    const downloadHtmlButton = document.getElementById("downloadHtml");
+    const copySchemaButton = document.getElementById("copySchema");
+    const copyHtmlButton = document.getElementById("copyHtml");
+    const connectFolderButton = document.getElementById("connectFolder");
+    const publishPostButton = document.getElementById("publishPost");
+    const statusBox = document.getElementById("statusBox");
+    const publishedDateInput = document.getElementById("publishedDate");
+    let rootDirectoryHandle = null;
+
+    publishedDateInput.value = new Date().toISOString().slice(0, 10);
+
+    function escapeHtml(value) {
+      return value
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
+
+    function slugify(value) {
+      return value
+        .toLowerCase()
+        .trim()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "");
+    }
+
+    function setStatus(message) {
+      statusBox.textContent = message;
+    }
+
+    function getSelectedCategories() {
+      return Array.from(document.getElementById("categories").selectedOptions).map((option) => option.value);
+    }
+
+    function normalizeContent(value) {
+      return value.replace(/\r\n/g, "\n").replace(/\r/g, "\n").trim();
+    }
+
+    function buildContentHtml(content) {
+      const blocks = normalizeContent(content).split(/\n\s*\n/).filter(Boolean);
+      const html = [];
+
+      for (const block of blocks) {
+        if (block.startsWith("### ")) {
+          const lines = block.split("\n");
+          const heading = lines.shift().replace(/^###\s+/, "");
+          const body = lines.join("\n").trim();
+          html.push(`<h3 class="mt-6 text-xl font-semibold">${escapeHtml(heading)}</h3>`);
+          if (body) {
+            html.push(`<p class="mt-3 text-base leading-8 text-white/72">${escapeHtml(body).replace(/\n/g, "<br>")}</p>`);
+          }
+          continue;
+        }
+
+        if (block.startsWith("## ")) {
+          const lines = block.split("\n");
+          const heading = lines.shift().replace(/^##\s+/, "");
+          const body = lines.join("\n").trim();
+          html.push(`<h2 class="mt-8 text-2xl font-semibold">${escapeHtml(heading)}</h2>`);
+          if (body) {
+            html.push(`<p class="mt-4 text-base leading-8 text-white/72">${escapeHtml(body).replace(/\n/g, "<br>")}</p>`);
+          }
+          continue;
+        }
+
+        if (block.startsWith("- ")) {
+          const items = block.split("\n").map((line) => line.replace(/^- /, "").trim()).filter(Boolean);
+          html.push('<ul class="mt-4 list-disc space-y-2 pl-6 text-base leading-8 text-white/72">');
+          items.forEach((item) => html.push(`<li>${escapeHtml(item)}</li>`));
+          html.push("</ul>");
+          continue;
+        }
+
+        html.push(`<p class="mt-5 text-base leading-8 text-white/72">${escapeHtml(block).replace(/\n/g, "<br>")}</p>`);
+      }
+
+      return html.join("\n");
+    }
+
+    function buildArticle() {
+      const title = document.getElementById("title").value.trim();
+      let slug = document.getElementById("slug").value.trim();
+      const metaDescription = document.getElementById("metaDescription").value.trim();
+      const featuredImage = document.getElementById("featuredImage").value.trim();
+      const altText = document.getElementById("altText").value.trim();
+      const content = document.getElementById("content").value.trim();
+      const publishedDate = document.getElementById("publishedDate").value;
+      const publishedBy = document.getElementById("publishedBy").value.trim();
+      const selectedCategories = getSelectedCategories();
+
+      if (!slug) {
+        slug = slugify(title);
+        document.getElementById("slug").value = slug;
+      }
+
+      if (!title || !slug || !metaDescription || !featuredImage || !altText || !content || !publishedBy || selectedCategories.length === 0) {
+        alert("Fill all required fields first.");
+        return null;
+      }
+
+      const primaryCategorySlug = selectedCategories[0];
+      const primaryCategoryLabel = categories[primaryCategorySlug];
+      const categoryLabels = selectedCategories.map((slugValue) => categories[slugValue]);
+      const articleUrl = `${siteBaseUrl}/blog/${slug}.html`;
+      const imageUrl = /^https?:\/\//i.test(featuredImage)
+        ? featuredImage
+        : `${siteBaseUrl}/${featuredImage.replace(/^\/+/, "")}`;
+      const displayDate = new Date(`${publishedDate}T12:00:00`).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric"
+      });
+
+      const schema = {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": title,
+        "description": metaDescription,
+        "image": [imageUrl],
+        "author": {
+          "@type": "Organization",
+          "name": publishedBy
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": publishedBy,
+          "logo": {
+            "@type": "ImageObject",
+            "url": `${siteBaseUrl}/images/logo.png`
+          }
+        },
+        "datePublished": publishedDate,
+        "dateModified": publishedDate,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": articleUrl
+        },
+        "articleSection": categoryLabels
+      };
+
+      const tagsHtml = categoryLabels.map((label) => `      <span>${escapeHtml(label)}</span>`).join("\n");
+      const contentHtml = buildContentHtml(content);
+      const schemaJson = JSON.stringify(schema, null, 2);
+
+      const articleHtml = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${escapeHtml(title)}</title>
+  <meta name="description" content="${escapeHtml(metaDescription)}">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="${escapeHtml(articleUrl)}">
+  <meta property="og:title" content="${escapeHtml(title)}">
+  <meta property="og:description" content="${escapeHtml(metaDescription)}">
+  <meta property="og:image" content="${escapeHtml(imageUrl)}">
+  <meta property="og:image:alt" content="${escapeHtml(altText)}">
+  <meta property="og:site_name" content="Massage KL">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="${escapeHtml(articleUrl)}">
+  <meta name="twitter:title" content="${escapeHtml(title)}">
+  <meta name="twitter:description" content="${escapeHtml(metaDescription)}">
+  <meta name="twitter:image" content="${escapeHtml(imageUrl)}">
+  <meta name="twitter:image:alt" content="${escapeHtml(altText)}">
+  <link rel="canonical" href="${escapeHtml(articleUrl)}">
+  <script type="application/ld+json">
+${schemaJson}
+  </script>
+  <link rel="preload" href="/styles/tailwind.css" as="style">
+  <link rel="stylesheet" href="/styles/tailwind.css">
+</head>
+<body class="min-h-screen bg-black text-white">
+  <article class="mx-auto max-w-4xl px-4 py-10 sm:px-6 sm:py-14">
+    <a href="/blog/${escapeHtml(primaryCategorySlug)}/" class="text-sm font-semibold text-amber-300">Back to ${escapeHtml(primaryCategoryLabel)}</a>
+
+    <div
+      class="mt-6 min-h-[280px] rounded-[1.5rem] bg-cover bg-center"
+      style="background-image:url('${escapeHtml(featuredImage)}');"
+      role="img"
+      aria-label="${escapeHtml(altText)}"></div>
+
+    <div class="mt-6 flex flex-wrap gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-amber-300">
+${tagsHtml}
+    </div>
+
+    <p class="mt-4 text-xs uppercase tracking-[0.22em] text-white/55">Created: ${escapeHtml(displayDate)}</p>
+    <p class="mt-2 text-xs uppercase tracking-[0.22em] text-white/55">Published By: ${escapeHtml(publishedBy)}</p>
+
+    <h1 class="mt-4 text-4xl font-bold leading-tight">${escapeHtml(title)}</h1>
+
+${contentHtml}
+  </article>
+</body>
+</html>`;
+
+      const excerptSource = normalizeContent(content).split(/\n\s*\n/).find(Boolean) || metaDescription;
+      const excerpt = excerptSource.replace(/^#{2,3}\s+/, "").replace(/\n/g, " ").trim();
+
+      const blogIndexCard = `<article class="card">
+          <div class="post-image" style="background-image: url('${escapeHtml(featuredImage)}');"></div>
+          <div class="p-6">
+            <p class="text-xs font-bold uppercase tracking-[0.24em]" style="color: var(--gold-main);">${escapeHtml(primaryCategoryLabel)}</p>
+            <h2 class="mt-3 text-2xl font-semibold leading-tight">${escapeHtml(title)}</h2>
+            <div class="mt-4 flex flex-wrap gap-2">
+              ${categoryLabels.map((label) => `<span class="tag">${escapeHtml(label)}</span>`).join("\n              ")}
+            </div>
+            <p class="mt-4 text-sm leading-7" style="color: var(--text-secondary);">${escapeHtml(excerpt).slice(0, 180)}</p>
+            <a href="/blog/${escapeHtml(slug)}.html" class="mt-5 inline-flex text-sm font-semibold" style="color: var(--gold-soft);">Read article</a>
+          </div>
+        </article>`;
+
+      const hubCard = `<article class="mt-10 rounded-[1.5rem] border border-amber-400/20 bg-zinc-950/90 overflow-hidden">
+      <div class="min-h-[250px] bg-cover bg-center" style="background-image:url('${escapeHtml(featuredImage)}');"></div>
+      <div class="p-6 sm:p-8">
+        <div class="flex flex-wrap gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-amber-300">
+          ${categoryLabels.map((label) => `<span>${escapeHtml(label)}</span>`).join("")}
+        </div>
+        <h2 class="mt-4 text-3xl font-semibold leading-tight">${escapeHtml(title)}</h2>
+        <p class="mt-4 text-base leading-8 text-white/72">${escapeHtml(excerpt).slice(0, 220)}</p>
+        <a href="/blog/${escapeHtml(slug)}.html" class="mt-5 inline-flex text-sm font-semibold text-amber-300">Read article</a>
+      </div>
+    </article>`;
+
+      schemaOutput.value = schemaJson;
+      htmlOutput.value = articleHtml;
+      previewFrame.srcdoc = articleHtml;
+
+      return {
+        slug,
+        title,
+        articleHtml,
+        schemaJson,
+        featuredImage,
+        categoryLabels,
+        selectedCategories,
+        blogIndexCard,
+        hubCard
+      };
+    }
+
+    async function verifyPermission(handle, readWrite) {
+      const options = {};
+      if (readWrite) {
+        options.mode = "readwrite";
+      }
+
+      if ((await handle.queryPermission(options)) === "granted") {
+        return true;
+      }
+
+      if ((await handle.requestPermission(options)) === "granted") {
+        return true;
+      }
+
+      return false;
+    }
+
+    async function getDirectoryHandle(parentHandle, name) {
+      return parentHandle.getDirectoryHandle(name, { create: false });
+    }
+
+    async function getFileText(parentHandle, name) {
+      const fileHandle = await parentHandle.getFileHandle(name, { create: false });
+      const file = await fileHandle.getFile();
+      return file.text();
+    }
+
+    async function writeFileText(parentHandle, name, content) {
+      const fileHandle = await parentHandle.getFileHandle(name, { create: true });
+      const writable = await fileHandle.createWritable();
+      await writable.write(content);
+      await writable.close();
+    }
+
+    function insertIntoBlogIndex(html, cardHtml) {
+      const marker = '<section class="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-4">';
+      const sectionStart = html.indexOf(marker);
+      if (sectionStart === -1) {
+        throw new Error("Could not find the blog grid in blog/index.html");
+      }
+
+      const sectionEnd = html.indexOf("</section>", sectionStart);
+      if (sectionEnd === -1) {
+        throw new Error("Could not find the end of the blog grid in blog/index.html");
+      }
+
+      return `${html.slice(0, sectionEnd)}\n\n        ${cardHtml}\n${html.slice(sectionEnd)}`;
+    }
+
+    function insertIntoHubIndex(html, cardHtml, slug) {
+      if (html.includes(`/blog/${slug}.html`)) {
+        return html;
+      }
+
+      const mainClose = html.lastIndexOf("</main>");
+      if (mainClose === -1) {
+        throw new Error("Could not find </main> in hub index");
+      }
+
+      return `${html.slice(0, mainClose)}\n    ${cardHtml}\n${html.slice(mainClose)}`;
+    }
+
+    function buildSitemapUrlBlock(url, lastmod, changefreq = "monthly", priority = "0.7") {
+      return `  <url>
+    <loc>${url}</loc>
+    <lastmod>${lastmod}</lastmod>
+    <changefreq>${changefreq}</changefreq>
+    <priority>${priority}</priority>
+  </url>`;
+    }
+
+    function updateSitemapLastmod(xml, url, lastmod) {
+      const escapedUrl = url.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      const regex = new RegExp(`(<loc>${escapedUrl}</loc>[\\s\\S]*?<lastmod>)([^<]+)(</lastmod>)`, "m");
+      if (!regex.test(xml)) {
+        return xml;
+      }
+      return xml.replace(regex, `$1${lastmod}$3`);
+    }
+
+    function insertIntoArticleSitemapBlock(xml, urlBlock, slug) {
+      if (xml.includes(`/blog/${slug}.html`)) {
+        return xml;
+      }
+
+      const endMarker = "<!-- AUTO_ARTICLE_SITEMAP_END:articles -->";
+      const endIndex = xml.indexOf(endMarker);
+      if (endIndex === -1) {
+        throw new Error("Could not find sitemap auto article marker.");
+      }
+
+      return `${xml.slice(0, endIndex)}${urlBlock}\n\n${xml.slice(endIndex)}`;
+    }
+
+    async function connectSiteFolder() {
+      if (!window.showDirectoryPicker) {
+        alert("This direct-post feature needs Chrome or Edge.");
+        return;
+      }
+
+      rootDirectoryHandle = await window.showDirectoryPicker({ mode: "readwrite" });
+      const hasPermission = await verifyPermission(rootDirectoryHandle, true);
+      if (!hasPermission) {
+        setStatus("Folder access was not granted.");
+        return;
+      }
+
+      setStatus(`Connected to folder: ${rootDirectoryHandle.name}`);
+    }
+
+    async function publishToSite() {
+      const article = buildArticle();
+      if (!article) {
+        return;
+      }
+
+      if (!window.showDirectoryPicker) {
+        alert("This direct-post feature needs Chrome or Edge.");
+        return;
+      }
+
+      if (!rootDirectoryHandle) {
+        await connectSiteFolder();
+        if (!rootDirectoryHandle) {
+          return;
+        }
+      }
+
+      const hasPermission = await verifyPermission(rootDirectoryHandle, true);
+      if (!hasPermission) {
+        setStatus("Folder access was not granted.");
+        return;
+      }
+
+      try {
+        const blogDir = await getDirectoryHandle(rootDirectoryHandle, "blog");
+        await writeFileText(blogDir, `${article.slug}.html`, article.articleHtml);
+
+        let blogIndexHtml = await getFileText(blogDir, "index.html");
+        if (!blogIndexHtml.includes(`/blog/${article.slug}.html`)) {
+          blogIndexHtml = insertIntoBlogIndex(blogIndexHtml, article.blogIndexCard);
+          await writeFileText(blogDir, "index.html", blogIndexHtml);
+        }
+
+        for (const categorySlug of article.selectedCategories) {
+          try {
+            const hubDir = await getDirectoryHandle(blogDir, categorySlug);
+            let hubHtml = await getFileText(hubDir, "index.html");
+            hubHtml = insertIntoHubIndex(hubHtml, article.hubCard, article.slug);
+            await writeFileText(hubDir, "index.html", hubHtml);
+          } catch (error) {
+            console.warn(`Skipped hub ${categorySlug}:`, error);
+          }
+        }
+
+        try {
+          const sitemapFile = await rootDirectoryHandle.getFileHandle("sitemap.xml", { create: false });
+          const sitemapSource = await (await sitemapFile.getFile()).text();
+          const today = new Date().toISOString().slice(0, 10);
+          const articleBlock = buildSitemapUrlBlock(`${siteBaseUrl}/blog/${article.slug}.html`, today);
+          let sitemapUpdated = insertIntoArticleSitemapBlock(sitemapSource, articleBlock, article.slug);
+
+          sitemapUpdated = updateSitemapLastmod(sitemapUpdated, `${siteBaseUrl}/blog/`, today);
+          article.selectedCategories.forEach((categorySlug) => {
+            sitemapUpdated = updateSitemapLastmod(sitemapUpdated, `${siteBaseUrl}/blog/${categorySlug}/`, today);
+          });
+
+          const writable = await sitemapFile.createWritable();
+          await writable.write(sitemapUpdated);
+          await writable.close();
+        } catch (error) {
+          console.warn("Sitemap update skipped:", error);
+          setStatus(`Post published, but sitemap update was skipped: ${error.message}`);
+          return;
+        }
+
+        setStatus(`Posted successfully: blog/${article.slug}.html, selected hub pages, and sitemap.xml were updated.`);
+      } catch (error) {
+        console.error(error);
+        setStatus(`Posting failed: ${error.message}`);
+      }
+    }
+
+    async function copyText(text) {
+      await navigator.clipboard.writeText(text);
+    }
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      buildArticle();
+    });
+
+    connectFolderButton.addEventListener("click", async () => {
+      try {
+        await connectSiteFolder();
+      } catch (error) {
+        console.error(error);
+        setStatus(`Folder connection failed: ${error.message}`);
+      }
+    });
+
+    publishPostButton.addEventListener("click", async () => {
+      try {
+        await publishToSite();
+      } catch (error) {
+        console.error(error);
+        setStatus(`Posting failed: ${error.message}`);
+      }
+    });
+
+    copySchemaButton.addEventListener("click", async () => {
+      if (!schemaOutput.value) {
+        buildArticle();
+      }
+      if (schemaOutput.value) {
+        await copyText(schemaOutput.value);
+      }
+    });
+
+    copyHtmlButton.addEventListener("click", async () => {
+      if (!htmlOutput.value) {
+        buildArticle();
+      }
+      if (htmlOutput.value) {
+        await copyText(htmlOutput.value);
+      }
+    });
+
+    downloadHtmlButton.addEventListener("click", () => {
+      if (!htmlOutput.value) {
+        buildArticle();
+      }
+      if (!htmlOutput.value) {
+        return;
+      }
+
+      const slug = document.getElementById("slug").value.trim() || "blog-post";
+      const blob = new Blob([htmlOutput.value], { type: "text/html;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `${slug}.html`;
+      link.click();
+      URL.revokeObjectURL(url);
+    });
+  </script>
+</body>
+</html>
