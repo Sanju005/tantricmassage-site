@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Local Blog Publisher</title>
+  <style>
+    :root {
+      --page: #f4efe7;
+      --panel: rgba(255, 250, 242, 0.94);
+      --ink: #221c18;
+      --muted: #6f6357;
+      --line: #d7c6ae;
+      --accent: #8f5b2e;
+      --accent-soft: #f3e4d3;
+      --success: #1f7a4d;
+      --danger: #aa3737;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at top left, rgba(143, 91, 46, 0.16), transparent 24%),
+        linear-gradient(180deg, #fbf4ea 0%, #f0e5d4 100%);
+      color: var(--ink);
+      font-family: Georgia, "Times New Roman", serif;
+    }
+
+    .shell {
+      width: min(1180px, calc(100% - 2rem));
+      margin: 0 auto;
+      padding: 2rem 0 3rem;
+    }
+
+    .hero,
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      box-shadow: 0 18px 45px rgba(79, 49, 22, 0.08);
+      overflow: hidden;
+    }
+
+    .hero {
+      padding: 1.75rem;
+      background: linear-gradient(135deg, #2c1d12, #8f5b2e);
+      color: #fffaf2;
+    }
+
+    .hero h1,
+    .panel h2 {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
+
+    .hero p,
+    .helper,
+    .status {
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
+
+    .hero p {
+      margin: 0.75rem 0 0;
+      color: rgba(255, 250, 242, 0.84);
+      max-width: 50rem;
+    }
+
+    .layout {
+      display: grid;
+      gap: 1.5rem;
+      grid-template-columns: minmax(0, 1.1fr) minmax(300px, 0.9fr);
+      margin-top: 1.5rem;
+    }
+
+    .panel-body { padding: 1.5rem; }
+
+    .grid {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .field,
+    .field-full {
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+      margin-bottom: 1rem;
+    }
+
+    .field-full { grid-column: 1 / -1; }
+
+    label { font: 600 0.95rem "Segoe UI", Arial, sans-serif; }
+
+    input,
+    textarea {
+      width: 100%;
+      padding: 0.9rem 1rem;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #fff;
+      color: var(--ink);
+      font: 400 0.98rem "Segoe UI", Arial, sans-serif;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 160px;
+    }
+
+    .helper {
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .categories-grid {
+      display: grid;
+      gap: 0.75rem;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      margin-top: 0.25rem;
+    }
+
+    .category-item {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      padding: 0.75rem 0.85rem;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #fff;
+      font: 500 0.94rem "Segoe UI", Arial, sans-serif;
+    }
+
+    .category-item input {
+      width: auto;
+      margin: 0;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.85rem;
+      margin-top: 0.5rem;
+    }
+
+    button {
+      border: 0;
+      border-radius: 999px;
+      padding: 0.95rem 1.25rem;
+      cursor: pointer;
+      font: 700 0.95rem "Segoe UI", Arial, sans-serif;
+    }
+
+    .primary {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .secondary {
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+
+    .status {
+      margin-top: 1rem;
+      padding: 0.95rem 1rem;
+      border-radius: 14px;
+      background: #fff;
+      border: 1px solid var(--line);
+      color: var(--muted);
+    }
+
+    .status.success {
+      border-color: rgba(31, 122, 77, 0.24);
+      background: #eef9f2;
+      color: var(--success);
+    }
+
+    .status.error {
+      border-color: rgba(170, 55, 55, 0.24);
+      background: #fff1f1;
+      color: var(--danger);
+    }
+
+    .list {
+      margin: 0;
+      padding-left: 1.1rem;
+      font: 400 0.93rem "Segoe UI", Arial, sans-serif;
+      color: var(--muted);
+    }
+
+    @media (max-width: 900px) {
+      .layout { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <section class="hero">
+      <h1>One-Click Blog Publisher</h1>
+      <p>Fill the article, pick the hubs, and click `Post`. The app will create the article, update `blog/index.html`, add it to every selected hub, and update `sitemap.xml` automatically.</p>
+    </section>
+
+    <div class="layout">
+      <section class="panel">
+        <div class="panel-body">
+          <h2>Post Details</h2>
+          <form id="publisherForm">
+            <div class="grid">
+              <div class="field">
+                <label for="title">Title</label>
+                <input id="title" name="title" type="text" required>
+              </div>
+
+              <div class="field">
+                <label for="slug">Slug</label>
+                <input id="slug" name="slug" type="text" placeholder="leave blank to auto-create">
+              </div>
+
+              <div class="field-full">
+                <label for="metaDescription">Meta Description</label>
+                <textarea id="metaDescription" name="metaDescription" rows="3" required></textarea>
+              </div>
+
+              <div class="field-full">
+                <label for="featuredImage">Featured Image URL or Site Path</label>
+                <input id="featuredImage" name="featuredImage" type="text" placeholder="/blog/kuala-lumpur/images/example.jpg" required>
+              </div>
+
+              <div class="field-full">
+                <label for="altText">Alt Text</label>
+                <input id="altText" name="altText" type="text" required>
+              </div>
+
+              <div class="field">
+                <label for="publishedDate">Published Date</label>
+                <input id="publishedDate" name="publishedDate" type="date" required>
+              </div>
+
+              <div class="field">
+                <label for="publishedBy">Published By</label>
+                <input id="publishedBy" name="publishedBy" type="text" value="Massage KL" required>
+              </div>
+
+              <div class="field-full">
+                <label>Categories / Hubs</label>
+                <div class="actions" style="margin-top: 0;">
+                  <button class="secondary" type="button" id="selectAll">Select All Hubs</button>
+                  <button class="secondary" type="button" id="clearAll">Clear All</button>
+                </div>
+                <div id="categoriesGrid" class="categories-grid" style="margin-top: 1rem;"></div>
+                <div class="helper">Every selected hub will be updated automatically after you click `Post`.</div>
+              </div>
+
+              <div class="field-full">
+                <label for="content">Content</label>
+                <textarea id="content" name="content" rows="14" required></textarea>
+                <div class="helper">Use blank lines between paragraphs. Use `##` for H2, `###` for H3, and `-` for bullets.</div>
+              </div>
+            </div>
+
+            <div class="actions">
+              <button class="primary" type="submit">Post</button>
+            </div>
+          </form>
+
+          <div id="statusBox" class="status">Server connected. Fill the form and click `Post`.</div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-body">
+          <h2>What This Updates</h2>
+          <ul class="list">
+            <li>Creates `blog/your-slug.html`</li>
+            <li>Updates `blog/index.html`</li>
+            <li>Updates each selected hub page</li>
+            <li>Updates `sitemap.xml`</li>
+          </ul>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    const publishedDateInput = document.getElementById("publishedDate");
+    const form = document.getElementById("publisherForm");
+    const categoriesGrid = document.getElementById("categoriesGrid");
+    const selectAllButton = document.getElementById("selectAll");
+    const clearAllButton = document.getElementById("clearAll");
+    const statusBox = document.getElementById("statusBox");
+
+    publishedDateInput.value = new Date().toISOString().slice(0, 10);
+
+    function setStatus(message, type = "") {
+      statusBox.className = `status${type ? ` ${type}` : ""}`;
+      statusBox.textContent = message;
+    }
+
+    function slugify(value) {
+      return value
+        .toLowerCase()
+        .trim()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "");
+    }
+
+    async function loadCategories() {
+      const response = await fetch("/api/categories");
+      const data = await response.json();
+      categoriesGrid.innerHTML = Object.entries(data.categories).map(([slug, label]) => `
+        <label class="category-item">
+          <input type="checkbox" name="categories" value="${slug}">
+          <span>${label}</span>
+        </label>
+      `).join("");
+    }
+
+    function getSelectedCategories() {
+      return Array.from(document.querySelectorAll('input[name="categories"]:checked')).map((input) => input.value);
+    }
+
+    selectAllButton.addEventListener("click", () => {
+      document.querySelectorAll('input[name="categories"]').forEach((input) => {
+        input.checked = true;
+      });
+    });
+
+    clearAllButton.addEventListener("click", () => {
+      document.querySelectorAll('input[name="categories"]').forEach((input) => {
+        input.checked = false;
+      });
+    });
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      const title = document.getElementById("title").value.trim();
+      const slugField = document.getElementById("slug");
+      const metaDescription = document.getElementById("metaDescription").value.trim();
+      const featuredImage = document.getElementById("featuredImage").value.trim();
+      const altText = document.getElementById("altText").value.trim();
+      const publishedDate = document.getElementById("publishedDate").value;
+      const publishedBy = document.getElementById("publishedBy").value.trim();
+      const content = document.getElementById("content").value.trim();
+      const categories = getSelectedCategories();
+
+      if (!slugField.value.trim()) {
+        slugField.value = slugify(title);
+      }
+
+      if (!title || !slugField.value.trim() || !metaDescription || !featuredImage || !altText || !publishedDate || !publishedBy || !content || categories.length === 0) {
+        setStatus("Please fill all fields and select at least one hub.", "error");
+        return;
+      }
+
+      setStatus("Posting article and updating hubs...", "");
+
+      try {
+        const response = await fetch("/api/publish", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            title,
+            slug: slugField.value.trim(),
+            metaDescription,
+            featuredImage,
+            altText,
+            publishedDate,
+            publishedBy,
+            content,
+            categories
+          })
+        });
+
+        const result = await response.json();
+        if (!response.ok || !result.ok) {
+          throw new Error(result.error || "Posting failed.");
+        }
+
+        setStatus(`Posted successfully: ${result.articlePath}. Updated hubs: ${result.updatedHubs.join(", ") || "none found"}.`, "success");
+      } catch (error) {
+        setStatus(error.message, "error");
+      }
+    });
+
+    loadCategories().catch((error) => {
+      setStatus(`Could not load categories: ${error.message}`, "error");
+    });
+  </script>
+</body>
+</html>
