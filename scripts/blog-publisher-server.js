@@ -68,6 +68,23 @@ function normalizeContent(value) {
   return String(value).replace(/\r\n/g, "\n").replace(/\r/g, "\n").trim();
 }
 
+function normalizeFeaturedImage(value) {
+  const trimmed = String(value || "").trim().replace(/^["']+|["']+$/g, "");
+  if (/^https?:\/\//i.test(trimmed)) {
+    return trimmed;
+  }
+
+  if (/^[a-zA-Z]:\\/.test(trimmed)) {
+    const normalized = trimmed.replace(/\\/g, "/");
+    const rootNormalized = ROOT.replace(/\\/g, "/").toLowerCase();
+    if (normalized.toLowerCase().startsWith(rootNormalized)) {
+      return normalized.slice(rootNormalized.length).replace(/^\/+/, "/");
+    }
+  }
+
+  return trimmed.startsWith("/") ? trimmed : `/${trimmed.replace(/^\/+/, "")}`;
+}
+
 function buildContentHtml(content) {
   const blocks = normalizeContent(content).split(/\n\s*\n/).filter(Boolean);
   const html = [];
@@ -115,7 +132,7 @@ function buildArticleParts(payload) {
   const title = String(payload.title || "").trim();
   const slug = slugify(payload.slug || payload.title || "");
   const metaDescription = String(payload.metaDescription || "").trim();
-  const featuredImage = String(payload.featuredImage || "").trim();
+  const featuredImage = normalizeFeaturedImage(payload.featuredImage || "");
   const altText = String(payload.altText || "").trim();
   const content = String(payload.content || "").trim();
   const publishedDate = String(payload.publishedDate || "").trim();
@@ -167,7 +184,6 @@ function buildArticleParts(payload) {
   };
   const schemaJson = JSON.stringify(schema, null, 2);
   const contentHtml = buildContentHtml(content);
-  const tagsHtml = articleSections.map((label) => `      <span>${escapeHtml(label)}</span>`).join("\n");
   const excerptSource = normalizeContent(content).split(/\n\s*\n/).find(Boolean) || metaDescription;
   const excerpt = excerptSource.replace(/^#{2,3}\s+/, "").replace(/\n/g, " ").trim();
 
@@ -201,23 +217,17 @@ ${schemaJson}
 <body class="min-h-screen bg-black text-white">
   <article class="mx-auto max-w-4xl px-4 py-10 sm:px-6 sm:py-14">
     <a href="${escapeHtml(primaryPage.publicUrl)}" class="text-sm font-semibold text-amber-300">Back to ${escapeHtml(primaryPage.label)}</a>
-
-    <div
-      class="mt-6 min-h-[280px] rounded-[1.5rem] bg-cover bg-center"
-      style="background-image:url('${escapeHtml(featuredImage)}');"
-      role="img"
-      aria-label="${escapeHtml(altText)}"></div>
-
-    <div class="mt-6 flex flex-wrap gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-amber-300">
-${tagsHtml}
-    </div>
-
-    <p class="mt-4 text-xs uppercase tracking-[0.22em] text-white/55">Created: ${escapeHtml(displayDate)}</p>
-    <p class="mt-2 text-xs uppercase tracking-[0.22em] text-white/55">Published By: ${escapeHtml(publishedBy)}</p>
-
+    <p class="mt-6 text-xs font-semibold uppercase tracking-[0.28em] text-amber-300">${escapeHtml(primaryPage.label)}</p>
     <h1 class="mt-4 text-4xl font-bold leading-tight">${escapeHtml(title)}</h1>
+    <p class="mt-4 text-xs uppercase tracking-[0.22em] text-white/55">Created: ${escapeHtml(displayDate)} | Published By: ${escapeHtml(publishedBy)}</p>
 
+    <figure class="mt-8 overflow-hidden rounded-[1.5rem] border border-white/10 bg-zinc-950/70">
+      <img src="${escapeHtml(featuredImage)}" alt="${escapeHtml(altText)}" class="block h-auto w-full object-cover">
+    </figure>
+
+    <div class="mt-8 space-y-6">
 ${contentHtml}
+    </div>
   </article>
 </body>
 </html>`;

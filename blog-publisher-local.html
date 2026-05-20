@@ -227,6 +227,7 @@
               <div class="field-full">
                 <label for="featuredImage">Featured Image URL or Site Path</label>
                 <input id="featuredImage" name="featuredImage" type="text" placeholder="/blog/kuala-lumpur/images/example.jpg" required>
+                <div class="helper">Use a web path like `/blog/kuala-lumpur/images/example.jpg` or a full `https://...` image URL. Local `D:\...` paths are now converted when possible, but web paths are best.</div>
               </div>
 
               <div class="field-full">
@@ -276,7 +277,8 @@
           <ul class="list">
             <li>Creates `blog/your-slug.html`</li>
             <li>Updates `blog/index.html`</li>
-            <li>Updates each selected hub page</li>
+            <li>Updates selected place pages</li>
+            <li>Updates matching blog hub pages when available</li>
             <li>Updates `sitemap.xml`</li>
           </ul>
         </div>
