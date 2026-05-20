@@ -183,6 +183,13 @@
     <priority>0.7</priority>
   </url>
 
+  <url>
+    <loc>https://www.massagekl.com/blog/test1.html</loc>
+    <lastmod>2026-05-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
 <!-- AUTO_ARTICLE_SITEMAP_END:articles -->
 
   <url>
