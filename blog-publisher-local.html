@@ -245,13 +245,13 @@
               </div>
 
               <div class="field-full">
-                <label>Categories / Hubs</label>
+                <label>Place Pages</label>
                 <div class="actions" style="margin-top: 0;">
-                  <button class="secondary" type="button" id="selectAll">Select All Hubs</button>
+                  <button class="secondary" type="button" id="selectAll">Select All Pages</button>
                   <button class="secondary" type="button" id="clearAll">Clear All</button>
                 </div>
-                <div id="categoriesGrid" class="categories-grid" style="margin-top: 1rem;"></div>
-                <div class="helper">Every selected hub will be updated automatically after you click `Post`.</div>
+                <div id="pagesGrid" class="categories-grid" style="margin-top: 1rem;"></div>
+                <div class="helper">Every selected place page will be updated automatically after you click `Post`. Matching blog hubs are updated too when available.</div>
               </div>
 
               <div class="field-full">
@@ -287,7 +287,7 @@
   <script>
     const publishedDateInput = document.getElementById("publishedDate");
     const form = document.getElementById("publisherForm");
-    const categoriesGrid = document.getElementById("categoriesGrid");
+    const pagesGrid = document.getElementById("pagesGrid");
     const selectAllButton = document.getElementById("selectAll");
     const clearAllButton = document.getElementById("clearAll");
     const statusBox = document.getElementById("statusBox");
@@ -307,29 +307,29 @@
         .replace(/^-+|-+$/g, "");
     }
 
-    async function loadCategories() {
-      const response = await fetch("/api/categories");
+    async function loadPages() {
+      const response = await fetch("/api/pages");
       const data = await response.json();
-      categoriesGrid.innerHTML = Object.entries(data.categories).map(([slug, label]) => `
+      pagesGrid.innerHTML = data.pages.map((page) => `
         <label class="category-item">
-          <input type="checkbox" name="categories" value="${slug}">
-          <span>${label}</span>
+          <input type="checkbox" name="pages" value="${page.id}">
+          <span>${page.label}</span>
         </label>
       `).join("");
     }
 
-    function getSelectedCategories() {
-      return Array.from(document.querySelectorAll('input[name="categories"]:checked')).map((input) => input.value);
+    function getSelectedPages() {
+      return Array.from(document.querySelectorAll('input[name="pages"]:checked')).map((input) => input.value);
     }
 
     selectAllButton.addEventListener("click", () => {
-      document.querySelectorAll('input[name="categories"]').forEach((input) => {
+      document.querySelectorAll('input[name="pages"]').forEach((input) => {
         input.checked = true;
       });
     });
 
     clearAllButton.addEventListener("click", () => {
-      document.querySelectorAll('input[name="categories"]').forEach((input) => {
+      document.querySelectorAll('input[name="pages"]').forEach((input) => {
         input.checked = false;
       });
     });
@@ -345,18 +345,18 @@
       const publishedDate = document.getElementById("publishedDate").value;
       const publishedBy = document.getElementById("publishedBy").value.trim();
       const content = document.getElementById("content").value.trim();
-      const categories = getSelectedCategories();
+      const pages = getSelectedPages();
 
       if (!slugField.value.trim()) {
         slugField.value = slugify(title);
       }
 
-      if (!title || !slugField.value.trim() || !metaDescription || !featuredImage || !altText || !publishedDate || !publishedBy || !content || categories.length === 0) {
-        setStatus("Please fill all fields and select at least one hub.", "error");
+      if (!title || !slugField.value.trim() || !metaDescription || !featuredImage || !altText || !publishedDate || !publishedBy || !content || pages.length === 0) {
+        setStatus("Please fill all fields and select at least one place page.", "error");
         return;
       }
 
-      setStatus("Posting article and updating hubs...", "");
+      setStatus("Posting article and updating selected pages...", "");
 
       try {
         const response = await fetch("/api/publish", {
@@ -373,7 +373,7 @@
             publishedDate,
             publishedBy,
             content,
-            categories
+            pages
           })
         });
 
@@ -382,14 +382,14 @@
           throw new Error(result.error || "Posting failed.");
         }
 
-        setStatus(`Posted successfully: ${result.articlePath}. Updated hubs: ${result.updatedHubs.join(", ") || "none found"}.`, "success");
+        setStatus(`Posted successfully: ${result.articlePath}. Updated place pages: ${result.updatedPlacePages.join(", ") || "none found"}. Updated hubs: ${result.updatedHubs.join(", ") || "none found"}.`, "success");
       } catch (error) {
         setStatus(error.message, "error");
       }
     });
 
-    loadCategories().catch((error) => {
-      setStatus(`Could not load categories: ${error.message}`, "error");
+    loadPages().catch((error) => {
+      setStatus(`Could not load page mapping: ${error.message}`, "error");
     });
   </script>
 </body>

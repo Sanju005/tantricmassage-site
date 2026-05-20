@@ -6,25 +6,36 @@ const ROOT = path.resolve(__dirname, "..");
 const PORT = 8787;
 const SITE_BASE_URL = "https://www.massagekl.com";
 
-const categories = {
-  "kuala-lumpur": "Kuala Lumpur (KL)",
-  "klcc": "KLCC",
-  "bukit-bintang": "Bukit Bintang",
-  "bangsar": "Bangsar",
-  "mid-valley": "Mid Valley",
-  "mont-kiara": "Mont Kiara",
-  "sri-petaling": "Sri Petaling",
-  "cheras": "Cheras",
-  "ampang": "Ampang",
-  "petaling-jaya": "Petaling Jaya",
-  "subang-jaya": "Subang Jaya",
-  "puchong": "Puchong",
-  "damansara": "Damansara",
-  "ttdi": "TTDI",
-  "setapak": "Setapak",
-  "cyberjaya": "Cyberjaya",
-  "putrajaya": "Putrajaya"
-};
+const placePages = [
+  { id: "kuala-lumpur", label: "Kuala Lumpur", file: "massage-kuala-lumpur/index.html", publicUrl: "/massage-kuala-lumpur/", hub: "kuala-lumpur" },
+  { id: "klcc", label: "KLCC", file: "massage-klcc/index.html", publicUrl: "/massage-klcc/", hub: "klcc" },
+  { id: "bangsar", label: "Bangsar", file: "massage-bangsar/index.html", publicUrl: "/massage-bangsar/", hub: "bangsar" },
+  { id: "mont-kiara", label: "Mont Kiara", file: "massage-mont-kiara/index.html", publicUrl: "/massage-mont-kiara/", hub: "mont-kiara" },
+  { id: "bukit-bintang", label: "Bukit Bintang", file: "massage-bukit-bintang/index.html", publicUrl: "/massage-bukit-bintang/", hub: null },
+  { id: "mid-valley", label: "Mid Valley", file: "massage-mid-valley.html", publicUrl: "/massage-mid-valley.html", hub: null },
+  { id: "cheras", label: "Cheras", file: "massage-cheras.html", publicUrl: "/massage-cheras.html", hub: null },
+  { id: "ampang", label: "Ampang", file: "massage-ampang.html", publicUrl: "/massage-ampang.html", hub: null },
+  { id: "petaling-jaya", label: "Petaling Jaya", file: "massage-petaling-jaya.html", publicUrl: "/massage-petaling-jaya.html", hub: null },
+  { id: "subang-jaya", label: "Subang Jaya", file: "massage-subang-jaya.html", publicUrl: "/massage-subang-jaya.html", hub: null },
+  { id: "puchong", label: "Puchong", file: "massage-puchong.html", publicUrl: "/massage-puchong.html", hub: null },
+  { id: "ttdi", label: "TTDI", file: "massage-ttdi.html", publicUrl: "/massage-ttdi.html", hub: null },
+  { id: "setapak", label: "Setapak", file: "massage-setapak.html", publicUrl: "/massage-setapak.html", hub: null },
+  { id: "cyberjaya", label: "Cyberjaya", file: "massage-cyberjaya.html", publicUrl: "/massage-cyberjaya.html", hub: null },
+  { id: "putrajaya", label: "Putrajaya", file: "massage-putrajaya.html", publicUrl: "/massage-putrajaya.html", hub: null },
+  { id: "brickfields", label: "Brickfields", file: "massage-brickfields.html", publicUrl: "/massage-brickfields.html", hub: null },
+  { id: "kl-sentral", label: "KL Sentral", file: "massage-kl-sentral.html", publicUrl: "/massage-kl-sentral.html", hub: null },
+  { id: "bukit-jalil", label: "Bukit Jalil", file: "massage-bukit-jalil.html", publicUrl: "/massage-bukit-jalil.html", hub: null },
+  { id: "bangsar-south", label: "Bangsar South", file: "massage-bangsar-south.html", publicUrl: "/massage-bangsar-south.html", hub: null },
+  { id: "sunway", label: "Sunway", file: "massage-sunway.html", publicUrl: "/massage-sunway.html", hub: null },
+  { id: "shah-alam", label: "Shah Alam", file: "massage-shah-alam.html", publicUrl: "/massage-shah-alam.html", hub: null },
+  { id: "sri-hartamas", label: "Sri Hartamas", file: "massage-sri-hartamas.html", publicUrl: "/massage-sri-hartamas.html", hub: null },
+  { id: "damansara-heights", label: "Damansara Heights", file: "massage-damansara-heights.html", publicUrl: "/massage-damansara-heights.html", hub: null },
+  { id: "desa-parkcity", label: "Desa ParkCity", file: "massage-desa-parkcity.html", publicUrl: "/massage-desa-parkcity.html", hub: null },
+  { id: "kota-damansara", label: "Kota Damansara", file: "massage-kota-damansara.html", publicUrl: "/massage-kota-damansara.html", hub: null },
+  { id: "ara-damansara", label: "Ara Damansara", file: "massage-ara-damansara.html", publicUrl: "/massage-ara-damansara.html", hub: null },
+  { id: "kelana-jaya", label: "Kelana Jaya", file: "massage-kelana-jaya.html", publicUrl: "/massage-kelana-jaya.html", hub: null }
+];
+const placePageMap = Object.fromEntries(placePages.map((page) => [page.id, page]));
 
 function sendJson(res, statusCode, payload) {
   res.writeHead(statusCode, { "Content-Type": "application/json; charset=utf-8" });
@@ -109,15 +120,16 @@ function buildArticleParts(payload) {
   const content = String(payload.content || "").trim();
   const publishedDate = String(payload.publishedDate || "").trim();
   const publishedBy = String(payload.publishedBy || "Massage KL").trim();
-  const selectedCategories = Array.isArray(payload.categories) ? payload.categories.filter((item) => categories[item]) : [];
+  const selectedPages = Array.isArray(payload.pages) ? payload.pages.filter((item) => placePageMap[item]) : [];
 
-  if (!title || !slug || !metaDescription || !featuredImage || !altText || !content || !publishedDate || !publishedBy || selectedCategories.length === 0) {
+  if (!title || !slug || !metaDescription || !featuredImage || !altText || !content || !publishedDate || !publishedBy || selectedPages.length === 0) {
     throw new Error("Please fill all required fields.");
   }
 
-  const primaryCategorySlug = selectedCategories[0];
-  const primaryCategoryLabel = categories[primaryCategorySlug];
-  const categoryLabels = selectedCategories.map((item) => categories[item]);
+  const selectedPageRecords = selectedPages.map((item) => placePageMap[item]);
+  const primaryPage = selectedPageRecords[0];
+  const articleSections = selectedPageRecords.map((page) => page.label);
+  const relatedHubs = [...new Set(selectedPageRecords.map((page) => page.hub).filter(Boolean))];
   const articleUrl = `${SITE_BASE_URL}/blog/${slug}.html`;
   const imageUrl = /^https?:\/\//i.test(featuredImage)
     ? featuredImage
@@ -151,11 +163,11 @@ function buildArticleParts(payload) {
       "@type": "WebPage",
       "@id": articleUrl
     },
-    articleSection: categoryLabels
+    articleSection: articleSections
   };
   const schemaJson = JSON.stringify(schema, null, 2);
   const contentHtml = buildContentHtml(content);
-  const tagsHtml = categoryLabels.map((label) => `      <span>${escapeHtml(label)}</span>`).join("\n");
+  const tagsHtml = articleSections.map((label) => `      <span>${escapeHtml(label)}</span>`).join("\n");
   const excerptSource = normalizeContent(content).split(/\n\s*\n/).find(Boolean) || metaDescription;
   const excerpt = excerptSource.replace(/^#{2,3}\s+/, "").replace(/\n/g, " ").trim();
 
@@ -188,7 +200,7 @@ ${schemaJson}
 </head>
 <body class="min-h-screen bg-black text-white">
   <article class="mx-auto max-w-4xl px-4 py-10 sm:px-6 sm:py-14">
-    <a href="/blog/${escapeHtml(primaryCategorySlug)}/" class="text-sm font-semibold text-amber-300">Back to ${escapeHtml(primaryCategoryLabel)}</a>
+    <a href="${escapeHtml(primaryPage.publicUrl)}" class="text-sm font-semibold text-amber-300">Back to ${escapeHtml(primaryPage.label)}</a>
 
     <div
       class="mt-6 min-h-[280px] rounded-[1.5rem] bg-cover bg-center"
@@ -213,10 +225,10 @@ ${contentHtml}
   const blogIndexCard = `<article class="card">
           <div class="post-image" style="background-image: url('${escapeHtml(featuredImage)}');"></div>
           <div class="p-6">
-            <p class="text-xs font-bold uppercase tracking-[0.24em]" style="color: var(--gold-main);">${escapeHtml(primaryCategoryLabel)}</p>
+            <p class="text-xs font-bold uppercase tracking-[0.24em]" style="color: var(--gold-main);">${escapeHtml(primaryPage.label)}</p>
             <h2 class="mt-3 text-2xl font-semibold leading-tight">${escapeHtml(title)}</h2>
             <div class="mt-4 flex flex-wrap gap-2">
-              ${categoryLabels.map((label) => `<span class="tag">${escapeHtml(label)}</span>`).join("\n              ")}
+              ${articleSections.map((label) => `<span class="tag">${escapeHtml(label)}</span>`).join("\n              ")}
             </div>
             <p class="mt-4 text-sm leading-7" style="color: var(--text-secondary);">${escapeHtml(excerpt).slice(0, 180)}</p>
             <a href="/blog/${escapeHtml(slug)}.html" class="mt-5 inline-flex text-sm font-semibold" style="color: var(--gold-soft);">Read article</a>
@@ -227,7 +239,7 @@ ${contentHtml}
       <div class="min-h-[250px] bg-cover bg-center" style="background-image:url('${escapeHtml(featuredImage)}');"></div>
       <div class="p-6 sm:p-8">
         <div class="flex flex-wrap gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-amber-300">
-          ${categoryLabels.map((label) => `<span>${escapeHtml(label)}</span>`).join("")}
+          ${articleSections.map((label) => `<span>${escapeHtml(label)}</span>`).join("")}
         </div>
         <h2 class="mt-4 text-3xl font-semibold leading-tight">${escapeHtml(title)}</h2>
         <p class="mt-4 text-base leading-8 text-white/72">${escapeHtml(excerpt).slice(0, 220)}</p>
@@ -235,13 +247,41 @@ ${contentHtml}
       </div>
     </article>`;
 
+  const simplePlaceCard = `<a href="/blog/${escapeHtml(slug)}.html" class="card" style="display:block;">
+          <div class="card-image" style="background-image:url('${escapeHtml(featuredImage)}');" role="img" aria-label="${escapeHtml(altText)}"></div>
+          <div class="card-body"><p class="kicker">${escapeHtml(primaryPage.label)} Article</p><h2 class="card-title">${escapeHtml(title)}</h2><p class="card-copy">${escapeHtml(excerpt).slice(0, 220)}</p><div class="tag-row">${articleSections.map((label) => `<span class="tag">${escapeHtml(label)}</span>`).join("")}</div></div>
+        </a>`;
+
+  const placeSchemaScript = (pageLabel, pageUrl) => `<!-- AUTO_RELATED_ARTICLE_SCHEMA_START:${slug} -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": "${escapeHtml(pageLabel)} related articles",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "url": "${escapeHtml(articleUrl)}",
+        "name": "${escapeHtml(title)}"
+      }
+    ],
+    "mainEntityOfPage": "${escapeHtml(SITE_BASE_URL + pageUrl)}"
+  }
+  <\/script>
+<!-- AUTO_RELATED_ARTICLE_SCHEMA_END:${slug} -->`;
+
   return {
     slug,
     articleHtml,
     schemaJson,
-    selectedCategories,
+    selectedPages,
+    selectedPageRecords,
+    relatedHubs,
     blogIndexCard,
-    hubCard
+    hubCard,
+    simplePlaceCard,
+    placeSchemaScript
   };
 }
 
@@ -283,6 +323,53 @@ function insertIntoHubIndex(html, cardHtml, slug) {
   }
 
   return `${html.slice(0, mainClose)}\n    ${cardHtml}\n${html.slice(mainClose)}`;
+}
+
+function insertIntoPlacePage(html, richCardHtml, simpleCardHtml, slug) {
+  if (html.includes(`/blog/${slug}.html`) || html.includes(`/massage-kuala-lumpur/${slug}/`)) {
+    return html;
+  }
+
+  const autoStart = html.indexOf("AUTO_ARTICLE_GRID_START:");
+  const autoEnd = html.indexOf("AUTO_ARTICLE_GRID_END:");
+  if (autoStart !== -1 && autoEnd !== -1) {
+    return `${html.slice(0, autoEnd)}${richCardHtml}\n          ${html.slice(autoEnd)}`;
+  }
+
+  const gridStart = html.indexOf('<div class="grid">');
+  const contentBox = html.indexOf('<div class="content-box">', gridStart);
+  if (gridStart !== -1 && contentBox !== -1) {
+    return `${html.slice(0, contentBox)}        ${simpleCardHtml}\n${html.slice(contentBox)}`;
+  }
+
+  throw new Error("Could not find a supported article insertion point on the place page.");
+}
+
+function insertPlaceSchema(html, schemaBlock, slug) {
+  if (html.includes(`AUTO_RELATED_ARTICLE_SCHEMA_START:${slug}`)) {
+    return html;
+  }
+
+  const headClose = html.indexOf("</head>");
+  if (headClose === -1) {
+    throw new Error("Could not find </head> while inserting place-page schema.");
+  }
+
+  return `${html.slice(0, headClose)}${schemaBlock}\n${html.slice(headClose)}`;
+}
+
+function updateAutoArticleCount(html) {
+  const startMatch = html.match(/<!-- AUTO_ARTICLE_COUNT_START:([a-z0-9-]+) -->/);
+  const gridStart = html.indexOf("AUTO_ARTICLE_GRID_START:");
+  const gridEnd = html.indexOf("AUTO_ARTICLE_GRID_END:");
+  if (!startMatch || gridStart === -1 || gridEnd === -1) {
+    return html;
+  }
+
+  const pageLabel = startMatch[1].replace(/-/g, " ").toUpperCase();
+  const gridSection = html.slice(gridStart, gridEnd);
+  const cardCount = (gridSection.match(/article-card/g) || []).length;
+  return html.replace(/(<\!-- AUTO_ARTICLE_COUNT_START:[^>]+ -->\s*<p[^>]*>Showing )\d+( featured .*? articles<\/p>\s*<\!-- AUTO_ARTICLE_COUNT_END:[^>]+ -->)/s, `$1${cardCount}$2`);
 }
 
 function buildSitemapUrlBlock(url, lastmod, changefreq = "monthly", priority = "0.7") {
@@ -328,7 +415,7 @@ function publish(payload) {
   writeText(blogIndexPath, insertIntoBlogIndex(blogIndexHtml, article.blogIndexCard, article.slug));
 
   const updatedHubs = [];
-  for (const categorySlug of article.selectedCategories) {
+  for (const categorySlug of article.relatedHubs) {
     const hubPath = path.join(blogDir, categorySlug, "index.html");
     if (!fs.existsSync(hubPath)) {
       continue;
@@ -338,14 +425,31 @@ function publish(payload) {
     updatedHubs.push(categorySlug);
   }
 
+  const updatedPlacePages = [];
+  for (const page of article.selectedPageRecords) {
+    const placePath = path.join(ROOT, page.file);
+    if (!fs.existsSync(placePath)) {
+      continue;
+    }
+    let placeHtml = readText(placePath);
+    placeHtml = insertIntoPlacePage(placeHtml, article.hubCard, article.simplePlaceCard, article.slug);
+    placeHtml = updateAutoArticleCount(placeHtml);
+    placeHtml = insertPlaceSchema(placeHtml, article.placeSchemaScript(page.label, page.publicUrl), article.slug);
+    writeText(placePath, placeHtml);
+    updatedPlacePages.push(page.file);
+  }
+
   const sitemapPath = path.join(ROOT, "sitemap.xml");
   const today = new Date().toISOString().slice(0, 10);
   let sitemapXml = readText(sitemapPath);
   const articleBlock = buildSitemapUrlBlock(`${SITE_BASE_URL}/blog/${article.slug}.html`, today);
   sitemapXml = insertIntoArticleSitemapBlock(sitemapXml, articleBlock, article.slug);
   sitemapXml = updateSitemapLastmod(sitemapXml, `${SITE_BASE_URL}/blog/`, today);
-  for (const categorySlug of article.selectedCategories) {
+  for (const categorySlug of article.relatedHubs) {
     sitemapXml = updateSitemapLastmod(sitemapXml, `${SITE_BASE_URL}/blog/${categorySlug}/`, today);
+  }
+  for (const page of article.selectedPageRecords) {
+    sitemapXml = updateSitemapLastmod(sitemapXml, `${SITE_BASE_URL}${page.publicUrl}`, today);
   }
   writeText(sitemapPath, sitemapXml);
 
@@ -354,10 +458,12 @@ function publish(payload) {
     slug: article.slug,
     articlePath: path.relative(ROOT, articlePath),
     updatedHubs,
+    updatedPlacePages,
     updatedFiles: [
       path.relative(ROOT, articlePath),
       "blog/index.html",
       ...updatedHubs.map((slug) => `blog/${slug}/index.html`),
+      ...updatedPlacePages.map((file) => file.replace(/\\/g, "/")),
       "sitemap.xml"
     ]
   };
@@ -370,8 +476,8 @@ const server = http.createServer((req, res) => {
     return sendHtml(res, appHtml);
   }
 
-  if (req.method === "GET" && req.url === "/api/categories") {
-    return sendJson(res, 200, { categories });
+  if (req.method === "GET" && req.url === "/api/pages") {
+    return sendJson(res, 200, { pages: placePages });
   }
 
   if (req.method === "POST" && req.url === "/api/publish") {
