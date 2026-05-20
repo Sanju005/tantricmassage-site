@@ -245,6 +245,17 @@ ${contentHtml}
           </div>
         </article>`;
 
+  const hubCard = `<article class="card card-link">
+      <div class="card-image" style="background-image:url('${escapeHtml(featuredImage)}');" role="img" aria-label="${escapeHtml(altText)}"></div>
+      <div class="card-body">
+        <p class="card-category">${escapeHtml(primaryPage.label)}</p>
+        <p class="card-date">Created: ${escapeHtml(displayDate)}</p>
+        <h2 class="card-title">${escapeHtml(title)}</h2>
+        <p class="card-copy">${escapeHtml(excerpt).slice(0, 220)}</p>
+        <a href="/blog/${escapeHtml(slug)}.html" class="mt-5 inline-flex text-sm font-semibold" style="color: var(--gold-soft);">Read article</a>
+      </div>
+    </article>`;
+
   const buildPlaceRichCard = (page) => `<article class="mt-10 rounded-[1.5rem] border border-amber-400/20 bg-zinc-950/90 overflow-hidden">
       <div class="min-h-[250px] bg-cover bg-center" style="background-image:url('${escapeHtml(featuredImage)}');"></div>
       <div class="p-6 sm:p-8">
@@ -289,6 +300,7 @@ ${contentHtml}
     selectedPageRecords,
     relatedHubs,
     blogIndexCard,
+    hubCard,
     buildPlaceRichCard,
     buildSimplePlaceCard,
     placeSchemaScript
@@ -340,10 +352,10 @@ function insertIntoPlacePage(html, richCardHtml, simpleCardHtml, slug) {
     return html;
   }
 
-  const autoStart = html.indexOf("AUTO_ARTICLE_GRID_START:");
-  const autoEnd = html.indexOf("AUTO_ARTICLE_GRID_END:");
+  const autoStart = html.indexOf("<!-- AUTO_ARTICLE_GRID_START:");
+  const autoEnd = html.indexOf("<!-- AUTO_ARTICLE_GRID_END:");
   if (autoStart !== -1 && autoEnd !== -1) {
-    return `${html.slice(0, autoEnd)}${richCardHtml}\n          ${html.slice(autoEnd)}`;
+    return `${html.slice(0, autoEnd)}          ${richCardHtml}\n${html.slice(autoEnd)}`;
   }
 
   const gridStart = html.indexOf('<div class="grid">');
