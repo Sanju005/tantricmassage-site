@@ -65,7 +65,15 @@ function slugify(value) {
 }
 
 function normalizeContent(value) {
-  return String(value).replace(/\r\n/g, "\n").replace(/\r/g, "\n").trim();
+  return String(value)
+    .replace(/\r\n/g, "\n")
+    .replace(/\r/g, "\n")
+    .replace(/â€™/g, "’")
+    .replace(/â€œ/g, "“")
+    .replace(/â€/g, "”")
+    .replace(/â€“/g, "–")
+    .replace(/â€”/g, "—")
+    .trim();
 }
 
 function normalizeFeaturedImage(value) {
@@ -94,9 +102,9 @@ function buildContentHtml(content) {
       const lines = block.split("\n");
       const heading = lines.shift().replace(/^###\s+/, "");
       const body = lines.join("\n").trim();
-      html.push(`<h3 class="mt-6 text-xl font-semibold">${escapeHtml(heading)}</h3>`);
+      html.push(`<h3>${escapeHtml(heading)}</h3>`);
       if (body) {
-        html.push(`<p class="mt-3 text-base leading-8 text-white/72">${escapeHtml(body).replace(/\n/g, "<br>")}</p>`);
+        html.push(`<p>${escapeHtml(body).replace(/\n/g, "<br>")}</p>`);
       }
       continue;
     }
@@ -105,16 +113,16 @@ function buildContentHtml(content) {
       const lines = block.split("\n");
       const heading = lines.shift().replace(/^##\s+/, "");
       const body = lines.join("\n").trim();
-      html.push(`<h2 class="mt-8 text-2xl font-semibold">${escapeHtml(heading)}</h2>`);
+      html.push(`<h2>${escapeHtml(heading)}</h2>`);
       if (body) {
-        html.push(`<p class="mt-4 text-base leading-8 text-white/72">${escapeHtml(body).replace(/\n/g, "<br>")}</p>`);
+        html.push(`<p>${escapeHtml(body).replace(/\n/g, "<br>")}</p>`);
       }
       continue;
     }
 
     if (block.startsWith("- ")) {
       const items = block.split("\n").map((line) => line.replace(/^- /, "").trim()).filter(Boolean);
-      html.push('<ul class="mt-4 list-disc space-y-2 pl-6 text-base leading-8 text-white/72">');
+      html.push("<ul>");
       for (const item of items) {
         html.push(`<li>${escapeHtml(item)}</li>`);
       }
@@ -122,7 +130,7 @@ function buildContentHtml(content) {
       continue;
     }
 
-    html.push(`<p class="mt-5 text-base leading-8 text-white/72">${escapeHtml(block).replace(/\n/g, "<br>")}</p>`);
+    html.push(`<p>${escapeHtml(block).replace(/\n/g, "<br>")}</p>`);
   }
 
   return html.join("\n");
@@ -211,24 +219,78 @@ function buildArticleParts(payload) {
   <script type="application/ld+json">
 ${schemaJson}
   <\/script>
-  <link rel="preload" href="/styles/tailwind.css" as="style">
-  <link rel="stylesheet" href="/styles/tailwind.css">
+  <style>
+    :root { --gold-main:#D4AF37; --gold-soft:#FFD700; --text-main:#FFFFFF; --text-secondary:#CCCCCC; --border-soft:rgba(212,175,55,0.18); }
+    * { box-sizing:border-box; }
+    body { margin:0; min-height:100vh; font-family:"Segoe UI","Helvetica Neue",Arial,sans-serif; color:var(--text-main); background:radial-gradient(circle at top,rgba(212,175,55,.12),transparent 28%),linear-gradient(180deg,#111 0%,#050505 100%); padding-bottom:6rem; }
+    a { color:inherit; text-decoration:none; }
+    .app-block { width:min(100%,1040px); margin:0 auto; }
+    .gold-button { display:inline-flex; align-items:center; justify-content:center; border-radius:9999px; padding:.7rem 1.15rem; font-size:.86rem; font-weight:700; background:linear-gradient(to right,var(--gold-main),var(--gold-soft)); color:#000; box-shadow:0 14px 34px rgba(212,175,55,.22); }
+    .menu-button { display:inline-flex; align-items:center; justify-content:center; width:2.6rem; height:2.6rem; border:1px solid rgba(212,175,55,.34); border-radius:999px; color:var(--gold-main); background:rgba(255,255,255,.04); }
+    .site-menu { position:fixed; inset:0; z-index:80; display:none; background:rgba(0,0,0,.7); backdrop-filter:blur(12px); }
+    .site-menu.is-open { display:block; }
+    .site-menu__panel { position:absolute; top:1rem; right:1rem; width:min(88vw,360px); border:1px solid var(--border-soft); border-radius:1.5rem; background:rgba(12,12,12,.98); box-shadow:0 24px 80px rgba(0,0,0,.55); }
+    .site-menu__head { display:flex; align-items:center; justify-content:space-between; padding:1rem; border-bottom:1px solid rgba(255,255,255,.08); }
+    .site-menu__title { margin:0; color:var(--gold-main); font-size:.82rem; font-weight:700; letter-spacing:.22em; text-transform:uppercase; }
+    .site-menu__close { width:2.3rem; height:2.3rem; border:1px solid rgba(212,175,55,.25); border-radius:999px; color:var(--text-main); background:rgba(255,255,255,.04); font-size:1.15rem; }
+    .site-menu__links { display:grid; gap:.55rem; padding:.8rem; }
+    .site-menu__link { display:flex; align-items:center; justify-content:space-between; min-height:3.4rem; padding:.9rem 1rem; border:1px solid rgba(255,255,255,.06); border-radius:1rem; background:rgba(255,255,255,.03); font-weight:600; }
+    .site-menu__link span:last-child { color:var(--gold-main); }
+    .article-shell { padding:2rem 1rem 5rem; }
+    .article-card { border:1px solid var(--border-soft); border-radius:2rem; background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02)); overflow:hidden; box-shadow:0 24px 70px rgba(0,0,0,.45); }
+    .featured-media { aspect-ratio:16/9; padding:.75rem; background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.02)); }
+    .featured-media img { width:100%; height:100%; display:block; object-fit:cover; object-position:center; border-radius:1.4rem; }
+    .content { padding:1.5rem; }
+    .breadcrumbs { display:flex; align-items:center; gap:.45rem; flex-wrap:wrap; margin-bottom:1rem; color:rgba(255,255,255,.62); font-size:.78rem; }
+    .breadcrumbs a { color:var(--gold-main); }
+    .category { color:var(--gold-main); font-size:.74rem; font-weight:700; letter-spacing:.24em; text-transform:uppercase; }
+    .article-title { max-width:24ch; margin:.8rem 0 0; font-size:clamp(1.8rem,5vw,3.2rem); line-height:1.05; }
+    .meta { margin-top:1rem; color:var(--text-secondary); font-size:.9rem; }
+    .tags { display:flex; flex-wrap:wrap; gap:.5rem; margin-top:1.25rem; }
+    .tag { border:1px solid rgba(212,175,55,.24); border-radius:999px; padding:.38rem .7rem; color:rgba(255,255,255,.78); font-size:.76rem; }
+    .article-body { margin-top:1.8rem; color:var(--text-secondary); font-size:1rem; line-height:1.68; }
+    .article-body p { margin:1rem 0 0; }
+    .article-body h2 { color:var(--text-main); font-size:1.3rem; line-height:1.3; margin:2rem 0 0; font-weight:800; }
+    .article-body h3 { color:var(--text-main); font-size:1.1rem; line-height:1.3; margin:1.6rem 0 0; font-weight:700; }
+    .article-body ul { padding-left:1.35rem; margin:.85rem 0 1rem; }
+    .article-body li { margin:.45rem 0; padding-left:.15rem; }
+    .article-body li::marker { color:var(--gold-soft); }
+    .bottom-nav { position:fixed; left:50%; bottom:1rem; transform:translateX(-50%); width:calc(100% - 1.5rem); max-width:31rem; z-index:50; }
+    .bottom-nav-wrap { display:flex; gap:.65rem; }
+    .bottom-nav-main,.bottom-nav-chat { position:relative; overflow:hidden; min-height:3.35rem; display:flex; align-items:center; justify-content:center; border-radius:999px; font-weight:700; backdrop-filter:blur(16px); }
+    .bottom-nav-main { width:75%; padding:.8rem .75rem; font-size:.76rem; letter-spacing:.08em; text-transform:uppercase; white-space:nowrap; line-height:1; color:#111; border:2px solid rgba(0,0,0,.88); background:linear-gradient(180deg,#f1cd58 0%,#d4af37 52%,#b58d1b 100%); box-shadow:inset 0 2px 0 rgba(255,249,210,.72),inset 0 -4px 0 rgba(108,75,0,.28),0 12px 0 rgba(0,0,0,.22),0 18px 34px rgba(0,0,0,.28),0 0 28px rgba(255,215,0,.24); }
+    .bottom-nav-chat { width:25%; color:#25D366; border:1.8px solid rgba(212,175,55,.9); background:rgba(12,12,12,.94); box-shadow:0 18px 40px rgba(0,0,0,.38),inset 0 1px 0 rgba(255,255,255,.06); }
+    .bottom-nav-chat svg { width:1.55rem; height:1.55rem; }
+    @media (min-width:760px) { .article-shell{padding-top:3rem;} .content{padding:2.5rem;} }
+  </style>
 </head>
-<body class="min-h-screen bg-black text-white">
-  <article class="mx-auto max-w-4xl px-4 py-10 sm:px-6 sm:py-14">
-    <a href="${escapeHtml(primaryPage.publicUrl)}" class="text-sm font-semibold text-amber-300">Back to ${escapeHtml(primaryPage.label)}</a>
-    <p class="mt-6 text-xs font-semibold uppercase tracking-[0.28em] text-amber-300">${escapeHtml(primaryPage.label)}</p>
-    <h1 class="mt-4 text-4xl font-bold leading-tight">${escapeHtml(title)}</h1>
-    <p class="mt-4 text-xs uppercase tracking-[0.22em] text-white/55">Created: ${escapeHtml(displayDate)} | Published By: ${escapeHtml(publishedBy)}</p>
-
-    <figure class="mt-8 overflow-hidden rounded-[1.5rem] border border-white/10 bg-zinc-950/70">
-      <img src="${escapeHtml(featuredImage)}" alt="${escapeHtml(altText)}" class="block h-auto w-full object-cover">
-    </figure>
-
-    <div class="mt-8 space-y-6">
+<body>
+  <header style="position:sticky; top:0; z-index:30; border-bottom:1px solid rgba(255,255,255,.08); background:rgba(11,11,11,.88); backdrop-filter:blur(18px);"><div class="app-block" style="padding:0 1rem;"><div style="display:flex; align-items:center; justify-content:space-between; padding:1rem 0;"><a href="/" aria-label="Home" style="display:inline-flex; height:3rem; align-items:center;"><img src="/images/logo.png" alt="Massage KL logo" width="316" height="324" loading="lazy" decoding="async" style="height:2.5rem; width:auto; object-fit:contain;"></a><div style="display:flex; align-items:center; gap:.75rem;"><button id="site-menu-open" type="button" aria-label="Open menu" class="menu-button"><svg style="height:1rem; width:1rem;" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button><a href="/services.html" class="gold-button">Book Now</a></div></div></div></header>
+  <div id="site-menu" class="site-menu" aria-hidden="true"><div class="site-menu__panel"><div class="site-menu__head"><p class="site-menu__title">Menu</p><button id="site-menu-close" type="button" class="site-menu__close" aria-label="Close menu">&times;</button></div><div class="site-menu__links"><a href="/" class="site-menu__link"><span>Home</span><span>&rarr;</span></a><a href="/blog/" class="site-menu__link"><span>Blog</span><span>&rarr;</span></a><a href="${escapeHtml(primaryPage.publicUrl)}" class="site-menu__link"><span>${escapeHtml(primaryPage.label)} Hub</span><span>&rarr;</span></a><a href="/services.html" class="site-menu__link"><span>Packages</span><span>&rarr;</span></a><a href="/contact.html" class="site-menu__link"><span>Contact</span><span>&rarr;</span></a></div></div></div>
+  <main class="article-shell">
+    <article class="app-block article-card">
+      <div class="featured-media"><img src="${escapeHtml(featuredImage)}" alt="${escapeHtml(altText)}" width="1600" height="900" loading="eager" decoding="async"></div>
+      <div class="content">
+        <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><a href="${escapeHtml(primaryPage.publicUrl)}">${escapeHtml(primaryPage.label)} Massage</a><span>/</span><span>${escapeHtml(title)}</span></nav>
+        <a href="${escapeHtml(primaryPage.publicUrl)}" class="category">${escapeHtml(primaryPage.label)}</a>
+        <h1 class="article-title">${escapeHtml(title)}</h1>
+        <p class="meta">Created on ${escapeHtml(displayDate)} by ${escapeHtml(publishedBy)}</p>
+        <div class="tags">${articleSections.slice(0, 6).map((label) => `<span class="tag">${escapeHtml(label)}</span>`).join("")}</div>
+        <div class="article-body">
 ${contentHtml}
-    </div>
-  </article>
+        </div>
+      </div>
+    </article>
+  </main>
+  <nav class="bottom-nav"><div class="bottom-nav-wrap"><a href="/services.html" class="bottom-nav-main">See Massage Packages</a><a href="https://wa.me/60164649008?text=Hi%20I%20would%20like%20to%20book%20a%20massage%20session%20%F0%9F%99%82" class="bottom-nav-chat" aria-label="Chat with masseur"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.198-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.019-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.372-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479s1.065 2.875 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.71.307 1.263.49 1.694.627.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.29.173-1.413-.074-.124-.272-.198-.57-.347Z"/><path d="M12.004 2.003a9.93 9.93 0 0 0-8.59 15.01L2 22l5.124-1.345a9.967 9.967 0 0 0 4.88 1.27h.004c5.514 0 9.996-4.48 9.998-9.994A9.95 9.95 0 0 0 12.004 2.003Zm0 18.18h-.003a8.3 8.3 0 0 1-4.231-1.158l-.303-.18-3.04.798.812-2.963-.197-.305a8.28 8.28 0 0 1-1.28-4.445c.002-4.582 3.731-8.31 8.316-8.31 2.222 0 4.31.865 5.88 2.438a8.27 8.27 0 0 1 2.432 5.884c-.002 4.584-3.73 8.31-8.314 8.31Z"/></svg></a></div></nav>
+  <script>
+    const siteMenuOpen = document.querySelector('#site-menu-open');
+    const siteMenu = document.querySelector('#site-menu');
+    const siteMenuClose = document.querySelector('#site-menu-close');
+    const openMenu = () => { siteMenu?.classList.add('is-open'); siteMenu?.setAttribute('aria-hidden','false'); document.body.style.overflow='hidden'; };
+    const closeMenu = () => { siteMenu?.classList.remove('is-open'); siteMenu?.setAttribute('aria-hidden','true'); document.body.style.overflow=''; };
+    siteMenuOpen?.addEventListener('click', openMenu); siteMenuClose?.addEventListener('click', closeMenu); siteMenu?.addEventListener('click', (event) => { if (event.target === siteMenu) closeMenu(); }); document.addEventListener('keydown', (event) => { if (event.key === 'Escape') closeMenu(); });
+  <\/script>
 </body>
 </html>`;
 
@@ -256,17 +318,17 @@ ${contentHtml}
       </div>
     </article>`;
 
-  const buildPlaceRichCard = (page) => `<article class="mt-10 rounded-[1.5rem] border border-amber-400/20 bg-zinc-950/90 overflow-hidden">
-      <div class="min-h-[250px] bg-cover bg-center" style="background-image:url('${escapeHtml(featuredImage)}');"></div>
-      <div class="p-6 sm:p-8">
-        <div class="flex flex-wrap gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-amber-300">
-          <span>${escapeHtml(page.label)}</span><span>Featured Article</span>
-        </div>
-        <h2 class="mt-4 text-3xl font-semibold leading-tight">${escapeHtml(title)}</h2>
-        <p class="mt-4 text-base leading-8 text-white/72">${escapeHtml(excerpt).slice(0, 220)}</p>
-        <a href="/blog/${escapeHtml(slug)}.html" class="mt-5 inline-flex text-sm font-semibold text-amber-300">Read article</a>
+  const buildPlaceRichCard = (page) => `<a href="/blog/${escapeHtml(slug)}.html" class="article-card luxury-card rounded-[1.75rem] transition hover:-translate-y-1">
+      <div class="article-card__image" style="background-image: url('${escapeHtml(featuredImage)}');" role="img" aria-label="${escapeHtml(altText)}"></div>
+      <div class="p-6">
+        <p class="text-xs uppercase tracking-[0.24em]" style="color: var(--gold-main);">${escapeHtml(page.label)} Article</p>
+        <p class="mt-3 text-xs uppercase tracking-[0.22em]" style="color: var(--text-secondary);">Created: ${escapeHtml(displayDate)}</p>
+        <h2 class="mt-3 text-xl font-semibold">${escapeHtml(title)}</h2>
+        <div class="mt-4 flex flex-wrap gap-2"><span class="article-tag">${escapeHtml(page.label)}</span><span class="article-tag">Featured Article</span></div>
+        <p class="mt-4 text-sm leading-7" style="color: var(--text-secondary);">${escapeHtml(excerpt).slice(0, 220)}</p>
+        <span class="mt-5 inline-flex text-sm font-semibold" style="color: var(--gold-soft);">Read article &rarr;</span>
       </div>
-    </article>`;
+    </a>`;
 
   const buildSimplePlaceCard = (page) => `<a href="/blog/${escapeHtml(slug)}.html" class="card" style="display:block;">
           <div class="card-image" style="background-image:url('${escapeHtml(featuredImage)}');" role="img" aria-label="${escapeHtml(altText)}"></div>
@@ -355,7 +417,8 @@ function insertIntoPlacePage(html, richCardHtml, simpleCardHtml, slug) {
   const autoStart = html.indexOf("<!-- AUTO_ARTICLE_GRID_START:");
   const autoEnd = html.indexOf("<!-- AUTO_ARTICLE_GRID_END:");
   if (autoStart !== -1 && autoEnd !== -1) {
-    return `${html.slice(0, autoEnd)}          ${richCardHtml}\n${html.slice(autoEnd)}`;
+    const autoCard = html.includes("article-card__image") ? richCardHtml : simpleCardHtml;
+    return `${html.slice(0, autoEnd)}          ${autoCard}\n${html.slice(autoEnd)}`;
   }
 
   const gridStart = html.indexOf('<div class="grid">');
