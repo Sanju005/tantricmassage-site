@@ -294,18 +294,15 @@ ${contentHtml}
 </body>
 </html>`;
 
-  const blogIndexCard = `<article class="card">
-          <div class="post-image" style="background-image: url('${escapeHtml(featuredImage)}');"></div>
-          <div class="p-6">
-            <p class="text-xs font-bold uppercase tracking-[0.24em]" style="color: var(--gold-main);">${escapeHtml(primaryPage.label)}</p>
-            <h2 class="mt-3 text-2xl font-semibold leading-tight">${escapeHtml(title)}</h2>
-            <div class="mt-4 flex flex-wrap gap-2">
-              ${articleSections.map((label) => `<span class="tag">${escapeHtml(label)}</span>`).join("\n              ")}
-            </div>
-            <p class="mt-4 text-sm leading-7" style="color: var(--text-secondary);">${escapeHtml(excerpt).slice(0, 180)}</p>
-            <a href="/blog/${escapeHtml(slug)}.html" class="mt-5 inline-flex text-sm font-semibold" style="color: var(--gold-soft);">Read article</a>
+  const blogIndexCard = `<a href="/blog/${escapeHtml(slug)}.html" class="card card-link">
+          <div class="card-image" style="background-image:url('${escapeHtml(featuredImage)}');" role="img" aria-label="${escapeHtml(altText)}"></div>
+          <div class="card-body">
+            <p class="card-category">${escapeHtml(primaryPage.label)} Article</p>
+            <p class="card-date">Created: ${escapeHtml(displayDate)}</p>
+            <h2 class="card-title">${escapeHtml(title)}</h2>
+            <p class="card-copy">${escapeHtml(excerpt).slice(0, 180)}</p>
           </div>
-        </article>`;
+        </a>`;
 
   const hubCard = `<article class="card card-link">
       <div class="card-image" style="background-image:url('${escapeHtml(featuredImage)}');" role="img" aria-label="${escapeHtml(altText)}"></div>
@@ -388,17 +385,19 @@ function insertIntoBlogIndex(html, cardHtml, slug) {
     throw new Error("Could not find the blog grid in blog/index.html");
   }
 
-  const sectionEnd = html.indexOf("</section>", sectionStart);
-  if (sectionEnd === -1) {
-    throw new Error("Could not find the end of the blog grid in blog/index.html");
-  }
-
-  return `${html.slice(0, sectionEnd)}\n\n        ${cardHtml}\n${html.slice(sectionEnd)}`;
+  const insertAt = html.indexOf(">", sectionStart);
+  return `${html.slice(0, insertAt + 1)}\n        ${cardHtml}\n${html.slice(insertAt + 1)}`;
 }
 
 function insertIntoHubIndex(html, cardHtml, slug) {
   if (html.includes(`/blog/${slug}.html`)) {
     return html;
+  }
+
+  const mainStart = html.indexOf("<main");
+  const firstArticle = html.indexOf("<article", mainStart);
+  if (firstArticle !== -1) {
+    return `${html.slice(0, firstArticle)}    ${cardHtml}\n${html.slice(firstArticle)}`;
   }
 
   const mainClose = html.lastIndexOf("</main>");
@@ -418,13 +417,14 @@ function insertIntoPlacePage(html, richCardHtml, simpleCardHtml, slug) {
   const autoEnd = html.indexOf("<!-- AUTO_ARTICLE_GRID_END:");
   if (autoStart !== -1 && autoEnd !== -1) {
     const autoCard = html.includes("article-card__image") ? richCardHtml : simpleCardHtml;
-    return `${html.slice(0, autoEnd)}          ${autoCard}\n${html.slice(autoEnd)}`;
+    const markerClose = html.indexOf("-->", autoStart);
+    return `${html.slice(0, markerClose + 3)}\n          ${autoCard}\n${html.slice(markerClose + 3)}`;
   }
 
   const gridStart = html.indexOf('<div class="grid">');
-  const gridEnd = findMatchingClosingDiv(html, gridStart);
-  if (gridStart !== -1 && gridEnd !== -1) {
-    return `${html.slice(0, gridEnd)}        ${simpleCardHtml}\n${html.slice(gridEnd)}`;
+  if (gridStart !== -1) {
+    const insertAt = html.indexOf(">", gridStart);
+    return `${html.slice(0, insertAt + 1)}\n        ${simpleCardHtml}\n${html.slice(insertAt + 1)}`;
   }
 
   throw new Error("Could not find a supported article insertion point on the place page.");
