@@ -428,10 +428,53 @@
 
     .terms-box {
       margin-top: 1.7rem;
-      padding: 1.1rem 1rem;
-      border-radius: 1rem;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      background: rgba(255, 255, 255, 0.03);
+      padding: 1.15rem 1rem 1rem;
+      border-radius: 1.15rem;
+      border: 1px solid rgba(255, 207, 117, 0.45);
+      background: linear-gradient(180deg, rgba(255, 207, 117, 0.13) 0%, rgba(255, 207, 117, 0.05) 100%);
+      box-shadow: 0 0 0 1px rgba(255, 207, 117, 0.08), 0 18px 35px rgba(0, 0, 0, 0.24);
+    }
+
+    .terms-alert {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.32rem 0.72rem;
+      border-radius: 9999px;
+      background: rgba(255, 207, 117, 0.16);
+      color: #ffd88b;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .terms-alert-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 1.2rem;
+      height: 1.2rem;
+      border-radius: 9999px;
+      background: rgba(255, 207, 117, 0.22);
+      color: #fff4d6;
+      font-size: 0.72rem;
+      font-weight: 900;
+    }
+
+    .terms-headline {
+      margin-top: 0.8rem;
+      color: #fff4d6;
+      font-size: 1rem;
+      font-weight: 900;
+      line-height: 1.35;
+    }
+
+    .terms-subcopy {
+      margin-top: 0.35rem;
+      color: rgba(255, 255, 255, 0.78);
+      font-size: 0.84rem;
+      line-height: 1.55;
     }
 
     .terms-label {
@@ -439,20 +482,24 @@
       align-items: flex-start;
       gap: 0.8rem;
       cursor: pointer;
-      color: var(--text-secondary);
+      color: #fff5dc;
       line-height: 1.55;
-      font-size: 0.76rem;
+      font-size: 0.86rem;
+      font-weight: 700;
+      margin-top: 0.9rem;
     }
 
     .terms-link {
       color: #ffffff;
+      font-weight: 800;
       text-decoration: underline;
       text-underline-offset: 3px;
     }
 
     .terms-label input {
-      margin-top: 0.18rem;
+      margin-top: 0.22rem;
       accent-color: var(--green-main);
+      transform: scale(1.18);
     }
 
     .nav-row {
@@ -775,9 +822,12 @@
               </div>
 
               <div class="terms-box">
+                <div class="terms-alert"><span class="terms-alert-icon">!</span>Important Notice</div>
+                <p class="terms-headline">Please read this carefully before continuing.</p>
+                <p class="terms-subcopy">This booking is provided by a professional male masseur only. No female masseur is available for this service.</p>
                 <label class="terms-label">
                   <input id="terms" name="terms" type="checkbox" required>
-                  <span><strong class="text-[#ffcf75]">I understand male masseurs will provide the service. No female masseur is available.</strong> I agree to the <a href="/terms.html" class="terms-link">terms and conditions</a>.</span>
+                  <span><strong class="text-[#ffcf75]">I confirm that I understand a male masseur will provide the service.</strong> I agree to the <a href="/terms.html" class="terms-link">terms and conditions</a>.</span>
                 </label>
               </div>
             </section>
