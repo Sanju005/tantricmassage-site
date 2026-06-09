@@ -374,13 +374,38 @@ function writeText(filePath, content) {
   fs.writeFileSync(filePath, content, "utf8");
 }
 
+function findTagStartByClass(html, tagName, requiredClasses) {
+  const pattern = new RegExp(`<${tagName}\\b[^>]*class=["'][^"']*["'][^>]*>`, "ig");
+  let match;
+
+  while ((match = pattern.exec(html)) !== null) {
+    const tagHtml = match[0];
+    const classMatch = tagHtml.match(/class=["']([^"']*)["']/i);
+    if (!classMatch) {
+      continue;
+    }
+
+    const classes = classMatch[1].split(/\s+/).filter(Boolean);
+    if (requiredClasses.every((className) => classes.includes(className))) {
+      return match.index;
+    }
+  }
+
+  return -1;
+}
+
 function insertIntoBlogIndex(html, cardHtml, slug) {
   if (html.includes(`/blog/${slug}.html`)) {
     return html;
   }
 
-  const marker = '<section class="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-4">';
-  const sectionStart = html.indexOf(marker);
+  const sectionStart = findTagStartByClass(html, "section", [
+    "mt-10",
+    "grid",
+    "gap-6",
+    "md:grid-cols-2",
+    "xl:grid-cols-4"
+  ]);
   if (sectionStart === -1) {
     throw new Error("Could not find the blog grid in blog/index.html");
   }
