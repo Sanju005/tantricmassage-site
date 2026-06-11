@@ -294,7 +294,7 @@ ${contentHtml}
 </body>
 </html>`;
 
-  const blogIndexCard = `<a href="/blog/${escapeHtml(slug)}.html" class="card card-link">
+  const blogIndexCard = `<a href="/blog/${escapeHtml(slug)}.html" class="card card-link" data-sort-date="${escapeHtml(publishedDate)}">
           <div class="card-image" style="background-image:url('${escapeHtml(featuredImage)}');" role="img" aria-label="${escapeHtml(altText)}"></div>
           <div class="card-body">
             <p class="card-category">${escapeHtml(primaryPage.label)} Article</p>
@@ -304,7 +304,7 @@ ${contentHtml}
           </div>
         </a>`;
 
-  const hubCard = `<article class="card card-link">
+  const hubCard = `<article class="card card-link" data-sort-date="${escapeHtml(publishedDate)}">
       <div class="card-image" style="background-image:url('${escapeHtml(featuredImage)}');" role="img" aria-label="${escapeHtml(altText)}"></div>
       <div class="card-body">
         <p class="card-category">${escapeHtml(primaryPage.label)}</p>
@@ -315,7 +315,7 @@ ${contentHtml}
       </div>
     </article>`;
 
-  const buildPlaceRichCard = (page) => `<a href="/blog/${escapeHtml(slug)}.html" class="article-card luxury-card rounded-[1.75rem] transition hover:-translate-y-1">
+  const buildPlaceRichCard = (page) => `<a href="/blog/${escapeHtml(slug)}.html" class="article-card luxury-card rounded-[1.75rem] transition hover:-translate-y-1" data-sort-date="${escapeHtml(publishedDate)}">
       <div class="article-card__image" style="background-image: url('${escapeHtml(featuredImage)}');" role="img" aria-label="${escapeHtml(altText)}"></div>
       <div class="p-6">
         <p class="text-xs uppercase tracking-[0.24em]" style="color: var(--gold-main);">${escapeHtml(page.label)} Article</p>
@@ -327,9 +327,9 @@ ${contentHtml}
       </div>
     </a>`;
 
-  const buildSimplePlaceCard = (page) => `<a href="/blog/${escapeHtml(slug)}.html" class="card" style="display:block;">
+  const buildSimplePlaceCard = (page) => `<a href="/blog/${escapeHtml(slug)}.html" class="card" style="display:block;" data-sort-date="${escapeHtml(publishedDate)}">
           <div class="card-image" style="background-image:url('${escapeHtml(featuredImage)}');" role="img" aria-label="${escapeHtml(altText)}"></div>
-          <div class="card-body"><p class="kicker">${escapeHtml(page.label)} Article</p><h2 class="card-title">${escapeHtml(title)}</h2><p class="card-copy">${escapeHtml(excerpt).slice(0, 220)}</p><div class="tag-row"><span class="tag">${escapeHtml(page.label)}</span><span class="tag">Featured Article</span></div></div>
+          <div class="card-body"><p class="kicker">${escapeHtml(page.label)} Article</p><p class="card-date">Created: ${escapeHtml(displayDate)}</p><h2 class="card-title">${escapeHtml(title)}</h2><p class="card-copy">${escapeHtml(excerpt).slice(0, 220)}</p><div class="tag-row"><span class="tag">${escapeHtml(page.label)}</span><span class="tag">Featured Article</span></div></div>
         </a>`;
 
   const placeSchemaScript = (pageLabel, pageUrl) => `<!-- AUTO_RELATED_ARTICLE_SCHEMA_START:${slug} -->
@@ -394,6 +394,302 @@ function findTagStartByClass(html, tagName, requiredClasses) {
   return -1;
 }
 
+function parseHumanDateToIso(value) {
+  const trimmed = String(value || "").trim();
+  if (!trimmed) {
+    return "";
+  }
+
+  const parsed = new Date(`${trimmed} 12:00:00`);
+  if (Number.isNaN(parsed.getTime())) {
+    return "";
+  }
+
+  return parsed.toISOString().slice(0, 10);
+}
+
+function resolveLocalPathFromUrl(url) {
+  let normalized = String(url || "").trim();
+  if (!normalized) {
+    return "";
+  }
+
+  if (normalized.startsWith(SITE_BASE_URL)) {
+    normalized = normalized.slice(SITE_BASE_URL.length);
+  }
+
+  if (!normalized.startsWith("/")) {
+    return "";
+  }
+
+  const relativePath = normalized.replace(/^\/+/, "");
+  if (!relativePath) {
+    return "";
+  }
+
+  if (relativePath.endsWith(".html")) {
+    return path.join(ROOT, relativePath);
+  }
+
+  return path.join(ROOT, relativePath, "index.html");
+}
+
+function extractArticleDateFromFile(filePath) {
+  if (!filePath || !fs.existsSync(filePath)) {
+    return "";
+  }
+
+  const html = readText(filePath);
+  const modifiedMatch = html.match(/"dateModified"\s*:\s*"(\d{4}-\d{2}-\d{2})"/);
+  if (modifiedMatch) {
+    return modifiedMatch[1];
+  }
+
+  const publishedMatch = html.match(/"datePublished"\s*:\s*"(\d{4}-\d{2}-\d{2})"/);
+  if (publishedMatch) {
+    return publishedMatch[1];
+  }
+
+  const visibleDateMatch = html.match(/Updated(?:\s+on)?\s+([A-Za-z]+\s+\d{1,2},\s+\d{4})|Created(?:\s+on)?\s+([A-Za-z]+\s+\d{1,2},\s+\d{4})/i);
+  if (visibleDateMatch) {
+    return parseHumanDateToIso(visibleDateMatch[1] || visibleDateMatch[2]);
+  }
+
+  return "";
+}
+
+function extractCardUrl(cardHtml) {
+  const hrefMatch = cardHtml.match(/href=["']([^"']+)["']/i);
+  return hrefMatch ? hrefMatch[1] : "";
+}
+
+function extractCardTitle(cardHtml) {
+  const titleMatch = cardHtml.match(/<h2\b[^>]*>([\s\S]*?)<\/h2>/i);
+  if (!titleMatch) {
+    return "";
+  }
+
+  return titleMatch[1]
+    .replace(/<[^>]+>/g, "")
+    .replace(/&amp;/g, "&")
+    .replace(/&quot;/g, "\"")
+    .replace(/&#39;/g, "'")
+    .trim();
+}
+
+function extractCardSortDate(cardHtml) {
+  const attrMatch = cardHtml.match(/data-sort-date=["'](\d{4}-\d{2}-\d{2})["']/i);
+  if (attrMatch) {
+    return attrMatch[1];
+  }
+
+  const visibleDateMatch = cardHtml.match(/(?:Created|Updated)\s*:\s*([A-Za-z]+\s+\d{1,2},\s+\d{4})/i);
+  if (visibleDateMatch) {
+    return parseHumanDateToIso(visibleDateMatch[1]);
+  }
+
+  const linkedFilePath = resolveLocalPathFromUrl(extractCardUrl(cardHtml));
+  return extractArticleDateFromFile(linkedFilePath);
+}
+
+function findMatchingClosingTag(html, startIndex, tagName) {
+  if (startIndex === -1) {
+    return -1;
+  }
+
+  const tokenPattern = new RegExp(`<\\/?${tagName}\\b[^>]*>`, "ig");
+  tokenPattern.lastIndex = startIndex;
+  let depth = 0;
+  let started = false;
+  let match;
+
+  while ((match = tokenPattern.exec(html)) !== null) {
+    const token = match[0];
+    if (token.startsWith(`</${tagName}`)) {
+      depth -= 1;
+      if (started && depth === 0) {
+        return tokenPattern.lastIndex;
+      }
+      continue;
+    }
+
+    depth += 1;
+    started = true;
+  }
+
+  return -1;
+}
+
+function collectCardBlocks(fragment) {
+  const blocks = [];
+  const pattern = /<(a|article)\b/ig;
+  let match;
+
+  while ((match = pattern.exec(fragment)) !== null) {
+    const start = match.index;
+    const end = findMatchingClosingTag(fragment, start, match[1].toLowerCase());
+    if (end === -1) {
+      continue;
+    }
+
+    blocks.push(fragment.slice(start, end).trim());
+    pattern.lastIndex = end;
+  }
+
+  return blocks;
+}
+
+function sortCardBlocks(blocks) {
+  return [...blocks].sort((left, right) => {
+    const rightDate = extractCardSortDate(right);
+    const leftDate = extractCardSortDate(left);
+    return rightDate.localeCompare(leftDate);
+  });
+}
+
+function formatSortedBlocks(blocks, indent) {
+  if (blocks.length === 0) {
+    return "";
+  }
+
+  return `${indent}${blocks.join(`\n\n${indent}`)}\n`;
+}
+
+function buildOrderedCardEntries(blocks) {
+  return blocks
+    .map((block) => {
+      const url = extractCardUrl(block);
+      if (!url) {
+        return null;
+      }
+
+      return {
+        url: url.startsWith("http") ? url : `${SITE_BASE_URL}${url}`,
+        name: extractCardTitle(block)
+      };
+    })
+    .filter(Boolean);
+}
+
+function syncItemListSchemaWithUrls(html, orderedUrls) {
+  const orderedEntries = orderedUrls.map((url) => ({ url, name: "" }));
+  return syncItemListSchemaWithEntries(html, orderedEntries);
+}
+
+function syncItemListSchemaWithEntries(html, orderedEntries) {
+  if (!orderedEntries.length) {
+    return html;
+  }
+
+  return html.replace(/<script type="application\/ld\+json">\s*([\s\S]*?)\s*<\/script>/g, (fullMatch, jsonText) => {
+    let parsed;
+    try {
+      parsed = JSON.parse(jsonText);
+    } catch (error) {
+      return fullMatch;
+    }
+
+    const itemLists = [];
+    if (parsed && parsed["@type"] === "ItemList" && Array.isArray(parsed.itemListElement)) {
+      itemLists.push(parsed);
+    }
+    if (Array.isArray(parsed?.["@graph"])) {
+      for (const node of parsed["@graph"]) {
+        if (node && node["@type"] === "ItemList" && Array.isArray(node.itemListElement)) {
+          itemLists.push(node);
+        }
+      }
+    }
+
+    if (itemLists.length === 0) {
+      return fullMatch;
+    }
+
+    for (const list of itemLists) {
+      const byUrl = new Map(
+        list.itemListElement
+          .filter((item) => item && item.url)
+          .map((item) => [item.url, item])
+      );
+      const reordered = [];
+
+      for (const entry of orderedEntries) {
+        if (byUrl.has(entry.url)) {
+          reordered.push(byUrl.get(entry.url));
+          byUrl.delete(entry.url);
+          continue;
+        }
+
+        if (entry.name) {
+          reordered.push({
+            "@type": "ListItem",
+            url: entry.url,
+            name: entry.name
+          });
+        }
+      }
+
+      reordered.push(...byUrl.values());
+      list.itemListElement = reordered.map((item, index) => ({
+        ...item,
+        position: index + 1
+      }));
+    }
+
+    return `<script type="application/ld+json">\n${JSON.stringify(parsed, null, 2)}\n  <\/script>`;
+  });
+}
+
+function sortBlogIndexCards(html) {
+  const sectionStart = findTagStartByClass(html, "section", [
+    "mt-10",
+    "grid",
+    "gap-6",
+    "md:grid-cols-2",
+    "xl:grid-cols-4"
+  ]);
+  if (sectionStart === -1) {
+    throw new Error("Could not find the blog grid in blog/index.html");
+  }
+
+  const contentStart = html.indexOf(">", sectionStart) + 1;
+  const sectionEnd = html.indexOf("</section>", sectionStart);
+  if (sectionEnd === -1) {
+    throw new Error("Could not find the end of the blog grid in blog/index.html");
+  }
+
+  const sortedBlocks = sortCardBlocks(collectCardBlocks(html.slice(contentStart, sectionEnd)));
+  const orderedEntries = buildOrderedCardEntries(sortedBlocks);
+  const updatedHtml = `${html.slice(0, contentStart)}\n${formatSortedBlocks(sortedBlocks, "        ")}${html.slice(sectionEnd)}`;
+  return syncItemListSchemaWithEntries(updatedHtml, orderedEntries);
+}
+
+function sortHubArticles(html) {
+  const mainStart = html.indexOf("<main");
+  const firstArticle = html.indexOf("<article", mainStart);
+  const mainClose = html.lastIndexOf("</main>");
+  if (mainStart === -1 || firstArticle === -1 || mainClose === -1) {
+    return html;
+  }
+
+  const sortedBlocks = sortCardBlocks(collectCardBlocks(html.slice(firstArticle, mainClose)));
+  const orderedEntries = buildOrderedCardEntries(sortedBlocks);
+  const updatedHtml = `${html.slice(0, firstArticle)}${formatSortedBlocks(sortedBlocks, "    ")}${html.slice(mainClose)}`;
+  return syncItemListSchemaWithEntries(updatedHtml, orderedEntries);
+}
+
+function sortPlacePageCards(html) {
+  const autoStart = html.indexOf("<!-- AUTO_ARTICLE_GRID_START:");
+  const autoEnd = html.indexOf("<!-- AUTO_ARTICLE_GRID_END:");
+  if (autoStart === -1 || autoEnd === -1) {
+    return html;
+  }
+
+  const contentStart = html.indexOf("-->", autoStart) + 3;
+  const sortedBlocks = sortCardBlocks(collectCardBlocks(html.slice(contentStart, autoEnd)));
+  return `${html.slice(0, contentStart)}\n${formatSortedBlocks(sortedBlocks, "          ")}${html.slice(autoEnd)}`;
+}
+
 function insertIntoBlogIndex(html, cardHtml, slug) {
   if (html.includes(`/blog/${slug}.html`)) {
     return html;
@@ -411,7 +707,7 @@ function insertIntoBlogIndex(html, cardHtml, slug) {
   }
 
   const insertAt = html.indexOf(">", sectionStart);
-  return `${html.slice(0, insertAt + 1)}\n        ${cardHtml}\n${html.slice(insertAt + 1)}`;
+  return sortBlogIndexCards(`${html.slice(0, insertAt + 1)}\n        ${cardHtml}\n${html.slice(insertAt + 1)}`);
 }
 
 function insertIntoHubIndex(html, cardHtml, slug) {
@@ -422,7 +718,7 @@ function insertIntoHubIndex(html, cardHtml, slug) {
   const mainStart = html.indexOf("<main");
   const firstArticle = html.indexOf("<article", mainStart);
   if (firstArticle !== -1) {
-    return `${html.slice(0, firstArticle)}    ${cardHtml}\n${html.slice(firstArticle)}`;
+    return sortHubArticles(`${html.slice(0, firstArticle)}    ${cardHtml}\n${html.slice(firstArticle)}`);
   }
 
   const mainClose = html.lastIndexOf("</main>");
@@ -430,7 +726,7 @@ function insertIntoHubIndex(html, cardHtml, slug) {
     throw new Error("Could not find </main> in hub index");
   }
 
-  return `${html.slice(0, mainClose)}\n    ${cardHtml}\n${html.slice(mainClose)}`;
+  return sortHubArticles(`${html.slice(0, mainClose)}\n    ${cardHtml}\n${html.slice(mainClose)}`);
 }
 
 function insertIntoPlacePage(html, richCardHtml, simpleCardHtml, slug) {
@@ -443,7 +739,7 @@ function insertIntoPlacePage(html, richCardHtml, simpleCardHtml, slug) {
   if (autoStart !== -1 && autoEnd !== -1) {
     const autoCard = html.includes("article-card__image") ? richCardHtml : simpleCardHtml;
     const markerClose = html.indexOf("-->", autoStart);
-    return `${html.slice(0, markerClose + 3)}\n          ${autoCard}\n${html.slice(markerClose + 3)}`;
+    return sortPlacePageCards(`${html.slice(0, markerClose + 3)}\n          ${autoCard}\n${html.slice(markerClose + 3)}`);
   }
 
   const gridStart = html.indexOf('<div class="grid">');
@@ -607,7 +903,47 @@ function publish(payload) {
   };
 }
 
+function repairHubOrdering() {
+  const blogIndexPath = path.join(ROOT, "blog", "index.html");
+  writeText(blogIndexPath, sortBlogIndexCards(readText(blogIndexPath)));
+
+  const blogHubPaths = [
+    path.join(ROOT, "blog", "kuala-lumpur", "index.html"),
+    path.join(ROOT, "blog", "klcc", "index.html"),
+    path.join(ROOT, "blog", "bangsar", "index.html"),
+    path.join(ROOT, "blog", "mont-kiara", "index.html")
+  ];
+
+  for (const filePath of blogHubPaths) {
+    if (fs.existsSync(filePath)) {
+      writeText(filePath, sortHubArticles(readText(filePath)));
+    }
+  }
+
+  const placeHubPaths = [
+    path.join(ROOT, "massage-kuala-lumpur", "index.html"),
+    path.join(ROOT, "massage-klcc", "index.html"),
+    path.join(ROOT, "massage-bangsar", "index.html"),
+    path.join(ROOT, "massage-mont-kiara", "index.html")
+  ];
+
+  for (const filePath of placeHubPaths) {
+    if (fs.existsSync(filePath)) {
+      let html = readText(filePath);
+      html = sortPlacePageCards(html);
+      html = updateAutoArticleCount(html);
+      writeText(filePath, html);
+    }
+  }
+}
+
 const appHtml = readText(path.join(ROOT, "blog-publisher-local.html"));
+
+if (process.argv.includes("--repair-sort")) {
+  repairHubOrdering();
+  console.log("Sorted blog and hub pages by newest article date.");
+  process.exit(0);
+}
 
 const server = http.createServer((req, res) => {
   if (req.method === "GET" && req.url === "/") {

@@ -525,10 +525,11 @@ ${contentHtml}
       const excerptSource = normalizeContent(content).split(/\n\s*\n/).find(Boolean) || metaDescription;
       const excerpt = excerptSource.replace(/^#{2,3}\s+/, "").replace(/\n/g, " ").trim();
 
-      const blogIndexCard = `<article class="card">
+      const blogIndexCard = `<article class="card" data-sort-date="${escapeHtml(publishedDate)}">
           <div class="post-image" style="background-image: url('${escapeHtml(featuredImage)}');"></div>
           <div class="p-6">
             <p class="text-xs font-bold uppercase tracking-[0.24em]" style="color: var(--gold-main);">${escapeHtml(primaryCategoryLabel)}</p>
+            <p class="mt-3 text-xs uppercase tracking-[0.22em]" style="color: var(--text-secondary);">Created: ${escapeHtml(displayDate)}</p>
             <h2 class="mt-3 text-2xl font-semibold leading-tight">${escapeHtml(title)}</h2>
             <div class="mt-4 flex flex-wrap gap-2">
               ${categoryLabels.map((label) => `<span class="tag">${escapeHtml(label)}</span>`).join("\n              ")}
@@ -538,12 +539,13 @@ ${contentHtml}
           </div>
         </article>`;
 
-      const hubCard = `<article class="mt-10 rounded-[1.5rem] border border-amber-400/20 bg-zinc-950/90 overflow-hidden">
+      const hubCard = `<article class="mt-10 rounded-[1.5rem] border border-amber-400/20 bg-zinc-950/90 overflow-hidden" data-sort-date="${escapeHtml(publishedDate)}">
       <div class="min-h-[250px] bg-cover bg-center" style="background-image:url('${escapeHtml(featuredImage)}');"></div>
       <div class="p-6 sm:p-8">
         <div class="flex flex-wrap gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-amber-300">
           ${categoryLabels.map((label) => `<span>${escapeHtml(label)}</span>`).join("")}
         </div>
+        <p class="mt-4 text-xs uppercase tracking-[0.22em] text-white/55">Created: ${escapeHtml(displayDate)}</p>
         <h2 class="mt-4 text-3xl font-semibold leading-tight">${escapeHtml(title)}</h2>
         <p class="mt-4 text-base leading-8 text-white/72">${escapeHtml(excerpt).slice(0, 220)}</p>
         <a href="/blog/${escapeHtml(slug)}.html" class="mt-5 inline-flex text-sm font-semibold text-amber-300">Read article</a>
@@ -621,6 +623,93 @@ ${contentHtml}
       return -1;
     }
 
+    function parseHumanDateToIso(value) {
+      const trimmed = String(value || "").trim();
+      if (!trimmed) {
+        return "";
+      }
+
+      const parsed = new Date(`${trimmed} 12:00:00`);
+      if (Number.isNaN(parsed.getTime())) {
+        return "";
+      }
+
+      return parsed.toISOString().slice(0, 10);
+    }
+
+    function extractCardSortDate(cardHtml) {
+      const attrMatch = cardHtml.match(/data-sort-date=["'](\d{4}-\d{2}-\d{2})["']/i);
+      if (attrMatch) {
+        return attrMatch[1];
+      }
+
+      const visibleDateMatch = cardHtml.match(/(?:Created|Updated)\s*:\s*([A-Za-z]+\s+\d{1,2},\s+\d{4})/i);
+      if (visibleDateMatch) {
+        return parseHumanDateToIso(visibleDateMatch[1]);
+      }
+
+      return "";
+    }
+
+    function findMatchingClosingTag(html, startIndex, tagName) {
+      if (startIndex === -1) {
+        return -1;
+      }
+
+      const tokenPattern = new RegExp(`<\\/?${tagName}\\b[^>]*>`, "ig");
+      tokenPattern.lastIndex = startIndex;
+      let depth = 0;
+      let started = false;
+      let match;
+
+      while ((match = tokenPattern.exec(html)) !== null) {
+        const token = match[0];
+        if (token.startsWith(`</${tagName}`)) {
+          depth -= 1;
+          if (started && depth === 0) {
+            return tokenPattern.lastIndex;
+          }
+          continue;
+        }
+
+        depth += 1;
+        started = true;
+      }
+
+      return -1;
+    }
+
+    function collectCardBlocks(fragment) {
+      const blocks = [];
+      const pattern = /<(a|article)\b/ig;
+      let match;
+
+      while ((match = pattern.exec(fragment)) !== null) {
+        const start = match.index;
+        const end = findMatchingClosingTag(fragment, start, match[1].toLowerCase());
+        if (end === -1) {
+          continue;
+        }
+
+        blocks.push(fragment.slice(start, end).trim());
+        pattern.lastIndex = end;
+      }
+
+      return blocks;
+    }
+
+    function formatSortedBlocks(blocks, indent) {
+      if (blocks.length === 0) {
+        return "";
+      }
+
+      return `${indent}${blocks.join(`\n\n${indent}`)}\n`;
+    }
+
+    function sortCardBlocks(blocks) {
+      return [...blocks].sort((left, right) => extractCardSortDate(right).localeCompare(extractCardSortDate(left)));
+    }
+
     function insertIntoBlogIndex(html, cardHtml) {
       const sectionStart = findTagStartByClass(html, "section", [
         "mt-10",
@@ -638,7 +727,9 @@ ${contentHtml}
         throw new Error("Could not find the end of the blog grid in blog/index.html");
       }
 
-      return `${html.slice(0, sectionEnd)}\n\n        ${cardHtml}\n${html.slice(sectionEnd)}`;
+      const contentStart = html.indexOf(">", sectionStart) + 1;
+      const sortedBlocks = sortCardBlocks(collectCardBlocks(`${html.slice(contentStart, sectionEnd)}\n${cardHtml}`));
+      return `${html.slice(0, contentStart)}\n${formatSortedBlocks(sortedBlocks, "        ")}${html.slice(sectionEnd)}`;
     }
 
     function insertIntoHubIndex(html, cardHtml, slug) {
@@ -651,7 +742,14 @@ ${contentHtml}
         throw new Error("Could not find </main> in hub index");
       }
 
-      return `${html.slice(0, mainClose)}\n    ${cardHtml}\n${html.slice(mainClose)}`;
+      const mainStart = html.indexOf("<main");
+      const firstArticle = html.indexOf("<article", mainStart);
+      if (firstArticle === -1) {
+        return `${html.slice(0, mainClose)}\n    ${cardHtml}\n${html.slice(mainClose)}`;
+      }
+
+      const sortedBlocks = sortCardBlocks(collectCardBlocks(`${html.slice(firstArticle, mainClose)}\n${cardHtml}`));
+      return `${html.slice(0, firstArticle)}${formatSortedBlocks(sortedBlocks, "    ")}${html.slice(mainClose)}`;
     }
 
     function buildSitemapUrlBlock(url, lastmod, changefreq = "monthly", priority = "0.7") {
