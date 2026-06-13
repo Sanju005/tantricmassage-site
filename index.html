@@ -2706,44 +2706,13 @@ elegant serif feel      display: flex;
       </a>
     </div>
   </nav>
+  <script type="module" src="/vendor/dotlottie/dotlottie-player.mjs"></script>
   <script>
     window.requestAnimationFrame(() => {
       document.querySelector('.home-hero')?.classList.add('hero-animate');
     });
   </script>
   <script>
-      const reviewsLottieCard = document.querySelector('.reviews-lottie-card');
-      const loadDotLottiePlayer = (() => {
-        let loadingPromise;
-        return () => {
-          if (!loadingPromise) {
-            loadingPromise = import('/vendor/dotlottie/dotlottie-player.mjs');
-          }
-          return loadingPromise;
-        };
-      })();
-
-      if (reviewsLottieCard && window.matchMedia('(min-width: 768px)').matches) {
-        const loadLottieWhenNeeded = () => {
-          loadDotLottiePlayer().catch(() => {});
-        };
-
-        if ('IntersectionObserver' in window) {
-          const lottieObserver = new IntersectionObserver((entries) => {
-            entries.forEach((entry) => {
-              if (entry.isIntersecting) {
-                loadLottieWhenNeeded();
-                lottieObserver.disconnect();
-              }
-            });
-          }, { rootMargin: '200px 0px' });
-
-          lottieObserver.observe(reviewsLottieCard);
-        } else {
-          window.addEventListener('load', loadLottieWhenNeeded, { once: true });
-        }
-      }
-
       const revealItems = document.querySelectorAll('.reveal-copy');
     const guaranteeFills = document.querySelectorAll('.guarantee-fill');
     const onlineCount = document.querySelector('#online-count');
