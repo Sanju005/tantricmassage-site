@@ -32,19 +32,19 @@
       }
     });
   </script>
-  <title>Massage Packages in Kuala Lumpur | Lady, Male & Couple Booking</title>
-  <meta name="description" content="Choose the right massage package in Kuala Lumpur for ladies, male guests, or couples. Compare session options, duration, and booking flow before confirming your private outcall service."
+  <title>Massage Packages in Kuala Lumpur | Lady & Couple Booking</title>
+  <meta name="description" content="Choose the right massage package in Kuala Lumpur for ladies or couples. Compare session options, duration, and booking flow before confirming your private outcall service."
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://www.massagekl.com/services.html">
-  <meta property="og:title" content="Massage Packages in Kuala Lumpur | Lady, Male & Couple Booking">
-  <meta property="og:description" content="Choose the right massage package in Kuala Lumpur for ladies, male guests, or couples. Compare session options, duration, and booking flow before confirming your private outcall service.">
+  <meta property="og:title" content="Massage Packages in Kuala Lumpur | Lady & Couple Booking">
+  <meta property="og:description" content="Choose the right massage package in Kuala Lumpur for ladies or couples. Compare session options, duration, and booking flow before confirming your private outcall service.">
   <meta property="og:image" content="https://www.massagekl.com/images/Tanta-Touch.jpg">
   <meta property="og:image:alt" content="Massage KL private outcall massage service">
   <meta property="og:site_name" content="Massage KL">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:url" content="https://www.massagekl.com/services.html">
-  <meta name="twitter:title" content="Massage Packages in Kuala Lumpur | Lady, Male & Couple Booking">
-  <meta name="twitter:description" content="Choose the right massage package in Kuala Lumpur for ladies, male guests, or couples. Compare session options, duration, and booking flow before confirming your private outcall service.">
+  <meta name="twitter:title" content="Massage Packages in Kuala Lumpur | Lady & Couple Booking">
+  <meta name="twitter:description" content="Choose the right massage package in Kuala Lumpur for ladies or couples. Compare session options, duration, and booking flow before confirming your private outcall service.">
   <meta name="twitter:image" content="https://www.massagekl.com/images/Tanta-Touch.jpg">
   <meta name="twitter:image:alt" content="Massage KL private outcall massage service">>
   <link rel="canonical" href="https://www.massagekl.com/services.html">
@@ -775,15 +775,11 @@
               <div class="choice-list">
                 <div>
                   <input class="sr-only peer" type="radio" name="guestType" id="guest-female" value="lady">
-                  <label class="wizard-choice peer-checked:scale-[1.03] peer-checked:border-amber-400 peer-checked:bg-zinc-900/90" for="guest-female"><span class="choice-check">✓</span>I&rsquo;m a Lady</label>
-                </div>
-                <div>
-                  <input class="sr-only peer" type="radio" name="guestType" id="guest-male" value="male">
-                  <label class="wizard-choice peer-checked:scale-[1.03] peer-checked:border-amber-400 peer-checked:bg-zinc-900/90" for="guest-male"><span class="choice-check">✓</span>I&rsquo;m a Male</label>
+                  <label class="wizard-choice peer-checked:scale-[1.03] peer-checked:border-amber-400 peer-checked:bg-zinc-900/90" for="guest-female"><span class="choice-check">âœ“</span>I&rsquo;m a Lady</label>
                 </div>
                 <div>
                   <input class="sr-only peer" type="radio" name="guestType" id="guest-couple" value="couple">
-                  <label class="wizard-choice peer-checked:scale-[1.03] peer-checked:border-amber-400 peer-checked:bg-zinc-900/90" for="guest-couple"><span class="choice-check">✓</span>We are a Couple (Male &amp; Female)</label>
+                  <label class="wizard-choice peer-checked:scale-[1.03] peer-checked:border-amber-400 peer-checked:bg-zinc-900/90" for="guest-couple"><span class="choice-check">âœ“</span>We are a Couple (Male &amp; Female)</label>
                 </div>
               </div>
               <p id="gender-selected-note" class="selected-note hidden"></p>
@@ -892,7 +888,7 @@
 
     const reportStepIssue = (stepIndex) => {
       if (stepIndex === 0) {
-        alert("Please choose Lady, Male, or Couple.");
+        alert("Please choose Lady or Couple.");
       }
 
       if (stepIndex === 1) {
@@ -987,14 +983,14 @@
       if (couplePackageButton) couplePackageButton.hidden = true;
     };
 
-    ["guest-female", "guest-male", "guest-couple"].forEach((id) => {
+    ["guest-female", "guest-couple"].forEach((id) => {
       const input = document.querySelector(`#${id}`);
       if (!input) {
         return;
       }
 
       input.addEventListener("change", () => {
-        const genderLabels = Array.from(document.querySelectorAll('label[for="guest-female"], label[for="guest-male"], label[for="guest-couple"]'));
+        const genderLabels = Array.from(document.querySelectorAll('label[for="guest-female"], label[for="guest-couple"]'));
         genderLabels.forEach((label) => label.classList.remove("is-selected"));
 
         if (input.checked) {
@@ -1006,12 +1002,6 @@
           if (input.id === "guest-female") {
             selectedGender = "lady";
             genderSelectedNote.textContent = "You selected lady";
-            selectedPackagePath = "";
-          }
-
-          if (input.id === "guest-male") {
-            selectedGender = "male";
-            genderSelectedNote.textContent = "You selected male";
             selectedPackagePath = "";
           }
 
