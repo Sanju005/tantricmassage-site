@@ -50,9 +50,6 @@
   <meta name="twitter:description" content="Premium private massage services in Kuala Lumpur. Relaxation, stress relief, and wellness sessions with discreet outcall service across KL &amp; Selangor. Book your session today.">
   <meta name="twitter:image" content="https://www.massagekl.com/images/Tanta-Touch.jpg">
   <meta name="twitter:image:alt" content="Best Massage KL private outcall service">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Raleway:wght@400;600&display=swap" rel="stylesheet">
   <link rel="preload" as="image" href="/images/Tantric%20yoni%20massage%20in%20kl%20slide%201.webp" fetchpriority="high">
   <link rel="preload" href="/styles/tailwind.css" as="style">
   <link rel="stylesheet" href="/styles/tailwind.css">
@@ -2709,14 +2706,45 @@ elegant serif feel      display: flex;
       </a>
     </div>
   </nav>
-  <script type="module" src="/vendor/dotlottie/dotlottie-player.mjs"></script>
   <script>
     window.requestAnimationFrame(() => {
       document.querySelector('.home-hero')?.classList.add('hero-animate');
     });
   </script>
   <script>
-    const revealItems = document.querySelectorAll('.reveal-copy');
+      const reviewsLottieCard = document.querySelector('.reviews-lottie-card');
+      const loadDotLottiePlayer = (() => {
+        let loadingPromise;
+        return () => {
+          if (!loadingPromise) {
+            loadingPromise = import('/vendor/dotlottie/dotlottie-player.mjs');
+          }
+          return loadingPromise;
+        };
+      })();
+
+      if (reviewsLottieCard && window.matchMedia('(min-width: 768px)').matches) {
+        const loadLottieWhenNeeded = () => {
+          loadDotLottiePlayer().catch(() => {});
+        };
+
+        if ('IntersectionObserver' in window) {
+          const lottieObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                loadLottieWhenNeeded();
+                lottieObserver.disconnect();
+              }
+            });
+          }, { rootMargin: '200px 0px' });
+
+          lottieObserver.observe(reviewsLottieCard);
+        } else {
+          window.addEventListener('load', loadLottieWhenNeeded, { once: true });
+        }
+      }
+
+      const revealItems = document.querySelectorAll('.reveal-copy');
     const guaranteeFills = document.querySelectorAll('.guarantee-fill');
     const onlineCount = document.querySelector('#online-count');
     const heroHighlightText = document.querySelector('#hero-highlight-text');
