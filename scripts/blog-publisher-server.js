@@ -664,7 +664,73 @@ function sortBlogIndexCards(html) {
   return syncItemListSchemaWithEntries(updatedHtml, orderedEntries);
 }
 
+function collectTopLevelGridCardBlocks(html, gridStart) {
+  const gridOpenEnd = html.indexOf(">", gridStart);
+  if (gridOpenEnd === -1) {
+    return null;
+  }
+
+  const blocks = [];
+  let cursor = gridOpenEnd + 1;
+
+  while (cursor < html.length) {
+    const remaining = html.slice(cursor);
+    const whitespaceMatch = remaining.match(/^\s*/);
+    cursor += whitespaceMatch ? whitespaceMatch[0].length : 0;
+
+    if (html.startsWith("</div>", cursor)) {
+      return {
+        contentStart: gridOpenEnd + 1,
+        contentEnd: cursor,
+        blocks
+      };
+    }
+
+    if (html.startsWith("<a", cursor) || html.startsWith("<article", cursor)) {
+      const tagName = html.startsWith("<article", cursor) ? "article" : "a";
+      const blockEnd = findMatchingClosingTag(html, cursor, tagName);
+      if (blockEnd === -1) {
+        break;
+      }
+      blocks.push(html.slice(cursor, blockEnd).trim());
+      cursor = blockEnd;
+      continue;
+    }
+
+    break;
+  }
+
+  return null;
+}
+
+function sortHubGridCards(html) {
+  const mainStart = html.indexOf("<main");
+  if (mainStart === -1) {
+    return html;
+  }
+
+  const gridStart = html.indexOf('<div class="grid">', mainStart);
+  if (gridStart === -1) {
+    return html;
+  }
+
+  const gridData = collectTopLevelGridCardBlocks(html, gridStart);
+  if (!gridData || gridData.blocks.length === 0) {
+    return html;
+  }
+
+  const sortedBlocks = sortCardBlocks(gridData.blocks);
+  const orderedEntries = buildOrderedCardEntries(sortedBlocks);
+  const updatedHtml = `${html.slice(0, gridData.contentStart)}\n${formatSortedBlocks(sortedBlocks, "        ")}${html.slice(gridData.contentEnd)}`;
+  return syncItemListSchemaWithEntries(updatedHtml, orderedEntries);
+}
+
 function sortHubArticles(html) {
+  const gridSorted = sortHubGridCards(html);
+  if (gridSorted !== html) {
+    return gridSorted;
+  }
+
   const mainStart = html.indexOf("<main");
   const firstArticle = html.indexOf("<article", mainStart);
   const mainClose = html.lastIndexOf("</main>");
@@ -749,34 +815,6 @@ function insertIntoPlacePage(html, richCardHtml, simpleCardHtml, slug) {
   }
 
   throw new Error("Could not find a supported article insertion point on the place page.");
-}
-
-function findMatchingClosingDiv(html, startIndex) {
-  if (startIndex === -1) {
-    return -1;
-  }
-
-  const divPattern = /<\/?div\b[^>]*>/g;
-  divPattern.lastIndex = startIndex;
-  let depth = 0;
-  let started = false;
-  let match;
-
-  while ((match = divPattern.exec(html)) !== null) {
-    const token = match[0];
-    if (token.startsWith("</div")) {
-      depth -= 1;
-      if (started && depth === 0) {
-        return divPattern.lastIndex;
-      }
-      continue;
-    }
-
-    depth += 1;
-    started = true;
-  }
-
-  return -1;
 }
 
 function insertPlaceSchema(html, schemaBlock, slug) {
@@ -933,6 +971,18 @@ function repairHubOrdering() {
       html = sortPlacePageCards(html);
       html = updateAutoArticleCount(html);
       writeText(filePath, html);
+    }
+  }
+
+  const topicHubPaths = [
+    path.join(ROOT, "tantric-yoni-massage-for-ladies-couples-in-kl", "index.html"),
+    path.join(ROOT, "ladies-massage-in-kl", "index.html"),
+    path.join(ROOT, "couples-massage-in-kl", "index.html")
+  ];
+
+  for (const filePath of topicHubPaths) {
+    if (fs.existsSync(filePath)) {
+      writeText(filePath, sortHubArticles(readText(filePath)));
     }
   }
 }

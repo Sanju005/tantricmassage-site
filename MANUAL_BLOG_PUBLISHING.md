@@ -18,6 +18,22 @@ Use this when:
 7. Check locally
 8. Commit and push
 
+## Ordering Rule
+
+Always keep the latest article at the top of every hub page.
+
+This includes:
+- `blog/index.html`
+- blog category hubs such as `blog/kuala-lumpur/index.html`, `blog/klcc/index.html`, `blog/bangsar/index.html`, and `blog/mont-kiara/index.html`
+- place hubs such as `massage-kuala-lumpur/index.html`, `massage-klcc/index.html`, `massage-bangsar/index.html`, and `massage-mont-kiara/index.html`
+- topic hubs such as `tantric-yoni-massage-for-ladies-couples-in-kl/index.html`, `ladies-massage-in-kl/index.html`, and `couples-massage-in-kl/index.html`
+
+If you edit cards manually, insert the newest article first. As a cleanup pass, run:
+
+```text
+node scripts/blog-publisher-server.js --repair-sort
+```
+
 ## 1. Create the Article Page
 
 Create a new file:
