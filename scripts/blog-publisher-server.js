@@ -105,22 +105,52 @@ function dedupeList(values) {
 }
 
 function parseFaqEntries(value) {
-  return String(value || "")
-    .split(/\r?\n/)
-    .map((line) => line.trim())
-    .filter(Boolean)
-    .map((line) => {
-      const parts = line.split(/\s*::\s*/);
+  const raw = String(value || "").trim();
+  if (!raw) {
+    return [];
+  }
+
+  const blocks = raw.split(/\n\s*\n/).map((block) => block.trim()).filter(Boolean);
+  const entries = [];
+
+  for (const block of blocks) {
+    if (block.includes("::")) {
+      const parts = block.split(/\s*::\s*/);
       if (parts.length < 2) {
-        throw new Error("FAQ entries must use the format `Question :: Answer`.");
+        throw new Error("FAQ entries must use `Question :: Answer` or `Q:` / `A:` format.");
       }
 
-      return {
+      entries.push({
         question: parts.shift().trim(),
         answer: parts.join(" :: ").trim()
-      };
-    })
-    .filter((entry) => entry.question && entry.answer);
+      });
+      continue;
+    }
+
+    const lines = block.split(/\r?\n/).map((line) => line.trim()).filter(Boolean);
+    const questionLine = lines.find((line) => /^q\s*:/i.test(line));
+    const answerLines = lines.filter((line) => /^a\s*:/i.test(line));
+
+    if (questionLine && answerLines.length > 0) {
+      entries.push({
+        question: questionLine.replace(/^q\s*:/i, "").trim(),
+        answer: answerLines.map((line) => line.replace(/^a\s*:/i, "").trim()).join(" ").trim()
+      });
+      continue;
+    }
+
+    if (lines.length >= 2) {
+      entries.push({
+        question: lines[0].replace(/^q\s*:/i, "").trim(),
+        answer: lines.slice(1).map((line) => line.replace(/^a\s*:/i, "").trim()).join(" ").trim()
+      });
+      continue;
+    }
+
+    throw new Error("FAQ entries must use `Q:` / `A:` blocks or `Question :: Answer`.");
+  }
+
+  return entries.filter((entry) => entry.question && entry.answer);
 }
 
 function parseCustomSchema(value) {
@@ -259,6 +289,36 @@ function buildArticleParts(payload) {
     genre: category
   };
   const schemaBlocks = [schema];
+  schemaBlocks.push({
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: `${SITE_BASE_URL}/`
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Blog",
+        item: `${SITE_BASE_URL}/blog/`
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: primaryPage.label,
+        item: `${SITE_BASE_URL}${primaryPage.publicUrl}`
+      },
+      {
+        "@type": "ListItem",
+        position: 4,
+        name: title,
+        item: articleUrl
+      }
+    ]
+  });
 
   if (faqEntries.length > 0) {
     schemaBlocks.push({
@@ -970,6 +1030,27 @@ function buildSitemapUrlBlock(url, lastmod, changefreq = "monthly", priority = "
   </url>`;
 }
 
+function ensureRobotsTxt(content) {
+  let text = String(content || "").trim();
+  if (!text) {
+    text = "User-agent: *\nAllow: /";
+  }
+
+  if (!/^User-agent:\s*\*/im.test(text)) {
+    text = `User-agent: *\nAllow: /\n\n${text}`;
+  }
+
+  if (!/^Allow:\s*\/$/im.test(text)) {
+    text = `${text}\nAllow: /`;
+  }
+
+  if (!/^Sitemap:\s*https:\/\/www\.massagekl\.com\/sitemap\.xml$/im.test(text)) {
+    text = `${text}\n\nSitemap: https://www.massagekl.com/sitemap.xml`;
+  }
+
+  return `${text.replace(/\n{3,}/g, "\n\n")}\n`;
+}
+
 function updateSitemapLastmod(xml, url, lastmod) {
   const escapedUrl = url.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
   const regex = new RegExp(`(<loc>${escapedUrl}</loc>[\\s\\S]*?<lastmod>)([^<]+)(</lastmod>)`, "m");
@@ -1042,6 +1123,13 @@ function publish(payload) {
   }
   writeText(sitemapPath, sitemapXml);
 
+  const robotsPath = path.join(ROOT, "robots.txt");
+  if (fs.existsSync(robotsPath)) {
+    writeText(robotsPath, ensureRobotsTxt(readText(robotsPath)));
+  } else {
+    writeText(robotsPath, ensureRobotsTxt(""));
+  }
+
   return {
     ok: true,
     slug: article.slug,
@@ -1053,7 +1141,8 @@ function publish(payload) {
       "blog/index.html",
       ...updatedHubs.map((slug) => `blog/${slug}/index.html`),
       ...updatedPlacePages.map((file) => file.replace(/\\/g, "/")),
-      "sitemap.xml"
+      "sitemap.xml",
+      "robots.txt"
     ]
   };
 }
