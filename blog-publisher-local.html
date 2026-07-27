@@ -110,9 +110,34 @@
       min-height: 160px;
     }
 
+    select {
+      width: 100%;
+      padding: 0.9rem 1rem;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #fff;
+      color: var(--ink);
+      font: 400 0.98rem "Segoe UI", Arial, sans-serif;
+    }
+
     .helper {
       color: var(--muted);
       font-size: 0.88rem;
+    }
+
+    .section-title {
+      margin: 0 0 0.9rem;
+      padding-top: 0.35rem;
+      border-top: 1px solid rgba(143, 91, 46, 0.14);
+      color: var(--accent);
+      font: 800 0.78rem "Segoe UI", Arial, sans-serif;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .section-title:first-child {
+      padding-top: 0;
+      border-top: 0;
     }
 
     .categories-grid {
@@ -191,6 +216,30 @@
       color: var(--muted);
     }
 
+    .checklist {
+      display: grid;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+
+    .checklist-item {
+      padding: 0.9rem 1rem;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #fff;
+    }
+
+    .checklist-item strong {
+      display: block;
+      margin-bottom: 0.2rem;
+      font: 700 0.93rem "Segoe UI", Arial, sans-serif;
+    }
+
+    .checklist-item span {
+      color: var(--muted);
+      font: 400 0.88rem "Segoe UI", Arial, sans-serif;
+    }
+
     @media (max-width: 900px) {
       .layout { grid-template-columns: 1fr; }
     }
@@ -209,6 +258,10 @@
           <h2>Post Details</h2>
           <form id="publisherForm">
             <div class="grid">
+              <div class="field-full">
+                <p class="section-title">Editorial</p>
+              </div>
+
               <div class="field">
                 <label for="title">Title</label>
                 <input id="title" name="title" type="text" required>
@@ -217,6 +270,66 @@
               <div class="field">
                 <label for="slug">Slug</label>
                 <input id="slug" name="slug" type="text" placeholder="leave blank to auto-create">
+              </div>
+
+              <div class="field">
+                <label for="postType">Post Type</label>
+                <select id="postType" name="postType">
+                  <option value="article">Article</option>
+                  <option value="guide">Guide</option>
+                  <option value="location">Location Post</option>
+                  <option value="feature">Featured Story</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label for="publishedDate">Published Date</label>
+                <input id="publishedDate" name="publishedDate" type="date" required>
+              </div>
+
+              <div class="field-full">
+                <label for="excerpt">Excerpt</label>
+                <textarea id="excerpt" name="excerpt" rows="3" placeholder="Short summary for cards and previews. Leave blank to auto-generate from the article."></textarea>
+              </div>
+
+              <div class="field-full">
+                <label for="content">Content</label>
+                <textarea id="content" name="content" rows="14" required></textarea>
+                <div class="helper">Use blank lines between paragraphs. Use `##` for H2, `###` for H3, and `-` for bullets.</div>
+              </div>
+
+              <div class="field-full">
+                <p class="section-title">Taxonomy</p>
+              </div>
+
+              <div class="field">
+                <label for="hub">Hub</label>
+                <input id="hub" name="hub" type="text" placeholder="Kuala Lumpur Massage" required>
+              </div>
+
+              <div class="field">
+                <label for="category">Category</label>
+                <input id="category" name="category" type="text" placeholder="Wellness Guide" required>
+              </div>
+
+              <div class="field-full">
+                <label for="tags">Tags</label>
+                <input id="tags" name="tags" type="text" placeholder="kualalumpur, klcc, bangsar, couples massage">
+                <div class="helper">Comma-separated tags. These are separate from the place-page checkboxes below.</div>
+              </div>
+
+              <div class="field-full">
+                <label>Place Pages</label>
+                <div class="actions" style="margin-top: 0;">
+                  <button class="secondary" type="button" id="selectAll">Select All Pages</button>
+                  <button class="secondary" type="button" id="clearAll">Clear All</button>
+                </div>
+                <div id="pagesGrid" class="categories-grid" style="margin-top: 1rem;"></div>
+                <div class="helper">These drive the automatic hub and place-page inserts. Every selected place page will be updated after you click `Post`.</div>
+              </div>
+
+              <div class="field-full">
+                <p class="section-title">Media</p>
               </div>
 
               <div class="field-full">
@@ -236,29 +349,68 @@
               </div>
 
               <div class="field">
-                <label for="publishedDate">Published Date</label>
-                <input id="publishedDate" name="publishedDate" type="date" required>
-              </div>
-
-              <div class="field">
                 <label for="publishedBy">Published By</label>
                 <input id="publishedBy" name="publishedBy" type="text" value="Massage KL" required>
               </div>
 
-              <div class="field-full">
-                <label>Place Pages</label>
-                <div class="actions" style="margin-top: 0;">
-                  <button class="secondary" type="button" id="selectAll">Select All Pages</button>
-                  <button class="secondary" type="button" id="clearAll">Clear All</button>
-                </div>
-                <div id="pagesGrid" class="categories-grid" style="margin-top: 1rem;"></div>
-                <div class="helper">Every selected place page will be updated automatically after you click `Post`. Matching blog hubs are updated too when available.</div>
+              <div class="field">
+                <label for="imageCaption">Image Caption</label>
+                <input id="imageCaption" name="imageCaption" type="text" placeholder="Optional caption under the featured image">
               </div>
 
               <div class="field-full">
-                <label for="content">Content</label>
-                <textarea id="content" name="content" rows="14" required></textarea>
-                <div class="helper">Use blank lines between paragraphs. Use `##` for H2, `###` for H3, and `-` for bullets.</div>
+                <p class="section-title">SEO</p>
+              </div>
+
+              <div class="field-full">
+                <label for="seoTitle">SEO Title</label>
+                <input id="seoTitle" name="seoTitle" type="text" placeholder="Optional override for the browser title and social title">
+              </div>
+
+              <div class="field">
+                <label for="focusKeyword">Focus Keyword</label>
+                <input id="focusKeyword" name="focusKeyword" type="text" placeholder="Optional focus keyword">
+              </div>
+
+              <div class="field">
+                <label for="metaKeywords">Meta Keywords</label>
+                <input id="metaKeywords" name="metaKeywords" type="text" placeholder="comma-separated keywords">
+              </div>
+
+              <div class="field-full">
+                <label for="canonicalUrl">Canonical URL</label>
+                <input id="canonicalUrl" name="canonicalUrl" type="text" placeholder="Leave blank to use the default blog URL">
+              </div>
+
+              <div class="field">
+                <label for="robots">Robots</label>
+                <select id="robots" name="robots">
+                  <option value="index, follow">index, follow</option>
+                  <option value="noindex, follow">noindex, follow</option>
+                  <option value="index, nofollow">index, nofollow</option>
+                  <option value="noindex, nofollow">noindex, nofollow</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label for="schemaType">Schema Type</label>
+                <select id="schemaType" name="schemaType">
+                  <option value="BlogPosting">BlogPosting</option>
+                  <option value="Article">Article</option>
+                  <option value="NewsArticle">NewsArticle</option>
+                </select>
+              </div>
+
+              <div class="field-full">
+                <label for="faqContent">FAQ Schema</label>
+                <textarea id="faqContent" name="faqContent" rows="5" placeholder="Question? :: Answer&#10;Another question? :: Another answer"></textarea>
+                <div class="helper">One FAQ per line using `Question :: Answer`. These will become FAQ schema and an on-page FAQ section.</div>
+              </div>
+
+              <div class="field-full">
+                <label for="customSchema">Custom JSON-LD</label>
+                <textarea id="customSchema" name="customSchema" rows="6" placeholder='{"@context":"https://schema.org","@type":"Thing","name":"Example"}'></textarea>
+                <div class="helper">Optional raw JSON-LD object or array. It will be added as an extra schema block.</div>
               </div>
             </div>
 
@@ -281,6 +433,21 @@
             <li>Updates matching blog hub pages when available</li>
             <li>Updates `sitemap.xml`</li>
           </ul>
+
+          <div class="checklist">
+            <div class="checklist-item">
+              <strong>WordPress-style fields</strong>
+              <span>Title, slug, excerpt, hub, category, tags, featured image, caption, and content.</span>
+            </div>
+            <div class="checklist-item">
+              <strong>SEO tools</strong>
+              <span>SEO title, meta description, canonical URL, robots, focus keyword, meta keywords, FAQ schema, and custom JSON-LD.</span>
+            </div>
+            <div class="checklist-item">
+              <strong>Auto-publish flow</strong>
+              <span>Still updates the blog index, related hubs, selected place pages, and sitemap in one step.</span>
+            </div>
+          </div>
         </div>
       </section>
     </div>
@@ -341,20 +508,34 @@
 
       const title = document.getElementById("title").value.trim();
       const slugField = document.getElementById("slug");
+      const postType = document.getElementById("postType").value;
+      const excerpt = document.getElementById("excerpt").value.trim();
+      const hub = document.getElementById("hub").value.trim();
+      const category = document.getElementById("category").value.trim();
+      const tags = document.getElementById("tags").value.trim();
       const metaDescription = document.getElementById("metaDescription").value.trim();
       const featuredImage = document.getElementById("featuredImage").value.trim();
       const altText = document.getElementById("altText").value.trim();
+      const imageCaption = document.getElementById("imageCaption").value.trim();
       const publishedDate = document.getElementById("publishedDate").value;
       const publishedBy = document.getElementById("publishedBy").value.trim();
       const content = document.getElementById("content").value.trim();
+      const seoTitle = document.getElementById("seoTitle").value.trim();
+      const canonicalUrl = document.getElementById("canonicalUrl").value.trim();
+      const focusKeyword = document.getElementById("focusKeyword").value.trim();
+      const metaKeywords = document.getElementById("metaKeywords").value.trim();
+      const robots = document.getElementById("robots").value;
+      const schemaType = document.getElementById("schemaType").value;
+      const faqContent = document.getElementById("faqContent").value.trim();
+      const customSchema = document.getElementById("customSchema").value.trim();
       const pages = getSelectedPages();
 
       if (!slugField.value.trim()) {
         slugField.value = slugify(title);
       }
 
-      if (!title || !slugField.value.trim() || !metaDescription || !featuredImage || !altText || !publishedDate || !publishedBy || !content || pages.length === 0) {
-        setStatus("Please fill all fields and select at least one place page.", "error");
+      if (!title || !slugField.value.trim() || !hub || !category || !metaDescription || !featuredImage || !altText || !publishedDate || !publishedBy || !content || pages.length === 0) {
+        setStatus("Please fill all required editorial, taxonomy, media, and page-selection fields.", "error");
         return;
       }
 
@@ -369,12 +550,26 @@
           body: JSON.stringify({
             title,
             slug: slugField.value.trim(),
+            postType,
+            excerpt,
+            hub,
+            category,
+            tags,
             metaDescription,
             featuredImage,
             altText,
+            imageCaption,
             publishedDate,
             publishedBy,
             content,
+            seoTitle,
+            canonicalUrl,
+            focusKeyword,
+            metaKeywords,
+            robots,
+            schemaType,
+            faqContent,
+            customSchema,
             pages
           })
         });

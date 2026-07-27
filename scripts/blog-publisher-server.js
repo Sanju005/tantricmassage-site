@@ -93,6 +93,52 @@ function normalizeFeaturedImage(value) {
   return trimmed.startsWith("/") ? trimmed : `/${trimmed.replace(/^\/+/, "")}`;
 }
 
+function parseCommaList(value) {
+  return String(value || "")
+    .split(",")
+    .map((item) => item.trim())
+    .filter(Boolean);
+}
+
+function dedupeList(values) {
+  return [...new Set(values.filter(Boolean))];
+}
+
+function parseFaqEntries(value) {
+  return String(value || "")
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .map((line) => {
+      const parts = line.split(/\s*::\s*/);
+      if (parts.length < 2) {
+        throw new Error("FAQ entries must use the format `Question :: Answer`.");
+      }
+
+      return {
+        question: parts.shift().trim(),
+        answer: parts.join(" :: ").trim()
+      };
+    })
+    .filter((entry) => entry.question && entry.answer);
+}
+
+function parseCustomSchema(value) {
+  const trimmed = String(value || "").trim();
+  if (!trimmed) {
+    return [];
+  }
+
+  let parsed;
+  try {
+    parsed = JSON.parse(trimmed);
+  } catch (error) {
+    throw new Error("Custom JSON-LD must be valid JSON.");
+  }
+
+  return Array.isArray(parsed) ? parsed : [parsed];
+}
+
 function buildContentHtml(content) {
   const blocks = normalizeContent(content).split(/\n\s*\n/).filter(Boolean);
   const html = [];
@@ -139,34 +185,54 @@ function buildContentHtml(content) {
 function buildArticleParts(payload) {
   const title = String(payload.title || "").trim();
   const slug = slugify(payload.slug || payload.title || "");
+  const postType = String(payload.postType || "article").trim() || "article";
+  const excerptInput = String(payload.excerpt || "").trim();
+  const hub = String(payload.hub || "").trim();
+  const category = String(payload.category || "").trim();
+  const tagList = parseCommaList(payload.tags || "");
   const metaDescription = String(payload.metaDescription || "").trim();
   const featuredImage = normalizeFeaturedImage(payload.featuredImage || "");
   const altText = String(payload.altText || "").trim();
+  const imageCaption = String(payload.imageCaption || "").trim();
   const content = String(payload.content || "").trim();
   const publishedDate = String(payload.publishedDate || "").trim();
   const publishedBy = String(payload.publishedBy || "Massage KL").trim();
+  const seoTitle = String(payload.seoTitle || "").trim();
+  const canonicalUrlInput = String(payload.canonicalUrl || "").trim();
+  const focusKeyword = String(payload.focusKeyword || "").trim();
+  const metaKeywordList = parseCommaList(payload.metaKeywords || "");
+  const robots = String(payload.robots || "index, follow").trim() || "index, follow";
+  const schemaType = String(payload.schemaType || "BlogPosting").trim() || "BlogPosting";
+  const faqEntries = parseFaqEntries(payload.faqContent || "");
+  const customSchemaEntries = parseCustomSchema(payload.customSchema || "");
   const selectedPages = Array.isArray(payload.pages) ? payload.pages.filter((item) => placePageMap[item]) : [];
 
-  if (!title || !slug || !metaDescription || !featuredImage || !altText || !content || !publishedDate || !publishedBy || selectedPages.length === 0) {
+  if (!title || !slug || !hub || !category || !metaDescription || !featuredImage || !altText || !content || !publishedDate || !publishedBy || selectedPages.length === 0) {
     throw new Error("Please fill all required fields.");
   }
 
   const selectedPageRecords = selectedPages.map((item) => placePageMap[item]);
   const primaryPage = selectedPageRecords[0];
-  const articleSections = selectedPageRecords.map((page) => page.label);
+  const taxonomyLabels = dedupeList([hub, category, ...tagList]);
+  const locationLabels = dedupeList(selectedPageRecords.map((page) => page.label));
+  const articleSections = dedupeList([...taxonomyLabels, ...locationLabels]);
   const relatedHubs = [...new Set(selectedPageRecords.map((page) => page.hub).filter(Boolean))];
-  const articleUrl = `${SITE_BASE_URL}/blog/${slug}.html`;
+  const articleUrl = canonicalUrlInput || `${SITE_BASE_URL}/blog/${slug}.html`;
   const imageUrl = /^https?:\/\//i.test(featuredImage)
     ? featuredImage
     : `${SITE_BASE_URL}/${featuredImage.replace(/^\/+/, "")}`;
+  const pageTitle = seoTitle || title;
   const displayDate = new Date(`${publishedDate}T12:00:00`).toLocaleDateString("en-US", {
     year: "numeric",
     month: "long",
     day: "numeric"
   });
+  const excerptSource = excerptInput || normalizeContent(content).split(/\n\s*\n/).find(Boolean) || metaDescription;
+  const excerpt = excerptSource.replace(/^#{2,3}\s+/, "").replace(/\n/g, " ").trim();
+  const keywordList = dedupeList([...metaKeywordList, ...tagList, focusKeyword]);
   const schema = {
     "@context": "https://schema.org",
-    "@type": "BlogPosting",
+    "@type": schemaType,
     headline: title,
     description: metaDescription,
     image: [imageUrl],
@@ -188,30 +254,70 @@ function buildArticleParts(payload) {
       "@type": "WebPage",
       "@id": articleUrl
     },
-    articleSection: articleSections
+    articleSection: articleSections,
+    keywords: keywordList,
+    genre: category
   };
+  const schemaBlocks = [schema];
+
+  if (faqEntries.length > 0) {
+    schemaBlocks.push({
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: faqEntries.map((entry) => ({
+        "@type": "Question",
+        name: entry.question,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: entry.answer
+        }
+      }))
+    });
+  }
+
+  schemaBlocks.push(...customSchemaEntries);
   const schemaJson = JSON.stringify(schema, null, 2);
+  const extraSchemaScripts = schemaBlocks
+    .slice(1)
+    .map((entry) => `\n  <script type="application/ld+json">\n${JSON.stringify(entry, null, 2)}\n  <\/script>`)
+    .join("");
   const contentHtml = buildContentHtml(content);
-  const excerptSource = normalizeContent(content).split(/\n\s*\n/).find(Boolean) || metaDescription;
-  const excerpt = excerptSource.replace(/^#{2,3}\s+/, "").replace(/\n/g, " ").trim();
+  const taxonomyTagChips = dedupeList([...tagList, ...locationLabels]).slice(0, 10);
+  const excerptHtml = excerpt
+    ? `<p class="article-summary">${escapeHtml(excerpt)}</p>`
+    : "";
+  const captionHtml = imageCaption
+    ? `<figcaption class="image-caption">${escapeHtml(imageCaption)}</figcaption>`
+    : "";
+  const faqHtml = faqEntries.length > 0
+    ? `        <section class="faq-box" aria-labelledby="faq-title">
+          <h2 id="faq-title">Frequently Asked Questions</h2>
+${faqEntries.map((entry) => `          <div class="faq-item">
+            <h3>${escapeHtml(entry.question)}</h3>
+            <p>${escapeHtml(entry.answer)}</p>
+          </div>`).join("\n")}
+        </section>`
+    : "";
 
   const articleHtml = `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>${escapeHtml(title)}</title>
+  <title>${escapeHtml(pageTitle)}</title>
   <meta name="description" content="${escapeHtml(metaDescription)}">
+  <meta name="keywords" content="${escapeHtml(keywordList.join(", "))}">
+  <meta name="robots" content="${escapeHtml(robots)}">
   <meta property="og:type" content="article">
   <meta property="og:url" content="${escapeHtml(articleUrl)}">
-  <meta property="og:title" content="${escapeHtml(title)}">
+  <meta property="og:title" content="${escapeHtml(pageTitle)}">
   <meta property="og:description" content="${escapeHtml(metaDescription)}">
   <meta property="og:image" content="${escapeHtml(imageUrl)}">
   <meta property="og:image:alt" content="${escapeHtml(altText)}">
   <meta property="og:site_name" content="Massage KL">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:url" content="${escapeHtml(articleUrl)}">
-  <meta name="twitter:title" content="${escapeHtml(title)}">
+  <meta name="twitter:title" content="${escapeHtml(pageTitle)}">
   <meta name="twitter:description" content="${escapeHtml(metaDescription)}">
   <meta name="twitter:image" content="${escapeHtml(imageUrl)}">
   <meta name="twitter:image:alt" content="${escapeHtml(altText)}">
@@ -219,6 +325,7 @@ function buildArticleParts(payload) {
   <script type="application/ld+json">
 ${schemaJson}
   <\/script>
+${extraSchemaScripts}
   <style>
     :root { --gold-main:#D4AF37; --gold-soft:#FFD700; --text-main:#FFFFFF; --text-secondary:#CCCCCC; --border-soft:rgba(212,175,55,0.18); }
     * { box-sizing:border-box; }
@@ -240,12 +347,14 @@ ${schemaJson}
     .article-card { border:1px solid var(--border-soft); border-radius:2rem; background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02)); overflow:hidden; box-shadow:0 24px 70px rgba(0,0,0,.45); }
     .featured-media { aspect-ratio:16/9; padding:.75rem; background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.02)); }
     .featured-media img { width:100%; height:100%; display:block; object-fit:cover; object-position:center; border-radius:1.4rem; }
+    .image-caption { padding:.6rem 1rem 0; color:rgba(255,255,255,.58); font-size:.82rem; line-height:1.5; }
     .content { padding:1.5rem; }
     .breadcrumbs { display:flex; align-items:center; gap:.45rem; flex-wrap:wrap; margin-bottom:1rem; color:rgba(255,255,255,.62); font-size:.78rem; }
     .breadcrumbs a { color:var(--gold-main); }
     .category { color:var(--gold-main); font-size:.74rem; font-weight:700; letter-spacing:.24em; text-transform:uppercase; }
     .article-title { max-width:24ch; margin:.8rem 0 0; font-size:clamp(1.8rem,5vw,3.2rem); line-height:1.05; }
     .meta { margin-top:1rem; color:var(--text-secondary); font-size:.9rem; }
+    .article-summary { margin-top:1.4rem; padding:1rem 1.1rem; border-left:3px solid rgba(212,175,55,.52); border-radius:1rem; background:rgba(255,255,255,.04); color:#f3e6b5; font-size:.98rem; line-height:1.7; }
     .tags { display:flex; flex-wrap:wrap; gap:.5rem; margin-top:1.25rem; }
     .tag { border:1px solid rgba(212,175,55,.24); border-radius:999px; padding:.38rem .7rem; color:rgba(255,255,255,.78); font-size:.76rem; }
     .article-body { margin-top:1.8rem; color:var(--text-secondary); font-size:1rem; line-height:1.68; }
@@ -255,6 +364,11 @@ ${schemaJson}
     .article-body ul { padding-left:1.35rem; margin:.85rem 0 1rem; }
     .article-body li { margin:.45rem 0; padding-left:.15rem; }
     .article-body li::marker { color:var(--gold-soft); }
+    .faq-box { margin-top:2rem; border:1px solid rgba(212,175,55,.2); border-radius:1.3rem; background:rgba(255,255,255,.03); padding:1.1rem; }
+    .faq-box h2 { margin:0 0 1rem; color:var(--text-main); font-size:1.24rem; }
+    .faq-item + .faq-item { margin-top:1rem; padding-top:1rem; border-top:1px solid rgba(255,255,255,.08); }
+    .faq-item h3 { margin:0 0 .45rem; color:var(--gold-soft); font-size:1rem; }
+    .faq-item p { margin:0; color:var(--text-secondary); line-height:1.65; }
     .bottom-nav { position:fixed; left:50%; bottom:1rem; transform:translateX(-50%); width:calc(100% - 1.5rem); max-width:31rem; z-index:50; }
     .bottom-nav-wrap { display:flex; gap:.65rem; }
     .bottom-nav-main,.bottom-nav-chat { position:relative; overflow:hidden; min-height:3.35rem; display:flex; align-items:center; justify-content:center; border-radius:999px; font-weight:700; backdrop-filter:blur(16px); }
@@ -270,15 +384,18 @@ ${schemaJson}
   <main class="article-shell">
     <article class="app-block article-card">
       <div class="featured-media"><img src="${escapeHtml(featuredImage)}" alt="${escapeHtml(altText)}" width="1600" height="900" loading="eager" decoding="async"></div>
+${captionHtml}
       <div class="content">
         <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><a href="${escapeHtml(primaryPage.publicUrl)}">${escapeHtml(primaryPage.label)} Massage</a><span>/</span><span>${escapeHtml(title)}</span></nav>
-        <a href="${escapeHtml(primaryPage.publicUrl)}" class="category">${escapeHtml(primaryPage.label)}</a>
+        <a href="${escapeHtml(primaryPage.publicUrl)}" class="category">${escapeHtml(hub)} / ${escapeHtml(category)}</a>
         <h1 class="article-title">${escapeHtml(title)}</h1>
-        <p class="meta">Created on ${escapeHtml(displayDate)} by ${escapeHtml(publishedBy)}</p>
-        <div class="tags">${articleSections.slice(0, 6).map((label) => `<span class="tag">${escapeHtml(label)}</span>`).join("")}</div>
+        <p class="meta">Created on ${escapeHtml(displayDate)} by ${escapeHtml(publishedBy)} • ${escapeHtml(postType)}</p>
+        ${excerptHtml}
+        <div class="tags">${taxonomyTagChips.map((label) => `<span class="tag">${escapeHtml(label)}</span>`).join("")}</div>
         <div class="article-body">
 ${contentHtml}
         </div>
+${faqHtml}
       </div>
     </article>
   </main>
@@ -297,7 +414,7 @@ ${contentHtml}
   const blogIndexCard = `<a href="/blog/${escapeHtml(slug)}.html" class="card card-link" data-sort-date="${escapeHtml(publishedDate)}">
           <div class="card-image" style="background-image:url('${escapeHtml(featuredImage)}');" role="img" aria-label="${escapeHtml(altText)}"></div>
           <div class="card-body">
-            <p class="card-category">${escapeHtml(primaryPage.label)} Article</p>
+            <p class="card-category">${escapeHtml(category)} • ${escapeHtml(hub)}</p>
             <p class="card-date">Created: ${escapeHtml(displayDate)}</p>
             <h2 class="card-title">${escapeHtml(title)}</h2>
             <p class="card-copy">${escapeHtml(excerpt).slice(0, 180)}</p>
@@ -307,7 +424,7 @@ ${contentHtml}
   const hubCard = `<article class="card card-link" data-sort-date="${escapeHtml(publishedDate)}">
       <div class="card-image" style="background-image:url('${escapeHtml(featuredImage)}');" role="img" aria-label="${escapeHtml(altText)}"></div>
       <div class="card-body">
-        <p class="card-category">${escapeHtml(primaryPage.label)}</p>
+        <p class="card-category">${escapeHtml(category)}</p>
         <p class="card-date">Created: ${escapeHtml(displayDate)}</p>
         <h2 class="card-title">${escapeHtml(title)}</h2>
         <p class="card-copy">${escapeHtml(excerpt).slice(0, 220)}</p>
@@ -318,10 +435,10 @@ ${contentHtml}
   const buildPlaceRichCard = (page) => `<a href="/blog/${escapeHtml(slug)}.html" class="article-card luxury-card rounded-[1.75rem] transition hover:-translate-y-1" data-sort-date="${escapeHtml(publishedDate)}">
       <div class="article-card__image" style="background-image: url('${escapeHtml(featuredImage)}');" role="img" aria-label="${escapeHtml(altText)}"></div>
       <div class="p-6">
-        <p class="text-xs uppercase tracking-[0.24em]" style="color: var(--gold-main);">${escapeHtml(page.label)} Article</p>
+        <p class="text-xs uppercase tracking-[0.24em]" style="color: var(--gold-main);">${escapeHtml(category)} • ${escapeHtml(page.label)}</p>
         <p class="mt-3 text-xs uppercase tracking-[0.22em]" style="color: var(--text-secondary);">Created: ${escapeHtml(displayDate)}</p>
         <h2 class="mt-3 text-xl font-semibold">${escapeHtml(title)}</h2>
-        <div class="mt-4 flex flex-wrap gap-2"><span class="article-tag">${escapeHtml(page.label)}</span><span class="article-tag">Featured Article</span></div>
+        <div class="mt-4 flex flex-wrap gap-2"><span class="article-tag">${escapeHtml(page.label)}</span><span class="article-tag">${escapeHtml(hub)}</span></div>
         <p class="mt-4 text-sm leading-7" style="color: var(--text-secondary);">${escapeHtml(excerpt).slice(0, 220)}</p>
         <span class="mt-5 inline-flex text-sm font-semibold" style="color: var(--gold-soft);">Read article &rarr;</span>
       </div>
@@ -329,7 +446,7 @@ ${contentHtml}
 
   const buildSimplePlaceCard = (page) => `<a href="/blog/${escapeHtml(slug)}.html" class="card" style="display:block;" data-sort-date="${escapeHtml(publishedDate)}">
           <div class="card-image" style="background-image:url('${escapeHtml(featuredImage)}');" role="img" aria-label="${escapeHtml(altText)}"></div>
-          <div class="card-body"><p class="kicker">${escapeHtml(page.label)} Article</p><p class="card-date">Created: ${escapeHtml(displayDate)}</p><h2 class="card-title">${escapeHtml(title)}</h2><p class="card-copy">${escapeHtml(excerpt).slice(0, 220)}</p><div class="tag-row"><span class="tag">${escapeHtml(page.label)}</span><span class="tag">Featured Article</span></div></div>
+          <div class="card-body"><p class="kicker">${escapeHtml(category)}</p><p class="card-date">Created: ${escapeHtml(displayDate)}</p><h2 class="card-title">${escapeHtml(title)}</h2><p class="card-copy">${escapeHtml(excerpt).slice(0, 220)}</p><div class="tag-row"><span class="tag">${escapeHtml(page.label)}</span><span class="tag">${escapeHtml(hub)}</span></div></div>
         </a>`;
 
   const placeSchemaScript = (pageLabel, pageUrl) => `<!-- AUTO_RELATED_ARTICLE_SCHEMA_START:${slug} -->
