@@ -144,6 +144,14 @@ a[class*="button-primary"] {
   box-shadow: 0 22px 44px rgba(114, 53, 60, 0.24) !important;
 }
 
+.form-modal .step-panel,
+.form-modal .slider-wrap {
+  background: linear-gradient(180deg, #4a2f23 0%, #2f1c14 100%) !important;
+  border-color: rgba(212, 175, 55, 0.32) !important;
+  box-shadow: inset 0 0 0 1px rgba(255, 215, 0, 0.08) !important;
+  border-radius: 1.4rem !important;
+}
+
 .form-modal .step-title {
   color: #FFFFFF !important;
 }
