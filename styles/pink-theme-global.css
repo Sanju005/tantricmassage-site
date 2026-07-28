@@ -66,14 +66,17 @@ span {
 .trust-kicker,
 .trust-icon,
 .faq-icon,
-.section-divider::before,
-.hero-mini-divider,
 .eyebrow,
 .section-label,
 .subtitle,
 .subheading {
   color: #B6666F !important;
-  background-color: #B6666F;
+}
+
+.section-divider::before,
+.hero-mini-divider {
+  color: #B6666F !important;
+  background-color: #B6666F !important;
 }
 
 .gold-button,
@@ -143,6 +146,14 @@ a[class*="button-primary"] {
   color: #000000 !important;
 }
 
+#how-to-book svg [stroke] {
+  stroke: #000000 !important;
+}
+
+#how-to-book svg [fill]:not([fill="none"]) {
+  fill: #000000 !important;
+}
+
 .icon-chip,
 .review-rating,
 .review-platform-badge,
@@ -182,5 +193,43 @@ select {
 }
 
 .trust-privacy-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 1rem !important;
   align-items: start;
+}
+
+.trust-privacy-card {
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  height: 100%;
+  padding: 1.2rem 1rem 1.15rem !important;
+  text-align: center;
+}
+
+.trust-privacy-icon {
+  width: 3rem !important;
+  height: 3rem !important;
+  padding: 0.7rem !important;
+  flex-shrink: 0;
+}
+
+.trust-privacy-icon svg {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.trust-privacy-title {
+  margin-top: 0.9rem !important;
+  min-height: 2.5em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.trust-privacy-copy {
+  margin-top: 0.55rem !important;
+  line-height: 1.5 !important;
 }
