@@ -1,0 +1,186 @@
+:root {
+  --bg-main: #FCE8E8 !important;
+  --bg-secondary: #FFFFFF !important;
+  --bg-panel: #FFFFFF !important;
+  --bg-soft: rgba(255, 0, 150, 0.05) !important;
+  --gold-main: #FF0096 !important;
+  --gold-soft: #FF0096 !important;
+  --accent-pink: #B6666F !important;
+  --text-main: #000000 !important;
+  --text-secondary: #3f2f31 !important;
+  --purple-accent: rgba(182, 102, 111, 0.12) !important;
+  --border-soft: rgba(182, 102, 111, 0.18) !important;
+  --shadow-luxury: 0 18px 40px rgba(182, 102, 111, 0.1) !important;
+}
+
+html,
+body {
+  background: linear-gradient(180deg, #FCE8E8 0%, #F9E2E4 100%) !important;
+  color: #000000 !important;
+}
+
+body {
+  font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+}
+
+h1,
+.section-title,
+.hero-poster-title,
+.review-reply-label,
+.site-menu__title,
+.page-title,
+.card-title {
+  color: #FF0096 !important;
+}
+
+h2,
+h3,
+h4,
+.trust-privacy-title,
+.faq-question,
+.site-menu__link,
+.shortcut-card,
+.package-card,
+.benefit-card,
+.feature-card {
+  color: #000000 !important;
+}
+
+.section-subcopy,
+.review-copy,
+.review-reply-copy,
+.review-location,
+.trust-copy,
+.trust-privacy-copy,
+.faq-answer p,
+.description,
+.body-copy,
+p,
+li,
+label,
+span {
+  color: inherit;
+}
+
+.site-menu__label,
+.trust-kicker,
+.trust-icon,
+.faq-icon,
+.section-divider::before,
+.hero-mini-divider,
+.eyebrow,
+.section-label,
+.subtitle,
+.subheading {
+  color: #B6666F !important;
+  background-color: #B6666F;
+}
+
+.gold-button,
+.bottom-nav-main,
+.review-add-button,
+button[type="submit"],
+a[class*="button-primary"] {
+  background: #FF0096 !important;
+  color: #FFFFFF !important;
+  border-color: #FF0096 !important;
+  box-shadow: 0 16px 34px rgba(255, 0, 150, 0.22) !important;
+}
+
+.outline-gold-button,
+.bottom-nav-chat,
+.menu-button,
+.site-menu__close,
+.reviews-nav,
+.secondary-button {
+  background: #FFFFFF !important;
+  color: #FF0096 !important;
+  border-color: rgba(182, 102, 111, 0.24) !important;
+  box-shadow: 0 12px 24px rgba(182, 102, 111, 0.12) !important;
+}
+
+.outline-gold-button::after {
+  background: #FFFFFF !important;
+}
+
+.outline-gold-button::before {
+  background: conic-gradient(from 0deg, transparent 0deg, transparent 250deg, rgba(255, 0, 150, 0.9) 300deg, rgba(255, 255, 255, 0.9) 325deg, rgba(182, 102, 111, 0.9) 348deg, transparent 360deg) !important;
+}
+
+.luxury-card,
+.booking-step,
+.shortcut-card,
+.blog-card,
+.faq-item,
+.review-card-home,
+.review-card-home--add,
+.trust-privacy-card,
+.site-menu__panel,
+.site-menu__link,
+.review-modal__panel,
+.gallery-preview,
+.online-now-badge,
+.question-card,
+.gallery-card,
+.gallery-video-frame,
+.service-card,
+.package-card,
+.audience-card,
+.panel,
+.card {
+  background: #FFFFFF !important;
+  color: #000000 !important;
+  border-color: rgba(182, 102, 111, 0.18) !important;
+  box-shadow: 0 16px 32px rgba(182, 102, 111, 0.08) !important;
+}
+
+.booking-step-icon,
+.trust-privacy-icon,
+.benefit-icon,
+.feature-icon,
+.service-icon,
+.step-icon {
+  color: #000000 !important;
+}
+
+.icon-chip,
+.review-rating,
+.review-platform-badge,
+.review-reply {
+  background: rgba(255, 0, 150, 0.06) !important;
+  border-color: rgba(182, 102, 111, 0.18) !important;
+  color: #FF0096 !important;
+}
+
+.review-name {
+  color: #60A5FA !important;
+}
+
+.review-stars,
+.review-stars::before {
+  color: #FFD700 !important;
+}
+
+.site-menu {
+  background: rgba(182, 102, 111, 0.18) !important;
+}
+
+header,
+footer {
+  border-color: rgba(182, 102, 111, 0.18) !important;
+}
+
+.review-form input,
+.review-form textarea,
+.review-form select,
+input,
+textarea,
+select {
+  background: #FFFFFF !important;
+  color: #000000 !important;
+  border-color: rgba(182, 102, 111, 0.2) !important;
+}
+
+.trust-privacy-grid {
+  align-items: start;
+}
