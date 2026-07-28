@@ -155,6 +155,13 @@ a[class*="button-primary"] {
   color: #FFFFFF !important;
 }
 
+.form-modal .wizard-choice,
+.form-modal .wizard-choice span,
+.form-modal label[for="guest-female"],
+.form-modal label[for="guest-couple"] {
+  color: #FFFFFF !important;
+}
+
 #couple-package-button,
 .form-modal .package-action-button {
   background: linear-gradient(180deg, #ff5ab7 0%, #ff0096 58%, #d10078 100%) !important;
