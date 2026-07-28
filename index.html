@@ -1962,9 +1962,179 @@ elegant serif feel      display: flex;
         padding: 0 1rem 6rem;
       }
     }
+
+    body.pink-theme {
+      --bg-main: #FCE8E8;
+      --bg-secondary: #FFFFFF;
+      --gold-main: #FF0096;
+      --gold-soft: #FF0096;
+      --accent-pink: #B6666F;
+      --text-main: #000000;
+      --text-secondary: #3f2f31;
+      --purple-accent: rgba(182, 102, 111, 0.12);
+      --border-soft: rgba(182, 102, 111, 0.18);
+      --shadow-luxury: 0 18px 40px rgba(182, 102, 111, 0.10);
+      background: linear-gradient(180deg, #FCE8E8 0%, #F9E2E4 100%);
+      color: #000000;
+    }
+
+    body.pink-theme .home-hero > .absolute.inset-0:first-child {
+      background: radial-gradient(circle at top, rgba(255, 0, 150, 0.10), transparent 30%), linear-gradient(180deg, #FCE8E8 0%, #FCE8E8 100%) !important;
+    }
+
+    body.pink-theme .hero-overlay {
+      background:
+        linear-gradient(180deg, rgba(252, 232, 232, 0.16), rgba(252, 232, 232, 0.48)),
+        radial-gradient(circle at top, rgba(182, 102, 111, 0.10), transparent 36%);
+    }
+
+    body.pink-theme .hero-slide::after {
+      background: linear-gradient(180deg, rgba(252, 232, 232, 0.08), rgba(182, 102, 111, 0.16));
+    }
+
+    body.pink-theme .hero-poster-title,
+    body.pink-theme .section-title,
+    body.pink-theme .site-menu__title,
+    body.pink-theme .review-name,
+    body.pink-theme .review-reply-label {
+      color: #FF0096;
+    }
+
+    body.pink-theme .section-subcopy,
+    body.pink-theme .trust-copy,
+    body.pink-theme .review-location,
+    body.pink-theme .review-copy,
+    body.pink-theme .review-reply-copy,
+    body.pink-theme .faq-answer p,
+    body.pink-theme .online-now-count,
+    body.pink-theme .online-now-label {
+      color: #000000;
+    }
+
+    body.pink-theme .section-divider::before,
+    body.pink-theme .hero-mini-divider {
+      background-color: #B6666F;
+    }
+
+    body.pink-theme .trust-item:not(:last-child)::after {
+      background: rgba(182, 102, 111, 0.42);
+    }
+
+    body.pink-theme .gold-button,
+    body.pink-theme .bottom-nav-main,
+    body.pink-theme .review-add-button {
+      background: #FF0096;
+      color: #FFFFFF;
+      box-shadow: 0 16px 34px rgba(255, 0, 150, 0.22);
+      border-color: #FF0096;
+    }
+
+    body.pink-theme .outline-gold-button,
+    body.pink-theme .bottom-nav-chat,
+    body.pink-theme .menu-button,
+    body.pink-theme .site-menu__close,
+    body.pink-theme .reviews-nav {
+      background: #FFFFFF;
+      color: #FF0096;
+      border-color: rgba(182, 102, 111, 0.24);
+      box-shadow: 0 12px 24px rgba(182, 102, 111, 0.12);
+    }
+
+    body.pink-theme .outline-gold-button::after {
+      background: #FFFFFF;
+    }
+
+    body.pink-theme .outline-gold-button::before {
+      background: conic-gradient(from 0deg, transparent 0deg, transparent 250deg, rgba(255, 0, 150, 0.9) 300deg, rgba(255, 255, 255, 0.9) 325deg, rgba(182, 102, 111, 0.9) 348deg, transparent 360deg);
+    }
+
+    body.pink-theme .luxury-card,
+    body.pink-theme .booking-step,
+    body.pink-theme .shortcut-card,
+    body.pink-theme .blog-card,
+    body.pink-theme .faq-item,
+    body.pink-theme .review-card-home,
+    body.pink-theme .review-card-home--add,
+    body.pink-theme .trust-privacy-card,
+    body.pink-theme .site-menu__panel,
+    body.pink-theme .site-menu__link,
+    body.pink-theme .review-modal__panel,
+    body.pink-theme .gallery-preview,
+    body.pink-theme .online-now-badge,
+    body.pink-theme .question-card {
+      background: #FFFFFF;
+      color: #000000;
+      border-color: rgba(182, 102, 111, 0.18);
+      box-shadow: 0 16px 32px rgba(182, 102, 111, 0.08);
+    }
+
+    body.pink-theme .shortcut-card,
+    body.pink-theme .site-menu__link,
+    body.pink-theme .faq-question,
+    body.pink-theme .trust-privacy-title {
+      color: #000000;
+    }
+
+    body.pink-theme .shortcut-card img {
+      filter: none;
+    }
+
+    body.pink-theme .booking-step-icon,
+    body.pink-theme .trust-privacy-icon,
+    body.pink-theme .icon-chip,
+    body.pink-theme .review-rating,
+    body.pink-theme .review-platform-badge,
+    body.pink-theme .review-reply {
+      background: rgba(255, 0, 150, 0.06);
+      border-color: rgba(182, 102, 111, 0.18);
+      color: #FF0096;
+    }
+
+    body.pink-theme .faq-icon,
+    body.pink-theme .booking-arrow,
+    body.pink-theme .site-menu__link span:last-child,
+    body.pink-theme .site-menu__label,
+    body.pink-theme .trust-kicker,
+    body.pink-theme .trust-icon {
+      color: #B6666F;
+    }
+
+    body.pink-theme .review-stars,
+    body.pink-theme .review-stars::before {
+      color: #FF0096;
+    }
+
+    body.pink-theme .site-menu {
+      background: rgba(182, 102, 111, 0.18);
+    }
+
+    body.pink-theme header {
+      background-color: rgba(252, 232, 232, 0.95) !important;
+      border-color: rgba(182, 102, 111, 0.18) !important;
+    }
+
+    body.pink-theme #reviews-home {
+      background-color: transparent !important;
+    }
+
+    body.pink-theme footer {
+      border-color: rgba(182, 102, 111, 0.18) !important;
+    }
+
+    body.pink-theme .review-form input,
+    body.pink-theme .review-form textarea,
+    body.pink-theme .review-form select {
+      background: #FFFFFF;
+      color: #000000;
+      border-color: rgba(182, 102, 111, 0.2);
+    }
+
+    body.pink-theme .review-form__message {
+      color: #3f2f31;
+    }
   </style>
 </head>
-<body class="min-h-screen text-white">
+<body class="min-h-screen text-white pink-theme">
   <svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute; width:0; height:0; overflow:hidden;">
     <symbol id="icon-why-me" viewBox="0 0 100 100">
       <path d="M1.42,42.55c1.09-1.58,2.55-2.12,4.5-2.09,6.63.11,13.25.04,19.88.04,2.92,0,4,1.02,4,3.88.02,13.86.01,27.72,0,41.58,0,2.75-1.07,3.78-3.86,3.78-6.76.01-13.53-.06-20.29.05-1.91.03-3.26-.56-4.24-2.13v-45.12Z"/>
