@@ -1040,7 +1040,7 @@
     }
 
     .review-stars::before {
-      content: "?????";
+      content: "\2605\2605\2605\2605\2605";
       font-size: 0.9rem;
       letter-spacing: 0.16em;
       color: #FFD700;
@@ -1478,6 +1478,7 @@ elegant serif feel      display: flex;
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 0.9rem;
+      align-items: start;
     }
 
     .trust-privacy-card {
@@ -1995,9 +1996,20 @@ elegant serif feel      display: flex;
     body.pink-theme .hero-poster-title,
     body.pink-theme .section-title,
     body.pink-theme .site-menu__title,
-    body.pink-theme .review-name,
     body.pink-theme .review-reply-label {
       color: #FF0096;
+    }
+
+    body.pink-theme .welcome-reveal p {
+      color: #FF0096 !important;
+    }
+
+    body.pink-theme .home-hero h2[style*="Professional Wellness Massage"] {
+      color: #000000 !important;
+    }
+
+    body.pink-theme .review-name {
+      color: #60A5FA;
     }
 
     body.pink-theme .section-subcopy,
@@ -2090,6 +2102,14 @@ elegant serif feel      display: flex;
       color: #FF0096;
     }
 
+    body.pink-theme .booking-step-icon {
+      color: #000000;
+    }
+
+    body.pink-theme .trust-privacy-icon {
+      color: #000000;
+    }
+
     body.pink-theme .faq-icon,
     body.pink-theme .booking-arrow,
     body.pink-theme .site-menu__link span:last-child,
@@ -2101,7 +2121,7 @@ elegant serif feel      display: flex;
 
     body.pink-theme .review-stars,
     body.pink-theme .review-stars::before {
-      color: #FF0096;
+      color: #FFD700;
     }
 
     body.pink-theme .site-menu {
