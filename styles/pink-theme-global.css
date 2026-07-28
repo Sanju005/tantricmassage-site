@@ -144,6 +144,52 @@ a[class*="button-primary"] {
   box-shadow: 0 22px 44px rgba(114, 53, 60, 0.24) !important;
 }
 
+.form-modal .step-title {
+  color: #FFFFFF !important;
+}
+
+.form-modal .step-copy,
+.form-modal .step-panel p,
+.form-modal #package-step-copy,
+.form-modal #package-step-title {
+  color: #FFFFFF !important;
+}
+
+#couple-package-button,
+.form-modal .package-action-button {
+  background: linear-gradient(180deg, #ff5ab7 0%, #ff0096 58%, #d10078 100%) !important;
+  color: #FFFFFF !important;
+  border: 1px solid rgba(255, 255, 255, 0.28) !important;
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.36),
+    0 0 0 1px rgba(255, 0, 150, 0.2),
+    0 14px 30px rgba(255, 0, 150, 0.32),
+    0 0 22px rgba(255, 0, 150, 0.28) !important;
+}
+
+#couple-package-button:hover,
+.form-modal .package-action-button:hover {
+  filter: brightness(1.04);
+  transform: translateY(-1px);
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.4),
+    0 0 0 1px rgba(255, 0, 150, 0.24),
+    0 18px 34px rgba(255, 0, 150, 0.36),
+    0 0 28px rgba(255, 0, 150, 0.34) !important;
+}
+
+.form-modal .terms-box,
+.form-modal .terms-box p,
+.form-modal .terms-label,
+.form-modal .terms-label span,
+.form-modal .terms-subcopy,
+.form-modal .terms-alert,
+.form-modal .terms-alert-icon,
+.form-modal .terms-link,
+.form-modal .text-\[\#ffcf75\] {
+  color: #000000 !important;
+}
+
 .form-modal::before {
   background:
     linear-gradient(135deg, rgba(255, 255, 255, 0.12), transparent 28%),
@@ -253,4 +299,27 @@ select {
 .trust-privacy-copy {
   margin-top: 0.55rem !important;
   line-height: 1.5 !important;
+}
+
+.package-card,
+.hero-package {
+  background: linear-gradient(180deg, #4a2f23 0%, #2f1c14 100%) !important;
+  color: #FFFFFF !important;
+  border-color: rgba(212, 175, 55, 0.45) !important;
+  box-shadow: 0 18px 36px rgba(58, 33, 24, 0.28) !important;
+}
+
+.package-card h1,
+.package-card h2,
+.package-card h3,
+.package-card h4,
+.package-card p,
+.package-card li,
+.hero-package h1,
+.hero-package h2,
+.hero-package h3,
+.hero-package h4,
+.hero-package p,
+.hero-package li {
+  color: inherit !important;
 }
