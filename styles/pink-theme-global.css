@@ -137,6 +137,19 @@ a[class*="button-primary"] {
   box-shadow: 0 16px 32px rgba(182, 102, 111, 0.08) !important;
 }
 
+.form-modal {
+  background: #B6666F !important;
+  color: #FFFFFF !important;
+  border-color: rgba(255, 255, 255, 0.18) !important;
+  box-shadow: 0 22px 44px rgba(114, 53, 60, 0.24) !important;
+}
+
+.form-modal::before {
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.12), transparent 28%),
+    linear-gradient(315deg, rgba(255, 255, 255, 0.08), transparent 24%) !important;
+}
+
 .booking-step-icon,
 .trust-privacy-icon,
 .benefit-icon,
@@ -151,6 +164,14 @@ a[class*="button-primary"] {
 }
 
 #how-to-book svg [fill]:not([fill="none"]) {
+  fill: #000000 !important;
+}
+
+#why-home .why-link svg [stroke] {
+  stroke: #000000 !important;
+}
+
+#why-home .why-link svg [fill]:not([fill="none"]) {
   fill: #000000 !important;
 }
 
