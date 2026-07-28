@@ -162,6 +162,15 @@ a[class*="button-primary"] {
   color: #FFFFFF !important;
 }
 
+.form-modal .slider-meta,
+.form-modal .slider-meta span,
+.form-modal .slider-labels,
+.form-modal .slider-labels span,
+.form-modal #duration-value,
+.form-modal #hours-selected-note {
+  color: #FFD700 !important;
+}
+
 #couple-package-button,
 .form-modal .package-action-button {
   background: linear-gradient(180deg, #ff5ab7 0%, #ff0096 58%, #d10078 100%) !important;
@@ -195,6 +204,11 @@ a[class*="button-primary"] {
 .form-modal .terms-link,
 .form-modal .text-\[\#ffcf75\] {
   color: #000000 !important;
+}
+
+.form-modal .terms-box {
+  background: #FFFFFF !important;
+  border-color: rgba(182, 102, 111, 0.22) !important;
 }
 
 .form-modal::before {
@@ -329,4 +343,18 @@ select {
 .hero-package p,
 .hero-package li {
   color: inherit !important;
+}
+
+#prev-package,
+#next-package,
+.package-slider + *,
+.package-nav button,
+button#prev-package,
+button#next-package {
+  color: #000000 !important;
+}
+
+.max-w-7xl .text-white\/70,
+.max-w-7xl p.text-white\/70 {
+  color: #000000 !important;
 }
