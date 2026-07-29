@@ -138,10 +138,10 @@ a[class*="button-primary"] {
 }
 
 .form-modal {
-  background: #B6666F !important;
+  background: linear-gradient(180deg, #4a2f23 0%, #2f1c14 100%) !important;
   color: #FFFFFF !important;
-  border-color: rgba(255, 255, 255, 0.18) !important;
-  box-shadow: 0 22px 44px rgba(114, 53, 60, 0.24) !important;
+  border-color: rgba(212, 175, 55, 0.32) !important;
+  box-shadow: 0 22px 44px rgba(58, 33, 24, 0.3) !important;
 }
 
 .form-modal .step-panel,
