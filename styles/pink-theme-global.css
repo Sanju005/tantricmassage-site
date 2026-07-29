@@ -144,7 +144,13 @@ a[class*="button-primary"] {
   box-shadow: 0 22px 44px rgba(58, 33, 24, 0.3) !important;
 }
 
-.form-modal .step-panel,
+.form-modal .step-panel {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+}
+
 .form-modal .slider-wrap {
   background: linear-gradient(180deg, #4a2f23 0%, #2f1c14 100%) !important;
   border-color: rgba(212, 175, 55, 0.32) !important;
