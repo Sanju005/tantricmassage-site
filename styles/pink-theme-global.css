@@ -176,13 +176,17 @@ a[class*="button-primary"] {
   color: #FFFFFF !important;
 }
 
+.form-modal .choice-check {
+  color: #41c463 !important;
+}
+
 .form-modal .slider-meta,
 .form-modal .slider-meta span,
 .form-modal .slider-labels,
 .form-modal .slider-labels span,
 .form-modal #duration-value,
 .form-modal #hours-selected-note {
-  color: #FFD700 !important;
+  color: #FF0096 !important;
 }
 
 #couple-package-button,
