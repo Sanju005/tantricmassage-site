@@ -180,13 +180,22 @@ a[class*="button-primary"] {
   color: #41c463 !important;
 }
 
+.form-modal .wizard-choice .choice-check,
+.form-modal .wizard-choice.is-selected .choice-check,
+.form-modal .option-input:checked + .wizard-choice .choice-check,
+.form-modal .peer:checked + .wizard-choice .choice-check {
+  color: #41c463 !important;
+}
+
 .form-modal .slider-meta,
 .form-modal .slider-meta span,
 .form-modal .slider-labels,
 .form-modal .slider-labels span,
 .form-modal #duration-value,
-.form-modal #hours-selected-note {
-  color: #FF0096 !important;
+.form-modal #hours-selected-note,
+.form-modal #gender-selected-note,
+.form-modal .selected-note {
+  color: #FFD700 !important;
 }
 
 #couple-package-button,
@@ -370,6 +379,10 @@ select {
 button#prev-package,
 button#next-package {
   color: #000000 !important;
+}
+
+.form-modal .wizard-back {
+  color: #FFFFFF !important;
 }
 
 .max-w-7xl .text-white\/70,
