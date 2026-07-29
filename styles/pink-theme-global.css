@@ -372,6 +372,34 @@ select {
   color: inherit !important;
 }
 
+.package-card .text-white\/70,
+.hero-package .text-white\/70 {
+  color: #FFFFFF !important;
+}
+
+.package-card .text-\[var\(--gold\)\],
+.hero-package .text-\[var\(--gold\)\] {
+  color: #FF0096 !important;
+}
+
+.package-button,
+.package-card .package-button,
+.hero-package .package-button {
+  background: linear-gradient(180deg, #ff5ab7 0%, #ff0096 58%, #d10078 100%) !important;
+  color: #FFFFFF !important;
+  border-color: rgba(255, 255, 255, 0.3) !important;
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.34),
+    0 14px 30px rgba(255, 0, 150, 0.28),
+    0 0 22px rgba(255, 0, 150, 0.24) !important;
+}
+
+.package-button::before,
+.package-card .package-button::before,
+.hero-package .package-button::before {
+  border-color: rgba(255, 255, 255, 0.28) !important;
+}
+
 #prev-package,
 #next-package,
 .package-slider + *,

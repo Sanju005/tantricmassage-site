@@ -810,7 +810,7 @@
 
             <section class="step-panel hidden transition-all duration-300 ease-out" data-step="2">
               <p class="step-kicker">Step 3 of 3</p>
-              <h2 id="package-step-title" class="step-title">Would you like to see our pre packages?</h2>
+              <h2 id="package-step-title" class="step-title">Would you like to see our packages?</h2>
               <p id="package-step-copy" class="step-copy">Choose preset packages to view the packages we already created for lady bookings.</p>
 
               <div class="terms-box">
@@ -823,7 +823,7 @@
               </div>
 
               <div class="choice-list">
-                <button id="package-presets-button" type="button" class="package-action-button">Show Pre Packages</button>
+                <button id="package-presets-button" type="button" class="package-action-button">Show Packages</button>
                 <button id="couple-package-button" type="button" class="package-action-button hidden">Show Couple Package</button>
               </div>
             </section>
@@ -971,12 +971,12 @@
         return;
       }
 
-      if (packageStepTitle) packageStepTitle.textContent = "Would you like to see our pre packages?";
+      if (packageStepTitle) packageStepTitle.textContent = "Would you like to see our packages?";
       if (packageStepCopy) packageStepCopy.textContent = "Choose preset packages to view the packages we already created for lady bookings.";
       packagePresetsButton?.classList.remove("hidden");
       if (packagePresetsButton) {
         packagePresetsButton.hidden = false;
-        packagePresetsButton.textContent = "Show Pre Packages";
+        packagePresetsButton.textContent = "Show Packages";
       }
       packageCustomButton?.classList.add("hidden");
       if (packageCustomButton) packageCustomButton.hidden = true;
