@@ -2,6 +2,20 @@
 
 This guide is the fallback workflow for publishing articles manually without Codex.
 
+## Recommended Method
+
+Use `start-blog-publisher.bat` for every new article. It opens a local form that creates the article page, updates the blog and selected local pages, adds structured data, and updates `sitemap.xml`.
+
+Before you publish, prepare:
+
+- One clear focus keyword, such as `tantric massage in Kuala Lumpur`.
+- A unique SEO title between 25 and 65 characters.
+- A meta description between 120 and 165 characters.
+- At least 450 original words with useful headings and answers.
+- One relevant local page selection. Select more only when the article genuinely helps those areas.
+
+Do not create the same article again for Cheras, Bangsar, KLCC, and other areas. Publish one strong article in `/blog/`, then select the relevant local pages so the tool adds direct internal links.
+
 Use this when:
 - the local publisher form is not working
 - you want to edit files by hand

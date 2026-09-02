@@ -296,7 +296,7 @@
               <div class="field-full">
                 <label for="content">Content</label>
                 <textarea id="content" name="content" rows="14" required></textarea>
-                <div class="helper">Use blank lines between paragraphs. Use `##` for H2, `###` for H3, and `-` for bullets.</div>
+                <div class="helper">Use blank lines between paragraphs. Use `##` for H2, `###` for H3, and `-` for bullets. Minimum 450 original words: <span id="wordCount">0</span>.</div>
               </div>
 
               <div class="field-full">
@@ -336,6 +336,7 @@
               <div class="field-full">
                 <label for="metaDescription">Meta Description</label>
                 <textarea id="metaDescription" name="metaDescription" rows="3" required></textarea>
+                <div class="helper">Write 120-165 characters that explain the article clearly and include the main search phrase naturally.</div>
               </div>
 
               <div class="field-full">
@@ -370,7 +371,7 @@
 
               <div class="field">
                 <label for="focusKeyword">Focus Keyword</label>
-                <input id="focusKeyword" name="focusKeyword" type="text" placeholder="Optional focus keyword">
+                <input id="focusKeyword" name="focusKeyword" type="text" placeholder="Example: tantric massage in Kuala Lumpur" required>
               </div>
 
               <div class="field">
@@ -461,8 +462,16 @@
     const selectAllButton = document.getElementById("selectAll");
     const clearAllButton = document.getElementById("clearAll");
     const statusBox = document.getElementById("statusBox");
+    const contentInput = document.getElementById("content");
+    const wordCount = document.getElementById("wordCount");
 
     publishedDateInput.value = new Date().toISOString().slice(0, 10);
+
+    function updateWordCount() {
+      wordCount.textContent = contentInput.value.trim() ? contentInput.value.trim().split(/\s+/).length : "0";
+    }
+
+    contentInput.addEventListener("input", updateWordCount);
 
     function setStatus(message, type = "") {
       statusBox.className = `status${type ? ` ${type}` : ""}`;
@@ -535,8 +544,26 @@
         slugField.value = slugify(title);
       }
 
-      if (!title || !slugField.value.trim() || !hub || !category || !metaDescription || !featuredImage || !altText || !publishedDate || !publishedBy || !content || pages.length === 0) {
+      const effectiveSeoTitle = seoTitle || title;
+      const contentWordCount = content ? content.split(/\s+/).length : 0;
+
+      if (!title || !slugField.value.trim() || !hub || !category || !metaDescription || !featuredImage || !altText || !publishedDate || !publishedBy || !content || !focusKeyword || pages.length === 0) {
         setStatus("Please fill all required editorial, taxonomy, media, and page-selection fields.", "error");
+        return;
+      }
+
+      if (effectiveSeoTitle.length < 25 || effectiveSeoTitle.length > 65) {
+        setStatus("SEO title must be between 25 and 65 characters.", "error");
+        return;
+      }
+
+      if (metaDescription.length < 120 || metaDescription.length > 165) {
+        setStatus("Meta description must be between 120 and 165 characters.", "error");
+        return;
+      }
+
+      if (contentWordCount < 450) {
+        setStatus(`Article content needs at least 450 original words. You currently have ${contentWordCount}.`, "error");
         return;
       }
 

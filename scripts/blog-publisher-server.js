@@ -15,12 +15,12 @@ const placePages = [
   { id: "mid-valley", label: "Mid Valley", file: "massage-mid-valley.html", publicUrl: "/massage-mid-valley.html", hub: null },
   { id: "cheras", label: "Cheras", file: "massage-cheras.html", publicUrl: "/massage-cheras.html", hub: null },
   { id: "ampang", label: "Ampang", file: "massage-ampang.html", publicUrl: "/massage-ampang.html", hub: null },
-  { id: "petaling-jaya", label: "Petaling Jaya", file: "massage-petaling-jaya.html", publicUrl: "/massage-petaling-jaya.html", hub: null },
-  { id: "subang-jaya", label: "Subang Jaya", file: "massage-subang-jaya.html", publicUrl: "/massage-subang-jaya.html", hub: null },
-  { id: "puchong", label: "Puchong", file: "massage-puchong.html", publicUrl: "/massage-puchong.html", hub: null },
+  { id: "petaling-jaya", label: "Petaling Jaya", file: "massage-petaling-jaya/index.html", publicUrl: "/massage-petaling-jaya/", hub: null },
+  { id: "subang-jaya", label: "Subang Jaya", file: "massage-subang-jaya/index.html", publicUrl: "/massage-subang-jaya/", hub: null },
+  { id: "puchong", label: "Puchong", file: "massage-puchong/index.html", publicUrl: "/massage-puchong/", hub: null },
   { id: "ttdi", label: "TTDI", file: "massage-ttdi.html", publicUrl: "/massage-ttdi.html", hub: null },
   { id: "setapak", label: "Setapak", file: "massage-setapak.html", publicUrl: "/massage-setapak.html", hub: null },
-  { id: "cyberjaya", label: "Cyberjaya", file: "massage-cyberjaya.html", publicUrl: "/massage-cyberjaya.html", hub: null },
+  { id: "cyberjaya", label: "Cyberjaya", file: "massage-cyberjaya/index.html", publicUrl: "/massage-cyberjaya/", hub: null },
   { id: "putrajaya", label: "Putrajaya", file: "massage-putrajaya.html", publicUrl: "/massage-putrajaya.html", hub: null },
   { id: "brickfields", label: "Brickfields", file: "massage-brickfields.html", publicUrl: "/massage-brickfields.html", hub: null },
   { id: "kl-sentral", label: "KL Sentral", file: "massage-kl-sentral.html", publicUrl: "/massage-kl-sentral.html", hub: null },
@@ -33,7 +33,7 @@ const placePages = [
   { id: "desa-parkcity", label: "Desa ParkCity", file: "massage-desa-parkcity.html", publicUrl: "/massage-desa-parkcity.html", hub: null },
   { id: "kota-damansara", label: "Kota Damansara", file: "massage-kota-damansara.html", publicUrl: "/massage-kota-damansara.html", hub: null },
   { id: "ara-damansara", label: "Ara Damansara", file: "massage-ara-damansara.html", publicUrl: "/massage-ara-damansara.html", hub: null },
-  { id: "kelana-jaya", label: "Kelana Jaya", file: "massage-kelana-jaya.html", publicUrl: "/massage-kelana-jaya.html", hub: null }
+  { id: "kelana-jaya", label: "Kelana Jaya", file: "massage-kelana-jaya/index.html", publicUrl: "/massage-kelana-jaya", hub: null }
 ];
 const placePageMap = Object.fromEntries(placePages.map((page) => [page.id, page]));
 
@@ -236,9 +236,26 @@ function buildArticleParts(payload) {
   const faqEntries = parseFaqEntries(payload.faqContent || "");
   const customSchemaEntries = parseCustomSchema(payload.customSchema || "");
   const selectedPages = Array.isArray(payload.pages) ? payload.pages.filter((item) => placePageMap[item]) : [];
+  const contentWordCount = normalizeContent(content).split(/\s+/).filter(Boolean).length;
 
   if (!title || !slug || !hub || !category || !metaDescription || !featuredImage || !altText || !content || !publishedDate || !publishedBy || selectedPages.length === 0) {
     throw new Error("Please fill all required fields.");
+  }
+
+  if ((seoTitle || title).length < 25 || (seoTitle || title).length > 65) {
+    throw new Error("SEO title must be between 25 and 65 characters.");
+  }
+
+  if (metaDescription.length < 120 || metaDescription.length > 165) {
+    throw new Error("Meta description must be between 120 and 165 characters.");
+  }
+
+  if (!focusKeyword) {
+    throw new Error("Add one focus keyword or search phrase before publishing.");
+  }
+
+  if (contentWordCount < 450) {
+    throw new Error(`Article content needs at least 450 original words. You currently have ${contentWordCount}.`);
   }
 
   const selectedPageRecords = selectedPages.map((item) => placePageMap[item]);
