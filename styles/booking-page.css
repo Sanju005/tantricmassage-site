@@ -120,3 +120,62 @@ a { color: inherit; text-decoration: none; }
   .booking-cta { grid-template-columns: 1fr; }
   .booking-cta .booking-button { width: 100%; }
 }
+
+/* Home-page visual system for every main booking page. */
+:root {
+  --booking-ink: #000000;
+  --booking-muted: #3f2f31;
+  --booking-pink: #FF0096;
+  --booking-rose: #d9127f;
+  --booking-line: rgba(182, 102, 111, 0.18);
+  --booking-panel: #FFFFFF;
+}
+
+body {
+  background: linear-gradient(180deg, #FCE8E8 0%, #F9E2E4 100%);
+  color: #000000;
+  font-family: "Poppins", "Segoe UI", Arial, sans-serif;
+}
+
+.booking-shell { width: min(1180px, calc(100% - 2rem)); }
+.booking-site-header { background: #282425; border-bottom: 1px solid rgba(255, 255, 255, .08); }
+.booking-header { min-height: 5.65rem; padding: 1rem 0; border-bottom: 0; }
+.booking-brand { color: #FFFFFF; font-family: "Raleway", "Segoe UI", Arial, sans-serif; }
+.booking-header-link { color: #FF0096; font-family: "Raleway", "Segoe UI", Arial, sans-serif; }
+.booking-hero { padding: 4.1rem 0 3.3rem; }
+.booking-eyebrow { color: #FF0096; font-family: "Raleway", "Segoe UI", Arial, sans-serif; letter-spacing: .34em; }
+.booking-hero h1, .booking-section h2, .booking-card h3, .booking-step h3 { font-family: "Raleway", "Segoe UI", Arial, sans-serif; }
+.booking-hero h1 { max-width: 16ch; color: #FF0096; font-size: clamp(2.4rem, 6vw, 4.7rem); font-weight: 800; letter-spacing: -.045em; }
+.booking-subtitle { color: #000000; font-size: .78rem; letter-spacing: .18em; }
+.booking-intro, .booking-copy { color: #3f2f31; font-family: "Poppins", "Segoe UI", Arial, sans-serif; }
+.booking-promise-grid, .booking-mini-grid { gap: 1rem; }
+.booking-promise, .booking-mini-card, .booking-step { border-color: rgba(182, 102, 111, .18); background: #FFFFFF; box-shadow: 0 16px 32px rgba(182, 102, 111, .08); }
+.booking-promise { min-height: 8rem; border-radius: 1.45rem; }
+.booking-promise svg, .booking-mini-card svg { color: #000000; }
+.booking-promise svg { padding: .5rem; border: 1px solid rgba(182, 102, 111, .18); border-radius: 999px; background: rgba(255, 0, 150, .06); }
+.booking-promise span, .booking-mini-card h3 { color: #000000; }
+.booking-mini-card { min-height: 9.4rem; border-radius: 1.45rem; }
+.booking-mini-card svg { padding: .45rem; border: 1px solid rgba(182, 102, 111, .18); border-radius: 999px; background: rgba(255, 0, 150, .06); }
+.booking-mini-card p { color: #3f2f31; }
+.booking-section { padding: 4.25rem 0; }
+.booking-section--soft { background: rgba(255, 255, 255, .18); border-block-color: rgba(182, 102, 111, .12); }
+.booking-section h2 { max-width: 22ch; color: #FF0096; font-size: clamp(1.95rem, 4vw, 3.15rem); font-weight: 500; letter-spacing: -.025em; }
+.booking-step { min-height: 12.5rem; border-radius: 1.4rem; box-shadow: none; }
+.booking-step small { color: #FF0096; }
+.booking-step svg { color: #000000; }
+.booking-button--primary { background: #FF0096; box-shadow: 0 16px 34px rgba(255, 0, 150, .22); }
+.booking-button--secondary { color: #FF0096; border-color: rgba(182, 102, 111, .24); background: #FFFFFF; }
+.booking-cta { border-color: rgba(182, 102, 111, .24); background: linear-gradient(135deg, #ffdfe4, #f9bdc9); box-shadow: 0 16px 32px rgba(182, 102, 111, .08); }
+.booking-cta h2 { color: #000000; font-family: "Raleway", "Segoe UI", Arial, sans-serif; font-weight: 700; }
+.booking-footer { color: #3f2f31; }
+
+@media (max-width: 720px) {
+  .booking-header { min-height: 4.7rem; }
+  .booking-hero { padding: 3rem 0 2.5rem; }
+  .booking-hero h1 { font-size: clamp(2.1rem, 10vw, 3.3rem); }
+  .booking-promise-grid, .booking-mini-grid { gap: .55rem; }
+  .booking-promise { min-height: 6.4rem; border-radius: 1rem; }
+  .booking-mini-card { min-height: 7.2rem; border-radius: 1rem; }
+  .booking-step { min-height: 10.8rem; border-radius: 1rem; }
+  .booking-section { padding: 3rem 0; }
+}
