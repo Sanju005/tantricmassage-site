@@ -1059,6 +1059,9 @@
       color: #FFD700;
     }
 
+    .review-stars[data-stars="4"]::before { content: "\2605\2605\2605\2605"; }
+    .review-stars[data-stars="3"]::before { content: "\2605\2605\2605"; }
+
     .sample-review-label { margin: .35rem 0 0; color: #8a6c74; font-size: .66rem; font-style: italic; letter-spacing: .08em; text-transform: uppercase; }
     .sample-review-stars { font-size: 0; }
     .sample-review-stars::before { content: "\2605\2605\2605\2605"; font-size: .9rem; color: #FFD700; }
@@ -3427,6 +3430,7 @@ elegant serif feel      display: flex;
         const starsEl = card.querySelector('.review-stars');
         const ratingValue = parseFloat(ratingText);
         if (!starsEl || Number.isNaN(ratingValue)) return;
+        starsEl.dataset.stars = String(Math.max(1, Math.min(5, Math.round(ratingValue))));
         starsEl.textContent = ratingValue >= 5 ? 'â˜…â˜…â˜…â˜…â˜…' : ratingValue >= 4 ? 'â˜…â˜…â˜…â˜…' : 'â˜…â˜…â˜…';
       });
     }

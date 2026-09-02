@@ -71,6 +71,36 @@ a { color: inherit; text-decoration: none; }
 .booking-cta p { margin: 0; color: #4f3038; line-height: 1.6; }
 .booking-footer { padding: 1.8rem 0 4rem; color: #72545d; font-size: .82rem; }
 
+/* Shared main-booking-page sections use the same bright wellness language as the home page. */
+.booking-subtitle { margin: 0 auto .8rem; color: var(--booking-pink); font-family: "Raleway", "Segoe UI", Arial, sans-serif; font-size: .8rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
+.booking-intro { max-width: 44rem; margin: 0 auto; color: var(--booking-muted); font-size: 1rem; line-height: 1.65; }
+.booking-promise-grid, .booking-mini-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .75rem; margin-top: 1.5rem; }
+.booking-promise, .booking-mini-card { min-width: 0; border: 1px solid var(--booking-line); border-radius: 1.15rem; background: rgba(255, 255, 255, .78); text-align: center; }
+.booking-promise { display: flex; min-height: 7.1rem; flex-direction: column; align-items: center; justify-content: center; padding: .8rem .45rem; }
+.booking-promise svg { width: 2rem; height: 2rem; color: var(--booking-pink); }
+.booking-promise span { margin-top: .52rem; color: var(--booking-ink); font-size: .76rem; font-weight: 800; line-height: 1.2; }
+.booking-mini-card { min-height: 8.5rem; padding: .95rem .7rem; }
+.booking-mini-card svg { width: 2rem; height: 2rem; color: var(--booking-pink); }
+.booking-mini-card h3 { margin: .58rem 0 0; color: var(--booking-ink); font-size: .83rem; line-height: 1.2; }
+.booking-mini-card p { margin: .34rem 0 0; color: var(--booking-muted); font-size: .69rem; line-height: 1.38; }
+.booking-section--centered { text-align: center; }
+.booking-section--centered h2, .booking-section--centered .booking-copy { margin-right: auto; margin-left: auto; }
+.booking-cta { margin-top: 0; }
+
+@media (max-width: 720px) {
+  .booking-hero { padding: 2.5rem 0 2.2rem; }
+  .booking-section { padding: 2.6rem 0; }
+  .booking-promise-grid, .booking-mini-grid { gap: .45rem; margin-top: 1.1rem; }
+  .booking-promise { min-height: 5.9rem; padding: .6rem .25rem; border-radius: .9rem; }
+  .booking-promise svg, .booking-mini-card svg { width: 1.65rem; height: 1.65rem; }
+  .booking-promise span { margin-top: .38rem; font-size: .62rem; }
+  .booking-mini-card { min-height: 7.1rem; padding: .65rem .28rem; border-radius: .9rem; }
+  .booking-mini-card h3 { margin-top: .4rem; font-size: .65rem; }
+  .booking-mini-card p { display: none; }
+  .booking-subtitle { font-size: .68rem; }
+  .booking-intro { font-size: .9rem; }
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .booking-button { transition: transform .2s ease, box-shadow .2s ease; }
   .booking-button:hover { transform: translateY(-2px); box-shadow: 0 15px 28px rgba(212, 22, 99, .24); }
