@@ -467,10 +467,16 @@
       overflow: hidden;
     }
 
-    @media (min-width: 640px) {
+    @media (min-width: 900px) {
       .hero-poster-title {
-        max-width: 14ch;
-        font-size: 2.4rem;
+        max-width: 1200px;
+        font-size: clamp(1.85rem, 2.8vw, 3rem);
+        line-height: 1.06;
+      }
+
+      .hero-poster-title .desktop-title-line {
+        display: block;
+        white-space: nowrap;
       }
     }
 
@@ -844,6 +850,33 @@
       aspect-ratio: 16 / 10;
       background-size: cover;
       background-position: center;
+    }
+
+    .service-booking-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.85rem;
+    }
+
+    .service-booking-card {
+      display: flex;
+      min-height: 11.5rem;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 1.25rem;
+      border: 1px solid rgba(212, 175, 55, 0.22);
+      border-radius: 1.5rem;
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.025));
+      transition: transform .2s ease, border-color .2s ease;
+    }
+
+    .service-booking-card:hover { transform: translateY(-4px); border-color: rgba(212, 175, 55, 0.6); }
+    .service-booking-card h3 { margin: .55rem 0 0; font-size: clamp(1.15rem, 2.2vw, 1.5rem); line-height: 1.1; }
+    .service-booking-card p { margin: .7rem 0 0; color: var(--text-secondary); font-size: .88rem; line-height: 1.55; }
+    .service-booking-card span { color: var(--gold-soft); font-size: .8rem; font-weight: 700; }
+
+    @media (min-width: 1024px) {
+      .service-booking-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
     }
     .faq-accordion {
       display: grid;
@@ -1479,6 +1512,12 @@ elegant serif feel      display: flex;
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 0.9rem;
       align-items: start;
+    }
+
+    @media (min-width: 1024px) {
+      .trust-privacy-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+      }
     }
 
     .trust-privacy-card {
@@ -2244,7 +2283,7 @@ elegant serif feel      display: flex;
           </div>
           <h2 class="reveal-copy reveal-copy-delay mt-2 text-[0.80rem] sm:text-[.90rem] font-semibold leading-[1.14] tracking-[0.01em] uppercase opacity-90 max-w-[13ch] mx-auto" style="color: var(--gold-main); font-family: 'Raleway', 'Segoe UI', Arial, sans-serif;">Professional Wellness Massage<br>Experience in KL</h2>
           <div class="hero-mini-divider" aria-hidden="true"></div>
-          <h1 class="reveal-copy reveal-copy-delay hero-poster-title mt-4">Best Private Outcall<br>Massage in Kuala Lumpur (KL) Relaxation &amp; Wellness Experience</h1>
+          <h1 class="reveal-copy reveal-copy-delay hero-poster-title mt-4"><span class="desktop-title-line">Best Private Outcall Massage in</span> <span class="desktop-title-line">Kuala Lumpur (KL) Relaxation &amp; Wellness Experience</span></h1>
           <div class="scroll-float mt-5">
             <div class="hero-slider hero-poster-image">
               <div class="hero-slide" style="background-image: url('/images/Tantric%20yoni%20massage%20in%20kl%20slide%201.webp');"></div>
@@ -2827,6 +2866,23 @@ elegant serif feel      display: flex;
             <button id="gallery-enter-button" type="button" class="gallery-cta">View Gallery</button>
             <p id="gallery-age-message" class="gallery-age-message--default text-xs font-medium"></p>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="service-booking" class="section-divider py-10 sm:py-12">
+      <div class="app-block px-4 sm:px-6 pb-10 sm:pb-12">
+        <div class="max-w-3xl">
+          <p class="reveal-copy text-xs uppercase tracking-[0.45em]" style="color: var(--gold-main);">Book a service</p>
+          <h2 class="reveal-copy reveal-copy-delay section-title section-heading-display mt-4 text-[1.75rem] sm:text-[2.2rem] leading-[1.02]">Choose your massage experience</h2>
+          <p class="reveal-copy reveal-copy-delay section-subcopy mt-4">Choose the service that best matches your booking needs, then check availability directly on WhatsApp.</p>
+        </div>
+        <div class="service-booking-grid mt-8">
+          <a href="/tantric-massage-kuala-lumpur/" class="service-booking-card"><div><p class="text-xs uppercase tracking-[0.25em]" style="color: var(--gold-main);">Main service</p><h3>Tantric Massage</h3><p>Private outcall wellness booking across Kuala Lumpur.</p></div><span>Explore service &rarr;</span></a>
+          <a href="/yoni-massage-therapy-near-me-in-kuala-lumpur/" class="service-booking-card"><div><p class="text-xs uppercase tracking-[0.25em]" style="color: var(--gold-main);">Main service</p><h3>Yoni Massage</h3><p>Private ladies wellness booking support in KL.</p></div><span>Explore service &rarr;</span></a>
+          <a href="/ladies-massage-in-kl/" class="service-booking-card"><div><p class="text-xs uppercase tracking-[0.25em]" style="color: var(--gold-main);">Main service</p><h3>Ladies Massage</h3><p>Calm, respectful outcall booking for ladies.</p></div><span>Explore service &rarr;</span></a>
+          <a href="/couples-massage-in-kl/" class="service-booking-card"><div><p class="text-xs uppercase tracking-[0.25em]" style="color: var(--gold-main);">Main service</p><h3>Couples Massage</h3><p>Private relaxation booking for couples in KL.</p></div><span>Explore service &rarr;</span></a>
+          <a href="/massage-kuala-lumpur/luxury-hotel-massage-service-in-kuala-lumpur/" class="service-booking-card"><div><p class="text-xs uppercase tracking-[0.25em]" style="color: var(--gold-main);">Main service</p><h3>Hotel Massage</h3><p>In-room booking guidance for Kuala Lumpur stays.</p></div><span>Explore service &rarr;</span></a>
         </div>
       </div>
     </section>
