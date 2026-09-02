@@ -34,6 +34,10 @@ function promise(label, icon) {
   return `<article class="booking-promise">${icon}<span>${label}</span></article>`;
 }
 
+function trustItem(icon, label, value, detail) {
+  return `<article class="booking-trust-item">${icon}<p>${label}</p><strong>${value}</strong><span>${detail}</span></article>`;
+}
+
 function bookingSteps() {
   const steps = [[icons.screen, '1st step', 'View packages'], [icons.package, '2nd step', 'Choose a package'], [icons.pin, '3rd step', 'Share your location'], [icons.calendar, '4th step', 'Confirm date and time'], [icons.card, '5th step', 'Complete advance payment'], [icons.home, '6th step', 'Session at your location']];
   return steps.map(([icon, label, title]) => `<article class="booking-step"><small>${label}</small>${icon.replace('<svg ', '<svg class="booking-step-icon" ')}<h3>${title}</h3></article>`).join('');
@@ -47,7 +51,7 @@ for (const page of pages) {
   const body = `<body>
   <header class="booking-site-header"><nav class="booking-shell booking-header" aria-label="Primary navigation"><a class="booking-brand" href="/"><img src="/images/logo.png" alt="Massage KL logo">Massage KL</a><a class="booking-header-link" href="/blog/">Wellness guides</a></nav></header>
   <main>
-    <section class="booking-shell booking-hero"><p class="booking-eyebrow">${page.eyebrow}</p><h1>${page.title}</h1><p class="booking-subtitle">${page.subtitle}</p><p class="booking-intro">${page.description}</p><div class="booking-promise-grid">${promise('Discreet booking', icons.shield)}${promise('Outcall convenience', icons.pin)}${promise('Clear expectations', icons.check)}</div></section>
+    <section class="booking-shell booking-hero"><p class="booking-eyebrow">${page.eyebrow}</p><h1>${page.title}</h1><p class="booking-subtitle">${page.subtitle}</p><p class="booking-intro">${page.description}</p><div class="booking-hero-gallery"><img src="/images/Tantric%20yoni%20massage%20in%20kl%20slide%201.webp" alt="Private wellness massage in Kuala Lumpur" fetchpriority="high"><img src="/images/Tantric%20yoni%20massage%20in%20kl%20slide%202.webp" alt="Private outcall wellness experience in Kuala Lumpur"><img src="/images/Tantric%20yoni%20massage%20in%20kl%20slide%203.webp" alt="Relaxing wellness setting in Kuala Lumpur"></div><div class="booking-trust-strip">${trustItem(icons.lock, 'Discreet', '100%', 'Guarantee')}${trustItem(icons.pin, 'Outcall', '12 hrs', 'All areas')}${trustItem(icons.heart, 'Trusted', '800+', 'Clients')}${trustItem(icons.shield, 'Professional', '100%', 'Service')}</div></section>
     <section class="booking-section booking-section--soft booking-section--centered"><div class="booking-shell"><p class="booking-eyebrow">Why me</p><h2>Private wellness, planned with care</h2><p class="booking-copy">A simple approach that keeps your booking clear, comfortable, and respectful from the first message.</p><div class="booking-mini-grid">${cards(page.why)}</div></div></section>
     <section class="booking-section booking-section--centered"><div class="booking-shell"><p class="booking-eyebrow">Guarantee</p><h2>Clear standards for every booking</h2><div class="booking-mini-grid">${cards([['Private details', 'Your location and timing are kept confidential.'], ['Clear confirmation', 'Availability is checked before arrangements are final.'], ['Respectful service', 'Every interaction is handled professionally.']])}</div></div></section>
     <section class="booking-section booking-section--soft booking-section--centered"><div class="booking-shell"><p class="booking-eyebrow">Trust &amp; privacy</p><h2>Privacy remains a priority</h2><div class="booking-mini-grid">${cards([['Discreet communication', 'Booking details are discussed directly.'], ['Private setting', 'Home, hotel, and residence options are respected.'], ['Professional boundaries', 'A calm and respectful experience throughout.']])}</div></div></section>

@@ -169,6 +169,16 @@ body {
 .booking-cta h2 { color: #000000; font-family: "Raleway", "Segoe UI", Arial, sans-serif; font-weight: 700; }
 .booking-footer { color: #3f2f31; }
 
+.booking-trust-strip { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin-top: 2.1rem; }
+.booking-hero-gallery { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .7rem; margin-top: 2rem; }
+.booking-hero-gallery img { display: block; width: 100%; aspect-ratio: 1 / 1; border: 1px solid rgba(182, 102, 111, .18); border-radius: 1.25rem; object-fit: cover; box-shadow: 0 16px 32px rgba(182, 102, 111, .1); }
+.booking-trust-item { min-width: 0; padding: .4rem 1rem .55rem; border-right: 1px solid rgba(182, 102, 111, .4); text-align: center; }
+.booking-trust-item:last-child { border-right: 0; }
+.booking-trust-item svg { width: 1.1rem; height: 1.1rem; color: #B6666F; }
+.booking-trust-item p { margin: .55rem 0 0; color: #B6666F; font-family: "Raleway", "Segoe UI", Arial, sans-serif; font-size: .62rem; letter-spacing: .18em; text-transform: uppercase; }
+.booking-trust-item strong { display: block; margin-top: .35rem; color: #000000; font-family: "Raleway", "Segoe UI", Arial, sans-serif; font-size: 1.05rem; font-weight: 800; }
+.booking-trust-item span { display: block; margin-top: .22rem; color: #000000; font-family: "Raleway", "Segoe UI", Arial, sans-serif; font-size: .58rem; letter-spacing: .12em; text-transform: uppercase; }
+
 @media (max-width: 720px) {
   .booking-header { min-height: 4.7rem; }
   .booking-hero { padding: 3rem 0 2.5rem; }
@@ -178,4 +188,12 @@ body {
   .booking-mini-card { min-height: 7.2rem; border-radius: 1rem; }
   .booking-step { min-height: 10.8rem; border-radius: 1rem; }
   .booking-section { padding: 3rem 0; }
+  .booking-trust-strip { margin-top: 1.55rem; }
+  .booking-hero-gallery { gap: .42rem; margin-top: 1.45rem; }
+  .booking-hero-gallery img { border-radius: .85rem; }
+  .booking-trust-item { padding: .35rem .15rem .45rem; }
+  .booking-trust-item svg { width: .95rem; height: .95rem; }
+  .booking-trust-item p { margin-top: .42rem; font-size: .51rem; letter-spacing: .11em; }
+  .booking-trust-item strong { margin-top: .25rem; font-size: .78rem; }
+  .booking-trust-item span { margin-top: .16rem; font-size: .46rem; letter-spacing: .07em; }
 }
