@@ -257,9 +257,20 @@
     .package-modal__panel #modal-flow-intro,
     .package-modal__panel #modal-flow-lines { color: #f8f5f6; }
     .package-modal__panel #modal-popularity-list li,
-    .package-modal__panel #modal-package-list li { color: #f8f5f6; }
+    .package-modal__panel #modal-package-list li {
+      display: grid;
+      grid-template-columns: .9rem 1fr;
+      gap: .55rem;
+      color: #f8f5f6;
+    }
+    .package-modal__panel #modal-popularity-list li::before,
+    .package-modal__panel #modal-package-list li::before {
+      content: "→";
+      color: #ffd267;
+      font-weight: 800;
+    }
     .package-modal__panel #modal-popularity-list li > span:first-child,
-    .package-modal__panel #modal-package-list li > span:first-child { color: #ffd267; }
+    .package-modal__panel #modal-package-list li > span:first-child { display: none; }
     .package-modal__panel #modal-package-duration,
     .package-modal__panel #modal-package-normal-price { color: #ffffff; }
     .package-modal__panel #modal-package-price { color: #ffcf75; }
