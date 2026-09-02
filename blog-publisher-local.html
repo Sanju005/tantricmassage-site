@@ -288,6 +288,14 @@
                 </select>
               </div>
 
+              <div class="field">
+                <label for="bookingPage">Main Booking Page</label>
+                <select id="bookingPage" name="bookingPage" required>
+                  <option value="">Choose the one service this article supports</option>
+                </select>
+                <div class="helper">Choose one. The published article will add a direct booking link to this service page.</div>
+              </div>
+
               <div class="field-full">
                 <label>Place Pages</label>
                 <div class="actions" style="margin-top: 0;">
@@ -353,7 +361,7 @@
           <div class="checklist">
             <div class="checklist-item">
               <strong>Simple writing fields</strong>
-              <span>Title, category, content, featured image, alt text, and relevant local pages.</span>
+              <span>Title, category, main booking page, content, featured image, alt text, and relevant local pages.</span>
             </div>
             <div class="checklist-item">
               <strong>Automatic SEO setup</strong>
@@ -377,6 +385,7 @@
     const statusBox = document.getElementById("statusBox");
     const contentInput = document.getElementById("content");
     const wordCount = document.getElementById("wordCount");
+    const bookingPageSelect = document.getElementById("bookingPage");
 
     function updateWordCount() {
       wordCount.textContent = contentInput.value.trim() ? contentInput.value.trim().split(/\s+/).length : "0";
@@ -398,14 +407,19 @@
     }
 
     async function loadPages() {
-      const response = await fetch("/api/pages");
-      const data = await response.json();
-      pagesGrid.innerHTML = data.pages.map((page) => `
+      const [placesResponse, bookingResponse] = await Promise.all([
+        fetch("/api/pages"),
+        fetch("/api/booking-pages")
+      ]);
+      const placesData = await placesResponse.json();
+      const bookingData = await bookingResponse.json();
+      pagesGrid.innerHTML = placesData.pages.map((page) => `
         <label class="category-item">
           <input type="checkbox" name="pages" value="${page.id}">
           <span>${page.label}</span>
         </label>
       `).join("");
+      bookingPageSelect.insertAdjacentHTML("beforeend", bookingData.pages.map((page) => `<option value="${page.id}">${page.label}</option>`).join(""));
     }
 
     function getSelectedPages() {
@@ -429,6 +443,7 @@
 
       const title = document.getElementById("title").value.trim();
       const category = document.getElementById("category").value.trim();
+      const bookingPage = bookingPageSelect.value;
       const metaDescription = document.getElementById("metaDescription").value.trim();
       const featuredImage = document.getElementById("featuredImage").value.trim();
       const altText = document.getElementById("altText").value.trim();
@@ -441,7 +456,7 @@
       const effectiveSeoTitle = title;
       const contentWordCount = content ? content.split(/\s+/).length : 0;
 
-      if (!title || !slug || !category || !metaDescription || !featuredImage || !altText || !content || !focusKeyword || pages.length === 0) {
+      if (!title || !slug || !category || !bookingPage || !metaDescription || !featuredImage || !altText || !content || !focusKeyword || pages.length === 0) {
         setStatus("Please fill all required editorial, taxonomy, media, and page-selection fields.", "error");
         return;
       }
@@ -476,6 +491,7 @@
             excerpt: "",
             hub: "",
             category,
+            bookingPage,
             tags: "",
             metaDescription,
             featuredImage,

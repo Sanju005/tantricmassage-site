@@ -37,6 +37,16 @@ const placePages = [
 ];
 const placePageMap = Object.fromEntries(placePages.map((page) => [page.id, page]));
 
+// Every article has one deliberate service destination. This avoids keyword-based guesses.
+const bookingPages = [
+  { id: "tantric", label: "Tantric Massage in Kuala Lumpur", publicUrl: "/tantric-massage-kuala-lumpur/" },
+  { id: "yoni", label: "Yoni Massage in Kuala Lumpur", publicUrl: "/yoni-massage-therapy-near-me-in-kuala-lumpur/" },
+  { id: "ladies", label: "Ladies Massage in Kuala Lumpur", publicUrl: "/ladies-massage-in-kl/" },
+  { id: "couples", label: "Couples Massage in Kuala Lumpur", publicUrl: "/couples-massage-in-kl/" },
+  { id: "hotel", label: "Hotel Massage in Kuala Lumpur", publicUrl: "/massage-kuala-lumpur/luxury-hotel-massage-service-in-kuala-lumpur/" }
+];
+const bookingPageMap = Object.fromEntries(bookingPages.map((page) => [page.id, page]));
+
 function sendJson(res, statusCode, payload) {
   res.writeHead(statusCode, { "Content-Type": "application/json; charset=utf-8" });
   res.end(JSON.stringify(payload));
@@ -236,13 +246,14 @@ function buildArticleParts(payload) {
   const faqEntries = parseFaqEntries(payload.faqContent || "");
   const customSchemaEntries = parseCustomSchema(payload.customSchema || "");
   const selectedPages = Array.isArray(payload.pages) ? payload.pages.filter((item) => placePageMap[item]) : [];
+  const bookingPage = bookingPageMap[String(payload.bookingPage || "").trim()];
   const contentWordCount = normalizeContent(content).split(/\s+/).filter(Boolean).length;
 
   if (!hub && selectedPages.length > 0) {
     hub = placePageMap[selectedPages[0]].label;
   }
 
-  if (!title || !slug || !hub || !category || !metaDescription || !featuredImage || !altText || !content || !publishedDate || !publishedBy || selectedPages.length === 0) {
+  if (!title || !slug || !hub || !category || !metaDescription || !featuredImage || !altText || !content || !publishedDate || !publishedBy || selectedPages.length === 0 || !bookingPage) {
     throw new Error("Please fill all required fields.");
   }
 
@@ -307,7 +318,12 @@ function buildArticleParts(payload) {
     },
     articleSection: articleSections,
     keywords: keywordList,
-    genre: category
+    genre: category,
+    about: {
+      "@type": "Service",
+      name: bookingPage.label,
+      url: `${SITE_BASE_URL}${bookingPage.publicUrl}`
+    }
   };
   const schemaBlocks = [schema];
   schemaBlocks.push({
@@ -450,6 +466,9 @@ ${extraSchemaScripts}
     .faq-item + .faq-item { margin-top:1rem; padding-top:1rem; border-top:1px solid rgba(255,255,255,.08); }
     .faq-item h3 { margin:0 0 .45rem; color:var(--gold-soft); font-size:1rem; }
     .faq-item p { margin:0; color:var(--text-secondary); line-height:1.65; }
+    .booking-cta { margin-top:2rem; padding:1.25rem; border:1px solid rgba(212,175,55,.5); border-radius:1rem; background:linear-gradient(135deg,rgba(212,175,55,.14),rgba(255,255,255,.03)); }
+    .booking-cta p { margin:0 0 .55rem; color:var(--text-secondary); }
+    .booking-cta a { color:var(--gold-soft); font-weight:700; }
     .bottom-nav { position:fixed; left:50%; bottom:1rem; transform:translateX(-50%); width:calc(100% - 1.5rem); max-width:31rem; z-index:50; }
     .bottom-nav-wrap { display:flex; gap:.65rem; }
     .bottom-nav-main,.bottom-nav-chat { position:relative; overflow:hidden; min-height:3.35rem; display:flex; align-items:center; justify-content:center; border-radius:999px; font-weight:700; backdrop-filter:blur(16px); }
@@ -476,6 +495,7 @@ ${captionHtml}
         <div class="article-body">
 ${contentHtml}
         </div>
+        <aside class="booking-cta" aria-label="Related booking service"><p>Looking for a private booking in Kuala Lumpur?</p><a href="${escapeHtml(bookingPage.publicUrl)}">Explore ${escapeHtml(bookingPage.label)} &rarr;</a></aside>
 ${faqHtml}
       </div>
     </article>
@@ -555,6 +575,7 @@ ${faqHtml}
     schemaJson,
     selectedPages,
     selectedPageRecords,
+    bookingPage,
     relatedHubs,
     blogIndexCard,
     hubCard,
@@ -1229,6 +1250,10 @@ const server = http.createServer((req, res) => {
 
   if (req.method === "GET" && req.url === "/api/pages") {
     return sendJson(res, 200, { pages: placePages });
+  }
+
+  if (req.method === "GET" && req.url === "/api/booking-pages") {
+    return sendJson(res, 200, { pages: bookingPages });
   }
 
   if (req.method === "POST" && req.url === "/api/publish") {

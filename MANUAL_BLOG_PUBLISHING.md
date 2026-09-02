@@ -10,6 +10,7 @@ Only fill in these eight fields in the form:
 
 - Title
 - Category
+- Main booking page
 - Content
 - Relevant place pages
 - Meta description
@@ -17,7 +18,7 @@ Only fill in these eight fields in the form:
 - Image alt text
 - Focus keyword
 
-The tool automatically creates the slug, excerpt, internal links, canonical URL, `index, follow` setting, standard article schema, and sitemap entry.
+The tool automatically creates the slug, excerpt, canonical URL, `index, follow` setting, standard article schema, sitemap entry, local-page links, and one direct link to the main booking page you select.
 
 Before you publish, prepare:
 
