@@ -192,14 +192,14 @@
     @media (prefers-reduced-motion:reduce) { .hero-carousel-track { animation:none; } }
     .feature { text-align:center; }
     .feature-icon { display:block; width:2.45rem; height:2.45rem; margin:0 auto .75rem; color:#c0305d; }
-    .booking-flow { display:grid; grid-template-columns:repeat(3,1fr); gap:2.6rem 1rem; margin-top:2rem; }
-    .booking-step { text-align:center; }
-    .booking-step-label { margin-bottom:1rem; color:#f00085; font:800 .72rem Arial,sans-serif; letter-spacing:.2em; text-transform:uppercase; }
-    .booking-step-icon { display:block; width:3rem; height:3rem; margin:0 auto 1rem; color:#151113; }
-    .booking-step h3 { margin:0; color:#151113; font-size:1.05rem; font-weight:500; line-height:1.35; }
-    @media (max-width:560px) { .booking-flow { grid-template-columns:repeat(2,1fr); gap:2.2rem .7rem; } .booking-step-label { font-size:.62rem; letter-spacing:.13em; } .booking-step-icon { width:2.55rem; height:2.55rem; } .booking-step h3 { font-size:.9rem; } }
+    .booking-flow { display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; margin-top:2rem; }
+    .booking-step { min-height:12.5rem; display:flex; flex-direction:column; align-items:center; justify-content:flex-start; padding:1.35rem 1rem 1.15rem; border:1px solid rgba(176,52,88,.12); border-radius:1.25rem; background:rgba(255,255,255,.72); box-shadow:0 10px 22px rgba(176,52,88,.06); text-align:center; }
+    .booking-step-label { margin:0 0 1.05rem; color:#f00085; font:800 .72rem Arial,sans-serif; letter-spacing:.2em; text-transform:uppercase; }
+    .booking-step-icon { display:block; width:3rem; height:3rem; margin:0 auto 1.15rem; color:#151113; }
+    .booking-step h3 { margin:auto 0 .1rem; color:#151113; font-size:1.05rem; font-weight:500; line-height:1.35; }
+    @media (max-width:560px) { .booking-flow { grid-template-columns:repeat(2,1fr); gap:.8rem; } .booking-step { min-height:10.8rem; padding:1rem .55rem .9rem; border-radius:1rem; } .booking-step-label { margin-bottom:.85rem; font-size:.62rem; letter-spacing:.13em; } .booking-step-icon { width:2.55rem; height:2.55rem; margin-bottom:.85rem; } .booking-step h3 { font-size:.9rem; } }
     @media (max-width:760px) { .hero { padding-top:2.6rem; } .hero-carousel { margin-top:1.5rem; border-radius:1rem; } }
-    @media (max-width:760px) { .hero,.booking,.split-copy { grid-template-columns:1fr; } .hero { padding-top:2.6rem; } .hero-card { min-height:18rem; } .grid,.package-panel { grid-template-columns:1fr; } .feature-grid { grid-template-columns:repeat(2,1fr); } .benefit-list { grid-template-columns:1fr; } .booking .button { width:100%; } }
+    @media (max-width:760px) { .hero,.booking,.split-copy { grid-template-columns:1fr; } .hero { padding-top:2.6rem; } .hero-card { min-height:18rem; } .grid,.package-panel { grid-template-columns:1fr; } .feature-grid { grid-template-columns:repeat(3,1fr); gap:.55rem; } .feature { padding:.85rem .35rem; } .feature-icon { width:2.05rem; height:2.05rem; margin-bottom:.55rem; } .feature-mark { margin-bottom:.45rem; font-size:.61rem; } .feature h3 { font-size:.73rem; line-height:1.25; } .benefit-list { grid-template-columns:1fr; } .booking .button { width:100%; } }
   </style>
 </head>
 <body>
