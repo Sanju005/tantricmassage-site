@@ -1024,7 +1024,9 @@ function insertIntoPlacePage(html, richCardHtml, simpleCardHtml, slug) {
   if (autoStart !== -1 && autoEnd !== -1) {
     const autoCard = html.includes("article-card__image") ? richCardHtml : simpleCardHtml;
     const markerClose = html.indexOf("-->", autoStart);
-    return sortPlacePageCards(`${html.slice(0, markerClose + 3)}\n          ${autoCard}\n${html.slice(markerClose + 3)}`);
+    const withoutEmptyState = html.replace(/\s*<div class="place-empty">[\s\S]*?<\/div>\s*/, "\n");
+    const updatedMarkerClose = withoutEmptyState.indexOf("-->", withoutEmptyState.indexOf("<!-- AUTO_ARTICLE_GRID_START:"));
+    return sortPlacePageCards(`${withoutEmptyState.slice(0, updatedMarkerClose + 3)}\n          ${autoCard}\n${withoutEmptyState.slice(updatedMarkerClose + 3)}`);
   }
 
   const gridStart = html.indexOf('<div class="grid">');
