@@ -470,7 +470,7 @@
     @media (min-width: 900px) {
       .hero-poster-title {
         max-width: 1200px;
-        font-size: clamp(1.85rem, 2.8vw, 3rem);
+        font-size: clamp(1.65rem, 2.25vw, 2.25rem);
         line-height: 1.06;
       }
 
@@ -512,6 +512,12 @@
       font-family: "Raleway", "Segoe UI", Arial, sans-serif;
       font-weight: 500;
       letter-spacing: 0.01em;
+    }
+
+    @media (min-width: 1024px) {
+      .section-divider .app-block > .max-w-3xl { max-width: 72rem !important; }
+      .section-title { max-width: 42ch; }
+      .section-subcopy { max-width: 72ch; font-size: .98rem; line-height: 1.55; }
     }
 
     .benefits-pink {
@@ -1514,12 +1520,6 @@ elegant serif feel      display: flex;
       align-items: start;
     }
 
-    @media (min-width: 1024px) {
-      .trust-privacy-grid {
-        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-      }
-    }
-
     .trust-privacy-card {
       position: relative;
       overflow: hidden;
@@ -1529,6 +1529,31 @@ elegant serif feel      display: flex;
       border: 1px solid rgba(212, 175, 55, 0.16);
       box-shadow: 0 14px 30px rgba(0, 0, 0, 0.28);
       text-align: center;
+    }
+
+    @keyframes desktopBenefitEntry {
+      from { opacity: 0; transform: translateY(18px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+      .desktop-benefit-grid .why-link { opacity: 0; }
+      .desktop-benefit-grid.is-inview .why-link { animation: desktopBenefitEntry .58s cubic-bezier(.22, 1, .36, 1) both; }
+      .desktop-benefit-grid.is-inview .why-link:nth-child(2) { animation-delay: .07s; }
+      .desktop-benefit-grid.is-inview .why-link:nth-child(3) { animation-delay: .14s; }
+      .desktop-benefit-grid.is-inview .why-link:nth-child(4) { animation-delay: .21s; }
+      .desktop-benefit-grid.is-inview .why-link:nth-child(5) { animation-delay: .28s; }
+      .desktop-benefit-grid.is-inview .why-link:nth-child(6) { animation-delay: .35s; }
+      .desktop-benefit-grid.is-inview .why-link:nth-child(7) { animation-delay: .42s; }
+      .desktop-benefit-grid.is-inview .why-link:nth-child(8) { animation-delay: .49s; }
+      .desktop-benefit-grid.is-inview .why-link:nth-child(9) { animation-delay: .56s; }
+      .desktop-booking-steps > article { opacity: 0; }
+      .desktop-booking-steps.is-inview > article { animation: desktopBenefitEntry .58s cubic-bezier(.22, 1, .36, 1) both; }
+      .desktop-booking-steps.is-inview > article:nth-child(2) { animation-delay: .08s; }
+      .desktop-booking-steps.is-inview > article:nth-child(3) { animation-delay: .16s; }
+      .desktop-booking-steps.is-inview > article:nth-child(4) { animation-delay: .24s; }
+      .desktop-booking-steps.is-inview > article:nth-child(5) { animation-delay: .32s; }
+      .desktop-booking-steps.is-inview > article:nth-child(6) { animation-delay: .40s; }
     }
 
     .trust-privacy-icon {
@@ -1563,6 +1588,18 @@ elegant serif feel      display: flex;
       font-size: 0.77rem;
       line-height: 1.45;
       color: rgba(255, 255, 255, 0.74);
+    }
+
+    @media (min-width: 1024px) {
+      .trust-privacy-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+        gap: 0.7rem;
+      }
+
+      .trust-privacy-card { min-height: 9.5rem; padding: 0.8rem 0.85rem; }
+      .trust-privacy-icon { width: 2.15rem; height: 2.15rem; }
+      .trust-privacy-title { margin-top: 0.55rem; font-size: 0.84rem; }
+      .trust-privacy-copy { margin-top: 0.35rem; font-size: 0.72rem; line-height: 1.4; }
     }
 
     @keyframes trustPulse {
@@ -2423,7 +2460,7 @@ elegant serif feel      display: flex;
             <p class="reveal-copy text-sm sm:text-base uppercase tracking-[0.34em] font-bold" style="color: var(--gold-main);">Why Choose Me?</p>
             <h2 class="reveal-copy reveal-copy-delay section-title section-heading-display mt-4 text-[1.45rem] sm:text-[1.8rem] leading-[1.04]">Private, polished premium massage</h2>
           </div>
-          <div class="mt-8 grid grid-cols-3 gap-x-3 gap-y-5 sm:gap-x-5 sm:gap-y-6">
+          <div class="desktop-benefit-grid mt-8 grid grid-cols-3 gap-x-3 gap-y-5 sm:gap-x-5 sm:gap-y-6">
             <a href="/whyme.html" class="why-link p-2 sm:p-4">
               <svg class="h-10 w-10 sm:h-11 sm:w-11" viewBox="0 0 64 64" fill="none" aria-hidden="true">
                 <path d="M32 10C22.06 10 14 18.06 14 28c0 14 18 26 18 26s18-12 18-26c0-9.94-8.06-18-18-18Z" stroke="#D4AF37" stroke-width="2.5"/>
@@ -2716,7 +2753,7 @@ elegant serif feel      display: flex;
             <h2 class="reveal-copy reveal-copy-delay section-title section-heading-display mt-4 text-[1.75rem] sm:text-[2.2rem] leading-[1.02]">Simple booking steps</h2>
             <p class="reveal-copy reveal-copy-delay section-subcopy mt-4">A quick booking process designed to stay private, smooth, and easy to follow on mobile.</p>
           </div>
-          <div class="mt-8 grid grid-cols-3 gap-x-3 gap-y-8 sm:gap-x-5 sm:gap-y-10">
+          <div class="desktop-booking-steps mt-8 grid grid-cols-3 gap-x-3 gap-y-8 sm:gap-x-5 sm:gap-y-10">
             <article class="text-center">
               <p class="text-xs font-semibold uppercase tracking-[0.18em]" style="color: var(--gold-main);">1st Step &gt;</p>
               <svg class="mx-auto mt-4 h-10 w-10 sm:h-12 sm:w-12" viewBox="0 0 64 64" fill="none" aria-hidden="true">
@@ -3009,6 +3046,8 @@ elegant serif feel      display: flex;
     const reviewFormMessage = document.querySelector('#review-form-message');
     const faqItems = document.querySelectorAll('.faq-item');
     const scrollFloatItems = document.querySelectorAll('.scroll-float');
+    const desktopBenefitGrid = document.querySelector('.desktop-benefit-grid');
+    const desktopBookingSteps = document.querySelector('.desktop-booking-steps');
     const trustStats = document.querySelectorAll('.trust-stat[data-count-to]');
     const revealObserver = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
@@ -3039,6 +3078,24 @@ elegant serif feel      display: flex;
     });
 
     scrollFloatItems.forEach((item) => scrollFloatObserver.observe(item));
+
+    if (desktopBenefitGrid) {
+      const benefitObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          entry.target.classList.toggle('is-inview', entry.isIntersecting);
+        });
+      }, { threshold: 0.2 });
+      benefitObserver.observe(desktopBenefitGrid);
+    }
+
+    if (desktopBookingSteps) {
+      const bookingStepsObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          entry.target.classList.toggle('is-inview', entry.isIntersecting);
+        });
+      }, { threshold: 0.2 });
+      bookingStepsObserver.observe(desktopBookingSteps);
+    }
 
     const animateTrustStat = (element) => {
       if (element.dataset.countAnimated === 'true') {
