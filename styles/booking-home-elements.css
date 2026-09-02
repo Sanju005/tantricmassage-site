@@ -52,6 +52,25 @@
 .hp-section--centered .hp-title,
 .hp-section--centered .hp-subcopy { margin-left: auto; margin-right: auto; }
 
+/* ---------- SEO intro lead (hero -> Why Choose Me) ---------- */
+
+.hp-seo-lead { padding: 1.7rem 0 .3rem; }
+
+.hp-seo-lead p {
+  max-width: 60ch;
+  margin: 0 auto;
+  text-align: center;
+  font-family: "Poppins", "Segoe UI", Arial, sans-serif;
+  font-size: 1.02rem;
+  line-height: 1.65;
+  color: #3f2f31;
+}
+
+@media (max-width: 720px) {
+  .hp-seo-lead { padding: 1.1rem 0 .2rem; }
+  .hp-seo-lead p { font-size: .92rem; }
+}
+
 /* ---------- Stats bar (hero trust strip) ---------- */
 
 .hp-stats {
