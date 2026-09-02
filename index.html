@@ -858,32 +858,6 @@
       background-position: center;
     }
 
-    .service-booking-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 0.85rem;
-    }
-
-    .service-booking-card {
-      display: flex;
-      min-height: 11.5rem;
-      flex-direction: column;
-      justify-content: space-between;
-      padding: 1.25rem;
-      border: 1px solid rgba(212, 175, 55, 0.22);
-      border-radius: 1.5rem;
-      background: linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.025));
-      transition: transform .2s ease, border-color .2s ease;
-    }
-
-    .service-booking-card:hover { transform: translateY(-4px); border-color: rgba(212, 175, 55, 0.6); }
-    .service-booking-card h3 { margin: .55rem 0 0; font-size: clamp(1.15rem, 2.2vw, 1.5rem); line-height: 1.1; }
-    .service-booking-card p { margin: .7rem 0 0; color: var(--text-secondary); font-size: .88rem; line-height: 1.55; }
-    .service-booking-card span { color: var(--gold-soft); font-size: .8rem; font-weight: 700; }
-
-    @media (min-width: 1024px) {
-      .service-booking-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
-    }
     .faq-accordion {
       display: grid;
       gap: 1rem;
@@ -1573,16 +1547,18 @@ elegant serif feel      display: flex;
 
     .trust-privacy-grid {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 0.9rem;
+      grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+      gap: 0.6rem;
       align-items: start;
     }
 
     .trust-privacy-card {
       position: relative;
       overflow: hidden;
-      border-radius: 1.35rem;
-      padding: 1rem 0.95rem 1.05rem;
+      min-width: 0;
+      min-height: 7.75rem;
+      border-radius: 1.05rem;
+      padding: 0.75rem 0.65rem;
       background: linear-gradient(180deg, rgba(28, 28, 28, 0.96), rgba(18, 18, 18, 0.98));
       border: 1px solid rgba(212, 175, 55, 0.16);
       box-shadow: 0 14px 30px rgba(0, 0, 0, 0.28);
@@ -1615,8 +1591,8 @@ elegant serif feel      display: flex;
     }
 
     .trust-privacy-icon {
-      width: 2.4rem;
-      height: 2.4rem;
+      width: 2.05rem;
+      height: 2.05rem;
       border-radius: 999px;
       display: inline-flex;
       align-items: center;
@@ -1634,17 +1610,21 @@ elegant serif feel      display: flex;
     .trust-privacy-card:nth-child(6) .trust-privacy-icon { animation-delay: 1s; }
 
     .trust-privacy-title {
-      margin-top: 0.8rem;
-      font-size: 0.9rem;
+      margin-top: 0.55rem;
+      font-size: 0.8rem;
       font-weight: 600;
       line-height: 1.2;
       color: #ffffff;
     }
 
     .trust-privacy-copy {
-      margin-top: 0.45rem;
-      font-size: 0.77rem;
-      line-height: 1.45;
+      display: -webkit-box;
+      overflow: hidden;
+      margin-top: 0.3rem;
+      font-size: 0.68rem;
+      line-height: 1.35;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
       color: rgba(255, 255, 255, 0.74);
     }
 
@@ -1655,10 +1635,19 @@ elegant serif feel      display: flex;
         gap: 0.7rem;
       }
 
-      .trust-privacy-card { min-height: 8.75rem; padding: 0.7rem 0.8rem; }
-      .trust-privacy-icon { width: 2.15rem; height: 2.15rem; }
-      .trust-privacy-title { margin-top: 0.55rem; font-size: 0.84rem; }
-      .trust-privacy-copy { margin-top: 0.35rem; font-size: 0.72rem; line-height: 1.4; }
+      .trust-privacy-card { min-height: 7.75rem; padding: 0.7rem 0.75rem; }
+      .trust-privacy-icon { width: 2rem; height: 2rem; }
+      .trust-privacy-title { margin-top: 0.5rem; font-size: 0.8rem; }
+      .trust-privacy-copy { margin-top: 0.3rem; font-size: 0.67rem; line-height: 1.35; }
+    }
+
+    @media (max-width: 767px) {
+      .trust-privacy-grid { gap: 0.45rem; }
+      .trust-privacy-card { min-height: 6.7rem; padding: 0.6rem 0.3rem; border-radius: 0.9rem; }
+      .trust-privacy-icon { width: 1.75rem; height: 1.75rem; }
+      .trust-privacy-icon svg { width: 0.95rem; height: 0.95rem; }
+      .trust-privacy-title { margin-top: 0.4rem; font-size: 0.68rem; line-height: 1.15; }
+      .trust-privacy-copy { display: none; }
     }
 
     @keyframes trustPulse {
@@ -2944,23 +2933,6 @@ elegant serif feel      display: flex;
             <button id="gallery-enter-button" type="button" class="gallery-cta">View Gallery</button>
             <p id="gallery-age-message" class="gallery-age-message--default text-xs font-medium"></p>
           </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="service-booking" class="section-divider py-10 sm:py-12">
-      <div class="app-block px-4 sm:px-6 pb-10 sm:pb-12">
-        <div class="max-w-3xl">
-          <p class="reveal-copy text-xs uppercase tracking-[0.45em]" style="color: var(--gold-main);">Book a service</p>
-          <h2 class="reveal-copy reveal-copy-delay section-title section-heading-display mt-4 text-[1.75rem] sm:text-[2.2rem] leading-[1.02]">Choose your massage experience</h2>
-          <p class="reveal-copy reveal-copy-delay section-subcopy mt-4">Choose the service that best matches your booking needs, then check availability directly on WhatsApp.</p>
-        </div>
-        <div class="service-booking-grid mt-8">
-          <a href="/tantric-massage-kuala-lumpur/" class="service-booking-card"><div><p class="text-xs uppercase tracking-[0.25em]" style="color: var(--gold-main);">Main service</p><h3>Tantric Massage</h3><p>Private outcall wellness booking across Kuala Lumpur.</p></div><span>Explore service &rarr;</span></a>
-          <a href="/yoni-massage-therapy-near-me-in-kuala-lumpur/" class="service-booking-card"><div><p class="text-xs uppercase tracking-[0.25em]" style="color: var(--gold-main);">Main service</p><h3>Yoni Massage</h3><p>Private ladies wellness booking support in KL.</p></div><span>Explore service &rarr;</span></a>
-          <a href="/ladies-massage-in-kl/" class="service-booking-card"><div><p class="text-xs uppercase tracking-[0.25em]" style="color: var(--gold-main);">Main service</p><h3>Ladies Massage</h3><p>Calm, respectful outcall booking for ladies.</p></div><span>Explore service &rarr;</span></a>
-          <a href="/couples-massage-in-kl/" class="service-booking-card"><div><p class="text-xs uppercase tracking-[0.25em]" style="color: var(--gold-main);">Main service</p><h3>Couples Massage</h3><p>Private relaxation booking for couples in KL.</p></div><span>Explore service &rarr;</span></a>
-          <a href="/massage-kuala-lumpur/luxury-hotel-massage-service-in-kuala-lumpur/" class="service-booking-card"><div><p class="text-xs uppercase tracking-[0.25em]" style="color: var(--gold-main);">Main service</p><h3>Hotel Massage</h3><p>In-room booking guidance for Kuala Lumpur stays.</p></div><span>Explore service &rarr;</span></a>
         </div>
       </div>
     </section>
