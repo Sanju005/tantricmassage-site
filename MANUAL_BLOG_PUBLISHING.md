@@ -6,10 +6,23 @@ This guide is the fallback workflow for publishing articles manually without Cod
 
 Use `start-blog-publisher.bat` for every new article. It opens a local form that creates the article page, updates the blog and selected local pages, adds structured data, and updates `sitemap.xml`.
 
+Only fill in these eight fields in the form:
+
+- Title
+- Category
+- Content
+- Relevant place pages
+- Meta description
+- Featured image path
+- Image alt text
+- Focus keyword
+
+The tool automatically creates the slug, excerpt, internal links, canonical URL, `index, follow` setting, standard article schema, and sitemap entry.
+
 Before you publish, prepare:
 
 - One clear focus keyword, such as `tantric massage in Kuala Lumpur`.
-- A unique SEO title between 25 and 65 characters.
+- A clear, unique article title between 25 and 65 characters.
 - A meta description between 120 and 165 characters.
 - At least 450 original words with useful headings and answers.
 - One relevant local page selection. Select more only when the article genuinely helps those areas.

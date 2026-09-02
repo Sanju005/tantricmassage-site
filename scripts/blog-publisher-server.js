@@ -215,17 +215,17 @@ function buildContentHtml(content) {
 function buildArticleParts(payload) {
   const title = String(payload.title || "").trim();
   const slug = slugify(payload.slug || payload.title || "");
-  const postType = String(payload.postType || "article").trim() || "article";
+  const postType = "article";
   const excerptInput = String(payload.excerpt || "").trim();
-  const hub = String(payload.hub || "").trim();
-  const category = String(payload.category || "").trim();
+  let hub = String(payload.hub || "").trim();
+  let category = String(payload.category || "Wellness Guide").trim() || "Wellness Guide";
   const tagList = parseCommaList(payload.tags || "");
   const metaDescription = String(payload.metaDescription || "").trim();
   const featuredImage = normalizeFeaturedImage(payload.featuredImage || "");
   const altText = String(payload.altText || "").trim();
   const imageCaption = String(payload.imageCaption || "").trim();
   const content = String(payload.content || "").trim();
-  const publishedDate = String(payload.publishedDate || "").trim();
+  const publishedDate = String(payload.publishedDate || new Date().toISOString().slice(0, 10)).trim();
   const publishedBy = String(payload.publishedBy || "Massage KL").trim();
   const seoTitle = String(payload.seoTitle || "").trim();
   const canonicalUrlInput = String(payload.canonicalUrl || "").trim();
@@ -238,12 +238,16 @@ function buildArticleParts(payload) {
   const selectedPages = Array.isArray(payload.pages) ? payload.pages.filter((item) => placePageMap[item]) : [];
   const contentWordCount = normalizeContent(content).split(/\s+/).filter(Boolean).length;
 
+  if (!hub && selectedPages.length > 0) {
+    hub = placePageMap[selectedPages[0]].label;
+  }
+
   if (!title || !slug || !hub || !category || !metaDescription || !featuredImage || !altText || !content || !publishedDate || !publishedBy || selectedPages.length === 0) {
     throw new Error("Please fill all required fields.");
   }
 
   if ((seoTitle || title).length < 25 || (seoTitle || title).length > 65) {
-    throw new Error("SEO title must be between 25 and 65 characters.");
+    throw new Error("Title must be between 25 and 65 characters.");
   }
 
   if (metaDescription.length < 120 || metaDescription.length > 165) {

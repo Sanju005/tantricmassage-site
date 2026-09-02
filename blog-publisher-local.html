@@ -250,7 +250,7 @@
   <main class="shell">
     <section class="hero">
       <h1>One-Click Blog Publisher</h1>
-      <p>Fill the article, pick the hubs, and click `Post`. The app will create the article, update `blog/index.html`, add it to every selected hub, and update `sitemap.xml` automatically.</p>
+      <p>Fill the article, select the relevant place pages, and click `Post`. The app will create the article, update `blog/index.html`, add it to the selected pages, and update `sitemap.xml` automatically.</p>
     </section>
 
     <div class="layout">
@@ -268,31 +268,6 @@
                 <input id="title" name="title" type="text" required>
               </div>
 
-              <div class="field">
-                <label for="slug">Slug</label>
-                <input id="slug" name="slug" type="text" placeholder="leave blank to auto-create">
-              </div>
-
-              <div class="field">
-                <label for="postType">Post Type</label>
-                <select id="postType" name="postType">
-                  <option value="article">Article</option>
-                  <option value="guide">Guide</option>
-                  <option value="location">Location Post</option>
-                  <option value="feature">Featured Story</option>
-                </select>
-              </div>
-
-              <div class="field">
-                <label for="publishedDate">Published Date</label>
-                <input id="publishedDate" name="publishedDate" type="date" required>
-              </div>
-
-              <div class="field-full">
-                <label for="excerpt">Excerpt</label>
-                <textarea id="excerpt" name="excerpt" rows="3" placeholder="Short summary for cards and previews. Leave blank to auto-generate from the article."></textarea>
-              </div>
-
               <div class="field-full">
                 <label for="content">Content</label>
                 <textarea id="content" name="content" rows="14" required></textarea>
@@ -304,19 +279,13 @@
               </div>
 
               <div class="field">
-                <label for="hub">Hub</label>
-                <input id="hub" name="hub" type="text" placeholder="Kuala Lumpur Massage" required>
-              </div>
-
-              <div class="field">
                 <label for="category">Category</label>
-                <input id="category" name="category" type="text" placeholder="Wellness Guide" required>
-              </div>
-
-              <div class="field-full">
-                <label for="tags">Tags</label>
-                <input id="tags" name="tags" type="text" placeholder="kualalumpur, klcc, bangsar, couples massage">
-                <div class="helper">Comma-separated tags. These are separate from the place-page checkboxes below.</div>
+                <select id="category" name="category">
+                  <option value="Wellness Guide">Wellness Guide</option>
+                  <option value="Booking Guide">Booking Guide</option>
+                  <option value="Hotel Guide">Hotel Guide</option>
+                  <option value="Local Guide">Local Guide</option>
+                </select>
               </div>
 
               <div class="field-full">
@@ -350,23 +319,8 @@
                 <input id="altText" name="altText" type="text" required>
               </div>
 
-              <div class="field">
-                <label for="publishedBy">Published By</label>
-                <input id="publishedBy" name="publishedBy" type="text" value="Massage KL" required>
-              </div>
-
-              <div class="field">
-                <label for="imageCaption">Image Caption</label>
-                <input id="imageCaption" name="imageCaption" type="text" placeholder="Optional caption under the featured image">
-              </div>
-
               <div class="field-full">
                 <p class="section-title">SEO</p>
-              </div>
-
-              <div class="field-full">
-                <label for="seoTitle">SEO Title</label>
-                <input id="seoTitle" name="seoTitle" type="text" placeholder="Optional override for the browser title and social title">
               </div>
 
               <div class="field">
@@ -374,46 +328,6 @@
                 <input id="focusKeyword" name="focusKeyword" type="text" placeholder="Example: tantric massage in Kuala Lumpur" required>
               </div>
 
-              <div class="field">
-                <label for="metaKeywords">Meta Keywords</label>
-                <input id="metaKeywords" name="metaKeywords" type="text" placeholder="comma-separated keywords">
-              </div>
-
-              <div class="field-full">
-                <label for="canonicalUrl">Canonical URL</label>
-                <input id="canonicalUrl" name="canonicalUrl" type="text" placeholder="Leave blank to use the default blog URL">
-              </div>
-
-              <div class="field">
-                <label for="robots">Robots</label>
-                <select id="robots" name="robots">
-                  <option value="index, follow">index, follow</option>
-                  <option value="noindex, follow">noindex, follow</option>
-                  <option value="index, nofollow">index, nofollow</option>
-                  <option value="noindex, nofollow">noindex, nofollow</option>
-                </select>
-              </div>
-
-              <div class="field">
-                <label for="schemaType">Schema Type</label>
-                <select id="schemaType" name="schemaType">
-                  <option value="BlogPosting">BlogPosting</option>
-                  <option value="Article">Article</option>
-                  <option value="NewsArticle">NewsArticle</option>
-                </select>
-              </div>
-
-              <div class="field-full">
-                <label for="faqContent">FAQs</label>
-                <textarea id="faqContent" name="faqContent" rows="6" placeholder="Q: Where can I book a massage in KL?&#10;A: You can browse the site and choose the area that fits you best.&#10;&#10;Q: What areas do you cover?&#10;A: Kuala Lumpur, KLCC, Bangsar, Bukit Bintang, and nearby places."></textarea>
-                <div class="helper">Easy format: use `Q:` and `A:` on separate lines with a blank line between FAQs. `Question :: Answer` also still works automatically.</div>
-              </div>
-
-              <div class="field-full">
-                <label for="customSchema">Custom JSON-LD</label>
-                <textarea id="customSchema" name="customSchema" rows="6" placeholder='{"@context":"https://schema.org","@type":"Thing","name":"Example"}'></textarea>
-                <div class="helper">Optional raw JSON-LD object or array. It will be added as an extra schema block.</div>
-              </div>
             </div>
 
             <div class="actions">
@@ -438,12 +352,12 @@
 
           <div class="checklist">
             <div class="checklist-item">
-              <strong>WordPress-style fields</strong>
-              <span>Title, slug, excerpt, hub, category, tags, featured image, caption, and content.</span>
+              <strong>Simple writing fields</strong>
+              <span>Title, category, content, featured image, alt text, and relevant local pages.</span>
             </div>
             <div class="checklist-item">
-              <strong>SEO tools</strong>
-              <span>SEO title, meta description, canonical URL, robots, focus keyword, meta keywords, FAQ schema, and custom JSON-LD.</span>
+              <strong>Automatic SEO setup</strong>
+              <span>The tool creates the slug, canonical URL, index setting, standard article schema, sitemap entry, and direct internal links.</span>
             </div>
             <div class="checklist-item">
               <strong>Auto-publish flow</strong>
@@ -456,7 +370,6 @@
   </main>
 
   <script>
-    const publishedDateInput = document.getElementById("publishedDate");
     const form = document.getElementById("publisherForm");
     const pagesGrid = document.getElementById("pagesGrid");
     const selectAllButton = document.getElementById("selectAll");
@@ -464,8 +377,6 @@
     const statusBox = document.getElementById("statusBox");
     const contentInput = document.getElementById("content");
     const wordCount = document.getElementById("wordCount");
-
-    publishedDateInput.value = new Date().toISOString().slice(0, 10);
 
     function updateWordCount() {
       wordCount.textContent = contentInput.value.trim() ? contentInput.value.trim().split(/\s+/).length : "0";
@@ -517,43 +428,26 @@
       event.preventDefault();
 
       const title = document.getElementById("title").value.trim();
-      const slugField = document.getElementById("slug");
-      const postType = document.getElementById("postType").value;
-      const excerpt = document.getElementById("excerpt").value.trim();
-      const hub = document.getElementById("hub").value.trim();
       const category = document.getElementById("category").value.trim();
-      const tags = document.getElementById("tags").value.trim();
       const metaDescription = document.getElementById("metaDescription").value.trim();
       const featuredImage = document.getElementById("featuredImage").value.trim();
       const altText = document.getElementById("altText").value.trim();
-      const imageCaption = document.getElementById("imageCaption").value.trim();
-      const publishedDate = document.getElementById("publishedDate").value;
-      const publishedBy = document.getElementById("publishedBy").value.trim();
       const content = document.getElementById("content").value.trim();
-      const seoTitle = document.getElementById("seoTitle").value.trim();
-      const canonicalUrl = document.getElementById("canonicalUrl").value.trim();
       const focusKeyword = document.getElementById("focusKeyword").value.trim();
-      const metaKeywords = document.getElementById("metaKeywords").value.trim();
-      const robots = document.getElementById("robots").value;
-      const schemaType = document.getElementById("schemaType").value;
-      const faqContent = document.getElementById("faqContent").value.trim();
-      const customSchema = document.getElementById("customSchema").value.trim();
       const pages = getSelectedPages();
 
-      if (!slugField.value.trim()) {
-        slugField.value = slugify(title);
-      }
-
-      const effectiveSeoTitle = seoTitle || title;
+      const slug = slugify(title);
+      const publishedDate = new Date().toISOString().slice(0, 10);
+      const effectiveSeoTitle = title;
       const contentWordCount = content ? content.split(/\s+/).length : 0;
 
-      if (!title || !slugField.value.trim() || !hub || !category || !metaDescription || !featuredImage || !altText || !publishedDate || !publishedBy || !content || !focusKeyword || pages.length === 0) {
+      if (!title || !slug || !category || !metaDescription || !featuredImage || !altText || !content || !focusKeyword || pages.length === 0) {
         setStatus("Please fill all required editorial, taxonomy, media, and page-selection fields.", "error");
         return;
       }
 
       if (effectiveSeoTitle.length < 25 || effectiveSeoTitle.length > 65) {
-        setStatus("SEO title must be between 25 and 65 characters.", "error");
+        setStatus("Title must be between 25 and 65 characters.", "error");
         return;
       }
 
@@ -577,27 +471,27 @@
           },
           body: JSON.stringify({
             title,
-            slug: slugField.value.trim(),
-            postType,
-            excerpt,
-            hub,
+            slug,
+            postType: "article",
+            excerpt: "",
+            hub: "",
             category,
-            tags,
+            tags: "",
             metaDescription,
             featuredImage,
             altText,
-            imageCaption,
+            imageCaption: "",
             publishedDate,
-            publishedBy,
+            publishedBy: "Massage KL",
             content,
-            seoTitle,
-            canonicalUrl,
+            seoTitle: "",
+            canonicalUrl: "",
             focusKeyword,
-            metaKeywords,
-            robots,
-            schemaType,
-            faqContent,
-            customSchema,
+            metaKeywords: "",
+            robots: "index, follow",
+            schemaType: "BlogPosting",
+            faqContent: "",
+            customSchema: "",
             pages
           })
         });
