@@ -158,6 +158,37 @@
     details { border-bottom-color:rgba(255,255,255,.1); }
     summary { color:#fff; }
     footer { color:rgba(255,255,255,.52); }
+    /* The booking page uses a calm light canvas while retaining the home's premium accent palette. */
+    body { color:#171113; background:radial-gradient(circle at 50% 0,rgba(255,191,202,.46),transparent 25rem),linear-gradient(180deg,#fff5f3 0%,#fffafa 48%,#f7e8e6 100%); }
+    .nav { border-bottom-color:rgba(23,17,19,.1); }
+    .brand,.nav-link { color:#171113; }
+    .nav-link,.eyebrow,.card-kicker,.feature-mark { color:#b03458; }
+    h1,h2,h3,summary { color:#171113; }
+    .hero { display:block; padding:3.8rem 0 2.5rem; text-align:center; }
+    .hero > div:first-child { display:flex; flex-direction:column; align-items:center; }
+    h1 { max-width:13ch; font-size:clamp(2.6rem,11vw,5.5rem); }
+    .lead,.section-copy,.card p,details p { color:#4d383d; }
+    .lead { max-width:42rem; }
+    .actions { justify-content:center; }
+    .button-primary { color:#fff; background:linear-gradient(135deg,#f00085,#ca1663); box-shadow:0 14px 28px rgba(212,22,99,.24); }
+    .button-secondary { border-color:rgba(176,52,88,.25); color:#a72e51; background:rgba(255,255,255,.65); }
+    .section-alt { background:rgba(255,255,255,.48); border-block-color:rgba(23,17,19,.08); }
+    .card,.feature { border-color:rgba(109,24,48,.14); background:rgba(255,255,255,.76); }
+    .card:hover { box-shadow:0 14px 30px rgba(176,52,88,.12); }
+    .benefit-list li { border-color:rgba(176,52,88,.15); background:rgba(255,255,255,.68); color:#3e2d31; }
+    .booking { color:#171113; background:linear-gradient(135deg,#ffdfe4,#f9bdc9); border-color:rgba(176,52,88,.18); }
+    .booking h2,.booking p { color:#171113; }
+    .booking .button { color:#fff; background:linear-gradient(135deg,#f00085,#ca1663); }
+    details { border-bottom-color:rgba(23,17,19,.1); }
+    footer { color:#6f5158; }
+    .hero-ornament { position:relative; width:min(17rem,76vw); margin:1rem auto 0; color:#b03458; }
+    .hero-ornament svg { display:block; width:100%; height:auto; }
+    .hero-ornament::before,.hero-ornament::after { content:""; position:absolute; top:50%; width:4.2rem; height:1px; background:linear-gradient(90deg,transparent,#d97895); }
+    .hero-ornament::before { right:100%; margin-right:.7rem; }
+    .hero-ornament::after { left:100%; margin-left:.7rem; transform:rotate(180deg); }
+    .feature { text-align:center; }
+    .feature-icon { display:block; width:2.45rem; height:2.45rem; margin:0 auto .75rem; color:#c0305d; }
+    @media (max-width:760px) { .hero { padding-top:2.6rem; } .hero-ornament::before,.hero-ornament::after { width:2rem; } }
     @media (max-width:760px) { .hero,.booking,.split-copy { grid-template-columns:1fr; } .hero { padding-top:2.6rem; } .hero-card { min-height:18rem; } .grid,.package-panel { grid-template-columns:1fr; } .feature-grid { grid-template-columns:repeat(2,1fr); } .benefit-list { grid-template-columns:1fr; } .booking .button { width:100%; } }
   </style>
 </head>
@@ -178,8 +209,10 @@
           <a class="button button-primary" href="https://wa.me/60164649008?text=Hi%2C%20I%20would%20like%20to%20book%20a%20tantric%20massage%20session%20in%20Kuala%20Lumpur.">Check availability on WhatsApp</a>
           <a class="button button-secondary" href="/services.html">View packages</a>
         </div>
+        <div class="hero-ornament" aria-hidden="true">
+          <svg viewBox="0 0 280 72" fill="none"><path d="M140 15c-18 14-24 26-24 39 12-2 20-8 24-18 4 10 12 16 24 18 0-13-6-25-24-39Z" stroke="currentColor" stroke-width="2"/><path d="M140 27c-12 9-18 18-18 29 9-2 15-6 18-13 3 7 9 11 18 13 0-11-6-20-18-29Z" stroke="currentColor" stroke-width="2"/><path d="M111 24c-18 2-31 12-38 29 16 1 29-4 38-16M169 24c18 2 31 12 38 29-16 1-29-4-38-16M98 36c-15 7-24 17-27 29 14-1 24-7 29-18M182 36c15 7 24 17 27 29-14-1-24-7-29-18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="140" cy="59" r="3" fill="currentColor"/></svg>
+        </div>
       </div>
-      <div class="hero-card" role="img" aria-label="Private wellness massage in Kuala Lumpur"></div>
     </section>
 
     <section class="section section-alt" id="why-choose">
@@ -188,12 +221,12 @@
         <h2>A private, calm experience from booking to finish</h2>
         <p class="section-copy">This page is designed for clients who want clear communication, a discreet outcall arrangement, and a professional wellness-focused experience in Kuala Lumpur.</p>
         <div class="feature-grid">
-          <article class="feature"><span class="feature-mark">01</span><h3>Discreet booking</h3></article>
-          <article class="feature"><span class="feature-mark">02</span><h3>Outcall convenience</h3></article>
-          <article class="feature"><span class="feature-mark">03</span><h3>Clear expectations</h3></article>
-          <article class="feature"><span class="feature-mark">04</span><h3>Respectful service</h3></article>
-          <article class="feature"><span class="feature-mark">05</span><h3>Comfort focused</h3></article>
-          <article class="feature"><span class="feature-mark">06</span><h3>Private setting</h3></article>
+          <article class="feature"><svg class="feature-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3 5 6v5c0 4.8 3.1 8.1 7 10 3.9-1.9 7-5.2 7-10V6l-7-3Z" stroke="currentColor" stroke-width="1.7"/><path d="m9.4 12 1.7 1.7 3.6-4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><span class="feature-mark">01</span><h3>Discreet booking</h3></article>
+          <article class="feature"><svg class="feature-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 21s6-5.3 6-11a6 6 0 1 0-12 0c0 5.7 6 11 6 11Z" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="10" r="2" stroke="currentColor" stroke-width="1.7"/></svg><span class="feature-mark">02</span><h3>Outcall convenience</h3></article>
+          <article class="feature"><svg class="feature-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2" stroke="currentColor" stroke-width="1.7"/><path d="M8 10h8M8 14h5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><span class="feature-mark">03</span><h3>Clear expectations</h3></article>
+          <article class="feature"><svg class="feature-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 12.5 10 16l7-8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.7"/></svg><span class="feature-mark">04</span><h3>Respectful service</h3></article>
+          <article class="feature"><svg class="feature-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 20c4-2.5 7-5.3 7-9.2A4.1 4.1 0 0 0 12 8a4.1 4.1 0 0 0-7 2.8C5 14.7 8 17.5 12 20Z" stroke="currentColor" stroke-width="1.7"/></svg><span class="feature-mark">05</span><h3>Comfort focused</h3></article>
+          <article class="feature"><svg class="feature-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="5" y="10" width="14" height="10" rx="2" stroke="currentColor" stroke-width="1.7"/><path d="M8 10V8a4 4 0 1 1 8 0v2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><span class="feature-mark">06</span><h3>Private setting</h3></article>
         </div>
       </div>
     </section>
