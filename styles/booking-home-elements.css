@@ -68,7 +68,7 @@
 
 @media (max-width: 720px) {
   .hp-seo-lead { padding: 1.1rem 0 .2rem; }
-  .hp-seo-lead p { font-size: .92rem; }
+  .hp-seo-lead p { font-size: .92rem; text-align: center; }
 }
 
 /* ---------- Stats bar (hero trust strip) ---------- */
