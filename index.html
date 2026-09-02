@@ -1086,8 +1086,8 @@
     }
 
     .sample-review-label { margin: .35rem 0 0; color: #8a6c74; font-size: .66rem; font-style: italic; letter-spacing: .08em; text-transform: uppercase; }
-    .sample-review-stars { font-size: .9rem; }
-    .sample-review-stars::before { content: none; }
+    .sample-review-stars { font-size: 0; }
+    .sample-review-stars::before { content: "\2605\2605\2605\2605"; font-size: .9rem; color: #FFD700; }
     .sample-review-typing { color: #8a6c74; font-style: italic; }
     .sample-review-typing::after { content: ""; display: inline-block; width: .35rem; height: .9em; margin-left: .2rem; vertical-align: -.1em; background: currentColor; animation: sampleTypingCursor .8s steps(2, start) infinite; }
     .sample-review-complete[hidden] { display: none; }
@@ -1362,14 +1362,64 @@ elegant serif feel      display: flex;
       }
     }
 
-    .coverage-pin {
-      animation: coverage-pulse 1.9s ease-in-out infinite;
-      transform-origin: center;
+    .coverage-google-map {
+      position: relative;
+      overflow: hidden;
+      min-height: 20rem;
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      border-radius: 2rem;
+      background: rgba(255, 255, 255, 0.04);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.025);
     }
 
-    @keyframes coverage-pulse {
-      0%, 100% { opacity: 0.8; transform: scale(1); }
-      50% { opacity: 1; transform: scale(1.08); }
+    .coverage-google-map iframe {
+      display: block;
+      width: 100%;
+      min-height: 20rem;
+      border: 0;
+      filter: saturate(0.82) contrast(0.96);
+    }
+
+    .coverage-map-label {
+      position: absolute;
+      right: 1rem;
+      bottom: 1rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.62rem 0.85rem;
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      border-radius: 999px;
+      background: rgba(16, 12, 10, 0.88);
+      color: #f8dd83;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    }
+
+    .coverage-map-label::before {
+      content: '';
+      width: 0.5rem;
+      height: 0.5rem;
+      border-radius: 999px;
+      background: var(--gold-main);
+      box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.16);
+    }
+
+    @media (max-width: 639px) {
+      .coverage-google-map,
+      .coverage-google-map iframe {
+        min-height: 17rem;
+      }
+
+      .coverage-map-label {
+        right: 0.75rem;
+        bottom: 0.75rem;
+        font-size: 0.62rem;
+        letter-spacing: 0.08em;
+      }
     }
 
     @media (min-width: 640px) {
@@ -1600,11 +1650,12 @@ elegant serif feel      display: flex;
 
     @media (min-width: 1024px) {
       .trust-privacy-grid {
+        display: grid !important;
         grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
         gap: 0.7rem;
       }
 
-      .trust-privacy-card { min-height: 9.5rem; padding: 0.8rem 0.85rem; }
+      .trust-privacy-card { min-height: 8.75rem; padding: 0.7rem 0.8rem; }
       .trust-privacy-icon { width: 2.15rem; height: 2.15rem; }
       .trust-privacy-title { margin-top: 0.55rem; font-size: 0.84rem; }
       .trust-privacy-copy { margin-top: 0.35rem; font-size: 0.72rem; line-height: 1.4; }
@@ -1798,6 +1849,8 @@ elegant serif feel      display: flex;
       opacity: 0;
       visibility: hidden;
       pointer-events: none;
+      overflow-y: auto;
+      overscroll-behavior: contain;
       transition: opacity 180ms ease, visibility 180ms ease;
     }
 
@@ -1809,6 +1862,10 @@ elegant serif feel      display: flex;
 
     .site-menu__panel {
       width: min(100%, 28rem);
+      max-height: calc(100vh - 6.5rem);
+      max-height: calc(100dvh - 6.5rem);
+      display: flex;
+      flex-direction: column;
       border: 1px solid rgba(212, 175, 55, 0.22);
       border-radius: 1.6rem;
       background: linear-gradient(180deg, rgba(20, 15, 18, 0.98), rgba(10, 10, 10, 0.98));
@@ -1823,6 +1880,7 @@ elegant serif feel      display: flex;
       gap: 1rem;
       padding: 1rem 1rem 0.75rem;
       border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      flex-shrink: 0;
     }
 
     .site-menu__title {
@@ -1850,6 +1908,9 @@ elegant serif feel      display: flex;
       padding: 0.7rem;
       display: grid;
       gap: 0.38rem;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      -webkit-overflow-scrolling: touch;
     }
 
     .site-menu__link {
@@ -2682,38 +2743,9 @@ elegant serif feel      display: flex;
           <p class="reveal-copy reveal-copy-delay section-subcopy mt-4">Popular service areas across Kuala Lumpur and nearby Selangor locations for private outcall massage bookings.</p>
         </div>
         <div class="mt-8 grid grid-cols-1 gap-8 sm:gap-10">
-          <div class="rounded-[2rem] p-4 sm:p-5" style="background: linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0.02)); box-shadow: inset 0 0 0 1px rgba(212, 175, 55, 0.12);">
-            <svg viewBox="0 0 260 320" class="mx-auto w-full max-w-[18rem]" fill="none" aria-hidden="true">
-              <path d="M42 28 55 36 68 31 83 41 98 38 112 46 130 42 149 52 167 63 183 78 197 99 205 118 213 141 214 162 207 182 199 203 191 221 177 240 168 259 152 276 136 289 118 296 102 289 88 275 79 256 67 243 58 226 49 209 46 188 40 172 34 153 36 132 29 111 29 93 37 77 34 59 42 46 42 28Z" fill="rgba(255,255,255,0.05)" stroke="rgba(212,175,55,0.28)" stroke-width="2.2" stroke-linejoin="round"/>
-              <path d="M84 58 100 70 112 87 108 110 93 122 86 143 93 161 108 176 104 197 90 215 87 239" stroke="rgba(212,175,55,0.22)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M114 84 138 92 158 108 164 131 158 151 146 170 148 198 141 227 132 248" stroke="rgba(212,175,55,0.22)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M72 172 93 173 117 180 140 176 161 167 184 169" stroke="rgba(212,175,55,0.22)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M46 70 38 80 30 72 23 79 22 64 31 59 37 50 44 58" fill="rgba(255,255,255,0.04)" stroke="rgba(212,175,55,0.24)" stroke-width="1.6" stroke-linejoin="round"/>
-              <g class="coverage-pin">
-                <path d="M93 104c0-7.5 6-13.5 13.5-13.5S120 96.5 120 104c0 10.5-13.5 24-13.5 24S93 114.5 93 104Z" fill="#FFD700"/>
-                <circle cx="106.5" cy="104" r="4.2" fill="#0B0B0B"/>
-              </g>
-              <g class="coverage-pin" style="animation-delay: 0.2s;">
-                <path d="M84 130c0-7 5.5-12.5 12.5-12.5S109 123 109 130c0 10-12.5 22-12.5 22S84 140 84 130Z" fill="#D4AF37"/>
-                <circle cx="96.5" cy="130" r="4" fill="#0B0B0B"/>
-              </g>
-              <g class="coverage-pin" style="animation-delay: 0.4s;">
-                <path d="M109 126c0-7 5.5-12.5 12.5-12.5S134 119 134 126c0 10-12.5 22-12.5 22S109 136 109 126Z" fill="#FFD700"/>
-                <circle cx="121.5" cy="126" r="4" fill="#0B0B0B"/>
-              </g>
-              <g class="coverage-pin" style="animation-delay: 0.6s;">
-                <path d="M98 155c0-7 5.5-12.5 12.5-12.5S123 148 123 155c0 10-12.5 22-12.5 22S98 165 98 155Z" fill="#D4AF37"/>
-                <circle cx="110.5" cy="155" r="4" fill="#0B0B0B"/>
-              </g>
-              <g class="coverage-pin" style="animation-delay: 0.8s;">
-                <path d="M75 166c0-7 5.5-12.5 12.5-12.5S100 159 100 166c0 10-12.5 22-12.5 22S75 176 75 166Z" fill="#FFD700"/>
-                <circle cx="87.5" cy="166" r="4" fill="#0B0B0B"/>
-              </g>
-              <g class="coverage-pin" style="animation-delay: 1s;">
-                <path d="M119 175c0-7 5.5-12.5 12.5-12.5S144 168 144 175c0 10-12.5 22-12.5 22S119 185 119 175Z" fill="#D4AF37"/>
-                <circle cx="131.5" cy="175" r="4" fill="#0B0B0B"/>
-              </g>
-            </svg>
+          <div class="coverage-google-map">
+            <iframe title="Service coverage around Kuala Lumpur" src="https://www.google.com/maps?q=3.1390,101.6869&amp;z=10&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+            <p class="coverage-map-label">Kuala Lumpur · Approx. 40 km radius</p>
           </div>
           <ul class="grid grid-cols-2 gap-x-5 gap-y-3 text-sm sm:text-base" style="color: var(--text-main);">
             <li class="flex items-start gap-3"><span class="mt-[0.42rem] h-2 w-2 shrink-0 rounded-full" style="background-color: var(--gold-main);"></span><a href="/massage-kuala-lumpur/" class="transition hover:opacity-80">Kuala Lumpur (KL)</a></li>
