@@ -368,7 +368,6 @@ function buildArticleParts(payload) {
   const customSchemaEntries = parseCustomSchema(payload.customSchema || "");
   const selectedPages = Array.isArray(payload.pages) ? payload.pages.filter((item) => placePageMap[item]) : [];
   const bookingPage = bookingPageMap[String(payload.bookingPage || "").trim()];
-  const contentWordCount = stripTags(normalizeContent(content)).split(/\s+/).filter(Boolean).length;
 
   if (!hub && selectedPages.length > 0) {
     hub = placePageMap[selectedPages[0]].label;
@@ -378,20 +377,8 @@ function buildArticleParts(payload) {
     throw new Error("Please fill all required fields.");
   }
 
-  if ((seoTitle || title).length < 25 || (seoTitle || title).length > 65) {
-    throw new Error("Title must be between 25 and 65 characters.");
-  }
-
-  if (metaDescription.length < 120 || metaDescription.length > 165) {
-    throw new Error("Meta description must be between 120 and 165 characters.");
-  }
-
   if (!focusKeyword) {
     throw new Error("Add one focus keyword or search phrase before publishing.");
-  }
-
-  if (contentWordCount < 450) {
-    throw new Error(`Article content needs at least 450 original words. You currently have ${contentWordCount}.`);
   }
 
   const selectedPageRecords = selectedPages.map((item) => placePageMap[item]);

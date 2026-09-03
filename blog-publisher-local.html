@@ -319,7 +319,7 @@
               <div class="field-full">
                 <label for="metaDescription">Meta Description for Google</label>
                 <textarea id="metaDescription" name="metaDescription" rows="4" required></textarea>
-                <div class="helper">Write 120-165 characters that explain the article clearly and include the main search phrase naturally.</div>
+                <div class="helper">Explain the article clearly and include the main search phrase naturally. No fixed length required.</div>
               </div>
 
               <div class="field-full">
@@ -348,7 +348,7 @@
                   <div id="contentEditor"></div>
                 </div>
                 <div class="upload-status" id="uploadStatus"></div>
-                <div class="helper">Use Heading/Subheading for section titles, and combine Bold + Huge size for an extra-bold look. Minimum 450 original words: <span id="wordCount">0</span>.</div>
+                <div class="helper">Use Heading/Subheading for section titles, and combine Bold + Huge size for an extra-bold look. Word count: <span id="wordCount">0</span> (no fixed minimum).</div>
               </div>
 
               <div class="field-full">
@@ -607,20 +607,10 @@
     }
 
     function validateFields(fields) {
-      const { title, category, bookingPage, metaDescription, featuredImage, altText, content, contentText, focusKeyword, pages } = fields;
-      const contentWordCount = contentText ? contentText.split(/\s+/).filter(Boolean).length : 0;
+      const { title, category, bookingPage, metaDescription, featuredImage, altText, content, focusKeyword, pages } = fields;
 
       if (!title || !category || !bookingPage || !metaDescription || !featuredImage || !altText || !content || !focusKeyword || pages.length === 0) {
         return "Please fill all required editorial, taxonomy, media, and page-selection fields.";
-      }
-      if (title.length < 25 || title.length > 65) {
-        return "Title must be between 25 and 65 characters.";
-      }
-      if (metaDescription.length < 120 || metaDescription.length > 165) {
-        return "Meta description must be between 120 and 165 characters.";
-      }
-      if (contentWordCount < 450) {
-        return `Article content needs at least 450 original words. You currently have ${contentWordCount}.`;
       }
       return "";
     }

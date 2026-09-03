@@ -23,9 +23,9 @@ The tool automatically creates the slug, excerpt, canonical URL, `index, follow`
 Before you publish, prepare:
 
 - One clear focus keyword, such as `tantric massage in Kuala Lumpur`.
-- A clear, unique article title between 25 and 65 characters.
-- A meta description between 120 and 165 characters.
-- At least 450 original words with useful headings and answers.
+- A clear, unique article title.
+- A meta description that explains the article and includes the focus keyword naturally.
+- Useful headings and real content - there is no fixed minimum word count, but thin articles rank worse.
 - One relevant local page selection. Select more only when the article genuinely helps those areas.
 
 Do not create the same article again for Cheras, Bangsar, KLCC, and other areas. Publish one strong article under `massage-kuala-lumpur/`, then select the relevant local pages so the tool adds direct internal links.
