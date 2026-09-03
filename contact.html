@@ -410,9 +410,9 @@
         <div class="mt-16">
           <p class="text-xs uppercase tracking-[0.45em]" style="color: var(--gold-main);">Coverage Area</p>
           <h2 class="mt-4 text-2xl sm:text-3xl font-bold leading-tight">Serving Kuala Lumpur &amp; Selangor</h2>
-          <p class="mt-4 max-w-3xl text-sm sm:text-base leading-8" style="color: var(--text-secondary);">Private outcall sessions are available across roughly a 40km radius centred on central Kuala Lumpur, covering KLCC, Bangsar, Mont Kiara, Petaling Jaya, Shah Alam, Subang Jaya, Puchong, Cyberjaya, Putrajaya, and the surrounding Klang Valley.</p>
+          <p class="mt-4 max-w-3xl text-sm sm:text-base leading-8" style="color: var(--text-secondary);">Private outcall sessions are available across Kuala Lumpur and the Klang Valley, Selangor. Each marker below is an area we actively serve &mdash; tap a marker to open that area's booking page.</p>
           <div class="mt-6 luxury-card rounded-[2rem] overflow-hidden">
-            <div id="coverage-map" class="coverage-map" role="img" aria-label="Map showing private massage service coverage across Kuala Lumpur and the Klang Valley, Selangor, within roughly a 40 kilometre radius of central Kuala Lumpur"></div>
+            <div id="coverage-map" class="coverage-map" role="img" aria-label="Map showing private massage service coverage across Kuala Lumpur and the Klang Valley, Selangor, marked at each area served including KLCC, Bangsar, Petaling Jaya, Subang Jaya, Shah Alam, Selayang, Batu Caves, and more"></div>
           </div>
         </div>
       </div>
@@ -480,13 +480,43 @@
       var mapEl = document.getElementById('coverage-map');
       if (!mapEl || typeof L === 'undefined') return;
 
-      var center = [3.1390, 101.6869]; // Central Kuala Lumpur
-      var radiusMeters = 40000; // ~40km coverage across KL & the Klang Valley, Selangor
+      var areaRadiusMeters = 3000; // small per-area coverage radius, ~3km
+
+      var areas = [
+        { name: 'KLCC', coords: [3.1579, 101.7116], url: '/massage-klcc/' },
+        { name: 'Ampang', coords: [3.1478, 101.7622], url: '/massage-ampang.html' },
+        { name: 'Ara Damansara', coords: [3.1131, 101.5828], url: '/massage-ara-damansara.html' },
+        { name: 'Bangsar', coords: [3.1289, 101.6739], url: '/massage-bangsar/' },
+        { name: 'Bangsar South', coords: [3.1000, 101.6611], url: '/massage-bangsar-south.html' },
+        { name: 'Batu Caves', coords: [3.2379, 101.6840], url: '/services.html' },
+        { name: 'Brickfields', coords: [3.1289, 101.6866], url: '/massage-brickfields.html' },
+        { name: 'Bukit Bintang', coords: [3.1466, 101.7116], url: '/massage-bukit-bintang/' },
+        { name: 'Bukit Jalil', coords: [3.0567, 101.6833], url: '/massage-bukit-jalil.html' },
+        { name: 'Cheras', coords: [3.1010, 101.7570], url: '/massage-cheras.html' },
+        { name: 'Cyberjaya', coords: [2.9213, 101.6559], url: '/massage-cyberjaya/' },
+        { name: 'Damansara Heights', coords: [3.1478, 101.6614], url: '/massage-damansara-heights.html' },
+        { name: 'Desa ParkCity', coords: [3.1885, 101.6280], url: '/massage-desa-parkcity.html' },
+        { name: 'Kelana Jaya', coords: [3.0833, 101.5833], url: '/massage-kelana-jaya/' },
+        { name: 'KL Sentral', coords: [3.1338, 101.6864], url: '/massage-kl-sentral.html' },
+        { name: 'Kota Damansara', coords: [3.1500, 101.5833], url: '/massage-kota-damansara.html' },
+        { name: 'Mid Valley', coords: [3.1180, 101.6774], url: '/massage-mid-valley.html' },
+        { name: 'Mont Kiara', coords: [3.1667, 101.6500], url: '/massage-mont-kiara/' },
+        { name: 'Petaling Jaya', coords: [3.1073, 101.6067], url: '/massage-petaling-jaya/' },
+        { name: 'Puchong', coords: [3.0333, 101.6167], url: '/massage-puchong/' },
+        { name: 'Putrajaya', coords: [2.9264, 101.6964], url: '/massage-putrajaya.html' },
+        { name: 'Selayang', coords: [3.2515, 101.6489], url: '/services.html' },
+        { name: 'Setapak', coords: [3.1928, 101.7135], url: '/massage-setapak.html' },
+        { name: 'Shah Alam', coords: [3.0733, 101.5185], url: '/massage-shah-alam.html' },
+        { name: 'Sri Hartamas', coords: [3.1660, 101.6520], url: '/massage-sri-hartamas.html' },
+        { name: 'Subang Jaya', coords: [3.0567, 101.5851], url: '/massage-subang-jaya/' },
+        { name: 'Sunway', coords: [3.0654, 101.6068], url: '/massage-sunway.html' },
+        { name: 'TTDI', coords: [3.1400, 101.6300], url: '/massage-ttdi.html' }
+      ];
 
       var map = L.map('coverage-map', {
         scrollWheelZoom: false,
         zoomControl: true
-      }).setView(center, 10);
+      }).setView([3.1390, 101.6869], 10);
 
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 18,
@@ -495,60 +525,65 @@
 
       var pinIcon = L.divIcon({
         className: '',
-        html: '<div style="width:18px;height:18px;border-radius:50%;background:#FF0096;border:3px solid #ffffff;box-shadow:0 0 0 4px rgba(255,0,150,0.35), 0 4px 10px rgba(0,0,0,0.35);"></div>',
-        iconSize: [18, 18],
-        iconAnchor: [9, 9]
+        html: '<div style="width:14px;height:14px;border-radius:50%;background:#FF0096;border:2px solid #ffffff;box-shadow:0 0 0 3px rgba(255,0,150,0.35), 0 3px 8px rgba(0,0,0,0.35);"></div>',
+        iconSize: [14, 14],
+        iconAnchor: [7, 7]
       });
 
-      L.marker(center, { icon: pinIcon })
-        .addTo(map)
-        .bindPopup('<strong>Massage KL</strong><br>Central Kuala Lumpur');
-
-      // Static boundary: the true ~40km coverage area, always visible.
-      var boundary = L.circle(center, {
-        radius: radiusMeters,
-        color: '#FF0096',
-        weight: 2,
-        opacity: 0.55,
-        dashArray: '6 8',
-        fillColor: '#FF0096',
-        fillOpacity: 0.06,
-        interactive: false
-      }).addTo(map);
-
-      map.fitBounds(boundary.getBounds(), { padding: [16, 16] });
-
-      // Animated radar pulses expanding from the pin out to the boundary, looping.
-      function addPulse(delay) {
-        var pulse = L.circle(center, {
+      // Animated pulse: expands from the marker out to the small area radius, fades, loops.
+      function addPulse(coords, delay) {
+        var pulse = L.circle(coords, {
           radius: 0,
           color: '#FF0096',
           weight: 2,
-          opacity: 0.5,
+          opacity: 0.55,
           fillColor: '#FF0096',
-          fillOpacity: 0.12,
+          fillOpacity: 0.16,
           interactive: false
         }).addTo(map);
 
-        var duration = 4000;
+        var duration = 3200;
         var start = null;
 
         function step(timestamp) {
           if (!start) start = timestamp - delay;
           var elapsed = Math.max(0, timestamp - start);
           var progress = (elapsed % duration) / duration;
-          pulse.setRadius(radiusMeters * progress);
+          pulse.setRadius(areaRadiusMeters * progress);
           var fade = 1 - progress;
-          pulse.setStyle({ opacity: 0.5 * fade, fillOpacity: 0.14 * fade });
+          pulse.setStyle({ opacity: 0.55 * fade, fillOpacity: 0.18 * fade });
           requestAnimationFrame(step);
         }
 
         requestAnimationFrame(step);
       }
 
-      addPulse(0);
-      addPulse(1333);
-      addPulse(2666);
+      var bounds = [];
+
+      areas.forEach(function (area, index) {
+        bounds.push(area.coords);
+
+        // Static small boundary, always visible.
+        L.circle(area.coords, {
+          radius: areaRadiusMeters,
+          color: '#FF0096',
+          weight: 1.5,
+          opacity: 0.45,
+          dashArray: '4 6',
+          fillColor: '#FF0096',
+          fillOpacity: 0.05,
+          interactive: false
+        }).addTo(map);
+
+        L.marker(area.coords, { icon: pinIcon })
+          .addTo(map)
+          .bindPopup('<strong>' + area.name + '</strong><br><a href="' + area.url + '">View ' + area.name + ' page &rarr;</a>');
+
+        // Stagger each pulse's start so they don't all beat in unison.
+        addPulse(area.coords, (index * 370) % 3200);
+      });
+
+      map.fitBounds(bounds, { padding: [20, 20] });
     })();
   </script>
 </body>
