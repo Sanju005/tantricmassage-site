@@ -278,6 +278,12 @@ a[class*="button-primary"] {
   color: #FF0096 !important;
 }
 
+.tag {
+  background: rgba(109, 24, 48, 0.06) !important;
+  border-color: rgba(109, 24, 48, 0.3) !important;
+  color: #6d1830 !important;
+}
+
 .review-name {
   color: #60A5FA !important;
 }

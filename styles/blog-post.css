@@ -1,0 +1,56 @@
+/* Shared stylesheet for every /blog/*.html article.
+   Single source of truth so a style fix (like tag colors) only needs one edit
+   instead of being copy-pasted across every article file. */
+
+:root { --gold-main:#D4AF37; --gold-soft:#FFD700; --text-main:#FFFFFF; --text-secondary:#CCCCCC; --border-soft:rgba(212,175,55,0.18); }
+* { box-sizing:border-box; }
+body { margin:0; min-height:100vh; font-family:"Segoe UI","Helvetica Neue",Arial,sans-serif; color:var(--text-main); background:radial-gradient(circle at top,rgba(212,175,55,.12),transparent 28%),linear-gradient(180deg,#111 0%,#050505 100%); padding-bottom:6rem; }
+a { color:inherit; text-decoration:none; }
+.app-block { width:min(100%,1040px); margin:0 auto; }
+.gold-button { display:inline-flex; align-items:center; justify-content:center; border-radius:9999px; padding:.7rem 1.15rem; font-size:.86rem; font-weight:700; background:linear-gradient(to right,var(--gold-main),var(--gold-soft)); color:#000; box-shadow:0 14px 34px rgba(212,175,55,.22); }
+.menu-button { display:inline-flex; align-items:center; justify-content:center; width:2.6rem; height:2.6rem; border:1px solid rgba(212,175,55,.34); border-radius:999px; color:var(--gold-main); background:rgba(255,255,255,.04); }
+.site-menu { position:fixed; inset:0; z-index:80; display:none; background:rgba(0,0,0,.7); backdrop-filter:blur(12px); }
+.site-menu.is-open { display:block; }
+.site-menu__panel { position:absolute; top:1rem; right:1rem; width:min(88vw,360px); border:1px solid var(--border-soft); border-radius:1.5rem; background:rgba(12,12,12,.98); box-shadow:0 24px 80px rgba(0,0,0,.55); }
+.site-menu__head { display:flex; align-items:center; justify-content:space-between; padding:1rem; border-bottom:1px solid rgba(255,255,255,.08); }
+.site-menu__title { margin:0; color:var(--gold-main); font-size:.82rem; font-weight:700; letter-spacing:.22em; text-transform:uppercase; }
+.site-menu__close { width:2.3rem; height:2.3rem; border:1px solid rgba(212,175,55,.25); border-radius:999px; color:var(--text-main); background:rgba(255,255,255,.04); font-size:1.15rem; }
+.site-menu__links { display:grid; gap:.55rem; padding:.8rem; }
+.site-menu__link { display:flex; align-items:center; justify-content:space-between; min-height:3.4rem; padding:.9rem 1rem; border:1px solid rgba(255,255,255,.06); border-radius:1rem; background:rgba(255,255,255,.03); font-weight:600; }
+.site-menu__link span:last-child { color:var(--gold-main); }
+.article-shell { padding:2rem 1rem 5rem; }
+.article-card { border:1px solid var(--border-soft); border-radius:2rem; background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02)); overflow:hidden; box-shadow:0 24px 70px rgba(0,0,0,.45); }
+.featured-media { aspect-ratio:16/9; padding:.75rem; background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.02)); }
+.featured-media img { width:100%; height:100%; display:block; object-fit:cover; object-position:center; border-radius:1.4rem; }
+.image-caption { padding:.6rem 1rem 0; color:rgba(255,255,255,.58); font-size:.82rem; line-height:1.5; }
+.content { padding:1.5rem; }
+.breadcrumbs { display:flex; align-items:center; gap:.45rem; flex-wrap:wrap; margin-bottom:1rem; color:rgba(255,255,255,.62); font-size:.78rem; }
+.breadcrumbs a { color:var(--gold-main); }
+.category { color:var(--gold-main); font-size:.74rem; font-weight:700; letter-spacing:.24em; text-transform:uppercase; }
+.article-title { max-width:24ch; margin:.8rem 0 0; font-size:clamp(1.8rem,5vw,3.2rem); line-height:1.05; }
+.meta { margin-top:1rem; color:var(--text-secondary); font-size:.9rem; }
+.article-summary { margin-top:1.4rem; padding:1rem 1.1rem; border-left:3px solid rgba(212,175,55,.52); border-radius:1rem; background:rgba(255,255,255,.04); color:#f3e6b5; font-size:.98rem; line-height:1.7; }
+.tags { display:flex; flex-wrap:wrap; gap:.5rem; margin-top:1.25rem; }
+.tag { border:1px solid rgba(212,175,55,.24); border-radius:999px; padding:.38rem .7rem; color:rgba(255,255,255,.78); font-size:.76rem; }
+.article-body { margin-top:1.8rem; color:var(--text-secondary); font-size:1rem; line-height:1.68; }
+.article-body p { margin:1rem 0 0; }
+.article-body h2 { color:var(--text-main); font-size:1.3rem; line-height:1.3; margin:2rem 0 0; font-weight:800; }
+.article-body h3 { color:var(--text-main); font-size:1.1rem; line-height:1.3; margin:1.6rem 0 0; font-weight:700; }
+.article-body ul { padding-left:1.35rem; margin:.85rem 0 1rem; }
+.article-body li { margin:.45rem 0; padding-left:.15rem; }
+.article-body li::marker { color:var(--gold-soft); }
+.faq-box { margin-top:2rem; border:1px solid rgba(212,175,55,.2); border-radius:1.3rem; background:rgba(255,255,255,.03); padding:1.1rem; }
+.faq-box h2 { margin:0 0 1rem; color:var(--text-main); font-size:1.24rem; }
+.faq-item + .faq-item { margin-top:1rem; padding-top:1rem; border-top:1px solid rgba(255,255,255,.08); }
+.faq-item h3 { margin:0 0 .45rem; color:var(--gold-soft); font-size:1rem; }
+.faq-item p { margin:0; color:var(--text-secondary); line-height:1.65; }
+.booking-cta { margin-top:2rem; padding:1.25rem; border:1px solid rgba(212,175,55,.5); border-radius:1rem; background:linear-gradient(135deg,rgba(212,175,55,.14),rgba(255,255,255,.03)); }
+.booking-cta p { margin:0 0 .55rem; color:var(--text-secondary); }
+.booking-cta a { color:var(--gold-soft); font-weight:700; }
+.bottom-nav { position:fixed; left:50%; bottom:1rem; transform:translateX(-50%); width:calc(100% - 1.5rem); max-width:31rem; z-index:50; }
+.bottom-nav-wrap { display:flex; gap:.65rem; }
+.bottom-nav-main,.bottom-nav-chat { position:relative; overflow:hidden; min-height:3.35rem; display:flex; align-items:center; justify-content:center; border-radius:999px; font-weight:700; backdrop-filter:blur(16px); }
+.bottom-nav-main { width:75%; padding:.8rem .75rem; font-size:.76rem; letter-spacing:.08em; text-transform:uppercase; white-space:nowrap; line-height:1; color:#111; border:2px solid rgba(0,0,0,.88); background:linear-gradient(180deg,#f1cd58 0%,#d4af37 52%,#b58d1b 100%); box-shadow:inset 0 2px 0 rgba(255,249,210,.72),inset 0 -4px 0 rgba(108,75,0,.28),0 12px 0 rgba(0,0,0,.22),0 18px 34px rgba(0,0,0,.28),0 0 28px rgba(255,215,0,.24); }
+.bottom-nav-chat { width:25%; color:#25D366; border:1.8px solid rgba(212,175,55,.9); background:rgba(12,12,12,.94); box-shadow:0 18px 40px rgba(0,0,0,.38),inset 0 1px 0 rgba(255,255,255,.06); }
+.bottom-nav-chat svg { width:1.55rem; height:1.55rem; }
+@media (min-width:760px) { .article-shell{padding-top:3rem;} .content{padding:2.5rem;} }

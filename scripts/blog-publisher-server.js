@@ -419,64 +419,12 @@ ${faqEntries.map((entry) => `          <div class="faq-item">
   <meta name="twitter:image" content="${escapeHtml(imageUrl)}">
   <meta name="twitter:image:alt" content="${escapeHtml(altText)}">
   <link rel="canonical" href="${escapeHtml(articleUrl)}">
+  <!-- FOCUS_KEYWORD: ${escapeHtml(focusKeyword)} -->
   <script type="application/ld+json">
 ${schemaJson}
   <\/script>
 ${extraSchemaScripts}
-  <style>
-    :root { --gold-main:#D4AF37; --gold-soft:#FFD700; --text-main:#FFFFFF; --text-secondary:#CCCCCC; --border-soft:rgba(212,175,55,0.18); }
-    * { box-sizing:border-box; }
-    body { margin:0; min-height:100vh; font-family:"Segoe UI","Helvetica Neue",Arial,sans-serif; color:var(--text-main); background:radial-gradient(circle at top,rgba(212,175,55,.12),transparent 28%),linear-gradient(180deg,#111 0%,#050505 100%); padding-bottom:6rem; }
-    a { color:inherit; text-decoration:none; }
-    .app-block { width:min(100%,1040px); margin:0 auto; }
-    .gold-button { display:inline-flex; align-items:center; justify-content:center; border-radius:9999px; padding:.7rem 1.15rem; font-size:.86rem; font-weight:700; background:linear-gradient(to right,var(--gold-main),var(--gold-soft)); color:#000; box-shadow:0 14px 34px rgba(212,175,55,.22); }
-    .menu-button { display:inline-flex; align-items:center; justify-content:center; width:2.6rem; height:2.6rem; border:1px solid rgba(212,175,55,.34); border-radius:999px; color:var(--gold-main); background:rgba(255,255,255,.04); }
-    .site-menu { position:fixed; inset:0; z-index:80; display:none; background:rgba(0,0,0,.7); backdrop-filter:blur(12px); }
-    .site-menu.is-open { display:block; }
-    .site-menu__panel { position:absolute; top:1rem; right:1rem; width:min(88vw,360px); border:1px solid var(--border-soft); border-radius:1.5rem; background:rgba(12,12,12,.98); box-shadow:0 24px 80px rgba(0,0,0,.55); }
-    .site-menu__head { display:flex; align-items:center; justify-content:space-between; padding:1rem; border-bottom:1px solid rgba(255,255,255,.08); }
-    .site-menu__title { margin:0; color:var(--gold-main); font-size:.82rem; font-weight:700; letter-spacing:.22em; text-transform:uppercase; }
-    .site-menu__close { width:2.3rem; height:2.3rem; border:1px solid rgba(212,175,55,.25); border-radius:999px; color:var(--text-main); background:rgba(255,255,255,.04); font-size:1.15rem; }
-    .site-menu__links { display:grid; gap:.55rem; padding:.8rem; }
-    .site-menu__link { display:flex; align-items:center; justify-content:space-between; min-height:3.4rem; padding:.9rem 1rem; border:1px solid rgba(255,255,255,.06); border-radius:1rem; background:rgba(255,255,255,.03); font-weight:600; }
-    .site-menu__link span:last-child { color:var(--gold-main); }
-    .article-shell { padding:2rem 1rem 5rem; }
-    .article-card { border:1px solid var(--border-soft); border-radius:2rem; background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02)); overflow:hidden; box-shadow:0 24px 70px rgba(0,0,0,.45); }
-    .featured-media { aspect-ratio:16/9; padding:.75rem; background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.02)); }
-    .featured-media img { width:100%; height:100%; display:block; object-fit:cover; object-position:center; border-radius:1.4rem; }
-    .image-caption { padding:.6rem 1rem 0; color:rgba(255,255,255,.58); font-size:.82rem; line-height:1.5; }
-    .content { padding:1.5rem; }
-    .breadcrumbs { display:flex; align-items:center; gap:.45rem; flex-wrap:wrap; margin-bottom:1rem; color:rgba(255,255,255,.62); font-size:.78rem; }
-    .breadcrumbs a { color:var(--gold-main); }
-    .category { color:var(--gold-main); font-size:.74rem; font-weight:700; letter-spacing:.24em; text-transform:uppercase; }
-    .article-title { max-width:24ch; margin:.8rem 0 0; font-size:clamp(1.8rem,5vw,3.2rem); line-height:1.05; }
-    .meta { margin-top:1rem; color:var(--text-secondary); font-size:.9rem; }
-    .article-summary { margin-top:1.4rem; padding:1rem 1.1rem; border-left:3px solid rgba(212,175,55,.52); border-radius:1rem; background:rgba(255,255,255,.04); color:#f3e6b5; font-size:.98rem; line-height:1.7; }
-    .tags { display:flex; flex-wrap:wrap; gap:.5rem; margin-top:1.25rem; }
-    .tag { border:1px solid rgba(212,175,55,.24); border-radius:999px; padding:.38rem .7rem; color:rgba(255,255,255,.78); font-size:.76rem; }
-    .article-body { margin-top:1.8rem; color:var(--text-secondary); font-size:1rem; line-height:1.68; }
-    .article-body p { margin:1rem 0 0; }
-    .article-body h2 { color:var(--text-main); font-size:1.3rem; line-height:1.3; margin:2rem 0 0; font-weight:800; }
-    .article-body h3 { color:var(--text-main); font-size:1.1rem; line-height:1.3; margin:1.6rem 0 0; font-weight:700; }
-    .article-body ul { padding-left:1.35rem; margin:.85rem 0 1rem; }
-    .article-body li { margin:.45rem 0; padding-left:.15rem; }
-    .article-body li::marker { color:var(--gold-soft); }
-    .faq-box { margin-top:2rem; border:1px solid rgba(212,175,55,.2); border-radius:1.3rem; background:rgba(255,255,255,.03); padding:1.1rem; }
-    .faq-box h2 { margin:0 0 1rem; color:var(--text-main); font-size:1.24rem; }
-    .faq-item + .faq-item { margin-top:1rem; padding-top:1rem; border-top:1px solid rgba(255,255,255,.08); }
-    .faq-item h3 { margin:0 0 .45rem; color:var(--gold-soft); font-size:1rem; }
-    .faq-item p { margin:0; color:var(--text-secondary); line-height:1.65; }
-    .booking-cta { margin-top:2rem; padding:1.25rem; border:1px solid rgba(212,175,55,.5); border-radius:1rem; background:linear-gradient(135deg,rgba(212,175,55,.14),rgba(255,255,255,.03)); }
-    .booking-cta p { margin:0 0 .55rem; color:var(--text-secondary); }
-    .booking-cta a { color:var(--gold-soft); font-weight:700; }
-    .bottom-nav { position:fixed; left:50%; bottom:1rem; transform:translateX(-50%); width:calc(100% - 1.5rem); max-width:31rem; z-index:50; }
-    .bottom-nav-wrap { display:flex; gap:.65rem; }
-    .bottom-nav-main,.bottom-nav-chat { position:relative; overflow:hidden; min-height:3.35rem; display:flex; align-items:center; justify-content:center; border-radius:999px; font-weight:700; backdrop-filter:blur(16px); }
-    .bottom-nav-main { width:75%; padding:.8rem .75rem; font-size:.76rem; letter-spacing:.08em; text-transform:uppercase; white-space:nowrap; line-height:1; color:#111; border:2px solid rgba(0,0,0,.88); background:linear-gradient(180deg,#f1cd58 0%,#d4af37 52%,#b58d1b 100%); box-shadow:inset 0 2px 0 rgba(255,249,210,.72),inset 0 -4px 0 rgba(108,75,0,.28),0 12px 0 rgba(0,0,0,.22),0 18px 34px rgba(0,0,0,.28),0 0 28px rgba(255,215,0,.24); }
-    .bottom-nav-chat { width:25%; color:#25D366; border:1.8px solid rgba(212,175,55,.9); background:rgba(12,12,12,.94); box-shadow:0 18px 40px rgba(0,0,0,.38),inset 0 1px 0 rgba(255,255,255,.06); }
-    .bottom-nav-chat svg { width:1.55rem; height:1.55rem; }
-    @media (min-width:760px) { .article-shell{padding-top:3rem;} .content{padding:2.5rem;} }
-  </style>
+  <link rel="stylesheet" href="/styles/blog-post.css">
 </head>
 <body>
   <header style="position:sticky; top:0; z-index:30; border-bottom:1px solid rgba(255,255,255,.08); background:rgba(11,11,11,.88); backdrop-filter:blur(18px);"><div class="app-block" style="padding:0 1rem;"><div style="display:flex; align-items:center; justify-content:space-between; padding:1rem 0;"><a href="/" aria-label="Home" style="display:inline-flex; height:3rem; align-items:center;"><img src="/images/logo.png" alt="Massage KL logo" width="316" height="324" loading="lazy" decoding="async" style="height:2.5rem; width:auto; object-fit:contain;"></a><div style="display:flex; align-items:center; gap:.75rem;"><button id="site-menu-open" type="button" aria-label="Open menu" class="menu-button"><svg style="height:1rem; width:1rem;" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button><a href="/services.html" class="gold-button">Book Now</a></div></div></div></header>
@@ -571,6 +519,9 @@ ${faqHtml}
 
   return {
     slug,
+    title,
+    focusKeyword,
+    featuredImage,
     articleHtml,
     schemaJson,
     selectedPages,
@@ -591,6 +542,74 @@ function readText(filePath) {
 
 function writeText(filePath, content) {
   fs.writeFileSync(filePath, content, "utf8");
+}
+
+function findExistingArticleSlugs() {
+  const blogDir = path.join(ROOT, "blog");
+  return fs.readdirSync(blogDir, { withFileTypes: true })
+    .filter((entry) => entry.isFile() && entry.name.endsWith(".html") && entry.name !== "index.html" && entry.name !== "BLOG-POST-TEMPLATE.html")
+    .map((entry) => entry.name.slice(0, -".html".length));
+}
+
+// Best-effort check: only articles created by this tool carry the FOCUS_KEYWORD
+// marker, so older hand-written articles will not be detected here.
+function findDuplicateFocusKeyword(focusKeyword, excludeSlug) {
+  const normalizedTarget = String(focusKeyword || "").trim().toLowerCase();
+  if (!normalizedTarget) {
+    return [];
+  }
+
+  const matches = [];
+  for (const slug of findExistingArticleSlugs()) {
+    if (slug === excludeSlug) {
+      continue;
+    }
+
+    let html;
+    try {
+      html = readText(path.join(ROOT, "blog", `${slug}.html`));
+    } catch (error) {
+      continue;
+    }
+
+    const markerMatch = html.match(/<!--\s*FOCUS_KEYWORD:\s*([\s\S]*?)\s*-->/i);
+    if (!markerMatch || markerMatch[1].trim().toLowerCase() !== normalizedTarget) {
+      continue;
+    }
+
+    const titleMatch = html.match(/<title>([\s\S]*?)<\/title>/i);
+    matches.push({ slug, title: titleMatch ? titleMatch[1].trim() : slug });
+  }
+
+  return matches;
+}
+
+function featuredImageMissingLocally(featuredImage) {
+  const value = String(featuredImage || "").trim();
+  if (!value || /^https?:\/\//i.test(value)) {
+    return false;
+  }
+
+  return !fs.existsSync(path.join(ROOT, value.replace(/^\/+/, "")));
+}
+
+function collectPublishWarnings(article) {
+  const warnings = [];
+  const articlePath = path.join(ROOT, "blog", `${article.slug}.html`);
+
+  if (fs.existsSync(articlePath)) {
+    warnings.push(`An article already exists at blog/${article.slug}.html. Publishing again will overwrite that file (the current version is backed up to .blog-publisher-backups/ first).`);
+  }
+
+  for (const match of findDuplicateFocusKeyword(article.focusKeyword, article.slug)) {
+    warnings.push(`The focus keyword "${article.focusKeyword}" is already used by blog/${match.slug}.html ("${match.title}"). Publishing both may cause keyword cannibalization in search results.`);
+  }
+
+  if (featuredImageMissingLocally(article.featuredImage)) {
+    warnings.push(`The featured image "${article.featuredImage}" was not found in the site folder. Double-check the path before publishing, or the article will show a broken image.`);
+  }
+
+  return warnings;
 }
 
 function findTagStartByClass(html, tagName, requiredClasses) {
@@ -1120,13 +1139,27 @@ function insertIntoArticleSitemapBlock(xml, urlBlock, slug) {
 
 function publish(payload) {
   const article = buildArticleParts(payload);
+  const warnings = collectPublishWarnings(article);
+  if (warnings.length > 0 && !payload.force) {
+    const needsConfirmation = new Error("This publish needs confirmation before continuing.");
+    needsConfirmation.code = "NEEDS_CONFIRMATION";
+    needsConfirmation.warnings = warnings;
+    throw needsConfirmation;
+  }
+
   const blogDir = path.join(ROOT, "blog");
   const articlePath = path.join(blogDir, `${article.slug}.html`);
-  writeText(articlePath, article.articleHtml);
+
+  // ---- Stage 1: compute every file change in memory first. Every insertion
+  // helper below can throw (e.g. "could not find insertion point"). Doing all
+  // of this before any fs.writeFileSync means a failure here never leaves the
+  // site half-updated - nothing on disk changes until Stage 2 starts. ----
+  const plannedWrites = [];
+  plannedWrites.push({ file: articlePath, content: article.articleHtml, isNewFile: !fs.existsSync(articlePath) });
 
   const blogIndexPath = path.join(blogDir, "index.html");
   const blogIndexHtml = readText(blogIndexPath);
-  writeText(blogIndexPath, insertIntoBlogIndex(blogIndexHtml, article.blogIndexCard, article.slug));
+  plannedWrites.push({ file: blogIndexPath, content: insertIntoBlogIndex(blogIndexHtml, article.blogIndexCard, article.slug), isNewFile: false });
 
   const updatedHubs = [];
   for (const categorySlug of article.relatedHubs) {
@@ -1135,7 +1168,7 @@ function publish(payload) {
       continue;
     }
     const hubHtml = readText(hubPath);
-    writeText(hubPath, insertIntoHubIndex(hubHtml, article.hubCard, article.slug));
+    plannedWrites.push({ file: hubPath, content: insertIntoHubIndex(hubHtml, article.hubCard, article.slug), isNewFile: false });
     updatedHubs.push(categorySlug);
   }
 
@@ -1149,7 +1182,7 @@ function publish(payload) {
     placeHtml = insertIntoPlacePage(placeHtml, article.buildPlaceRichCard(page), article.buildSimplePlaceCard(page), article.slug);
     placeHtml = updateAutoArticleCount(placeHtml);
     placeHtml = insertPlaceSchema(placeHtml, article.placeSchemaScript(page.label, page.publicUrl), article.slug);
-    writeText(placePath, placeHtml);
+    plannedWrites.push({ file: placePath, content: placeHtml, isNewFile: false });
     updatedPlacePages.push(page.file);
   }
 
@@ -1165,13 +1198,27 @@ function publish(payload) {
   for (const page of article.selectedPageRecords) {
     sitemapXml = updateSitemapLastmod(sitemapXml, `${SITE_BASE_URL}${page.publicUrl}`, today);
   }
-  writeText(sitemapPath, sitemapXml);
+  plannedWrites.push({ file: sitemapPath, content: sitemapXml, isNewFile: false });
 
   const robotsPath = path.join(ROOT, "robots.txt");
-  if (fs.existsSync(robotsPath)) {
-    writeText(robotsPath, ensureRobotsTxt(readText(robotsPath)));
-  } else {
-    writeText(robotsPath, ensureRobotsTxt(""));
+  const robotsExisted = fs.existsSync(robotsPath);
+  plannedWrites.push({ file: robotsPath, content: ensureRobotsTxt(robotsExisted ? readText(robotsPath) : ""), isNewFile: !robotsExisted });
+
+  // ---- Stage 2: every change above succeeded, so back up the current
+  // version of each file being modified, then write the new versions. ----
+  const backupDir = path.join(ROOT, ".blog-publisher-backups", new Date().toISOString().replace(/[:.]/g, "-"));
+  for (const write of plannedWrites) {
+    if (write.isNewFile || !fs.existsSync(write.file)) {
+      continue;
+    }
+    const backupPath = path.join(backupDir, path.relative(ROOT, write.file));
+    fs.mkdirSync(path.dirname(backupPath), { recursive: true });
+    fs.copyFileSync(write.file, backupPath);
+  }
+
+  for (const write of plannedWrites) {
+    fs.mkdirSync(path.dirname(write.file), { recursive: true });
+    writeText(write.file, write.content);
   }
 
   return {
@@ -1180,14 +1227,9 @@ function publish(payload) {
     articlePath: path.relative(ROOT, articlePath),
     updatedHubs,
     updatedPlacePages,
-    updatedFiles: [
-      path.relative(ROOT, articlePath),
-      "blog/index.html",
-      ...updatedHubs.map((slug) => `blog/${slug}/index.html`),
-      ...updatedPlacePages.map((file) => file.replace(/\\/g, "/")),
-      "sitemap.xml",
-      "robots.txt"
-    ]
+    warnings,
+    backupDir: path.relative(ROOT, backupDir),
+    updatedFiles: plannedWrites.map((write) => path.relative(ROOT, write.file).replace(/\\/g, "/"))
   };
 }
 
@@ -1258,6 +1300,26 @@ const server = http.createServer((req, res) => {
     return sendJson(res, 200, { pages: bookingPages });
   }
 
+  if (req.method === "POST" && req.url === "/api/preview") {
+    let body = "";
+    req.on("data", (chunk) => {
+      body += chunk;
+      if (body.length > 1024 * 1024) {
+        req.destroy();
+      }
+    });
+    req.on("end", () => {
+      try {
+        const payload = JSON.parse(body || "{}");
+        const article = buildArticleParts(payload);
+        sendJson(res, 200, { ok: true, slug: article.slug, html: article.articleHtml });
+      } catch (error) {
+        sendJson(res, 400, { ok: false, error: error.message });
+      }
+    });
+    return;
+  }
+
   if (req.method === "POST" && req.url === "/api/publish") {
     let body = "";
     req.on("data", (chunk) => {
@@ -1272,6 +1334,9 @@ const server = http.createServer((req, res) => {
         const result = publish(payload);
         sendJson(res, 200, result);
       } catch (error) {
+        if (error.code === "NEEDS_CONFIRMATION") {
+          return sendJson(res, 409, { ok: false, needsConfirmation: true, warnings: error.warnings, error: error.message });
+        }
         sendJson(res, 400, { ok: false, error: error.message });
       }
     });

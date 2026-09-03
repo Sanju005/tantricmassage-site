@@ -209,6 +209,17 @@
       color: var(--danger);
     }
 
+    .status.warning {
+      border-color: rgba(184, 134, 11, 0.3);
+      background: #fff8e6;
+      color: #8a6300;
+    }
+
+    .status ul {
+      margin: 0.5rem 0 0;
+      padding-left: 1.1rem;
+    }
+
     .list {
       margin: 0;
       padding-left: 1.1rem;
@@ -340,7 +351,9 @@
             </div>
 
             <div class="actions">
+              <button class="secondary" type="button" id="previewButton">Preview</button>
               <button class="primary" type="submit">Post</button>
+              <button class="primary" type="button" id="forcePublishButton" hidden>Publish Anyway</button>
             </div>
           </form>
 
@@ -439,86 +452,163 @@
       });
     });
 
-    form.addEventListener("submit", async (event) => {
-      event.preventDefault();
+    const previewButton = document.getElementById("previewButton");
+    const forcePublishButton = document.getElementById("forcePublishButton");
 
-      const title = document.getElementById("title").value.trim();
-      const category = document.getElementById("category").value.trim();
-      const bookingPage = bookingPageSelect.value;
-      const metaDescription = document.getElementById("metaDescription").value.trim();
-      const featuredImage = document.getElementById("featuredImage").value.trim();
-      const altText = document.getElementById("altText").value.trim();
-      const content = document.getElementById("content").value.trim();
-      const focusKeyword = document.getElementById("focusKeyword").value.trim();
-      const pages = getSelectedPages();
+    function readFormFields() {
+      return {
+        title: document.getElementById("title").value.trim(),
+        category: document.getElementById("category").value.trim(),
+        bookingPage: bookingPageSelect.value,
+        metaDescription: document.getElementById("metaDescription").value.trim(),
+        featuredImage: document.getElementById("featuredImage").value.trim(),
+        altText: document.getElementById("altText").value.trim(),
+        content: document.getElementById("content").value.trim(),
+        focusKeyword: document.getElementById("focusKeyword").value.trim(),
+        pages: getSelectedPages()
+      };
+    }
 
-      const slug = slugify(title);
-      const publishedDate = new Date().toISOString().slice(0, 10);
-      const effectiveSeoTitle = title;
+    function validateFields(fields) {
+      const { title, category, bookingPage, metaDescription, featuredImage, altText, content, focusKeyword, pages } = fields;
       const contentWordCount = content ? content.split(/\s+/).length : 0;
 
-      if (!title || !slug || !category || !bookingPage || !metaDescription || !featuredImage || !altText || !content || !focusKeyword || pages.length === 0) {
-        setStatus("Please fill all required editorial, taxonomy, media, and page-selection fields.", "error");
-        return;
+      if (!title || !category || !bookingPage || !metaDescription || !featuredImage || !altText || !content || !focusKeyword || pages.length === 0) {
+        return "Please fill all required editorial, taxonomy, media, and page-selection fields.";
       }
-
-      if (effectiveSeoTitle.length < 25 || effectiveSeoTitle.length > 65) {
-        setStatus("Title must be between 25 and 65 characters.", "error");
-        return;
+      if (title.length < 25 || title.length > 65) {
+        return "Title must be between 25 and 65 characters.";
       }
-
       if (metaDescription.length < 120 || metaDescription.length > 165) {
-        setStatus("Meta description must be between 120 and 165 characters.", "error");
+        return "Meta description must be between 120 and 165 characters.";
+      }
+      if (contentWordCount < 450) {
+        return `Article content needs at least 450 original words. You currently have ${contentWordCount}.`;
+      }
+      return "";
+    }
+
+    function buildPayload(fields, force) {
+      return {
+        title: fields.title,
+        slug: slugify(fields.title),
+        postType: "article",
+        excerpt: "",
+        hub: "",
+        category: fields.category,
+        bookingPage: fields.bookingPage,
+        tags: "",
+        metaDescription: fields.metaDescription,
+        featuredImage: fields.featuredImage,
+        altText: fields.altText,
+        imageCaption: "",
+        publishedDate: new Date().toISOString().slice(0, 10),
+        publishedBy: "Massage KL",
+        content: fields.content,
+        seoTitle: "",
+        canonicalUrl: "",
+        focusKeyword: fields.focusKeyword,
+        metaKeywords: "",
+        robots: "index, follow",
+        schemaType: "BlogPosting",
+        faqContent: "",
+        customSchema: "",
+        pages: fields.pages,
+        force: Boolean(force)
+      };
+    }
+
+    function showWarnings(message, warnings) {
+      const list = warnings.map((warning) => `<li>${warning}</li>`).join("");
+      statusBox.className = "status warning";
+      statusBox.innerHTML = `${message}<ul>${list}</ul>`;
+      forcePublishButton.hidden = false;
+    }
+
+    function hideForceButton() {
+      forcePublishButton.hidden = true;
+    }
+
+    async function submitPublish(payload) {
+      const response = await fetch("/api/publish", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+      const result = await response.json();
+
+      if (response.status === 409 && result.needsConfirmation) {
+        showWarnings("This publish needs your confirmation before it makes any changes:", result.warnings);
         return;
       }
 
-      if (contentWordCount < 450) {
-        setStatus(`Article content needs at least 450 original words. You currently have ${contentWordCount}.`, "error");
+      if (!response.ok || !result.ok) {
+        throw new Error(result.error || "Posting failed.");
+      }
+
+      hideForceButton();
+      const noteList = result.warnings && result.warnings.length ? ` Notes: ${result.warnings.join(" ")}` : "";
+      setStatus(`Posted successfully: ${result.articlePath}. Updated place pages: ${result.updatedPlacePages.join(", ") || "none found"}. Updated hubs: ${result.updatedHubs.join(", ") || "none found"}. Backup saved to ${result.backupDir}.${noteList}`, "success");
+    }
+
+    previewButton.addEventListener("click", async () => {
+      const fields = readFormFields();
+      const validationError = validateFields(fields);
+      if (validationError) {
+        setStatus(validationError, "error");
+        return;
+      }
+
+      setStatus("Building preview...", "");
+      try {
+        const response = await fetch("/api/preview", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(buildPayload(fields, false))
+        });
+        const result = await response.json();
+        if (!response.ok || !result.ok) {
+          throw new Error(result.error || "Could not build preview.");
+        }
+
+        const blobUrl = URL.createObjectURL(new Blob([result.html], { type: "text/html" }));
+        window.open(blobUrl, "_blank");
+        setStatus("Preview opened in a new tab. Nothing has been published yet.", "");
+      } catch (error) {
+        setStatus(error.message, "error");
+      }
+    });
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      hideForceButton();
+
+      const fields = readFormFields();
+      const validationError = validateFields(fields);
+      if (validationError) {
+        setStatus(validationError, "error");
         return;
       }
 
       setStatus("Posting article and updating selected pages...", "");
-
       try {
-        const response = await fetch("/api/publish", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            title,
-            slug,
-            postType: "article",
-            excerpt: "",
-            hub: "",
-            category,
-            bookingPage,
-            tags: "",
-            metaDescription,
-            featuredImage,
-            altText,
-            imageCaption: "",
-            publishedDate,
-            publishedBy: "Massage KL",
-            content,
-            seoTitle: "",
-            canonicalUrl: "",
-            focusKeyword,
-            metaKeywords: "",
-            robots: "index, follow",
-            schemaType: "BlogPosting",
-            faqContent: "",
-            customSchema: "",
-            pages
-          })
-        });
+        await submitPublish(buildPayload(fields, false));
+      } catch (error) {
+        setStatus(error.message, "error");
+      }
+    });
 
-        const result = await response.json();
-        if (!response.ok || !result.ok) {
-          throw new Error(result.error || "Posting failed.");
-        }
+    forcePublishButton.addEventListener("click", async () => {
+      const fields = readFormFields();
+      const validationError = validateFields(fields);
+      if (validationError) {
+        setStatus(validationError, "error");
+        return;
+      }
 
-        setStatus(`Posted successfully: ${result.articlePath}. Updated place pages: ${result.updatedPlacePages.join(", ") || "none found"}. Updated hubs: ${result.updatedHubs.join(", ") || "none found"}.`, "success");
+      setStatus("Publishing despite warnings...", "");
+      try {
+        await submitPublish(buildPayload(fields, true));
       } catch (error) {
         setStatus(error.message, "error");
       }

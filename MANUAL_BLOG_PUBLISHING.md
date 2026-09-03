@@ -30,6 +30,13 @@ Before you publish, prepare:
 
 Do not create the same article again for Cheras, Bangsar, KLCC, and other areas. Publish one strong article in `/blog/`, then select the relevant local pages so the tool adds direct internal links.
 
+### Safety Features
+
+- **Preview** — click `Preview` before `Post` to open the generated article in a new tab. Nothing is written to disk until you click `Post`.
+- **Overwrite / duplicate warnings** — if the slug already exists, the focus keyword matches another article, or the featured image path is not found locally, the tool stops and shows the warnings instead of publishing. Review them, then click `Publish Anyway` if you are sure.
+- **Automatic backups** — every file the tool is about to change is copied first into `.blog-publisher-backups/<timestamp>/` before anything is overwritten. If a publish goes wrong, restore the affected files from that folder. This folder is git-ignored and safe to delete once you no longer need the snapshot.
+- **All-or-nothing writes** — the tool builds every file change in memory first and only starts writing once every insertion succeeds, so a failure partway through never leaves the site half-updated.
+
 Use this when:
 - the local publisher form is not working
 - you want to edit files by hand
@@ -100,6 +107,9 @@ Use this structure:
   <meta name="twitter:image" content="https://www.massagekl.com/blog/kuala-lumpur/images/your-image.jpg">
   <meta name="twitter:image:alt" content="Your image alt text">
   <link rel="canonical" href="https://www.massagekl.com/blog/your-slug.html">
+  <!-- FOCUS_KEYWORD: your focus keyword here -->
+  <!-- The publisher tool scans this exact marker to warn about keyword reuse
+       across articles. Manual articles should include it too, unescaped. -->
 
   <script type="application/ld+json">
   {
@@ -135,30 +145,7 @@ Use this structure:
   }
   </script>
 
-  <style>
-    :root { --gold-main:#D4AF37; --gold-soft:#FFD700; --text-main:#FFFFFF; --text-secondary:#CCCCCC; --border-soft:rgba(212,175,55,0.18); }
-    * { box-sizing:border-box; }
-    body { margin:0; min-height:100vh; font-family:"Segoe UI","Helvetica Neue",Arial,sans-serif; color:var(--text-main); background:radial-gradient(circle at top,rgba(212,175,55,.12),transparent 28%),linear-gradient(180deg,#111 0%,#050505 100%); padding-bottom:6rem; }
-    a { color:inherit; text-decoration:none; }
-    .app-block { width:min(100%,1040px); margin:0 auto; }
-    .article-shell { padding:2rem 1rem 5rem; }
-    .article-card { border:1px solid var(--border-soft); border-radius:2rem; background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02)); overflow:hidden; box-shadow:0 24px 70px rgba(0,0,0,.45); }
-    .featured-media { aspect-ratio:16/9; padding:.75rem; background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.02)); }
-    .featured-media img { width:100%; height:100%; display:block; object-fit:cover; object-position:center; border-radius:1.4rem; }
-    .content { padding:1.5rem; }
-    .breadcrumbs { display:flex; align-items:center; gap:.45rem; flex-wrap:wrap; margin-bottom:1rem; color:rgba(255,255,255,.62); font-size:.78rem; }
-    .breadcrumbs a { color:var(--gold-main); }
-    .category { color:var(--gold-main); font-size:.74rem; font-weight:700; letter-spacing:.24em; text-transform:uppercase; }
-    .article-title { max-width:24ch; margin:.8rem 0 0; font-size:clamp(1.8rem,5vw,3.2rem); line-height:1.05; }
-    .meta { margin-top:1rem; color:var(--text-secondary); font-size:.9rem; }
-    .tags { display:flex; flex-wrap:wrap; gap:.5rem; margin-top:1.25rem; }
-    .tag { border:1px solid rgba(212,175,55,.24); border-radius:999px; padding:.38rem .7rem; color:rgba(255,255,255,.78); font-size:.76rem; }
-    .article-body { margin-top:1.8rem; color:var(--text-secondary); font-size:1rem; line-height:1.68; }
-    .article-body p { margin:1rem 0 0; }
-    .article-body h2 { color:var(--text-main); font-size:1.3rem; line-height:1.3; margin:2rem 0 0; font-weight:800; }
-    .article-body ul { padding-left:1.35rem; margin:.85rem 0 1rem; }
-    .article-body li { margin:.45rem 0; }
-  </style>
+  <link rel="stylesheet" href="/styles/blog-post.css">
 </head>
 <body>
   <main class="article-shell">
