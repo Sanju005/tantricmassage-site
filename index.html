@@ -1359,6 +1359,7 @@ elegant serif feel      display: flex;
 
     .coverage-map-label {
       position: absolute;
+      z-index: 1000;
       right: 1rem;
       bottom: 1rem;
       display: inline-flex;
@@ -2291,6 +2292,12 @@ elegant serif feel      display: flex;
     }
   </style>
   <link rel="stylesheet" href="/styles/pink-theme-global.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+  <style>
+    #home-coverage-map { height: 100%; min-height: 20rem; width: 100%; }
+    #home-coverage-map .leaflet-popup-content-wrapper { border-radius: 0.9rem; }
+    #home-coverage-map .leaflet-control-attribution { font-size: 0.6rem; }
+  </style>
 </head>
 <body class="min-h-screen text-white pink-theme">
   <svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute; width:0; height:0; overflow:hidden;">
@@ -2736,7 +2743,7 @@ elegant serif feel      display: flex;
         </div>
         <div class="mt-8 grid grid-cols-1 gap-8 sm:gap-10">
           <div class="coverage-google-map">
-            <iframe title="Service coverage around Kuala Lumpur" src="https://www.google.com/maps?q=3.1390,101.6869&amp;z=10&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+            <div id="home-coverage-map" role="img" aria-label="Interactive map of private massage service coverage across Kuala Lumpur and the Klang Valley, Selangor, approximately 40 kilometres around central Kuala Lumpur, with markers for each area served"></div>
             <p class="coverage-map-label">Kuala Lumpur · Approx. 40 km radius</p>
           </div>
           <ul class="grid grid-cols-2 gap-x-5 gap-y-3 text-sm sm:text-base" style="color: var(--text-main);">
@@ -3523,6 +3530,139 @@ elegant serif feel      display: flex;
         closeReviewForm();
       }
     });
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+  <script>
+    (function () {
+      var mapEl = document.getElementById('home-coverage-map');
+      if (!mapEl || typeof L === 'undefined') return;
+
+      var klCenter = [3.1390, 101.6869]; // Central Kuala Lumpur
+      var klRadiusMeters = 40000; // Approx. 40km radius, as labelled
+      var areaRadiusMeters = 3000; // small per-area coverage radius, ~3km
+
+      var areas = [
+        { name: 'KLCC', coords: [3.1579, 101.7116], url: '/massage-klcc/' },
+        { name: 'Ampang', coords: [3.1478, 101.7622], url: '/massage-ampang.html' },
+        { name: 'Ara Damansara', coords: [3.1131, 101.5828], url: '/massage-ara-damansara.html' },
+        { name: 'Bangsar', coords: [3.1289, 101.6739], url: '/massage-bangsar/' },
+        { name: 'Bangsar South', coords: [3.1000, 101.6611], url: '/massage-bangsar-south.html' },
+        { name: 'Batu Caves', coords: [3.2379, 101.6840], url: '/services.html' },
+        { name: 'Brickfields', coords: [3.1289, 101.6866], url: '/massage-brickfields.html' },
+        { name: 'Bukit Bintang', coords: [3.1466, 101.7116], url: '/massage-bukit-bintang/' },
+        { name: 'Bukit Jalil', coords: [3.0567, 101.6833], url: '/massage-bukit-jalil.html' },
+        { name: 'Cheras', coords: [3.1010, 101.7570], url: '/massage-cheras.html' },
+        { name: 'Cyberjaya', coords: [2.9213, 101.6559], url: '/massage-cyberjaya/' },
+        { name: 'Damansara Heights', coords: [3.1478, 101.6614], url: '/massage-damansara-heights.html' },
+        { name: 'Desa ParkCity', coords: [3.1885, 101.6280], url: '/massage-desa-parkcity.html' },
+        { name: 'Kelana Jaya', coords: [3.0833, 101.5833], url: '/massage-kelana-jaya/' },
+        { name: 'KL Sentral', coords: [3.1338, 101.6864], url: '/massage-kl-sentral.html' },
+        { name: 'Kota Damansara', coords: [3.1500, 101.5833], url: '/massage-kota-damansara.html' },
+        { name: 'Mid Valley', coords: [3.1180, 101.6774], url: '/massage-mid-valley.html' },
+        { name: 'Mont Kiara', coords: [3.1667, 101.6500], url: '/massage-mont-kiara/' },
+        { name: 'Petaling Jaya', coords: [3.1073, 101.6067], url: '/massage-petaling-jaya/' },
+        { name: 'Puchong', coords: [3.0333, 101.6167], url: '/massage-puchong/' },
+        { name: 'Putrajaya', coords: [2.9264, 101.6964], url: '/massage-putrajaya.html' },
+        { name: 'Selayang', coords: [3.2515, 101.6489], url: '/services.html' },
+        { name: 'Setapak', coords: [3.1928, 101.7135], url: '/massage-setapak.html' },
+        { name: 'Shah Alam', coords: [3.0733, 101.5185], url: '/massage-shah-alam.html' },
+        { name: 'Sri Hartamas', coords: [3.1660, 101.6520], url: '/massage-sri-hartamas.html' },
+        { name: 'Subang Jaya', coords: [3.0567, 101.5851], url: '/massage-subang-jaya/' },
+        { name: 'Sunway', coords: [3.0654, 101.6068], url: '/massage-sunway.html' },
+        { name: 'TTDI', coords: [3.1400, 101.6300], url: '/massage-ttdi.html' },
+        { name: 'Kajang', coords: [2.9931, 101.7874] },
+        { name: 'Seri Kembangan', coords: [3.0333, 101.7053] },
+        { name: 'Balakong', coords: [3.0392, 101.7458] },
+        { name: 'Kota Kemuning', coords: [2.9975, 101.5306] },
+        { name: 'Putra Heights', coords: [3.0300, 101.5800] },
+        { name: 'Sungai Buloh', coords: [3.2005, 101.5772] },
+        { name: 'Subang', coords: [3.1075, 101.5497] }
+      ];
+
+      var map = L.map('home-coverage-map', {
+        scrollWheelZoom: false,
+        zoomControl: true
+      }).setView(klCenter, 10);
+
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 18,
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      }).addTo(map);
+
+      var pinIcon = L.divIcon({
+        className: '',
+        html: '<div style="width:7px;height:7px;border-radius:50%;background:#FF0096;border:1.5px solid #ffffff;box-shadow:0 0 0 2px rgba(255,0,150,0.35), 0 2px 5px rgba(0,0,0,0.35);"></div>',
+        iconSize: [7, 7],
+        iconAnchor: [3.5, 3.5]
+      });
+
+      // Outer boundary: the approx. 40km Kuala Lumpur coverage radius named in the label.
+      var klBoundary = L.circle(klCenter, {
+        radius: klRadiusMeters,
+        color: '#FF0096',
+        weight: 2,
+        opacity: 0.4,
+        dashArray: '6 8',
+        fillColor: '#FF0096',
+        fillOpacity: 0.03,
+        interactive: false
+      }).addTo(map);
+
+      // Animated pulse: expands from a marker out to its small area radius, fades, loops.
+      function addPulse(coords, delay) {
+        var pulse = L.circle(coords, {
+          radius: 0,
+          color: '#FF0096',
+          weight: 2,
+          opacity: 0.55,
+          fillColor: '#FF0096',
+          fillOpacity: 0.16,
+          interactive: false
+        }).addTo(map);
+
+        var duration = 3200;
+        var start = null;
+
+        function step(timestamp) {
+          if (!start) start = timestamp - delay;
+          var elapsed = Math.max(0, timestamp - start);
+          var progress = (elapsed % duration) / duration;
+          pulse.setRadius(areaRadiusMeters * progress);
+          var fade = 1 - progress;
+          pulse.setStyle({ opacity: 0.55 * fade, fillOpacity: 0.18 * fade });
+          requestAnimationFrame(step);
+        }
+
+        requestAnimationFrame(step);
+      }
+
+      areas.forEach(function (area, index) {
+        // Static small boundary, always visible.
+        L.circle(area.coords, {
+          radius: areaRadiusMeters,
+          color: '#FF0096',
+          weight: 1.5,
+          opacity: 0.45,
+          dashArray: '4 6',
+          fillColor: '#FF0096',
+          fillOpacity: 0.05,
+          interactive: false
+        }).addTo(map);
+
+        var popupHtml = area.url
+          ? '<strong>' + area.name + '</strong><br><a href="' + area.url + '">View ' + area.name + ' page &rarr;</a>'
+          : '<strong>' + area.name + '</strong>';
+
+        L.marker(area.coords, { icon: pinIcon })
+          .addTo(map)
+          .bindPopup(popupHtml);
+
+        // Stagger each pulse's start so they don't all beat in unison.
+        addPulse(area.coords, (index * 370) % 3200);
+      });
+
+      map.fitBounds(klBoundary.getBounds(), { padding: [16, 16] });
+    })();
   </script>
 </body>
 </html>
