@@ -28,7 +28,7 @@ Before you publish, prepare:
 - At least 450 original words with useful headings and answers.
 - One relevant local page selection. Select more only when the article genuinely helps those areas.
 
-Do not create the same article again for Cheras, Bangsar, KLCC, and other areas. Publish one strong article in `/blog/`, then select the relevant local pages so the tool adds direct internal links.
+Do not create the same article again for Cheras, Bangsar, KLCC, and other areas. Publish one strong article under `massage-kuala-lumpur/`, then select the relevant local pages so the tool adds direct internal links.
 
 ### Safety Features
 
@@ -44,14 +44,15 @@ Use this when:
 
 ## Publishing Flow
 
-1. Create the article page
-2. Add the article card to `blog/index.html`
-3. Add the article card to selected place pages
-4. Add article schema to the article page
-5. Add related-article schema to each selected place page
-6. Update `sitemap.xml`
-7. Check locally
-8. Commit and push
+1. Create the article page under `massage-kuala-lumpur/`
+2. Create the `/blog/` redirect stub for the old URL
+3. Add the article card to `blog/index.html`
+4. Add the article card to selected place pages
+5. Add article schema to the article page
+6. Add related-article schema to each selected place page
+7. Update `sitemap.xml`
+8. Check locally
+9. Commit and push
 
 ## Ordering Rule
 
@@ -71,16 +72,18 @@ node scripts/blog-publisher-server.js --repair-sort
 
 ## 1. Create the Article Page
 
+There is one structure for every article now: it lives under `massage-kuala-lumpur/`, in its own folder, pink-themed like the rest of the site.
+
 Create a new file:
 
 ```text
-blog/your-slug.html
+massage-kuala-lumpur/your-slug/index.html
 ```
 
 Example:
 
 ```text
-blog/relaxing-tantric-yoni-massage-in-kuala-lumpur.html
+massage-kuala-lumpur/relaxing-tantric-yoni-massage-in-kuala-lumpur/index.html
 ```
 
 Use this structure:
@@ -94,19 +97,19 @@ Use this structure:
   <title>Your Article Title</title>
   <meta name="description" content="Your meta description here">
   <meta property="og:type" content="article">
-  <meta property="og:url" content="https://www.massagekl.com/blog/your-slug.html">
+  <meta property="og:url" content="https://www.massagekl.com/massage-kuala-lumpur/your-slug/">
   <meta property="og:title" content="Your Article Title">
   <meta property="og:description" content="Your meta description here">
   <meta property="og:image" content="https://www.massagekl.com/blog/kuala-lumpur/images/your-image.jpg">
   <meta property="og:image:alt" content="Your image alt text">
   <meta property="og:site_name" content="Massage KL">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:url" content="https://www.massagekl.com/blog/your-slug.html">
+  <meta name="twitter:url" content="https://www.massagekl.com/massage-kuala-lumpur/your-slug/">
   <meta name="twitter:title" content="Your Article Title">
   <meta name="twitter:description" content="Your meta description here">
   <meta name="twitter:image" content="https://www.massagekl.com/blog/kuala-lumpur/images/your-image.jpg">
   <meta name="twitter:image:alt" content="Your image alt text">
-  <link rel="canonical" href="https://www.massagekl.com/blog/your-slug.html">
+  <link rel="canonical" href="https://www.massagekl.com/massage-kuala-lumpur/your-slug/">
   <!-- FOCUS_KEYWORD: your focus keyword here -->
   <!-- The publisher tool scans this exact marker to warn about keyword reuse
        across articles. Manual articles should include it too, unescaped. -->
@@ -136,7 +139,7 @@ Use this structure:
     "dateModified": "2026-05-20",
     "mainEntityOfPage": {
       "@type": "WebPage",
-      "@id": "https://www.massagekl.com/blog/your-slug.html"
+      "@id": "https://www.massagekl.com/massage-kuala-lumpur/your-slug/"
     },
     "articleSection": [
       "Kuala Lumpur",
@@ -145,7 +148,10 @@ Use this structure:
   }
   </script>
 
+  <link rel="preload" href="/styles/tailwind.css" as="style">
+  <link rel="stylesheet" href="/styles/tailwind.css">
   <link rel="stylesheet" href="/styles/blog-post.css">
+  <link rel="stylesheet" href="/styles/pink-theme-global.css">
 </head>
 <body>
   <main class="article-shell">
@@ -177,6 +183,32 @@ Use this structure:
     </article>
   </main>
 </body>
+</html>
+```
+
+The `<link rel="stylesheet" href="/styles/pink-theme-global.css">` at the end is what makes it pink instead of the old dark theme — it must load after `blog-post.css`.
+
+### 1b. Create the `/blog/` redirect stub
+
+Old links to `/blog/your-slug.html` should still work. Create:
+
+```text
+blog/your-slug.html
+```
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="refresh" content="0; url=/massage-kuala-lumpur/your-slug/">
+  <link rel="canonical" href="https://www.massagekl.com/massage-kuala-lumpur/your-slug/">
+  <meta name="robots" content="noindex,follow">
+  <title>Redirecting...</title>
+  <script>window.location.replace('/massage-kuala-lumpur/your-slug/');</script>
+  <link rel="stylesheet" href="/styles/pink-theme-global.css">
+</head>
+<body></body>
 </html>
 ```
 
@@ -227,7 +259,7 @@ Add a card in the main blog listing:
       <span class="tag">KLCC</span>
     </div>
     <p class="mt-4 text-sm leading-7" style="color: var(--text-secondary);">Your short excerpt here.</p>
-    <a href="/blog/your-slug.html" class="mt-5 inline-flex text-sm font-semibold" style="color: var(--gold-soft);">Read article</a>
+    <a href="/massage-kuala-lumpur/your-slug/" class="mt-5 inline-flex text-sm font-semibold" style="color: var(--gold-soft);">Read article</a>
   </div>
 </article>
 ```
@@ -243,7 +275,7 @@ Examples:
 ### For Kuala Lumpur simple card style
 
 ```html
-<a href="/blog/your-slug.html" class="card card-link">
+<a href="/massage-kuala-lumpur/your-slug/" class="card card-link">
   <div class="card-image" style="background-image:url('/blog/kuala-lumpur/images/your-image.jpg');" role="img" aria-label="Your image alt text"></div>
   <div class="card-body">
     <p class="card-category">Kuala Lumpur Article</p>
@@ -257,7 +289,7 @@ Examples:
 ### For KLCC/Bangsar rich card style
 
 ```html
-<a href="/blog/your-slug.html" class="article-card luxury-card rounded-[1.75rem] transition hover:-translate-y-1">
+<a href="/massage-kuala-lumpur/your-slug/" class="article-card luxury-card rounded-[1.75rem] transition hover:-translate-y-1">
   <div class="article-card__image" style="background-image: url('/blog/kuala-lumpur/images/your-image.jpg');" role="img" aria-label="Your image alt text"></div>
   <div class="p-6">
     <p class="text-xs uppercase tracking-[0.24em]" style="color: var(--gold-main);">KLCC Article</p>
@@ -288,7 +320,7 @@ Insert before `</head>` in each selected place page:
     {
       "@type": "ListItem",
       "position": 1,
-      "url": "https://www.massagekl.com/blog/your-slug.html",
+      "url": "https://www.massagekl.com/massage-kuala-lumpur/your-slug/",
       "name": "Your Article Title"
     }
   ],
@@ -306,11 +338,11 @@ Change:
 
 ## 6. Update `sitemap.xml`
 
-Add a new URL entry:
+Add a new URL entry (the canonical page only — the `/blog/` redirect stub is `noindex` and should not be in the sitemap):
 
 ```xml
 <url>
-  <loc>https://www.massagekl.com/blog/your-slug.html</loc>
+  <loc>https://www.massagekl.com/massage-kuala-lumpur/your-slug/</loc>
   <lastmod>2026-05-20</lastmod>
   <changefreq>monthly</changefreq>
   <priority>0.7</priority>
@@ -362,20 +394,22 @@ Then wait for Cloudflare Pages to deploy.
 ## 10. Quick Publish Checklist
 
 1. Add image to `blog/kuala-lumpur/images/`
-2. Create `blog/your-slug.html`
-3. Add card to `blog/index.html`
-4. Add card to selected place pages
-5. Add related-article schema to selected place pages
-6. Update `sitemap.xml`
-7. Test locally
-8. Commit and push
-9. Check live site after Cloudflare deploy
+2. Create `massage-kuala-lumpur/your-slug/index.html`
+3. Create the `blog/your-slug.html` redirect stub
+4. Add card to `blog/index.html`
+5. Add card to selected place pages
+6. Add related-article schema to selected place pages
+7. Update `sitemap.xml`
+8. Test locally
+9. Commit and push
+10. Check live site after Cloudflare deploy
 
 ## 11. Recommended URLs to Check
 
 After deploy, verify:
 
-- `https://www.massagekl.com/blog/your-slug.html`
+- `https://www.massagekl.com/massage-kuala-lumpur/your-slug/` (loads the pink article)
+- `https://www.massagekl.com/blog/your-slug.html` (redirects to the URL above)
 - `https://www.massagekl.com/blog/`
 - each selected place page
 

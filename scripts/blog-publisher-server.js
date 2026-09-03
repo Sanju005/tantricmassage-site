@@ -279,7 +279,9 @@ function buildArticleParts(payload) {
   const locationLabels = dedupeList(selectedPageRecords.map((page) => page.label));
   const articleSections = dedupeList([...taxonomyLabels, ...locationLabels]);
   const relatedHubs = [...new Set(selectedPageRecords.map((page) => page.hub).filter(Boolean))];
-  const articleUrl = canonicalUrlInput || `${SITE_BASE_URL}/blog/${slug}.html`;
+  const articleRelativeUrl = `/massage-kuala-lumpur/${slug}/`;
+  const articleUrl = canonicalUrlInput || `${SITE_BASE_URL}${articleRelativeUrl}`;
+  const legacyBlogUrl = `${SITE_BASE_URL}/blog/${slug}.html`;
   const imageUrl = /^https?:\/\//i.test(featuredImage)
     ? featuredImage
     : `${SITE_BASE_URL}/${featuredImage.replace(/^\/+/, "")}`;
@@ -395,6 +397,9 @@ ${faqEntries.map((entry) => `          <div class="faq-item">
           </div>`).join("\n")}
         </section>`
     : "";
+  const shareText = encodeURIComponent(title);
+  const shareUrl = encodeURIComponent(articleUrl);
+  const shareHtml = `<div class="share-wrap"><p class="share-label">Share</p><div class="share-row" aria-label="Share this article"><a class="share-btn" href="https://wa.me/?text=${shareText}%20${shareUrl}" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.198-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.019-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.372-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479s1.065 2.875 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.71.307 1.263.49 1.694.627.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.29.173-1.413-.074-.124-.272-.198-.57-.347Z"/><path d="M12.004 2.003a9.93 9.93 0 0 0-8.59 15.01L2 22l5.124-1.345a9.967 9.967 0 0 0 4.88 1.27h.004c5.514 0 9.996-4.48 9.998-9.994A9.95 9.95 0 0 0 12.004 2.003Zm0 18.18h-.003a8.3 8.3 0 0 1-4.231-1.158l-.303-.18-3.04.798.812-2.963-.197-.305a8.28 8.28 0 0 1-1.28-4.445c.002-4.582 3.731-8.31 8.316-8.31 2.222 0 4.31.865 5.88 2.438a8.27 8.27 0 0 1 2.432 5.884c-.002 4.584-3.73 8.31-8.314 8.31Z"/></svg><span>WhatsApp</span></a><a class="share-btn" href="https://www.facebook.com/sharer/sharer.php?u=${shareUrl}" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13.5 21v-7.2H16l.4-2.8h-2.9V9.2c0-.81.27-1.36 1.44-1.36h1.55V5.3c-.27-.04-1.19-.12-2.26-.12-2.23 0-3.76 1.3-3.76 3.9V11H8v2.8h2.48V21h3.02Z"/></svg><span>Facebook</span></a><a class="share-btn" href="https://www.instagram.com/healingmassagekl/" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="4.2" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="3.7" stroke="currentColor" stroke-width="1.8"/><circle cx="17.2" cy="6.8" r="1.1" fill="currentColor"/></svg><span>Instagram</span></a><a class="share-btn" href="https://twitter.com/intent/tweet?url=${shareUrl}&text=${shareText}" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.9 2H22l-6.77 7.74L23.2 22h-6.25l-4.9-6.4L6.46 22H3.35l7.24-8.28L1 2h6.4l4.43 5.85L18.9 2Zm-1.1 18h1.73L6.45 3.9H4.58L17.8 20Z"/></svg><span>Twitter</span></a></div></div>`;
 
   const articleHtml = `<!DOCTYPE html>
 <html lang="en">
@@ -424,7 +429,10 @@ ${faqEntries.map((entry) => `          <div class="faq-item">
 ${schemaJson}
   <\/script>
 ${extraSchemaScripts}
+  <link rel="preload" href="/styles/tailwind.css" as="style">
+  <link rel="stylesheet" href="/styles/tailwind.css">
   <link rel="stylesheet" href="/styles/blog-post.css">
+  <link rel="stylesheet" href="/styles/pink-theme-global.css">
 </head>
 <body>
   <header style="position:sticky; top:0; z-index:30; border-bottom:1px solid rgba(255,255,255,.08); background:rgba(11,11,11,.88); backdrop-filter:blur(18px);"><div class="app-block" style="padding:0 1rem;"><div style="display:flex; align-items:center; justify-content:space-between; padding:1rem 0;"><a href="/" aria-label="Home" style="display:inline-flex; height:3rem; align-items:center;"><img src="/images/logo.png" alt="Massage KL logo" width="316" height="324" loading="lazy" decoding="async" style="height:2.5rem; width:auto; object-fit:contain;"></a><div style="display:flex; align-items:center; gap:.75rem;"><button id="site-menu-open" type="button" aria-label="Open menu" class="menu-button"><svg style="height:1rem; width:1rem;" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button><a href="/services.html" class="gold-button">Book Now</a></div></div></div></header>
@@ -445,6 +453,7 @@ ${contentHtml}
         </div>
         <aside class="booking-cta" aria-label="Related booking service"><p>Looking for a private booking in Kuala Lumpur?</p><a href="${escapeHtml(bookingPage.publicUrl)}">Explore ${escapeHtml(bookingPage.label)} &rarr;</a></aside>
 ${faqHtml}
+        ${shareHtml}
       </div>
     </article>
   </main>
@@ -460,7 +469,7 @@ ${faqHtml}
 </body>
 </html>`;
 
-  const blogIndexCard = `<a href="/blog/${escapeHtml(slug)}.html" class="card card-link" data-sort-date="${escapeHtml(publishedDate)}">
+  const blogIndexCard = `<a href="${escapeHtml(articleRelativeUrl)}" class="card card-link" data-sort-date="${escapeHtml(publishedDate)}">
           <div class="card-image" style="background-image:url('${escapeHtml(featuredImage)}');" role="img" aria-label="${escapeHtml(altText)}"></div>
           <div class="card-body">
             <p class="card-category">${escapeHtml(category)} • ${escapeHtml(hub)}</p>
@@ -477,11 +486,11 @@ ${faqHtml}
         <p class="card-date">Created: ${escapeHtml(displayDate)}</p>
         <h2 class="card-title">${escapeHtml(title)}</h2>
         <p class="card-copy">${escapeHtml(excerpt).slice(0, 220)}</p>
-        <a href="/blog/${escapeHtml(slug)}.html" class="mt-5 inline-flex text-sm font-semibold" style="color: var(--gold-soft);">Read article</a>
+        <a href="${escapeHtml(articleRelativeUrl)}" class="mt-5 inline-flex text-sm font-semibold" style="color: var(--gold-soft);">Read article</a>
       </div>
     </article>`;
 
-  const buildPlaceRichCard = (page) => `<a href="/blog/${escapeHtml(slug)}.html" class="article-card luxury-card rounded-[1.75rem] transition hover:-translate-y-1" data-sort-date="${escapeHtml(publishedDate)}">
+  const buildPlaceRichCard = (page) => `<a href="${escapeHtml(articleRelativeUrl)}" class="article-card luxury-card rounded-[1.75rem] transition hover:-translate-y-1" data-sort-date="${escapeHtml(publishedDate)}">
       <div class="article-card__image" style="background-image: url('${escapeHtml(featuredImage)}');" role="img" aria-label="${escapeHtml(altText)}"></div>
       <div class="p-6">
         <p class="text-xs uppercase tracking-[0.24em]" style="color: var(--gold-main);">${escapeHtml(category)} • ${escapeHtml(page.label)}</p>
@@ -493,7 +502,7 @@ ${faqHtml}
       </div>
     </a>`;
 
-  const buildSimplePlaceCard = (page) => `<a href="/blog/${escapeHtml(slug)}.html" class="card" style="display:block;" data-sort-date="${escapeHtml(publishedDate)}">
+  const buildSimplePlaceCard = (page) => `<a href="${escapeHtml(articleRelativeUrl)}" class="card" style="display:block;" data-sort-date="${escapeHtml(publishedDate)}">
           <div class="card-image" style="background-image:url('${escapeHtml(featuredImage)}');" role="img" aria-label="${escapeHtml(altText)}"></div>
           <div class="card-body"><p class="kicker">${escapeHtml(category)}</p><p class="card-date">Created: ${escapeHtml(displayDate)}</p><h2 class="card-title">${escapeHtml(title)}</h2><p class="card-copy">${escapeHtml(excerpt).slice(0, 220)}</p><div class="tag-row"><span class="tag">${escapeHtml(page.label)}</span><span class="tag">${escapeHtml(hub)}</span></div></div>
         </a>`;
@@ -517,12 +526,33 @@ ${faqHtml}
   <\/script>
 <!-- AUTO_RELATED_ARTICLE_SCHEMA_END:${slug} -->`;
 
+  // Old bookmarks/links to /blog/<slug>.html should still work, matching the
+  // redirect pattern already used across the site for migrated articles.
+  const redirectStubHtml = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="refresh" content="0; url=${escapeHtml(articleRelativeUrl)}">
+  <link rel="canonical" href="${escapeHtml(articleUrl)}">
+  <meta name="robots" content="noindex,follow">
+  <title>Redirecting...</title>
+  <script>window.location.replace('${articleRelativeUrl}');<\/script>
+  <link rel="stylesheet" href="/styles/pink-theme-global.css">
+</head>
+<body></body>
+</html>
+`;
+
   return {
     slug,
     title,
     focusKeyword,
     featuredImage,
+    articleUrl,
+    articleRelativeUrl,
+    legacyBlogUrl,
     articleHtml,
+    redirectStubHtml,
     schemaJson,
     selectedPages,
     selectedPageRecords,
@@ -545,10 +575,14 @@ function writeText(filePath, content) {
 }
 
 function findExistingArticleSlugs() {
-  const blogDir = path.join(ROOT, "blog");
-  return fs.readdirSync(blogDir, { withFileTypes: true })
-    .filter((entry) => entry.isFile() && entry.name.endsWith(".html") && entry.name !== "index.html" && entry.name !== "BLOG-POST-TEMPLATE.html")
-    .map((entry) => entry.name.slice(0, -".html".length));
+  const articlesDir = path.join(ROOT, "massage-kuala-lumpur");
+  if (!fs.existsSync(articlesDir)) {
+    return [];
+  }
+
+  return fs.readdirSync(articlesDir, { withFileTypes: true })
+    .filter((entry) => entry.isDirectory() && fs.existsSync(path.join(articlesDir, entry.name, "index.html")))
+    .map((entry) => entry.name);
 }
 
 // Best-effort check: only articles created by this tool carry the FOCUS_KEYWORD
@@ -567,7 +601,7 @@ function findDuplicateFocusKeyword(focusKeyword, excludeSlug) {
 
     let html;
     try {
-      html = readText(path.join(ROOT, "blog", `${slug}.html`));
+      html = readText(path.join(ROOT, "massage-kuala-lumpur", slug, "index.html"));
     } catch (error) {
       continue;
     }
@@ -595,14 +629,14 @@ function featuredImageMissingLocally(featuredImage) {
 
 function collectPublishWarnings(article) {
   const warnings = [];
-  const articlePath = path.join(ROOT, "blog", `${article.slug}.html`);
+  const articlePath = path.join(ROOT, "massage-kuala-lumpur", article.slug, "index.html");
 
   if (fs.existsSync(articlePath)) {
-    warnings.push(`An article already exists at blog/${article.slug}.html. Publishing again will overwrite that file (the current version is backed up to .blog-publisher-backups/ first).`);
+    warnings.push(`An article already exists at massage-kuala-lumpur/${article.slug}/. Publishing again will overwrite that file (the current version is backed up to .blog-publisher-backups/ first).`);
   }
 
   for (const match of findDuplicateFocusKeyword(article.focusKeyword, article.slug)) {
-    warnings.push(`The focus keyword "${article.focusKeyword}" is already used by blog/${match.slug}.html ("${match.title}"). Publishing both may cause keyword cannibalization in search results.`);
+    warnings.push(`The focus keyword "${article.focusKeyword}" is already used by massage-kuala-lumpur/${match.slug}/ ("${match.title}"). Publishing both may cause keyword cannibalization in search results.`);
   }
 
   if (featuredImageMissingLocally(article.featuredImage)) {
@@ -995,7 +1029,7 @@ function sortPlacePageCards(html) {
 }
 
 function insertIntoBlogIndex(html, cardHtml, slug) {
-  if (html.includes(`/blog/${slug}.html`)) {
+  if (html.includes(`/blog/${slug}.html`) || html.includes(`/massage-kuala-lumpur/${slug}/`)) {
     return html;
   }
 
@@ -1015,7 +1049,7 @@ function insertIntoBlogIndex(html, cardHtml, slug) {
 }
 
 function insertIntoHubIndex(html, cardHtml, slug) {
-  if (html.includes(`/blog/${slug}.html`)) {
+  if (html.includes(`/blog/${slug}.html`) || html.includes(`/massage-kuala-lumpur/${slug}/`)) {
     return html;
   }
 
@@ -1124,7 +1158,7 @@ function updateSitemapLastmod(xml, url, lastmod) {
 }
 
 function insertIntoArticleSitemapBlock(xml, urlBlock, slug) {
-  if (xml.includes(`/blog/${slug}.html`)) {
+  if (xml.includes(`/blog/${slug}.html`) || xml.includes(`/massage-kuala-lumpur/${slug}/`)) {
     return xml;
   }
 
@@ -1148,7 +1182,8 @@ function publish(payload) {
   }
 
   const blogDir = path.join(ROOT, "blog");
-  const articlePath = path.join(blogDir, `${article.slug}.html`);
+  const articlePath = path.join(ROOT, "massage-kuala-lumpur", article.slug, "index.html");
+  const legacyRedirectPath = path.join(blogDir, `${article.slug}.html`);
 
   // ---- Stage 1: compute every file change in memory first. Every insertion
   // helper below can throw (e.g. "could not find insertion point"). Doing all
@@ -1156,6 +1191,7 @@ function publish(payload) {
   // site half-updated - nothing on disk changes until Stage 2 starts. ----
   const plannedWrites = [];
   plannedWrites.push({ file: articlePath, content: article.articleHtml, isNewFile: !fs.existsSync(articlePath) });
+  plannedWrites.push({ file: legacyRedirectPath, content: article.redirectStubHtml, isNewFile: !fs.existsSync(legacyRedirectPath) });
 
   const blogIndexPath = path.join(blogDir, "index.html");
   const blogIndexHtml = readText(blogIndexPath);
@@ -1189,7 +1225,7 @@ function publish(payload) {
   const sitemapPath = path.join(ROOT, "sitemap.xml");
   const today = new Date().toISOString().slice(0, 10);
   let sitemapXml = readText(sitemapPath);
-  const articleBlock = buildSitemapUrlBlock(`${SITE_BASE_URL}/blog/${article.slug}.html`, today);
+  const articleBlock = buildSitemapUrlBlock(article.articleUrl, today);
   sitemapXml = insertIntoArticleSitemapBlock(sitemapXml, articleBlock, article.slug);
   sitemapXml = updateSitemapLastmod(sitemapXml, `${SITE_BASE_URL}/blog/`, today);
   for (const categorySlug of article.relatedHubs) {

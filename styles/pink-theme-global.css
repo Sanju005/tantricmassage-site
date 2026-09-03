@@ -284,6 +284,48 @@ a[class*="button-primary"] {
   color: #6d1830 !important;
 }
 
+/* Blog article extras (excerpt callout, FAQ box, booking CTA, share row) that
+   the dark blog theme hardcodes with non-variable colors, so they need
+   explicit pink overrides instead of picking up the --gold-main/--text-main
+   variable swap automatically. */
+.article-summary {
+  background: #FFFFFF !important;
+  border-color: rgba(182, 102, 111, 0.3) !important;
+  color: #3f2f31 !important;
+}
+
+.faq-box {
+  background: #FFFFFF !important;
+  border-color: rgba(182, 102, 111, 0.2) !important;
+}
+
+.faq-item h3 {
+  color: #FF0096 !important;
+}
+
+.faq-item p {
+  color: #3f2f31 !important;
+}
+
+.booking-cta {
+  background: linear-gradient(135deg, rgba(255, 0, 150, 0.08), rgba(255, 255, 255, 0.6)) !important;
+  border-color: rgba(182, 102, 111, 0.4) !important;
+}
+
+.booking-cta p {
+  color: #3f2f31 !important;
+}
+
+.booking-cta a {
+  color: #FF0096 !important;
+}
+
+.share-btn {
+  background: #FFFFFF !important;
+  border-color: rgba(182, 102, 111, 0.24) !important;
+  color: #FF0096 !important;
+}
+
 .review-name {
   color: #60A5FA !important;
 }
