@@ -339,6 +339,12 @@
     }
   </style>
   <link rel="stylesheet" href="/styles/pink-theme-global.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+  <style>
+    .coverage-map { height: 440px; width: 100%; background: #111; }
+    .coverage-map .leaflet-popup-content-wrapper { border-radius: 0.9rem; }
+    .leaflet-control-attribution { font-size: 0.62rem; }
+  </style>
 </head>
 <body class="min-h-screen text-white">
       <header class="sticky top-0 z-30 border-b backdrop-blur-xl" style="background-color: rgba(11, 11, 11, 0.88); border-color: rgba(255, 255, 255, 0.08);">
@@ -400,6 +406,15 @@
             </ul>
           </article>
         </div>
+
+        <div class="mt-16">
+          <p class="text-xs uppercase tracking-[0.45em]" style="color: var(--gold-main);">Coverage Area</p>
+          <h2 class="mt-4 text-2xl sm:text-3xl font-bold leading-tight">Serving Kuala Lumpur &amp; Selangor</h2>
+          <p class="mt-4 max-w-3xl text-sm sm:text-base leading-8" style="color: var(--text-secondary);">Private outcall sessions are available across roughly a 40km radius centred on central Kuala Lumpur, covering KLCC, Bangsar, Mont Kiara, Petaling Jaya, Shah Alam, Subang Jaya, Puchong, Cyberjaya, Putrajaya, and the surrounding Klang Valley.</p>
+          <div class="mt-6 luxury-card rounded-[2rem] overflow-hidden">
+            <div id="coverage-map" class="coverage-map" role="img" aria-label="Map showing private massage service coverage across Kuala Lumpur and the Klang Valley, Selangor, within roughly a 40 kilometre radius of central Kuala Lumpur"></div>
+          </div>
+        </div>
       </div>
     </section>
   </main>
@@ -458,6 +473,83 @@
         closeSiteMenu();
       }
     });
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+  <script>
+    (function () {
+      var mapEl = document.getElementById('coverage-map');
+      if (!mapEl || typeof L === 'undefined') return;
+
+      var center = [3.1390, 101.6869]; // Central Kuala Lumpur
+      var radiusMeters = 40000; // ~40km coverage across KL & the Klang Valley, Selangor
+
+      var map = L.map('coverage-map', {
+        scrollWheelZoom: false,
+        zoomControl: true
+      }).setView(center, 10);
+
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 18,
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      }).addTo(map);
+
+      var pinIcon = L.divIcon({
+        className: '',
+        html: '<div style="width:18px;height:18px;border-radius:50%;background:#FF0096;border:3px solid #ffffff;box-shadow:0 0 0 4px rgba(255,0,150,0.35), 0 4px 10px rgba(0,0,0,0.35);"></div>',
+        iconSize: [18, 18],
+        iconAnchor: [9, 9]
+      });
+
+      L.marker(center, { icon: pinIcon })
+        .addTo(map)
+        .bindPopup('<strong>Massage KL</strong><br>Central Kuala Lumpur');
+
+      // Static boundary: the true ~40km coverage area, always visible.
+      var boundary = L.circle(center, {
+        radius: radiusMeters,
+        color: '#FF0096',
+        weight: 2,
+        opacity: 0.55,
+        dashArray: '6 8',
+        fillColor: '#FF0096',
+        fillOpacity: 0.06,
+        interactive: false
+      }).addTo(map);
+
+      map.fitBounds(boundary.getBounds(), { padding: [16, 16] });
+
+      // Animated radar pulses expanding from the pin out to the boundary, looping.
+      function addPulse(delay) {
+        var pulse = L.circle(center, {
+          radius: 0,
+          color: '#FF0096',
+          weight: 2,
+          opacity: 0.5,
+          fillColor: '#FF0096',
+          fillOpacity: 0.12,
+          interactive: false
+        }).addTo(map);
+
+        var duration = 4000;
+        var start = null;
+
+        function step(timestamp) {
+          if (!start) start = timestamp - delay;
+          var elapsed = Math.max(0, timestamp - start);
+          var progress = (elapsed % duration) / duration;
+          pulse.setRadius(radiusMeters * progress);
+          var fade = 1 - progress;
+          pulse.setStyle({ opacity: 0.5 * fade, fillOpacity: 0.14 * fade });
+          requestAnimationFrame(step);
+        }
+
+        requestAnimationFrame(step);
+      }
+
+      addPulse(0);
+      addPulse(1333);
+      addPulse(2666);
+    })();
   </script>
 </body>
 </html>
