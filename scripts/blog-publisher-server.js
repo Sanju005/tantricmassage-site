@@ -103,6 +103,44 @@ function normalizeFeaturedImage(value) {
   return trimmed.startsWith("/") ? trimmed : `/${trimmed.replace(/^\/+/, "")}`;
 }
 
+const ALLOWED_IMAGE_EXTENSIONS = new Set([".jpg", ".jpeg", ".png", ".webp", ".gif"]);
+const MAX_IMAGE_UPLOAD_BYTES = 8 * 1024 * 1024;
+
+function sanitizeUploadFilename(name) {
+  const base = String(name || "image").split(/[\\/]/).pop();
+  const cleaned = base.replace(/[^a-zA-Z0-9.\-]+/g, "-").replace(/-+/g, "-");
+  return cleaned || "image.jpg";
+}
+
+// Inline content images (inserted from the rich-text editor's image button),
+// separate from the article's single required "Featured Image" field.
+function handleImageUpload(payload) {
+  const safeName = sanitizeUploadFilename(payload.filename);
+  const ext = path.extname(safeName).toLowerCase();
+  if (!ALLOWED_IMAGE_EXTENSIONS.has(ext)) {
+    throw new Error("Only JPG, PNG, WEBP, or GIF images are allowed.");
+  }
+
+  const rawData = String(payload.dataBase64 || "");
+  const base64Payload = rawData.includes(",") ? rawData.slice(rawData.indexOf(",") + 1) : rawData;
+  const buffer = Buffer.from(base64Payload, "base64");
+
+  if (buffer.length === 0) {
+    throw new Error("The uploaded image is empty.");
+  }
+  if (buffer.length > MAX_IMAGE_UPLOAD_BYTES) {
+    throw new Error("Images must be 8MB or smaller.");
+  }
+
+  const stamp = Date.now().toString(36);
+  const uniqueName = `${stamp}-${safeName}`;
+  const targetDir = path.join(ROOT, "blog", "kuala-lumpur", "images");
+  fs.mkdirSync(targetDir, { recursive: true });
+  fs.writeFileSync(path.join(targetDir, uniqueName), buffer);
+
+  return { ok: true, url: `/blog/kuala-lumpur/images/${uniqueName}` };
+}
+
 function parseCommaList(value) {
   return String(value || "")
     .split(",")
@@ -179,47 +217,130 @@ function parseCustomSchema(value) {
   return Array.isArray(parsed) ? parsed : [parsed];
 }
 
-function buildContentHtml(content) {
-  const blocks = normalizeContent(content).split(/\n\s*\n/).filter(Boolean);
-  const html = [];
+// The Content field is now a rich-text (Quill) editor, so the payload arrives
+// as real HTML rather than the old "##"/"###"/"-" markdown-lite text. Because
+// this HTML gets embedded directly into a live public page, it is sanitized
+// with a strict allowlist rather than trusted as-is - this matters even for a
+// single-owner tool, since it's a defense against a bad paste (e.g. HTML
+// copied from an untrusted source) turning into a live XSS payload.
+const ALLOWED_HTML_TAGS = new Set(["p", "h2", "h3", "strong", "b", "em", "i", "u", "s", "ul", "ol", "li", "br", "a", "img", "span", "blockquote"]);
+const BLOCK_STRIP_TAGS = ["script", "style", "iframe", "object", "embed", "form", "link", "meta", "noscript", "svg", "video", "audio", "source"];
+const ALLOWED_HTML_ATTRS = {
+  a: ["href", "target"],
+  img: ["src", "alt", "width", "height"],
+  span: ["class"],
+  p: ["class"]
+};
+const ALLOWED_SPAN_CLASSES = new Set(["ql-size-small", "ql-size-large", "ql-size-huge"]);
+const ALLOWED_P_CLASSES = new Set(["ql-align-center", "ql-align-right", "ql-align-justify"]);
 
-  for (const block of blocks) {
-    if (block.startsWith("### ")) {
-      const lines = block.split("\n");
-      const heading = lines.shift().replace(/^###\s+/, "");
-      const body = lines.join("\n").trim();
-      html.push(`<h3>${escapeHtml(heading)}</h3>`);
-      if (body) {
-        html.push(`<p>${escapeHtml(body).replace(/\n/g, "<br>")}</p>`);
-      }
-      continue;
-    }
+function escapeAttr(value) {
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
 
-    if (block.startsWith("## ")) {
-      const lines = block.split("\n");
-      const heading = lines.shift().replace(/^##\s+/, "");
-      const body = lines.join("\n").trim();
-      html.push(`<h2>${escapeHtml(heading)}</h2>`);
-      if (body) {
-        html.push(`<p>${escapeHtml(body).replace(/\n/g, "<br>")}</p>`);
-      }
-      continue;
-    }
+function isSafeUrl(value) {
+  const trimmed = String(value || "").trim();
+  if (!trimmed) {
+    return false;
+  }
+  return /^https?:\/\//i.test(trimmed) || /^mailto:/i.test(trimmed) || trimmed.startsWith("/");
+}
 
-    if (block.startsWith("- ")) {
-      const items = block.split("\n").map((line) => line.replace(/^- /, "").trim()).filter(Boolean);
-      html.push("<ul>");
-      for (const item of items) {
-        html.push(`<li>${escapeHtml(item)}</li>`);
-      }
-      html.push("</ul>");
-      continue;
-    }
+function parseAttrs(attrString) {
+  const attrs = {};
+  const pattern = /([a-zA-Z-:]+)\s*=\s*("([^"]*)"|'([^']*)'|([^\s>]+))/g;
+  let match;
+  while ((match = pattern.exec(attrString)) !== null) {
+    const name = match[1].toLowerCase();
+    attrs[name] = match[3] !== undefined ? match[3] : (match[4] !== undefined ? match[4] : match[5]);
+  }
+  return attrs;
+}
 
-    html.push(`<p>${escapeHtml(block).replace(/\n/g, "<br>")}</p>`);
+function sanitizeHtml(html) {
+  let out = String(html || "");
+
+  for (const tag of BLOCK_STRIP_TAGS) {
+    out = out.replace(new RegExp(`<${tag}\\b[^>]*>[\\s\\S]*?<\\/${tag}>`, "gi"), "");
+    out = out.replace(new RegExp(`<${tag}\\b[^>]*\\/?>`, "gi"), "");
   }
 
-  return html.join("\n");
+  out = out.replace(/<\/?([a-zA-Z][a-zA-Z0-9]*)((?:\s+[a-zA-Z-:]+(?:=(?:"[^"]*"|'[^']*'|[^\s>]+))?)*)\s*\/?>/g, (full, rawTag, attrString) => {
+    const tag = rawTag.toLowerCase();
+    const isClosing = full.charAt(1) === "/";
+
+    if (!ALLOWED_HTML_TAGS.has(tag)) {
+      return "";
+    }
+
+    if (isClosing) {
+      return `</${tag}>`;
+    }
+
+    const allowedForTag = ALLOWED_HTML_ATTRS[tag] || [];
+    const attrs = parseAttrs(attrString);
+    let cleanAttrs = "";
+
+    for (const attrName of allowedForTag) {
+      if (!(attrName in attrs)) {
+        continue;
+      }
+      let value = attrs[attrName];
+
+      if ((attrName === "href" || attrName === "src") && !isSafeUrl(value)) {
+        continue;
+      }
+
+      if (attrName === "class") {
+        const allowedClasses = tag === "span" ? ALLOWED_SPAN_CLASSES : ALLOWED_P_CLASSES;
+        const filtered = value.split(/\s+/).filter((cls) => allowedClasses.has(cls));
+        if (filtered.length === 0) {
+          continue;
+        }
+        value = filtered.join(" ");
+      }
+
+      if (attrName === "target") {
+        value = "_blank";
+      }
+
+      cleanAttrs += ` ${attrName}="${escapeAttr(value)}"`;
+    }
+
+    if (tag === "a" && attrs.href && isSafeUrl(attrs.href)) {
+      cleanAttrs += ' rel="noopener noreferrer"';
+    }
+
+    const selfClosing = tag === "br" || tag === "img";
+    return `<${tag}${cleanAttrs}${selfClosing ? " /" : ""}>`;
+  });
+
+  return out.trim();
+}
+
+function stripTags(html) {
+  return String(html || "")
+    .replace(/<br\s*\/?>/gi, " ")
+    .replace(/<\/(p|h2|h3|li|blockquote)>/gi, " ")
+    .replace(/<[^>]+>/g, "")
+    .replace(/&nbsp;/gi, " ")
+    .replace(/&amp;/gi, "&")
+    .replace(/&lt;/gi, "<")
+    .replace(/&gt;/gi, ">")
+    .replace(/&quot;/gi, "\"")
+    .replace(/&#39;/gi, "'")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function firstParagraphText(html) {
+  // Skip headings - the excerpt should be real body copy, not a section title.
+  const match = String(html || "").match(/<p[^>]*>([\s\S]*?)<\/p>/i);
+  return stripTags(match ? match[1] : html);
 }
 
 function buildArticleParts(payload) {
@@ -247,7 +368,7 @@ function buildArticleParts(payload) {
   const customSchemaEntries = parseCustomSchema(payload.customSchema || "");
   const selectedPages = Array.isArray(payload.pages) ? payload.pages.filter((item) => placePageMap[item]) : [];
   const bookingPage = bookingPageMap[String(payload.bookingPage || "").trim()];
-  const contentWordCount = normalizeContent(content).split(/\s+/).filter(Boolean).length;
+  const contentWordCount = stripTags(normalizeContent(content)).split(/\s+/).filter(Boolean).length;
 
   if (!hub && selectedPages.length > 0) {
     hub = placePageMap[selectedPages[0]].label;
@@ -291,8 +412,8 @@ function buildArticleParts(payload) {
     month: "long",
     day: "numeric"
   });
-  const excerptSource = excerptInput || normalizeContent(content).split(/\n\s*\n/).find(Boolean) || metaDescription;
-  const excerpt = excerptSource.replace(/^#{2,3}\s+/, "").replace(/\n/g, " ").trim();
+  const excerptSource = excerptInput || firstParagraphText(normalizeContent(content)) || metaDescription;
+  const excerpt = excerptSource.replace(/\s+/g, " ").trim();
   const keywordList = dedupeList([...metaKeywordList, ...tagList, focusKeyword]);
   const schema = {
     "@context": "https://schema.org",
@@ -380,7 +501,7 @@ function buildArticleParts(payload) {
     .slice(1)
     .map((entry) => `\n  <script type="application/ld+json">\n${JSON.stringify(entry, null, 2)}\n  <\/script>`)
     .join("");
-  const contentHtml = buildContentHtml(content);
+  const contentHtml = sanitizeHtml(normalizeContent(content));
   const taxonomyTagChips = dedupeList([...tagList, ...locationLabels]).slice(0, 10);
   const excerptHtml = excerpt
     ? `<p class="article-summary">${escapeHtml(excerpt)}</p>`
@@ -1334,6 +1455,26 @@ const server = http.createServer((req, res) => {
 
   if (req.method === "GET" && req.url === "/api/booking-pages") {
     return sendJson(res, 200, { pages: bookingPages });
+  }
+
+  if (req.method === "POST" && req.url === "/api/upload-image") {
+    let body = "";
+    req.on("data", (chunk) => {
+      body += chunk;
+      if (body.length > 12 * 1024 * 1024) {
+        req.destroy();
+      }
+    });
+    req.on("end", () => {
+      try {
+        const payload = JSON.parse(body || "{}");
+        const result = handleImageUpload(payload);
+        sendJson(res, 200, result);
+      } catch (error) {
+        sendJson(res, 400, { ok: false, error: error.message });
+      }
+    });
+    return;
   }
 
   if (req.method === "POST" && req.url === "/api/preview") {

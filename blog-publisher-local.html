@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex,nofollow">
   <title>Local Blog Publisher</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/quill/1.3.7/quill.snow.min.css">
   <style>
     :root {
       --page: #f4efe7;
@@ -255,6 +256,41 @@
     @media (max-width: 900px) {
       .layout { grid-template-columns: 1fr; }
     }
+
+    .editor-wrap {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    .ql-toolbar.ql-snow {
+      border: 0;
+      border-bottom: 1px solid var(--line);
+      background: var(--accent-soft);
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
+
+    .ql-container.ql-snow {
+      border: 0;
+      font: 400 0.98rem "Segoe UI", Arial, sans-serif;
+    }
+
+    #contentEditor {
+      min-height: 260px;
+      max-height: 480px;
+      overflow-y: auto;
+    }
+
+    #contentEditor .ql-editor {
+      min-height: 260px;
+    }
+
+    .upload-status {
+      margin-top: 0.4rem;
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
   </style>
   <link rel="stylesheet" href="/styles/pink-theme-global.css">
 </head>
@@ -287,9 +323,32 @@
               </div>
 
               <div class="field-full">
-                <label for="content">Content</label>
-                <textarea id="content" name="content" rows="14" required></textarea>
-                <div class="helper">Use blank lines between paragraphs. Use `##` for H2, `###` for H3, and `-` for bullets. Minimum 450 original words: <span id="wordCount">0</span>.</div>
+                <label for="contentEditor">Content</label>
+                <div class="editor-wrap">
+                  <div id="contentToolbar">
+                    <select class="ql-header">
+                      <option value="2">Heading</option>
+                      <option value="3">Subheading</option>
+                      <option selected></option>
+                    </select>
+                    <select class="ql-size">
+                      <option value="small">Small</option>
+                      <option selected></option>
+                      <option value="large">Large</option>
+                      <option value="huge">Huge</option>
+                    </select>
+                    <button class="ql-bold" type="button" title="Bold"></button>
+                    <button class="ql-italic" type="button" title="Italic"></button>
+                    <button class="ql-list" value="bullet" type="button" title="Bullet list"></button>
+                    <button class="ql-list" value="ordered" type="button" title="Numbered list"></button>
+                    <button class="ql-link" type="button" title="Link"></button>
+                    <button class="ql-image" type="button" title="Insert image"></button>
+                    <button class="ql-clean" type="button" title="Clear formatting"></button>
+                  </div>
+                  <div id="contentEditor"></div>
+                </div>
+                <div class="upload-status" id="uploadStatus"></div>
+                <div class="helper">Use Heading/Subheading for section titles, and combine Bold + Huge size for an extra-bold look. Minimum 450 original words: <span id="wordCount">0</span>.</div>
               </div>
 
               <div class="field-full">
@@ -393,21 +452,96 @@
     </div>
   </main>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/quill/1.3.7/quill.min.js"></script>
   <script>
     const form = document.getElementById("publisherForm");
     const pagesGrid = document.getElementById("pagesGrid");
     const selectAllButton = document.getElementById("selectAll");
     const clearAllButton = document.getElementById("clearAll");
     const statusBox = document.getElementById("statusBox");
-    const contentInput = document.getElementById("content");
     const wordCount = document.getElementById("wordCount");
     const bookingPageSelect = document.getElementById("bookingPage");
+    const uploadStatus = document.getElementById("uploadStatus");
 
-    function updateWordCount() {
-      wordCount.textContent = contentInput.value.trim() ? contentInput.value.trim().split(/\s+/).length : "0";
+    const quill = new Quill("#contentEditor", {
+      theme: "snow",
+      modules: {
+        toolbar: {
+          container: "#contentToolbar",
+          handlers: { image: handleImageButtonClick }
+        }
+      }
+    });
+
+    function getContentHtml() {
+      const html = quill.root.innerHTML.trim();
+      return html === "<p><br></p>" ? "" : html;
     }
 
-    contentInput.addEventListener("input", updateWordCount);
+    function getContentText() {
+      return quill.getText().trim();
+    }
+
+    function updateWordCount() {
+      const text = getContentText();
+      wordCount.textContent = text ? text.split(/\s+/).filter(Boolean).length : "0";
+    }
+
+    quill.on("text-change", updateWordCount);
+
+    function handleImageButtonClick() {
+      const input = document.createElement("input");
+      input.type = "file";
+      input.accept = "image/jpeg,image/png,image/webp,image/gif";
+      input.addEventListener("change", async () => {
+        const file = input.files && input.files[0];
+        if (!file) {
+          return;
+        }
+        await uploadAndInsertImage(file);
+      });
+      input.click();
+    }
+
+    function readFileAsDataUrl(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = () => reject(new Error("Could not read the selected file."));
+        reader.readAsDataURL(file);
+      });
+    }
+
+    async function uploadAndInsertImage(file) {
+      uploadStatus.textContent = `Uploading ${file.name}...`;
+      try {
+        const dataBase64 = await readFileAsDataUrl(file);
+        const response = await fetch("/api/upload-image", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ filename: file.name, dataBase64 })
+        });
+        const result = await response.json();
+        if (!response.ok || !result.ok) {
+          throw new Error(result.error || "Image upload failed.");
+        }
+
+        const range = quill.getSelection(true) || { index: quill.getLength() };
+        quill.insertEmbed(range.index, "image", result.url, "user");
+        quill.setSelection(range.index + 1, 0);
+        uploadStatus.textContent = `Inserted ${result.url}`;
+      } catch (error) {
+        uploadStatus.textContent = error.message;
+      }
+    }
+
+    quill.root.addEventListener("drop", (event) => {
+      const file = event.dataTransfer && event.dataTransfer.files && event.dataTransfer.files[0];
+      if (file && file.type.startsWith("image/")) {
+        event.preventDefault();
+        uploadAndInsertImage(file);
+      }
+    });
 
     function setStatus(message, type = "") {
       statusBox.className = `status${type ? ` ${type}` : ""}`;
@@ -465,15 +599,16 @@
         metaDescription: document.getElementById("metaDescription").value.trim(),
         featuredImage: document.getElementById("featuredImage").value.trim(),
         altText: document.getElementById("altText").value.trim(),
-        content: document.getElementById("content").value.trim(),
+        content: getContentHtml(),
+        contentText: getContentText(),
         focusKeyword: document.getElementById("focusKeyword").value.trim(),
         pages: getSelectedPages()
       };
     }
 
     function validateFields(fields) {
-      const { title, category, bookingPage, metaDescription, featuredImage, altText, content, focusKeyword, pages } = fields;
-      const contentWordCount = content ? content.split(/\s+/).length : 0;
+      const { title, category, bookingPage, metaDescription, featuredImage, altText, content, contentText, focusKeyword, pages } = fields;
+      const contentWordCount = contentText ? contentText.split(/\s+/).filter(Boolean).length : 0;
 
       if (!title || !category || !bookingPage || !metaDescription || !featuredImage || !altText || !content || !focusKeyword || pages.length === 0) {
         return "Please fill all required editorial, taxonomy, media, and page-selection fields.";
