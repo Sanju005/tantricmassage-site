@@ -510,7 +510,14 @@
         { name: 'Sri Hartamas', coords: [3.1660, 101.6520], url: '/massage-sri-hartamas.html' },
         { name: 'Subang Jaya', coords: [3.0567, 101.5851], url: '/massage-subang-jaya/' },
         { name: 'Sunway', coords: [3.0654, 101.6068], url: '/massage-sunway.html' },
-        { name: 'TTDI', coords: [3.1400, 101.6300], url: '/massage-ttdi.html' }
+        { name: 'TTDI', coords: [3.1400, 101.6300], url: '/massage-ttdi.html' },
+        { name: 'Kajang', coords: [2.9931, 101.7874] },
+        { name: 'Seri Kembangan', coords: [3.0333, 101.7053] },
+        { name: 'Balakong', coords: [3.0392, 101.7458] },
+        { name: 'Kota Kemuning', coords: [2.9975, 101.5306] },
+        { name: 'Putra Heights', coords: [3.0300, 101.5800] },
+        { name: 'Sungai Buloh', coords: [3.2005, 101.5772] },
+        { name: 'Subang', coords: [3.1075, 101.5497] }
       ];
 
       var map = L.map('coverage-map', {
@@ -525,9 +532,9 @@
 
       var pinIcon = L.divIcon({
         className: '',
-        html: '<div style="width:14px;height:14px;border-radius:50%;background:#FF0096;border:2px solid #ffffff;box-shadow:0 0 0 3px rgba(255,0,150,0.35), 0 3px 8px rgba(0,0,0,0.35);"></div>',
-        iconSize: [14, 14],
-        iconAnchor: [7, 7]
+        html: '<div style="width:7px;height:7px;border-radius:50%;background:#FF0096;border:1.5px solid #ffffff;box-shadow:0 0 0 2px rgba(255,0,150,0.35), 0 2px 5px rgba(0,0,0,0.35);"></div>',
+        iconSize: [7, 7],
+        iconAnchor: [3.5, 3.5]
       });
 
       // Animated pulse: expands from the marker out to the small area radius, fades, loops.
@@ -575,9 +582,13 @@
           interactive: false
         }).addTo(map);
 
+        var popupHtml = area.url
+          ? '<strong>' + area.name + '</strong><br><a href="' + area.url + '">View ' + area.name + ' page &rarr;</a>'
+          : '<strong>' + area.name + '</strong>';
+
         L.marker(area.coords, { icon: pinIcon })
           .addTo(map)
-          .bindPopup('<strong>' + area.name + '</strong><br><a href="' + area.url + '">View ' + area.name + ' page &rarr;</a>');
+          .bindPopup(popupHtml);
 
         // Stagger each pulse's start so they don't all beat in unison.
         addPulse(area.coords, (index * 370) % 3200);
