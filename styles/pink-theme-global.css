@@ -316,7 +316,11 @@ a[class*="button-primary"] {
   color: #3f2f31 !important;
 }
 
-.booking-cta a {
+/* Excludes .booking-button links: the main booking pages' "Ready to choose a
+   package?" CTA reuses the .booking-cta class name for an unrelated, older
+   component whose <a> is already a styled button - this rule is only meant
+   for the plain text link inside a blog article's booking-cta aside. */
+.booking-cta a:not(.booking-button) {
   color: #FF0096 !important;
 }
 

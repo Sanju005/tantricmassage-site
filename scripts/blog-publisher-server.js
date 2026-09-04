@@ -598,6 +598,20 @@ ${faqHtml}
       </div>
     </article>`;
 
+  // Matches the exact .blog-card markup already used in the homepage's
+  // "News & Blog" slider (section#contact), so every new article appears
+  // there automatically instead of needing a manual homepage edit.
+  const homeBlogCard = `<article class="blog-card" data-sort-date="${escapeHtml(publishedDate)}">
+            <div class="blog-card-image" style="background-image: url('${escapeHtml(featuredImage)}');"></div>
+            <div class="p-5 sm:p-6">
+              <p class="text-xs uppercase tracking-[0.25em]" style="color: var(--gold-main);">${escapeHtml(category)} • ${escapeHtml(hub)}</p>
+              <p class="mt-3 text-xs uppercase tracking-[0.2em]" style="color: var(--text-secondary);">Created: ${escapeHtml(displayDate)}</p>
+              <h3 class="mt-3 text-xl font-semibold">${escapeHtml(title)}</h3>
+              <p class="mt-3 text-sm leading-6" style="color: var(--text-secondary);">${escapeHtml(excerpt).slice(0, 160)}</p>
+              <a href="${escapeHtml(articleRelativeUrl)}" class="mt-5 inline-flex text-sm font-semibold" style="color: var(--gold-soft);">Read more</a>
+            </div>
+          </article>`;
+
   const buildPlaceRichCard = (page) => `<a href="${escapeHtml(articleRelativeUrl)}" class="article-card luxury-card rounded-[1.75rem] transition hover:-translate-y-1" data-sort-date="${escapeHtml(publishedDate)}">
       <div class="article-card__image" style="background-image: url('${escapeHtml(featuredImage)}');" role="img" aria-label="${escapeHtml(altText)}"></div>
       <div class="p-6">
@@ -668,6 +682,7 @@ ${faqHtml}
     relatedHubs,
     blogIndexCard,
     hubCard,
+    homeBlogCard,
     buildPlaceRichCard,
     buildSimplePlaceCard,
     placeSchemaScript
@@ -1156,6 +1171,35 @@ function insertIntoBlogIndex(html, cardHtml, slug) {
   return sortBlogIndexCards(`${html.slice(0, insertAt + 1)}\n        ${cardHtml}\n${html.slice(insertAt + 1)}`);
 }
 
+// The homepage's "News & Blog" slider (inside <section id="contact">) is a
+// second, separate .blog-slider from the "Topics" section further down the
+// page (5 fixed cards for the main booking pages) - this only ever touches
+// the one inside #contact.
+function insertIntoHomeBlogSlider(html, cardHtml, slug) {
+  const relativeUrl = `/massage-kuala-lumpur/${slug}/`;
+  const sectionStart = html.indexOf('<section id="contact"');
+  if (sectionStart === -1) {
+    return html;
+  }
+
+  const sliderStart = html.indexOf('<div class="blog-slider', sectionStart);
+  if (sliderStart === -1) {
+    return html;
+  }
+
+  const gridData = collectTopLevelGridCardBlocks(html, sliderStart);
+  if (!gridData) {
+    return html;
+  }
+
+  if (gridData.blocks.some((block) => block.includes(relativeUrl) || block.includes(`/blog/${slug}.html`))) {
+    return html;
+  }
+
+  const sortedBlocks = sortCardBlocks([cardHtml, ...gridData.blocks]);
+  return `${html.slice(0, gridData.contentStart)}\n${formatSortedBlocks(sortedBlocks, "          ")}${html.slice(gridData.contentEnd)}`;
+}
+
 function insertIntoHubIndex(html, cardHtml, slug) {
   if (html.includes(`/blog/${slug}.html`) || html.includes(`/massage-kuala-lumpur/${slug}/`)) {
     return html;
@@ -1304,6 +1348,12 @@ function publish(payload) {
   const blogIndexPath = path.join(blogDir, "index.html");
   const blogIndexHtml = readText(blogIndexPath);
   plannedWrites.push({ file: blogIndexPath, content: insertIntoBlogIndex(blogIndexHtml, article.blogIndexCard, article.slug), isNewFile: false });
+
+  // Every article - regardless of hub or place selection - also appears in
+  // the homepage's "News & Blog" slider, newest first.
+  const homePagePath = path.join(ROOT, "index.html");
+  const homePageHtml = readText(homePagePath);
+  plannedWrites.push({ file: homePagePath, content: insertIntoHomeBlogSlider(homePageHtml, article.homeBlogCard, article.slug), isNewFile: false });
 
   const updatedHubs = [];
   for (const categorySlug of article.relatedHubs) {
