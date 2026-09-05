@@ -370,6 +370,30 @@
       font-weight: 600;
     }
 
+    .area-select-wrap {
+      margin-top: 1.7rem;
+      padding: 1.2rem 1rem;
+      border-radius: 1.2rem;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .area-select {
+      width: 100%;
+      margin-top: 0.9rem;
+      padding: 0.85rem 1rem;
+      border-radius: 0.8rem;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(0, 0, 0, 0.35);
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .area-select:focus {
+      outline: 2px solid var(--green-main);
+    }
+
     .budget-grid {
       margin-top: 1.7rem;
       display: grid;
@@ -809,7 +833,59 @@
             </section>
 
             <section class="step-panel hidden transition-all duration-300 ease-out" data-step="2">
-              <p class="step-kicker">Step 3 of 3</p>
+              <p class="step-kicker">Step 3 of 4</p>
+              <h2 class="step-title">Where are you located?</h2>
+
+              <div class="area-select-wrap">
+                <div class="slider-meta">
+                  <span>Your Area</span>
+                </div>
+                <select id="area-select" name="area" class="area-select">
+                  <option value="" disabled selected>Select your area</option>
+                  <option value="Kuala Lumpur City Centre">Kuala Lumpur City Centre</option>
+                  <option value="Ampang">Ampang</option>
+                  <option value="Ara Damansara">Ara Damansara</option>
+                  <option value="Balakong">Balakong</option>
+                  <option value="Bangsar">Bangsar</option>
+                  <option value="Bangsar South">Bangsar South</option>
+                  <option value="Batu Caves">Batu Caves</option>
+                  <option value="Brickfields">Brickfields</option>
+                  <option value="Bukit Bintang">Bukit Bintang</option>
+                  <option value="Bukit Jalil">Bukit Jalil</option>
+                  <option value="Cheras">Cheras</option>
+                  <option value="Cyberjaya">Cyberjaya</option>
+                  <option value="Damansara Heights">Damansara Heights</option>
+                  <option value="Desa ParkCity">Desa ParkCity</option>
+                  <option value="Kajang">Kajang</option>
+                  <option value="Kelana Jaya">Kelana Jaya</option>
+                  <option value="KL Sentral">KL Sentral</option>
+                  <option value="KLCC">KLCC</option>
+                  <option value="Kota Damansara">Kota Damansara</option>
+                  <option value="Kota Kemuning">Kota Kemuning</option>
+                  <option value="Mid Valley">Mid Valley</option>
+                  <option value="Mont Kiara">Mont Kiara</option>
+                  <option value="Petaling Jaya">Petaling Jaya</option>
+                  <option value="Puchong">Puchong</option>
+                  <option value="Putra Heights">Putra Heights</option>
+                  <option value="Putrajaya">Putrajaya</option>
+                  <option value="Selayang">Selayang</option>
+                  <option value="Seri Kembangan">Seri Kembangan</option>
+                  <option value="Setapak">Setapak</option>
+                  <option value="Shah Alam">Shah Alam</option>
+                  <option value="Sri Hartamas">Sri Hartamas</option>
+                  <option value="Subang">Subang</option>
+                  <option value="Subang Jaya">Subang Jaya</option>
+                  <option value="Sungai Buloh">Sungai Buloh</option>
+                  <option value="Sunway">Sunway</option>
+                  <option value="TTDI">TTDI</option>
+                  <option value="Other">Other / Not listed</option>
+                </select>
+              </div>
+              <p id="area-selected-note" class="selected-note hidden"></p>
+            </section>
+
+            <section class="step-panel hidden transition-all duration-300 ease-out" data-step="3">
+              <p class="step-kicker">Step 4 of 4</p>
               <h2 id="package-step-title" class="step-title">Would you like to see our packages?</h2>
               <p id="package-step-copy" class="step-copy">Choose preset packages to view the packages we already created for lady bookings.</p>
 
@@ -858,6 +934,8 @@
     const durationValue = document.querySelector("#duration-value");
     const genderSelectedNote = document.querySelector("#gender-selected-note");
     const hoursSelectedNote = document.querySelector("#hours-selected-note");
+    const areaSelect = document.querySelector("#area-select");
+    const areaSelectedNote = document.querySelector("#area-selected-note");
     const packageStepTitle = document.querySelector("#package-step-title");
     const packageStepCopy = document.querySelector("#package-step-copy");
     const packagePresetsButton = document.querySelector("#package-presets-button");
@@ -869,6 +947,7 @@
 
     let currentStep = 0;
     let selectedGender = "";
+    let selectedArea = "";
     let selectedPackagePath = "";
 
     const validateStep = (stepIndex) => {
@@ -881,6 +960,10 @@
       }
 
       if (stepIndex === 2) {
+        return selectedArea.length > 0;
+      }
+
+      if (stepIndex === 3) {
         return selectedPackagePath.length > 0;
       }
 
@@ -897,6 +980,10 @@
       }
 
       if (stepIndex === 2) {
+        alert("Please choose your area.");
+      }
+
+      if (stepIndex === 3) {
         alert("Please choose a package option and agree to the terms.");
       }
 
@@ -941,6 +1028,16 @@
 
     if (hoursSlider) {
       hoursSlider.addEventListener("input", syncDuration);
+    }
+
+    if (areaSelect) {
+      areaSelect.addEventListener("change", () => {
+        selectedArea = areaSelect.value;
+        if (areaSelectedNote) {
+          areaSelectedNote.textContent = `Selected area: ${selectedArea}`;
+          areaSelectedNote.classList.remove("hidden");
+        }
+      });
     }
 
     const syncPackageStepContent = () => {
@@ -1024,28 +1121,33 @@
       loadingScreen.classList.remove("hidden");
       loadingScreen.classList.add("flex");
 
+      const bookingParams = new URLSearchParams({
+        duration: durationInput.value,
+        area: selectedArea
+      }).toString();
+
       setTimeout(() => {
         if (selectedGender === "lady" && selectedPackagePath === "custom") {
-          window.location.href = "/lady-packages/customize.html";
+          window.location.href = `/lady-packages/customize.html?${bookingParams}`;
           return;
         }
 
         if (selectedGender === "male" && selectedPackagePath === "custom") {
-          window.location.href = "/male-packages/customize.html";
+          window.location.href = `/male-packages/customize.html?${bookingParams}`;
           return;
         }
 
         if (selectedGender === "male") {
-          window.location.href = "/male-packages";
+          window.location.href = `/male-packages?${bookingParams}`;
           return;
         }
 
         if (selectedGender === "lady") {
-          window.location.href = "/lady-packages";
+          window.location.href = `/lady-packages?${bookingParams}`;
           return;
         }
 
-        window.location.href = "/couple-packages";
+        window.location.href = `/couple-packages?${bookingParams}`;
       }, 1000);
     };
 
@@ -1090,7 +1192,7 @@
       progressBar.style.width = `${progress}%`;
       progressBar.textContent = `${progress}%`;
       backButton.hidden = false;
-      nextButton.hidden = stepIndex === 2 || stepIndex === stepPanels.length - 1;
+      nextButton.hidden = stepIndex === stepPanels.length - 1;
       nextButton.textContent = "Next Step";
       backButton.textContent = "Back";
 

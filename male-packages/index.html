@@ -724,8 +724,14 @@
     const modalLimitedNote = document.querySelector("#modal-limited-note");
     const modalWhatsappLink = document.querySelector("#modal-whatsapp-link");
     const whatsappNumber = "60164649008";
+    const bookingParams = new URLSearchParams(window.location.search);
+    const bookingDuration = bookingParams.get("duration") || "";
+    const bookingArea = bookingParams.get("area") || "";
     const buildWhatsappUrl = (packageLabel) => {
-      const message = `Hi I would like to book the ${packageLabel} for Male. 🙂`;
+      let message = `Hi I would like to book the ${packageLabel} for Male.`;
+      if (bookingDuration) message += `\nDuration: ${bookingDuration}`;
+      if (bookingArea) message += `\nArea: ${bookingArea}`;
+      message += " 🙂";
       return `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
     };
     const packageDetails = {
