@@ -383,15 +383,17 @@
       margin-top: 0.9rem;
       padding: 0.85rem 1rem;
       border-radius: 0.8rem;
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      background: rgba(0, 0, 0, 0.35);
-      color: #fff;
       font-size: 1rem;
       font-weight: 600;
     }
 
     .area-select:focus {
       outline: 2px solid var(--green-main);
+    }
+
+    .area-select::placeholder {
+      color: rgba(0, 0, 0, 0.45);
+      font-weight: 500;
     }
 
     .budget-grid {
@@ -840,46 +842,7 @@
                 <div class="slider-meta">
                   <span>Your Area</span>
                 </div>
-                <select id="area-select" name="area" class="area-select">
-                  <option value="" disabled selected>Select your area</option>
-                  <option value="Kuala Lumpur City Centre">Kuala Lumpur City Centre</option>
-                  <option value="Ampang">Ampang</option>
-                  <option value="Ara Damansara">Ara Damansara</option>
-                  <option value="Balakong">Balakong</option>
-                  <option value="Bangsar">Bangsar</option>
-                  <option value="Bangsar South">Bangsar South</option>
-                  <option value="Batu Caves">Batu Caves</option>
-                  <option value="Brickfields">Brickfields</option>
-                  <option value="Bukit Bintang">Bukit Bintang</option>
-                  <option value="Bukit Jalil">Bukit Jalil</option>
-                  <option value="Cheras">Cheras</option>
-                  <option value="Cyberjaya">Cyberjaya</option>
-                  <option value="Damansara Heights">Damansara Heights</option>
-                  <option value="Desa ParkCity">Desa ParkCity</option>
-                  <option value="Kajang">Kajang</option>
-                  <option value="Kelana Jaya">Kelana Jaya</option>
-                  <option value="KL Sentral">KL Sentral</option>
-                  <option value="KLCC">KLCC</option>
-                  <option value="Kota Damansara">Kota Damansara</option>
-                  <option value="Kota Kemuning">Kota Kemuning</option>
-                  <option value="Mid Valley">Mid Valley</option>
-                  <option value="Mont Kiara">Mont Kiara</option>
-                  <option value="Petaling Jaya">Petaling Jaya</option>
-                  <option value="Puchong">Puchong</option>
-                  <option value="Putra Heights">Putra Heights</option>
-                  <option value="Putrajaya">Putrajaya</option>
-                  <option value="Selayang">Selayang</option>
-                  <option value="Seri Kembangan">Seri Kembangan</option>
-                  <option value="Setapak">Setapak</option>
-                  <option value="Shah Alam">Shah Alam</option>
-                  <option value="Sri Hartamas">Sri Hartamas</option>
-                  <option value="Subang">Subang</option>
-                  <option value="Subang Jaya">Subang Jaya</option>
-                  <option value="Sungai Buloh">Sungai Buloh</option>
-                  <option value="Sunway">Sunway</option>
-                  <option value="TTDI">TTDI</option>
-                  <option value="Other">Other / Not listed</option>
-                </select>
+                <input id="area-select" name="area" type="text" class="area-select" placeholder="Type your place Eg : KL, Petaling Jaya, Damansara.." autocomplete="off">
               </div>
               <p id="area-selected-note" class="selected-note hidden"></p>
             </section>
@@ -1031,11 +994,15 @@
     }
 
     if (areaSelect) {
-      areaSelect.addEventListener("change", () => {
-        selectedArea = areaSelect.value;
+      areaSelect.addEventListener("input", () => {
+        selectedArea = areaSelect.value.trim();
         if (areaSelectedNote) {
-          areaSelectedNote.textContent = `Selected area: ${selectedArea}`;
-          areaSelectedNote.classList.remove("hidden");
+          if (selectedArea) {
+            areaSelectedNote.textContent = `Selected area: ${selectedArea}`;
+            areaSelectedNote.classList.remove("hidden");
+          } else {
+            areaSelectedNote.classList.add("hidden");
+          }
         }
       });
     }
