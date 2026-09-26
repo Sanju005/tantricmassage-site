@@ -300,7 +300,7 @@
     bubble.appendChild(meta);
     row.appendChild(bubble);
     chat.list.appendChild(row);
-    chat.rows[m.id] = { status: status };
+    chat.rows[m.id] = { status: status, el: row, created: m.created_at };
     if (mine) updateStatus(m);
     chat.list.scrollTop = chat.list.scrollHeight;
     if (live && !mine) {
@@ -316,11 +316,42 @@
     if (chat && chat.client && chat.conversationId) chat.client.rpc("mark_messages", { conv: chat.conversationId, kind: "delivered" });
   }
 
+  function removeRow(id) {
+    var r = chat.rows[id];
+    if (!r) return;
+    if (r.el) r.el.remove();
+    delete chat.rows[id];
+  }
+
+  function resetConversation() {
+    if (chat.channel) { chat.client.removeChannel(chat.channel); chat.channel = null; }
+    if (chat.poll) { clearInterval(chat.poll); chat.poll = null; }
+    chat.conversationId = null;
+    chat.rows = {};
+    chat.list.innerHTML = "";
+    chat.contactBox.hidden = false;
+    chat.notedReply = false;
+    try { localStorage.removeItem(CONFIG.startedKey); } catch (e) { /* ignore */ }
+  }
+
   function refreshStatuses() {
     if (!chat.client || !chat.conversationId) return;
-    chat.client.from("messages").select("id, delivered_at, read_at")
-      .eq("conversation_id", chat.conversationId).eq("sender", "customer")
-      .then(function (r) { if (!r.error && r.data) r.data.forEach(updateStatus); });
+    var cid = chat.conversationId;
+    chat.client.from("messages").select("id, delivered_at, read_at").eq("conversation_id", cid).limit(500)
+      .then(function (r) {
+        if (r.error || !r.data || chat.conversationId !== cid) return;
+        var live = {};
+        r.data.forEach(function (m) { live[m.id] = true; updateStatus(m); });
+        Object.keys(chat.rows).forEach(function (id) {
+          var age = Date.now() - new Date(chat.rows[id].created).getTime();
+          if (!live[id] && age > 15000) removeRow(id);
+        });
+        if (!r.data.length) {
+          chat.client.from("conversations").select("id").eq("id", cid).maybeSingle().then(function (c) {
+            if (!c.error && !c.data && chat.conversationId === cid) resetConversation();
+          });
+        }
+      });
   }
 
   function subscribe() {
@@ -333,6 +364,8 @@
         function (payload) { addMessage(payload.new, true); })
       .on("postgres_changes", { event: "UPDATE", schema: "public", table: "messages", filter: filter },
         function (payload) { updateStatus(payload.new); })
+      .on("postgres_changes", { event: "DELETE", schema: "public", table: "messages" },
+        function (payload) { if (payload.old && payload.old.id) removeRow(payload.old.id); })
       .subscribe();
   }
 
@@ -591,9 +624,17 @@
         chat.list.scrollTop = chat.list.scrollHeight;
       }
     }).catch(function (err) {
-      setError(err && err.message === "decode"
-        ? "That photo could not be read. Please try another photo or a screenshot."
-        : "Message could not be sent. Please try again, or use WhatsApp or Telegram.");
+      var msg = err && err.message ? String(err.message) : "";
+      if (msg === "decode") {
+        setError("That photo could not be read. Please try another photo or a screenshot.");
+      } else if (/chat_blocked/.test(msg)) {
+        setError("Messaging is not available for this connection.");
+      } else if ((err && (err.code === "23503" || err.code === "42501")) || /row-level security|foreign key/i.test(msg)) {
+        resetConversation();
+        setError("This chat was closed. Please send your message again.");
+      } else {
+        setError("Message could not be sent. Please try again, or use WhatsApp or Telegram.");
+      }
     }).then(function () {
       chat.send.disabled = false;
     });

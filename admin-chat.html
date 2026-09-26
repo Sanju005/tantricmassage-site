@@ -44,6 +44,8 @@
     .row.admin .bubble { background: var(--gold); color: #1a1300; }
     .row.customer .bubble { background: rgba(255,255,255,.12); }
     .time { display: block; margin-top: .2rem; font-size: .68rem; opacity: .7; text-align: right; }
+    .del { border: 0; background: none; color: inherit; opacity: .8; font-size: .68rem; text-decoration: underline; padding: 0; margin-left: .5rem; }
+    .badge.banned { color: #fff; background: #b3261e; }
     .status.is-read { color: #0a4fb3; font-weight: 700; opacity: 1; }
     .pic { display: block; max-width: 100%; max-height: 18rem; margin-bottom: .35rem; border-radius: .6rem; cursor: zoom-in; min-height: 3rem; min-width: 6rem; background: rgba(255,255,255,.1); }
     .filebar { display: flex; align-items: center; justify-content: space-between; gap: .5rem; margin: .5rem 1rem 0; padding: .4rem .7rem; border-radius: .6rem; font-size: .8rem; background: rgba(255,255,255,.08); border: 1px solid var(--line); }
@@ -95,7 +97,12 @@
       <div id="list" class="list"></div>
     </aside>
     <section class="main">
-      <div class="bar"><button class="btn ghost back" id="back" type="button">&larr; Back</button><h2 id="thread-title">Select a conversation</h2><span></span></div>
+      <div class="bar"><button class="btn ghost back" id="back" type="button">&larr; Back</button><h2 id="thread-title">Select a conversation</h2>
+        <div class="tools" id="thread-tools" hidden>
+          <button class="btn ghost small" id="ban-btn" type="button">Ban user</button>
+          <button class="btn ghost small" id="del-conv" type="button">Delete chat</button>
+        </div>
+      </div>
       <div id="contact" class="contact" hidden></div>
       <div id="msgs" class="msgs"><p class="empty">Pick a conversation on the left.</p></div>
       <div id="filebar" class="filebar" hidden><span id="filename"></span><button type="button" id="file-remove" aria-label="Remove photo">&times;</button></div>
@@ -199,6 +206,11 @@
           var when = document.createElement("span");
           when.textContent = fmt(c.last_message_at);
           top.appendChild(when);
+          if (isBanned(c)) {
+            var ban = document.createElement("span");
+            ban.className = "badge banned"; ban.textContent = "Banned";
+            top.appendChild(ban);
+          }
           if (c.last_sender === "customer") {
             var badge = document.createElement("span");
             badge.className = "badge"; badge.textContent = "Reply needed";
@@ -212,13 +224,50 @@
         });
       }
 
+      var bannedUsers = {};
+      var bannedIps = {};
+
+      function isBanned(c) {
+        return !!(bannedUsers[c.customer_id] || (c.ip && bannedIps[c.ip]));
+      }
+
+      function loadBans() {
+        return Promise.all([
+          db.from("banned_users").select("customer_id"),
+          db.from("banned_ips").select("ip")
+        ]).then(function (rs) {
+          bannedUsers = {}; bannedIps = {};
+          (rs[0].data || []).forEach(function (x) { bannedUsers[x.customer_id] = true; });
+          (rs[1].data || []).forEach(function (x) { bannedIps[x.ip] = true; });
+        });
+      }
+
+      function currentConversation() {
+        return conversations.filter(function (x) { return x.id === currentId; })[0];
+      }
+
+      function paintThreadTools() {
+        var c = currentConversation();
+        $("thread-tools").hidden = !c;
+        if (!c) return;
+        $("ban-btn").textContent = isBanned(c) ? "Unban user" : "Ban user";
+        var parts = [];
+        if (c.contact) parts.push("Contact left: " + c.contact);
+        parts.push("IP: " + (c.ip || "not recorded"));
+        $("contact").textContent = parts.join("  |  ");
+        $("contact").hidden = false;
+      }
+
       function loadList() {
-        return db.from("conversations").select("*").order("last_message_at", { ascending: false }).limit(100)
-          .then(function (r) {
-            if (r.error) return;
-            conversations = r.data;
-            renderList();
-          });
+        return Promise.all([
+          db.from("conversations").select("*").order("last_message_at", { ascending: false }).limit(100),
+          loadBans()
+        ]).then(function (rs) {
+          if (rs[0].error) return;
+          conversations = rs[0].data;
+          renderList();
+          paintThreadTools();
+        });
       }
 
       /* ---------- thread ---------- */
@@ -274,8 +323,12 @@
           t.appendChild(document.createTextNode(" "));
           t.appendChild(status);
         }
+        var del = document.createElement("button");
+        del.type = "button"; del.className = "del"; del.textContent = "Delete";
+        del.addEventListener("click", function () { deleteMessage(m); });
+        t.appendChild(del);
         bubble.appendChild(t); row.appendChild(bubble); box.appendChild(row);
-        rows[m.id] = { status: status };
+        rows[m.id] = { status: status, el: row };
         if (status) updateStatus(m);
         box.scrollTop = box.scrollHeight;
       }
@@ -283,6 +336,72 @@
       function mark(id, kind) {
         return db.rpc("mark_messages", { conv: id, kind: kind });
       }
+
+      function removeRow(id) {
+        var r = rows[id];
+        if (!r) return;
+        if (r.el) r.el.remove();
+        delete rows[id];
+      }
+
+      function deleteMessage(m) {
+        if (!confirm("Delete this message for everyone? This cannot be undone.")) return;
+        var step = m.image_path ? db.storage.from("chat-images").remove([m.image_path]) : Promise.resolve({});
+        step.then(function () {
+          return db.from("messages").delete().eq("id", m.id).select("id");
+        }).then(function (r) {
+          if (r.error || !r.data || !r.data.length) throw new Error("not deleted");
+          removeRow(m.id);
+          loadList();
+        }).catch(function () { alert("Could not delete this message."); });
+      }
+
+      $("del-conv").addEventListener("click", function () {
+        var id = currentId;
+        if (!id) return;
+        if (!confirm("Delete this whole chat and all its photos? The customer will no longer see it. This cannot be undone.")) return;
+        db.storage.from("chat-images").list(id, { limit: 1000 }).then(function (l) {
+          var paths = (l.data || []).map(function (f) { return id + "/" + f.name; });
+          return paths.length ? db.storage.from("chat-images").remove(paths) : null;
+        }).then(function () {
+          return db.from("conversations").delete().eq("id", id).select("id");
+        }).then(function (r) {
+          if (r.error || !r.data || !r.data.length) throw new Error("not deleted");
+          currentId = null;
+          rows = {};
+          $("msgs").innerHTML = '<p class="empty">Pick a conversation on the left.</p>';
+          $("reply").hidden = true;
+          $("contact").hidden = true;
+          $("thread-tools").hidden = true;
+          $("thread-title").textContent = "Select a conversation";
+          $("app").classList.remove("thread-open");
+          history.replaceState(null, "", location.pathname);
+          return loadList();
+        }).catch(function () { alert("Could not delete this chat."); });
+      });
+
+      $("ban-btn").addEventListener("click", function () {
+        var c = currentConversation();
+        if (!c) return;
+        var banned = isBanned(c);
+        var ask = banned
+          ? "Unban this user?"
+          : "Ban this user? They will no longer be able to send messages." + (c.ip ? " Their IP address (" + c.ip + ") will be blocked too." : "");
+        if (!confirm(ask)) return;
+        var ops = [];
+        if (banned) {
+          ops.push(db.from("banned_users").delete().eq("customer_id", c.customer_id));
+          if (c.ip) ops.push(db.from("banned_ips").delete().eq("ip", c.ip));
+        } else {
+          ops.push(db.from("banned_users").upsert({ customer_id: c.customer_id, reason: "Banned from admin" }));
+          if (c.ip) ops.push(db.from("banned_ips").upsert({ ip: c.ip, reason: "Banned from admin" }));
+        }
+        Promise.all(ops).then(function (rs) {
+          var bad = rs.filter(function (x) { return x.error; })[0];
+          if (bad) { alert("Could not update the ban: " + bad.error.message); return; }
+          return loadBans().then(function () { renderList(); paintThreadTools(); });
+        });
+      });
 
       function openConversation(id) {
         currentId = id;
@@ -292,8 +411,7 @@
         $("reply").hidden = false;
         var c = conversations.filter(function (x) { return x.id === id; })[0];
         $("thread-title").textContent = c ? "Chat " + fmt(c.created_at) : "Chat";
-        $("contact").hidden = !(c && c.contact);
-        if (c && c.contact) $("contact").textContent = "Contact left: " + c.contact;
+        paintThreadTools();
         history.replaceState(null, "", "?c=" + id);
         renderList();
         db.from("messages").select("*").eq("conversation_id", id).order("created_at", { ascending: true })
@@ -449,6 +567,10 @@
           })
           .on("postgres_changes", { event: "UPDATE", schema: "public", table: "messages" }, function (p) {
             updateStatus(p.new);
+          })
+          .on("postgres_changes", { event: "DELETE", schema: "public", table: "messages" }, function (p) {
+            if (p.old && p.old.id && rows[p.old.id]) removeRow(p.old.id);
+            loadList();
           })
           .on("postgres_changes", { event: "INSERT", schema: "public", table: "conversations" }, loadList)
           .subscribe();
