@@ -200,10 +200,6 @@
         '<div class="bc-summary"></div>' +
         '<div class="bc-push" hidden></div>' +
         '<div class="bc-messages" aria-live="polite"></div>' +
-        '<div class="bc-contact">' +
-          '<label for="bc-contact-input">Optional: how can we reach you if you leave this page?</label>' +
-          '<input id="bc-contact-input" type="text" maxlength="200" placeholder="WhatsApp, Telegram or email">' +
-        '</div>' +
         '<p class="bc-error" hidden></p>' +
         '<div class="bc-file" hidden><span class="bc-file-name"></span><button type="button" class="bc-file-remove" aria-label="Remove photo">&times;</button></div>' +
         '<form class="bc-form">' +
@@ -220,8 +216,6 @@
       summary: el.querySelector(".bc-summary"),
       push: el.querySelector(".bc-push"),
       list: el.querySelector(".bc-messages"),
-      contactBox: el.querySelector(".bc-contact"),
-      contact: el.querySelector("#bc-contact-input"),
       error: el.querySelector(".bc-error"),
       fileBar: el.querySelector(".bc-file"),
       fileName: el.querySelector(".bc-file-name"),
@@ -243,9 +237,9 @@
     el.addEventListener("click", function (e) { if (e.target === el) closeChat(); });
     document.addEventListener("keydown", function (e) { if (e.key === "Escape" && el.classList.contains("is-open")) closeChat(); });
     document.addEventListener("visibilitychange", function () { if (!document.hidden && isOpen()) { markRead(); refreshStatuses(); } });
-    api.form.addEventListener("submit", function (e) { e.preventDefault(); unlockAudio(); sendMessage(); });
+    api.form.addEventListener("submit", function (e) { e.preventDefault(); submitFromUser(); });
     api.input.addEventListener("keydown", function (e) {
-      if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) { e.preventDefault(); sendMessage(); }
+      if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) { e.preventDefault(); submitFromUser(); }
     });
     el.querySelector(".bc-attach").addEventListener("click", function () { api.fileInput.click(); });
     api.fileInput.addEventListener("change", function () {
@@ -365,7 +359,6 @@
     chat.conversationId = null;
     chat.rows = {};
     chat.list.innerHTML = "";
-    chat.contactBox.hidden = false;
     chat.notedReply = false;
     try { localStorage.removeItem(CONFIG.startedKey); } catch (e) { /* ignore */ }
   }
@@ -412,7 +405,6 @@
         if (r.error) throw r.error;
         if (!r.data || !r.data.length) return;
         chat.conversationId = r.data[0].id;
-        chat.contactBox.hidden = true;
         return chat.client.from("messages").select("*").eq("conversation_id", chat.conversationId)
           .order("created_at", { ascending: true }).limit(200)
           .then(function (m) {
@@ -467,42 +459,42 @@
     });
   }
 
+  function pushSupported() {
+    return "serviceWorker" in navigator && "PushManager" in window && "Notification" in window;
+  }
+
+  function showPushNote(msg) {
+    chat.push.textContent = msg;
+    chat.push.hidden = false;
+  }
+
   function setupPushBar() {
     if (chat.pushBarDone) return;
     chat.pushBarDone = true;
-    var bar = chat.push;
-    var supported = "serviceWorker" in navigator && "PushManager" in window && "Notification" in window;
     var ios = /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
     var standalone = window.navigator.standalone === true || (window.matchMedia && window.matchMedia("(display-mode: standalone)").matches);
 
-    if (!supported) {
+    if (!pushSupported()) {
       if (ios && !standalone) {
-        bar.textContent = "For reply alerts on iPhone: tap Share, then Add to Home Screen, and open this site from your Home Screen.";
-        bar.hidden = false;
+        showPushNote("For reply alerts on iPhone: tap Share, then Add to Home Screen, and open this site from your Home Screen.");
       }
       return;
     }
-    if (Notification.permission === "denied") return;
     if (Notification.permission === "granted") {
       saveSubscription().catch(function () { /* keep chat working */ });
-      return;
     }
-    var btn = document.createElement("button");
-    btn.type = "button";
-    btn.className = "bc-push-btn";
-    btn.textContent = "Get a notification when we reply";
-    btn.addEventListener("click", function () {
-      Notification.requestPermission().then(function (perm) {
-        if (perm !== "granted") { bar.hidden = true; return; }
-        return saveSubscription().then(function () {
-          bar.textContent = "Notifications are on. You will be alerted when we reply, even if you close this page.";
-        });
-      }).catch(function () {
-        bar.textContent = "Notifications could not be turned on in this browser.";
+  }
+
+  // Browsers only allow the permission prompt after a tap, so it is shown when the customer presses Send.
+  function askForPush() {
+    if (!chat || chat.pushAsked || !pushSupported() || Notification.permission !== "default") return;
+    chat.pushAsked = true;
+    Notification.requestPermission().then(function (perm) {
+      if (perm !== "granted") return;
+      return connect().then(saveSubscription).then(function () {
+        showPushNote("Notifications are on. You will be alerted when we reply, even if you close this page.");
       });
-    });
-    bar.appendChild(btn);
-    bar.hidden = false;
+    }).catch(function () { /* keep chat working */ });
   }
 
   /* ---------- open / close / send ---------- */
@@ -609,6 +601,12 @@
     });
   }
 
+  function submitFromUser() {
+    unlockAudio();
+    askForPush();
+    sendMessage();
+  }
+
   function sendMessage() {
     var body = chat.input.value.trim();
     var file = chat.file;
@@ -621,13 +619,12 @@
     var ready = chat.conversationId
       ? Promise.resolve(chat.conversationId)
       : chat.client.from("conversations")
-          .insert({ contact: chat.contact.value.trim() || null })
+          .insert({})
           .select("id").single()
           .then(function (r) {
             if (r.error) throw r.error;
             chat.conversationId = r.data.id;
-            chat.contactBox.hidden = true;
-            try { localStorage.setItem(CONFIG.startedKey, "1"); } catch (e) { /* ignore */ }
+                try { localStorage.setItem(CONFIG.startedKey, "1"); } catch (e) { /* ignore */ }
             subscribe();
             return r.data.id;
           });
