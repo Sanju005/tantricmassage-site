@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Chat Inbox</title>
+  <style>
+    :root { --bg:#0b0b0b; --panel:#151315; --line:rgba(255,255,255,.12); --gold:#ffd267; --text:#f8f5f6; --muted:rgba(255,255,255,.62); }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; }
+    body { background: var(--bg); color: var(--text); font: 15px/1.4 system-ui, -apple-system, "Segoe UI", sans-serif; }
+    [hidden] { display: none !important; }
+    button { font: inherit; cursor: pointer; }
+    input, textarea { font: inherit; font-size: 16px; color: var(--text); background: rgba(255,255,255,.08); border: 1px solid var(--line); border-radius: .6rem; padding: .6rem .7rem; width: 100%; }
+    .btn { border: 0; border-radius: .6rem; padding: .65rem 1rem; font-weight: 700; color: #1a1300; background: var(--gold); }
+    .btn.ghost { color: var(--text); background: rgba(255,255,255,.08); border: 1px solid var(--line); font-weight: 500; }
+    .btn:disabled { opacity: .55; cursor: default; }
+    .center { min-height: 100%; display: grid; place-items: center; padding: 1rem; }
+    .card { width: 100%; max-width: 22rem; background: var(--panel); border: 1px solid var(--line); border-radius: 1rem; padding: 1.25rem; display: grid; gap: .8rem; }
+    .card h1 { margin: 0; font-size: 1.2rem; color: var(--gold); }
+    .err { color: #ff9b9b; font-size: .85rem; margin: 0; }
+    .app { height: 100%; display: grid; grid-template-columns: 20rem 1fr; }
+    .side { border-right: 1px solid var(--line); display: flex; flex-direction: column; min-height: 0; }
+    .bar { display: flex; align-items: center; justify-content: space-between; gap: .5rem; padding: .8rem 1rem; border-bottom: 1px solid var(--line); }
+    .bar h2 { margin: 0; font-size: 1.05rem; color: var(--gold); }
+    .list { overflow-y: auto; flex: 1; }
+    .item { display: block; width: 100%; text-align: left; padding: .75rem 1rem; border: 0; border-bottom: 1px solid var(--line); background: none; color: inherit; }
+    .item.active { background: rgba(255,210,103,.1); }
+    .item .top { display: flex; justify-content: space-between; gap: .5rem; font-size: .78rem; color: var(--muted); }
+    .item .prev { margin-top: .2rem; font-size: .9rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .badge { color: #1a1300; background: var(--gold); border-radius: 999px; padding: 0 .5rem; font-size: .7rem; font-weight: 700; }
+    .main { display: flex; flex-direction: column; min-height: 0; min-width: 0; }
+    .msgs { flex: 1; overflow-y: auto; padding: 1rem; display: flex; flex-direction: column; gap: .5rem; }
+    .row { display: flex; }
+    .row.admin { justify-content: flex-end; }
+    .bubble { max-width: 80%; padding: .55rem .75rem; border-radius: .9rem; white-space: pre-wrap; overflow-wrap: anywhere; }
+    .row.admin .bubble { background: var(--gold); color: #1a1300; }
+    .row.customer .bubble { background: rgba(255,255,255,.12); }
+    .time { display: block; margin-top: .2rem; font-size: .68rem; opacity: .6; text-align: right; }
+    .reply { display: flex; gap: .5rem; padding: .7rem 1rem; border-top: 1px solid var(--line); align-items: flex-end; }
+    .reply textarea { resize: none; }
+    .empty { margin: auto; color: var(--muted); }
+    .contact { padding: .6rem 1rem; border-bottom: 1px solid var(--line); font-size: .85rem; color: var(--gold); }
+    .back { display: none; }
+    @media (max-width: 720px) {
+      .app { grid-template-columns: 1fr; }
+      .app.thread-open .side { display: none; }
+      .app:not(.thread-open) .main { display: none; }
+      .back { display: inline-block; }
+    }
+  </style>
+</head>
+<body>
+  <div id="login" class="center" hidden>
+    <form id="login-form" class="card">
+      <h1>Chat Inbox</h1>
+      <input id="email" type="email" placeholder="Email" autocomplete="username" required>
+      <input id="password" type="password" placeholder="Password" autocomplete="current-password" required>
+      <p id="login-err" class="err" hidden></p>
+      <button class="btn" type="submit">Sign in</button>
+    </form>
+  </div>
+
+  <div id="denied" class="center" hidden>
+    <div class="card">
+      <h1>Not authorised</h1>
+      <p class="err">This account is not an admin.</p>
+      <button class="btn ghost" id="denied-out" type="button">Sign out</button>
+    </div>
+  </div>
+
+  <div id="app" class="app" hidden>
+    <aside class="side">
+      <div class="bar"><h2>Messages</h2><button class="btn ghost" id="signout" type="button">Sign out</button></div>
+      <div id="list" class="list"></div>
+    </aside>
+    <section class="main">
+      <div class="bar"><button class="btn ghost back" id="back" type="button">&larr; Back</button><h2 id="thread-title">Select a conversation</h2><span></span></div>
+      <div id="contact" class="contact" hidden></div>
+      <div id="msgs" class="msgs"><p class="empty">Pick a conversation on the left.</p></div>
+      <form id="reply" class="reply" hidden>
+        <textarea id="reply-text" rows="2" maxlength="2000" placeholder="Type your reply (Ctrl+Enter to send)"></textarea>
+        <button class="btn" id="reply-send" type="submit">Send</button>
+      </form>
+    </section>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+  <script>
+    (function () {
+      "use strict";
+      var db = window.supabase.createClient(
+        "https://kejtfhaxrlvlckfrviju.supabase.co",
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtlanRmaGF4cmx2bGNrZnJ2aWp1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAzNzM4NTQsImV4cCI6MjEwNTk0OTg1NH0.byzaHKFFKU5fGZOL6RKhMH2eXoeKwD-X1E9uTX5KrfI",
+        { auth: { persistSession: true, autoRefreshToken: true, storageKey: "mkl-admin-auth" } }
+      );
+      var $ = function (id) { return document.getElementById(id); };
+      var conversations = [];
+      var currentId = null;
+      var seen = {};
+      var baseTitle = document.title;
+
+      function show(which) {
+        ["login", "denied", "app"].forEach(function (id) { $(id).hidden = id !== which; });
+      }
+
+      function fmt(iso) {
+        var d = new Date(iso);
+        var today = new Date();
+        return d.toDateString() === today.toDateString()
+          ? d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
+          : d.toLocaleDateString([], { day: "numeric", month: "short" }) + " " + d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+      }
+
+      function renderList() {
+        var list = $("list");
+        list.innerHTML = "";
+        if (!conversations.length) {
+          var e = document.createElement("p");
+          e.className = "empty"; e.style.padding = "1rem"; e.textContent = "No messages yet.";
+          list.appendChild(e);
+          return;
+        }
+        conversations.forEach(function (c) {
+          var b = document.createElement("button");
+          b.type = "button";
+          b.className = "item" + (c.id === currentId ? " active" : "");
+          var top = document.createElement("div");
+          top.className = "top";
+          var when = document.createElement("span");
+          when.textContent = fmt(c.last_message_at);
+          top.appendChild(when);
+          if (c.last_sender === "customer") {
+            var badge = document.createElement("span");
+            badge.className = "badge"; badge.textContent = "Reply needed";
+            top.appendChild(badge);
+          }
+          var prev = document.createElement("div");
+          prev.className = "prev"; prev.textContent = c.last_message_preview;
+          b.appendChild(top); b.appendChild(prev);
+          b.addEventListener("click", function () { openConversation(c.id); });
+          list.appendChild(b);
+        });
+      }
+
+      function loadList() {
+        return db.from("conversations").select("*").order("last_message_at", { ascending: false }).limit(100)
+          .then(function (r) {
+            if (r.error) return;
+            conversations = r.data;
+            renderList();
+          });
+      }
+
+      function addMsg(m) {
+        if (seen[m.id]) return;
+        seen[m.id] = true;
+        var box = $("msgs");
+        var empty = box.querySelector(".empty");
+        if (empty) empty.remove();
+        var row = document.createElement("div");
+        row.className = "row " + m.sender;
+        var bubble = document.createElement("div");
+        bubble.className = "bubble";
+        bubble.textContent = m.body;
+        var t = document.createElement("span");
+        t.className = "time"; t.textContent = fmt(m.created_at);
+        bubble.appendChild(t); row.appendChild(bubble); box.appendChild(row);
+        box.scrollTop = box.scrollHeight;
+      }
+
+      function openConversation(id) {
+        currentId = id;
+        seen = {};
+        $("msgs").innerHTML = "";
+        $("app").classList.add("thread-open");
+        $("reply").hidden = false;
+        var c = conversations.filter(function (x) { return x.id === id; })[0];
+        $("thread-title").textContent = c ? "Chat " + fmt(c.created_at) : "Chat";
+        $("contact").hidden = !(c && c.contact);
+        if (c && c.contact) $("contact").textContent = "Contact left: " + c.contact;
+        history.replaceState(null, "", "?c=" + id);
+        renderList();
+        db.from("messages").select("*").eq("conversation_id", id).order("created_at", { ascending: true })
+          .then(function (r) { if (!r.error && currentId === id) r.data.forEach(addMsg); });
+      }
+
+      $("back").addEventListener("click", function () {
+        currentId = null;
+        $("app").classList.remove("thread-open");
+        history.replaceState(null, "", location.pathname);
+        renderList();
+      });
+
+      function sendReply() {
+        var ta = $("reply-text");
+        var body = ta.value.trim();
+        if (!body || !currentId) return;
+        $("reply-send").disabled = true;
+        db.from("messages").insert({ conversation_id: currentId, sender: "admin", body: body }).select("*").single()
+          .then(function (r) {
+            if (r.error) { alert("Could not send: " + r.error.message); return; }
+            addMsg(r.data);
+            ta.value = "";
+            loadList();
+          })
+          .then(function () { $("reply-send").disabled = false; });
+      }
+      $("reply").addEventListener("submit", function (e) { e.preventDefault(); sendReply(); });
+      $("reply-text").addEventListener("keydown", function (e) {
+        if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) { e.preventDefault(); sendReply(); }
+      });
+
+      function startRealtime() {
+        db.channel("admin-inbox")
+          .on("postgres_changes", { event: "INSERT", schema: "public", table: "messages" }, function (p) {
+            var m = p.new;
+            if (m.conversation_id === currentId) addMsg(m);
+            if (m.sender === "customer") document.title = "(new) " + baseTitle;
+            loadList();
+          })
+          .on("postgres_changes", { event: "INSERT", schema: "public", table: "conversations" }, loadList)
+          .subscribe();
+        document.addEventListener("visibilitychange", function () {
+          if (!document.hidden) document.title = baseTitle;
+        });
+      }
+
+      var started = false;
+      function enter() {
+        return db.rpc("is_admin").then(function (r) {
+          if (r.error || r.data !== true) { show("denied"); return; }
+          show("app");
+          if (started) return;
+          started = true;
+          loadList().then(function () {
+            var c = new URLSearchParams(location.search).get("c");
+            if (c) openConversation(c);
+          });
+          startRealtime();
+        });
+      }
+
+      $("login-form").addEventListener("submit", function (e) {
+        e.preventDefault();
+        $("login-err").hidden = true;
+        db.auth.signInWithPassword({ email: $("email").value.trim(), password: $("password").value })
+          .then(function (r) {
+            if (r.error) { $("login-err").textContent = "Wrong email or password."; $("login-err").hidden = false; return; }
+            return enter();
+          });
+      });
+
+      function signOut() { db.auth.signOut().then(function () { location.reload(); }); }
+      $("signout").addEventListener("click", signOut);
+      $("denied-out").addEventListener("click", signOut);
+
+      db.auth.getSession().then(function (r) {
+        if (r.data && r.data.session) enter(); else show("login");
+      });
+    })();
+  </script>
+</body>
+</html>
