@@ -4,6 +4,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#0b0b0b">
+  <link rel="manifest" href="/admin.webmanifest">
+  <link rel="apple-touch-icon" href="/images/logo.png">
   <title>Chat Inbox</title>
   <style>
     :root { --bg:#0b0b0b; --panel:#151315; --line:rgba(255,255,255,.12); --gold:#ffd267; --text:#f8f5f6; --muted:rgba(255,255,255,.62); }
@@ -15,6 +18,7 @@
     input, textarea { font: inherit; font-size: 16px; color: var(--text); background: rgba(255,255,255,.08); border: 1px solid var(--line); border-radius: .6rem; padding: .6rem .7rem; width: 100%; }
     .btn { border: 0; border-radius: .6rem; padding: .65rem 1rem; font-weight: 700; color: #1a1300; background: var(--gold); }
     .btn.ghost { color: var(--text); background: rgba(255,255,255,.08); border: 1px solid var(--line); font-weight: 500; }
+    .btn.small { padding: .4rem .7rem; font-size: .8rem; }
     .btn:disabled { opacity: .55; cursor: default; }
     .center { min-height: 100%; display: grid; place-items: center; padding: 1rem; }
     .card { width: 100%; max-width: 22rem; background: var(--panel); border: 1px solid var(--line); border-radius: 1rem; padding: 1.25rem; display: grid; gap: .8rem; }
@@ -22,8 +26,10 @@
     .err { color: #ff9b9b; font-size: .85rem; margin: 0; }
     .app { height: 100%; display: grid; grid-template-columns: 20rem 1fr; }
     .side { border-right: 1px solid var(--line); display: flex; flex-direction: column; min-height: 0; }
-    .bar { display: flex; align-items: center; justify-content: space-between; gap: .5rem; padding: .8rem 1rem; border-bottom: 1px solid var(--line); }
+    .bar { display: flex; align-items: center; justify-content: space-between; gap: .5rem; padding: .8rem 1rem; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
     .bar h2 { margin: 0; font-size: 1.05rem; color: var(--gold); }
+    .tools { display: flex; gap: .4rem; flex-wrap: wrap; }
+    .hint { padding: .6rem 1rem; font-size: .8rem; color: var(--muted); border-bottom: 1px solid var(--line); }
     .list { overflow-y: auto; flex: 1; }
     .item { display: block; width: 100%; text-align: left; padding: .75rem 1rem; border: 0; border-bottom: 1px solid var(--line); background: none; color: inherit; }
     .item.active { background: rgba(255,210,103,.1); }
@@ -37,9 +43,15 @@
     .bubble { max-width: 80%; padding: .55rem .75rem; border-radius: .9rem; white-space: pre-wrap; overflow-wrap: anywhere; }
     .row.admin .bubble { background: var(--gold); color: #1a1300; }
     .row.customer .bubble { background: rgba(255,255,255,.12); }
-    .time { display: block; margin-top: .2rem; font-size: .68rem; opacity: .6; text-align: right; }
+    .time { display: block; margin-top: .2rem; font-size: .68rem; opacity: .7; text-align: right; }
+    .status.is-read { color: #0a4fb3; font-weight: 700; opacity: 1; }
+    .pic { display: block; max-width: 100%; max-height: 18rem; margin-bottom: .35rem; border-radius: .6rem; cursor: zoom-in; min-height: 3rem; min-width: 6rem; background: rgba(255,255,255,.1); }
+    .filebar { display: flex; align-items: center; justify-content: space-between; gap: .5rem; margin: .5rem 1rem 0; padding: .4rem .7rem; border-radius: .6rem; font-size: .8rem; background: rgba(255,255,255,.08); border: 1px solid var(--line); }
+    .filebar span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .filebar button { border: 0; background: none; color: #fff; font-size: 1.2rem; }
     .reply { display: flex; gap: .5rem; padding: .7rem 1rem; border-top: 1px solid var(--line); align-items: flex-end; }
     .reply textarea { resize: none; }
+    .attach { flex: none; width: 2.7rem; height: 2.7rem; border-radius: .6rem; color: #fff; background: rgba(255,255,255,.08); border: 1px solid var(--line); font-size: 1.15rem; }
     .empty { margin: auto; color: var(--muted); }
     .contact { padding: .6rem 1rem; border-bottom: 1px solid var(--line); font-size: .85rem; color: var(--gold); }
     .back { display: none; }
@@ -72,14 +84,24 @@
 
   <div id="app" class="app" hidden>
     <aside class="side">
-      <div class="bar"><h2>Messages</h2><button class="btn ghost" id="signout" type="button">Sign out</button></div>
+      <div class="bar">
+        <h2>Messages</h2>
+        <div class="tools">
+          <button class="btn ghost small" id="sound-toggle" type="button">Sound: On</button>
+          <button class="btn ghost small" id="signout" type="button">Sign out</button>
+        </div>
+      </div>
+      <div id="push-bar" class="hint" hidden></div>
       <div id="list" class="list"></div>
     </aside>
     <section class="main">
       <div class="bar"><button class="btn ghost back" id="back" type="button">&larr; Back</button><h2 id="thread-title">Select a conversation</h2><span></span></div>
       <div id="contact" class="contact" hidden></div>
       <div id="msgs" class="msgs"><p class="empty">Pick a conversation on the left.</p></div>
+      <div id="filebar" class="filebar" hidden><span id="filename"></span><button type="button" id="file-remove" aria-label="Remove photo">&times;</button></div>
       <form id="reply" class="reply" hidden>
+        <button type="button" class="attach" id="attach" aria-label="Attach photo" title="Attach photo">&#128206;</button>
+        <input type="file" id="file-input" accept="image/*" hidden>
         <textarea id="reply-text" rows="2" maxlength="2000" placeholder="Type your reply (Ctrl+Enter to send)"></textarea>
         <button class="btn" id="reply-send" type="submit">Send</button>
       </form>
@@ -90,6 +112,7 @@
   <script>
     (function () {
       "use strict";
+      var VAPID_PUBLIC_KEY = "BPhHp0fcc0ZMwsNH4nl1W9j7TtVrWk65sJIkfLSLRrIJ1eFeIo1tcs4hM-ERMpeGZimOt89CEyDYmhjIxSJYCnk";
       var db = window.supabase.createClient(
         "https://kejtfhaxrlvlckfrviju.supabase.co",
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtlanRmaGF4cmx2bGNrZnJ2aWp1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAzNzM4NTQsImV4cCI6MjEwNTk0OTg1NH0.byzaHKFFKU5fGZOL6RKhMH2eXoeKwD-X1E9uTX5KrfI",
@@ -98,8 +121,52 @@
       var $ = function (id) { return document.getElementById(id); };
       var conversations = [];
       var currentId = null;
-      var seen = {};
+      var rows = {};
+      var pendingFile = null;
       var baseTitle = document.title;
+      var soundOn = true;
+      try { soundOn = localStorage.getItem("mkl-admin-sound") !== "off"; } catch (e) { /* ignore */ }
+
+      /* ---------- sound ---------- */
+      var audioCtx = null;
+      function unlockAudio() {
+        try {
+          audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+          if (audioCtx.state === "suspended") audioCtx.resume();
+        } catch (e) { /* ignore */ }
+      }
+      ["pointerdown", "keydown", "touchstart"].forEach(function (evt) {
+        document.addEventListener(evt, unlockAudio, { passive: true });
+      });
+      function ding() {
+        if (!soundOn || !audioCtx) return;
+        try {
+          var t = audioCtx.currentTime;
+          [880, 1175, 880].forEach(function (freq, i) {
+            var osc = audioCtx.createOscillator();
+            var gain = audioCtx.createGain();
+            var start = t + i * 0.16;
+            osc.type = "sine";
+            osc.frequency.value = freq;
+            gain.gain.setValueAtTime(0.0001, start);
+            gain.gain.exponentialRampToValueAtTime(0.35, start + 0.02);
+            gain.gain.exponentialRampToValueAtTime(0.0001, start + 0.45);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start(start);
+            osc.stop(start + 0.5);
+          });
+        } catch (e) { /* ignore */ }
+      }
+      function paintSound() { $("sound-toggle").textContent = "Sound: " + (soundOn ? "On" : "Off"); }
+      $("sound-toggle").addEventListener("click", function () {
+        soundOn = !soundOn;
+        try { localStorage.setItem("mkl-admin-sound", soundOn ? "on" : "off"); } catch (e) { /* ignore */ }
+        paintSound();
+        unlockAudio();
+        ding();
+      });
+      paintSound();
 
       function show(which) {
         ["login", "denied", "app"].forEach(function (id) { $(id).hidden = id !== which; });
@@ -113,6 +180,7 @@
           : d.toLocaleDateString([], { day: "numeric", month: "short" }) + " " + d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
       }
 
+      /* ---------- inbox list ---------- */
       function renderList() {
         var list = $("list");
         list.innerHTML = "";
@@ -153,9 +221,32 @@
           });
       }
 
+      /* ---------- thread ---------- */
+      function statusLabel(m) {
+        if (m.read_at) return { text: "✓✓ Read", cls: "is-read" };
+        if (m.delivered_at) return { text: "✓✓ Delivered", cls: "" };
+        return { text: "✓ Sent", cls: "" };
+      }
+
+      function updateStatus(m) {
+        var r = rows[m.id];
+        if (!r || !r.status) return;
+        var s = statusLabel(m);
+        r.status.textContent = s.text;
+        r.status.className = "status " + s.cls;
+      }
+
+      function loadPic(img, storagePath) {
+        db.storage.from("chat-images").createSignedUrl(storagePath, 3600).then(function (r) {
+          if (!r.data || !r.data.signedUrl) return;
+          var url = r.data.signedUrl;
+          img.src = url;
+          img.addEventListener("click", function () { window.open(url, "_blank", "noopener"); });
+        });
+      }
+
       function addMsg(m) {
-        if (seen[m.id]) return;
-        seen[m.id] = true;
+        if (rows[m.id]) { updateStatus(m); return; }
         var box = $("msgs");
         var empty = box.querySelector(".empty");
         if (empty) empty.remove();
@@ -163,16 +254,39 @@
         row.className = "row " + m.sender;
         var bubble = document.createElement("div");
         bubble.className = "bubble";
-        bubble.textContent = m.body;
+        if (m.image_path) {
+          var img = document.createElement("img");
+          img.className = "pic"; img.alt = "Photo";
+          bubble.appendChild(img);
+          loadPic(img, m.image_path);
+        }
+        if (m.body) {
+          var body = document.createElement("div");
+          body.textContent = m.body;
+          bubble.appendChild(body);
+        }
         var t = document.createElement("span");
-        t.className = "time"; t.textContent = fmt(m.created_at);
+        t.className = "time";
+        t.appendChild(document.createTextNode(fmt(m.created_at)));
+        var status = null;
+        if (m.sender === "admin") {
+          status = document.createElement("span");
+          t.appendChild(document.createTextNode(" "));
+          t.appendChild(status);
+        }
         bubble.appendChild(t); row.appendChild(bubble); box.appendChild(row);
+        rows[m.id] = { status: status };
+        if (status) updateStatus(m);
         box.scrollTop = box.scrollHeight;
+      }
+
+      function mark(id, kind) {
+        return db.rpc("mark_messages", { conv: id, kind: kind });
       }
 
       function openConversation(id) {
         currentId = id;
-        seen = {};
+        rows = {};
         $("msgs").innerHTML = "";
         $("app").classList.add("thread-open");
         $("reply").hidden = false;
@@ -183,7 +297,11 @@
         history.replaceState(null, "", "?c=" + id);
         renderList();
         db.from("messages").select("*").eq("conversation_id", id).order("created_at", { ascending: true })
-          .then(function (r) { if (!r.error && currentId === id) r.data.forEach(addMsg); });
+          .then(function (r) {
+            if (r.error || currentId !== id) return;
+            r.data.forEach(addMsg);
+            if (!document.hidden) mark(id, "read");
+          });
       }
 
       $("back").addEventListener("click", function () {
@@ -193,40 +311,171 @@
         renderList();
       });
 
+      document.addEventListener("visibilitychange", function () {
+        if (!document.hidden) {
+          document.title = baseTitle;
+          if (currentId) mark(currentId, "read");
+        }
+      });
+
+      /* ---------- reply + photo ---------- */
+      function compressImage(file) {
+        return new Promise(function (resolve, reject) {
+          var url = URL.createObjectURL(file);
+          var img = new Image();
+          img.onload = function () {
+            URL.revokeObjectURL(url);
+            var scale = Math.min(1, 1600 / Math.max(img.naturalWidth, img.naturalHeight));
+            var canvas = document.createElement("canvas");
+            canvas.width = Math.max(1, Math.round(img.naturalWidth * scale));
+            canvas.height = Math.max(1, Math.round(img.naturalHeight * scale));
+            canvas.getContext("2d").drawImage(img, 0, 0, canvas.width, canvas.height);
+            canvas.toBlob(function (b) { b ? resolve(b) : reject(new Error("encode")); }, "image/jpeg", 0.85);
+          };
+          img.onerror = function () { URL.revokeObjectURL(url); reject(new Error("decode")); };
+          img.src = url;
+        });
+      }
+
+      function clearFile() {
+        pendingFile = null;
+        $("filebar").hidden = true;
+      }
+      $("attach").addEventListener("click", function () { $("file-input").click(); });
+      $("file-input").addEventListener("change", function () {
+        var f = this.files && this.files[0];
+        this.value = "";
+        if (!f) return;
+        if (!/^image\//.test(f.type)) { alert("Please choose a photo."); return; }
+        pendingFile = f;
+        $("filename").textContent = f.name;
+        $("filebar").hidden = false;
+      });
+      $("file-remove").addEventListener("click", clearFile);
+
       function sendReply() {
         var ta = $("reply-text");
         var body = ta.value.trim();
-        if (!body || !currentId) return;
+        var file = pendingFile;
+        var convId = currentId;
+        if ((!body && !file) || !convId) return;
         $("reply-send").disabled = true;
-        db.from("messages").insert({ conversation_id: currentId, sender: "admin", body: body }).select("*").single()
-          .then(function (r) {
-            if (r.error) { alert("Could not send: " + r.error.message); return; }
-            addMsg(r.data);
-            ta.value = "";
-            loadList();
-          })
-          .then(function () { $("reply-send").disabled = false; });
+
+        var upload = file
+          ? compressImage(file).then(function (blob) {
+              var p = convId + "/" + (crypto.randomUUID ? crypto.randomUUID() : Date.now() + "-" + Math.random().toString(36).slice(2)) + ".jpg";
+              return db.storage.from("chat-images").upload(p, blob, { contentType: "image/jpeg", upsert: false }).then(function (u) {
+                if (u.error) throw u.error;
+                return p;
+              });
+            })
+          : Promise.resolve(null);
+
+        upload.then(function (imagePath) {
+          return db.from("messages").insert({ conversation_id: convId, sender: "admin", body: body, image_path: imagePath }).select("*").single();
+        }).then(function (r) {
+          if (r.error) throw r.error;
+          if (currentId === convId) addMsg(r.data);
+          ta.value = "";
+          clearFile();
+          loadList();
+        }).catch(function (err) {
+          alert("Could not send: " + (err && err.message ? err.message : "please try again"));
+        }).then(function () { $("reply-send").disabled = false; });
       }
       $("reply").addEventListener("submit", function (e) { e.preventDefault(); sendReply(); });
       $("reply-text").addEventListener("keydown", function (e) {
         if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) { e.preventDefault(); sendReply(); }
       });
 
+      /* ---------- realtime ---------- */
       function startRealtime() {
         db.channel("admin-inbox")
           .on("postgres_changes", { event: "INSERT", schema: "public", table: "messages" }, function (p) {
             var m = p.new;
             if (m.conversation_id === currentId) addMsg(m);
-            if (m.sender === "customer") document.title = "(new) " + baseTitle;
+            if (m.sender === "customer") {
+              ding();
+              if (document.hidden) document.title = "(new) " + baseTitle;
+              if (m.conversation_id === currentId && !document.hidden) mark(m.conversation_id, "read");
+              else mark(m.conversation_id, "delivered");
+            }
             loadList();
+          })
+          .on("postgres_changes", { event: "UPDATE", schema: "public", table: "messages" }, function (p) {
+            updateStatus(p.new);
           })
           .on("postgres_changes", { event: "INSERT", schema: "public", table: "conversations" }, loadList)
           .subscribe();
-        document.addEventListener("visibilitychange", function () {
-          if (!document.hidden) document.title = baseTitle;
+      }
+
+      /* ---------- browser notifications ---------- */
+      function b64ToBytes(b64) {
+        var pad = "=".repeat((4 - (b64.length % 4)) % 4);
+        var raw = atob((b64 + pad).replace(/-/g, "+").replace(/_/g, "/"));
+        var out = new Uint8Array(raw.length);
+        for (var i = 0; i < raw.length; i++) out[i] = raw.charCodeAt(i);
+        return out;
+      }
+
+      function saveSubscription() {
+        return navigator.serviceWorker.register("/sw-chat.js").then(function () {
+          return navigator.serviceWorker.ready;
+        }).then(function (reg) {
+          return reg.pushManager.getSubscription().then(function (sub) {
+            return sub || reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: b64ToBytes(VAPID_PUBLIC_KEY) });
+          });
+        }).then(function (sub) {
+          return db.auth.getSession().then(function (s) {
+            return db.from("push_subscriptions").upsert(
+              { endpoint: sub.endpoint, user_id: s.data.session.user.id, subscription: sub.toJSON(), page_url: location.origin + "/admin-chat.html" },
+              { onConflict: "endpoint,user_id" }
+            );
+          });
         });
       }
 
+      function setupPush() {
+        var bar = $("push-bar");
+        bar.innerHTML = "";
+        var supported = "serviceWorker" in navigator && "PushManager" in window && "Notification" in window;
+        var ios = /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+        var standalone = window.navigator.standalone === true || (window.matchMedia && window.matchMedia("(display-mode: standalone)").matches);
+
+        if (!supported) {
+          if (ios && !standalone) {
+            bar.textContent = "For alerts on iPhone: tap Share, then Add to Home Screen, and open Inbox from your Home Screen.";
+            bar.hidden = false;
+          }
+          return;
+        }
+        if (Notification.permission === "denied") {
+          bar.textContent = "Notifications are blocked in this browser. Allow them in the site settings to get alerts.";
+          bar.hidden = false;
+          return;
+        }
+        if (Notification.permission === "granted") {
+          saveSubscription().catch(function () { /* ignore */ });
+          bar.hidden = true;
+          return;
+        }
+        var btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "btn small";
+        btn.textContent = "Turn on notifications for new messages";
+        btn.addEventListener("click", function () {
+          Notification.requestPermission().then(function (perm) {
+            if (perm !== "granted") { setupPush(); return; }
+            return saveSubscription().then(function () {
+              bar.textContent = "Notifications are on for this device.";
+            });
+          }).catch(function () { bar.textContent = "Notifications could not be turned on."; });
+        });
+        bar.appendChild(btn);
+        bar.hidden = false;
+      }
+
+      /* ---------- session ---------- */
       var started = false;
       function enter() {
         return db.rpc("is_admin").then(function (r) {
@@ -235,15 +484,18 @@
           if (started) return;
           started = true;
           loadList().then(function () {
+            conversations.forEach(function (c) { if (c.last_sender === "customer") mark(c.id, "delivered"); });
             var c = new URLSearchParams(location.search).get("c");
             if (c) openConversation(c);
           });
           startRealtime();
+          setupPush();
         });
       }
 
       $("login-form").addEventListener("submit", function (e) {
         e.preventDefault();
+        unlockAudio();
         $("login-err").hidden = true;
         db.auth.signInWithPassword({ email: $("email").value.trim(), password: $("password").value })
           .then(function (r) {

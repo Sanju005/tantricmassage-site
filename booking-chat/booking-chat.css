@@ -75,3 +75,26 @@
   font-weight: 700; color: #1a1300; background: #ffd267;
 }
 .bc-send:disabled { opacity: 0.55; cursor: default; }
+.bc-summary[hidden], .bc-push[hidden], .bc-file[hidden] { display: none; }
+.bc-status { font-size: 0.68rem; }
+.bc-status.is-read { color: #0a4fb3; font-weight: 700; }
+.bc-img { display: block; max-width: 100%; max-height: 16rem; margin-bottom: 0.35rem; border-radius: 0.6rem; cursor: zoom-in; background: rgba(255, 255, 255, 0.1); min-height: 3rem; min-width: 6rem; }
+.bc-push {
+  padding: 0.5rem 1rem; font-size: 0.8rem; line-height: 1.35; color: rgba(255, 255, 255, 0.85);
+  background: rgba(255, 210, 103, 0.06); border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+.bc-push-btn {
+  width: 100%; padding: 0.5rem 0.75rem; cursor: pointer; border-radius: 0.6rem; font-weight: 600;
+  color: #ffd267; background: transparent; border: 1px solid rgba(255, 210, 103, 0.5);
+}
+.bc-file {
+  display: flex; align-items: center; justify-content: space-between; gap: 0.5rem;
+  margin: 0.5rem 1rem 0; padding: 0.4rem 0.7rem; border-radius: 0.6rem; font-size: 0.8rem;
+  background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15);
+}
+.bc-file-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.bc-file-remove { flex: none; border: 0; background: none; color: #fff; font-size: 1.2rem; cursor: pointer; }
+.bc-attach {
+  flex: none; width: 2.6rem; height: 2.6rem; cursor: pointer; border-radius: 0.7rem; font-size: 1.15rem;
+  color: #fff; background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.18);
+}
