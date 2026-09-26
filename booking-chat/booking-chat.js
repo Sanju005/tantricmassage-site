@@ -10,8 +10,10 @@
     startedKey: "mkl-chat-started"
   };
 
+  var scriptEl = document.currentScript;
+  var wantsFab = !!(scriptEl && scriptEl.getAttribute("data-fab") === "true");
   var whatsappLink = document.getElementById("modal-whatsapp-link");
-  if (!whatsappLink) return;
+  if (!whatsappLink && !wantsFab) return;
 
   var path = location.pathname;
   var audience = /couple/i.test(path) ? "Couple" : /male-packages/i.test(path) && !/female|lady/i.test(path) ? "Male" : "Lady";
@@ -72,7 +74,8 @@
     } catch (e) { /* ignore */ }
   }
 
-  /* ---------- three-button chooser ---------- */
+  /* ---------- three-button chooser (package pages) ---------- */
+  function setupChooser() {
   var group = document.createElement("div");
   group.className = "bc-group";
   group.innerHTML =
@@ -117,6 +120,34 @@
   group.querySelector(".bc-btn-chat").addEventListener("click", function () {
     openChat(packageInfo());
   });
+  }
+  if (whatsappLink) setupChooser();
+
+  /* ---------- floating button (home page) ---------- */
+  var fab = null;
+  function buildFab() {
+    fab = document.createElement("button");
+    fab.type = "button";
+    fab.className = "bc-fab";
+    fab.setAttribute("aria-label", "Private chat");
+    fab.title = "Private chat";
+    fab.innerHTML =
+      '<svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+        '<path d="M21 11.5a8.5 8.5 0 0 1-12.4 7.5L3.5 20.5l1.5-4.7A8.5 8.5 0 1 1 21 11.5z"/>' +
+        '<path d="M8.5 11h7M8.5 14h4"/>' +
+      '</svg>' +
+      '<span class="bc-fab-label">Private chat</span>' +
+      '<span class="bc-fab-dot" hidden></span>';
+    fab.addEventListener("click", function () { openChat(null); });
+    document.body.appendChild(fab);
+  }
+
+  var unreadIds = {};
+  function paintDot() {
+    if (!fab) return;
+    var dot = fab.querySelector(".bc-fab-dot");
+    dot.hidden = Object.keys(unreadIds).length === 0;
+  }
 
   /* ---------- supabase client ---------- */
   var chat = null;
@@ -253,6 +284,7 @@
   }
 
   function updateStatus(m) {
+    if (m.read_at && unreadIds[m.id]) { delete unreadIds[m.id]; paintDot(); }
     var r = chat.rows[m.id];
     if (!r || !r.status) return;
     var s = statusLabel(m);
@@ -302,6 +334,7 @@
     chat.list.appendChild(row);
     chat.rows[m.id] = { status: status, el: row, created: m.created_at };
     if (mine) updateStatus(m);
+    if (!mine && !m.read_at && !isOpen()) { unreadIds[m.id] = true; paintDot(); }
     chat.list.scrollTop = chat.list.scrollHeight;
     if (live && !mine) {
       ding();
@@ -310,6 +343,8 @@
   }
 
   function markRead() {
+    unreadIds = {};
+    paintDot();
     if (chat && chat.client && chat.conversationId) chat.client.rpc("mark_messages", { conv: chat.conversationId, kind: "read" });
   }
   function markDelivered() {
@@ -321,6 +356,7 @@
     if (!r) return;
     if (r.el) r.el.remove();
     delete chat.rows[id];
+    if (unreadIds[id]) { delete unreadIds[id]; paintDot(); }
   }
 
   function resetConversation() {
@@ -490,6 +526,7 @@
     } else {
       chat.input.value = "";
     }
+    chat.input.placeholder = "Write your message here";
     setError("");
     chat.el.classList.add("is-open");
     chat.el.setAttribute("aria-hidden", "false");
@@ -641,6 +678,7 @@
   }
 
   /* ---------- startup ---------- */
+  if (wantsFab) buildFab();
   var started = false;
   try { started = localStorage.getItem(CONFIG.startedKey) === "1"; } catch (e) { /* ignore */ }
 
