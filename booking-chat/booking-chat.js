@@ -177,7 +177,7 @@
         '<div class="bc-file" hidden><span class="bc-file-name"></span><button type="button" class="bc-file-remove" aria-label="Remove photo">&times;</button></div>' +
         '<form class="bc-form">' +
           '<button type="button" class="bc-attach" aria-label="Attach photo" title="Attach photo">&#128206;</button>' +
-          '<input type="file" class="bc-file-input" accept="image/*" hidden>' +
+          '<input type="file" class="bc-file-input" accept="image/*,.heic,.heif" hidden>' +
           '<textarea class="bc-input" rows="3" maxlength="2000" aria-label="Your message"></textarea>' +
           '<button type="submit" class="bc-send">Send</button>' +
         '</form>' +
@@ -211,7 +211,7 @@
     el.querySelector(".bc-close").addEventListener("click", closeChat);
     el.addEventListener("click", function (e) { if (e.target === el) closeChat(); });
     document.addEventListener("keydown", function (e) { if (e.key === "Escape" && el.classList.contains("is-open")) closeChat(); });
-    document.addEventListener("visibilitychange", function () { if (!document.hidden && isOpen()) markRead(); });
+    document.addEventListener("visibilitychange", function () { if (!document.hidden && isOpen()) { markRead(); refreshStatuses(); } });
     api.form.addEventListener("submit", function (e) { e.preventDefault(); unlockAudio(); sendMessage(); });
     api.input.addEventListener("keydown", function (e) {
       if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) { e.preventDefault(); sendMessage(); }
@@ -221,7 +221,7 @@
       var f = api.fileInput.files && api.fileInput.files[0];
       api.fileInput.value = "";
       if (!f) return;
-      if (!/^image\//.test(f.type)) { setError("Please choose a photo."); return; }
+      if (!/^image\//.test(f.type) && !/\.(jpe?g|png|webp|gif|bmp|hei[cf])$/i.test(f.name)) { setError("Please choose a photo."); return; }
       if (f.size > 20 * 1024 * 1024) { setError("That photo is too large."); return; }
       setError("");
       api.file = f;
@@ -316,8 +316,16 @@
     if (chat && chat.client && chat.conversationId) chat.client.rpc("mark_messages", { conv: chat.conversationId, kind: "delivered" });
   }
 
+  function refreshStatuses() {
+    if (!chat.client || !chat.conversationId) return;
+    chat.client.from("messages").select("id, delivered_at, read_at")
+      .eq("conversation_id", chat.conversationId).eq("sender", "customer")
+      .then(function (r) { if (!r.error && r.data) r.data.forEach(updateStatus); });
+  }
+
   function subscribe() {
     if (chat.channel || !chat.conversationId) return;
+    if (!chat.poll) chat.poll = setInterval(function () { if (isOpen()) refreshStatuses(); }, 8000);
     var filter = "conversation_id=eq." + chat.conversationId;
     chat.channel = chat.client
       .channel("chat-" + chat.conversationId)
@@ -478,21 +486,56 @@
     document.body.classList.remove("bc-noscroll");
   }
 
-  function compressImage(file) {
+  function isHeic(file) {
+    return /hei[cf]/i.test(file.type) || /\.hei[cf]$/i.test(file.name);
+  }
+
+  function decodeImage(file) {
     return new Promise(function (resolve, reject) {
       var url = URL.createObjectURL(file);
       var img = new Image();
-      img.onload = function () {
-        URL.revokeObjectURL(url);
-        var scale = Math.min(1, 1600 / Math.max(img.naturalWidth, img.naturalHeight));
-        var canvas = document.createElement("canvas");
-        canvas.width = Math.max(1, Math.round(img.naturalWidth * scale));
-        canvas.height = Math.max(1, Math.round(img.naturalHeight * scale));
-        canvas.getContext("2d").drawImage(img, 0, 0, canvas.width, canvas.height);
-        canvas.toBlob(function (b) { b ? resolve(b) : reject(new Error("encode")); }, "image/jpeg", 0.82);
-      };
+      img.onload = function () { URL.revokeObjectURL(url); resolve(img); };
       img.onerror = function () { URL.revokeObjectURL(url); reject(new Error("decode")); };
       img.src = url;
+    });
+  }
+
+  function loadHeicConverter() {
+    if (window.heic2any) return Promise.resolve();
+    return new Promise(function (resolve, reject) {
+      var s = document.createElement("script");
+      s.src = "https://cdn.jsdelivr.net/npm/heic2any@0.0.4/dist/heic2any.min.js";
+      s.onload = resolve;
+      s.onerror = function () { reject(new Error("decode")); };
+      document.head.appendChild(s);
+    });
+  }
+
+  function toDrawable(file) {
+    return decodeImage(file).catch(function () {
+      if (!window.createImageBitmap) throw new Error("decode");
+      return createImageBitmap(file).catch(function () { throw new Error("decode"); });
+    }).catch(function (err) {
+      if (!isHeic(file)) throw err;
+      return loadHeicConverter()
+        .then(function () { return window.heic2any({ blob: file, toType: "image/jpeg", quality: 0.85 }); })
+        .then(function (out) { return decodeImage(Array.isArray(out) ? out[0] : out); })
+        .catch(function () { throw new Error("decode"); });
+    });
+  }
+
+  function compressImage(file) {
+    return toDrawable(file).then(function (src) {
+      var w = src.naturalWidth || src.width;
+      var h = src.naturalHeight || src.height;
+      var scale = Math.min(1, 1600 / Math.max(w, h));
+      var canvas = document.createElement("canvas");
+      canvas.width = Math.max(1, Math.round(w * scale));
+      canvas.height = Math.max(1, Math.round(h * scale));
+      canvas.getContext("2d").drawImage(src, 0, 0, canvas.width, canvas.height);
+      return new Promise(function (resolve, reject) {
+        canvas.toBlob(function (b) { b ? resolve(b) : reject(new Error("decode")); }, "image/jpeg", 0.82);
+      });
     });
   }
 
@@ -547,8 +590,10 @@
         chat.list.appendChild(note);
         chat.list.scrollTop = chat.list.scrollHeight;
       }
-    }).catch(function () {
-      setError("Message could not be sent. Please try again, or use WhatsApp or Telegram.");
+    }).catch(function (err) {
+      setError(err && err.message === "decode"
+        ? "That photo could not be read. Please try another photo or a screenshot."
+        : "Message could not be sent. Please try again, or use WhatsApp or Telegram.");
     }).then(function () {
       chat.send.disabled = false;
     });

@@ -101,7 +101,7 @@
       <div id="filebar" class="filebar" hidden><span id="filename"></span><button type="button" id="file-remove" aria-label="Remove photo">&times;</button></div>
       <form id="reply" class="reply" hidden>
         <button type="button" class="attach" id="attach" aria-label="Attach photo" title="Attach photo">&#128206;</button>
-        <input type="file" id="file-input" accept="image/*" hidden>
+        <input type="file" id="file-input" accept="image/*,.heic,.heif" hidden>
         <textarea id="reply-text" rows="2" maxlength="2000" placeholder="Type your reply (Ctrl+Enter to send)"></textarea>
         <button class="btn" id="reply-send" type="submit">Send</button>
       </form>
@@ -311,29 +311,72 @@
         renderList();
       });
 
+      function refreshStatuses() {
+        if (!currentId) return;
+        var id = currentId;
+        db.from("messages").select("id, delivered_at, read_at").eq("conversation_id", id).eq("sender", "admin")
+          .then(function (r) { if (!r.error && r.data && currentId === id) r.data.forEach(updateStatus); });
+      }
+      setInterval(function () { if (!document.hidden) refreshStatuses(); }, 8000);
+
       document.addEventListener("visibilitychange", function () {
         if (!document.hidden) {
           document.title = baseTitle;
-          if (currentId) mark(currentId, "read");
+          if (currentId) { mark(currentId, "read"); refreshStatuses(); }
         }
       });
 
       /* ---------- reply + photo ---------- */
-      function compressImage(file) {
+      function isHeic(file) {
+        return /hei[cf]/i.test(file.type) || /\.hei[cf]$/i.test(file.name);
+      }
+
+      function decodeImage(file) {
         return new Promise(function (resolve, reject) {
           var url = URL.createObjectURL(file);
           var img = new Image();
-          img.onload = function () {
-            URL.revokeObjectURL(url);
-            var scale = Math.min(1, 1600 / Math.max(img.naturalWidth, img.naturalHeight));
-            var canvas = document.createElement("canvas");
-            canvas.width = Math.max(1, Math.round(img.naturalWidth * scale));
-            canvas.height = Math.max(1, Math.round(img.naturalHeight * scale));
-            canvas.getContext("2d").drawImage(img, 0, 0, canvas.width, canvas.height);
-            canvas.toBlob(function (b) { b ? resolve(b) : reject(new Error("encode")); }, "image/jpeg", 0.85);
-          };
+          img.onload = function () { URL.revokeObjectURL(url); resolve(img); };
           img.onerror = function () { URL.revokeObjectURL(url); reject(new Error("decode")); };
           img.src = url;
+        });
+      }
+
+      function loadHeicConverter() {
+        if (window.heic2any) return Promise.resolve();
+        return new Promise(function (resolve, reject) {
+          var s = document.createElement("script");
+          s.src = "https://cdn.jsdelivr.net/npm/heic2any@0.0.4/dist/heic2any.min.js";
+          s.onload = resolve;
+          s.onerror = function () { reject(new Error("decode")); };
+          document.head.appendChild(s);
+        });
+      }
+
+      function toDrawable(file) {
+        return decodeImage(file).catch(function () {
+          if (!window.createImageBitmap) throw new Error("decode");
+          return createImageBitmap(file).catch(function () { throw new Error("decode"); });
+        }).catch(function (err) {
+          if (!isHeic(file)) throw err;
+          return loadHeicConverter()
+            .then(function () { return window.heic2any({ blob: file, toType: "image/jpeg", quality: 0.85 }); })
+            .then(function (out) { return decodeImage(Array.isArray(out) ? out[0] : out); })
+            .catch(function () { throw new Error("decode"); });
+        });
+      }
+
+      function compressImage(file) {
+        return toDrawable(file).then(function (src) {
+          var w = src.naturalWidth || src.width;
+          var h = src.naturalHeight || src.height;
+          var scale = Math.min(1, 1600 / Math.max(w, h));
+          var canvas = document.createElement("canvas");
+          canvas.width = Math.max(1, Math.round(w * scale));
+          canvas.height = Math.max(1, Math.round(h * scale));
+          canvas.getContext("2d").drawImage(src, 0, 0, canvas.width, canvas.height);
+          return new Promise(function (resolve, reject) {
+            canvas.toBlob(function (b) { b ? resolve(b) : reject(new Error("decode")); }, "image/jpeg", 0.85);
+          });
         });
       }
 
@@ -346,7 +389,7 @@
         var f = this.files && this.files[0];
         this.value = "";
         if (!f) return;
-        if (!/^image\//.test(f.type)) { alert("Please choose a photo."); return; }
+        if (!/^image\//.test(f.type) && !/\.(jpe?g|png|webp|gif|bmp|hei[cf])$/i.test(f.name)) { alert("Please choose a photo."); return; }
         pendingFile = f;
         $("filename").textContent = f.name;
         $("filebar").hidden = false;
@@ -380,7 +423,9 @@
           clearFile();
           loadList();
         }).catch(function (err) {
-          alert("Could not send: " + (err && err.message ? err.message : "please try again"));
+          alert(err && err.message === "decode"
+            ? "That photo could not be read. Please try another photo or a screenshot."
+            : "Could not send: " + (err && err.message ? err.message : "please try again"));
         }).then(function () { $("reply-send").disabled = false; });
       }
       $("reply").addEventListener("submit", function (e) { e.preventDefault(); sendReply(); });
