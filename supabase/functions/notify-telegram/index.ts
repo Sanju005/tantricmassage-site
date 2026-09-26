@@ -18,6 +18,19 @@ function safeSiteUrl(value: string | null): string {
   return SITE + "/";
 }
 
+async function lookupLocation(ip: string): Promise<string | null> {
+  try {
+    const res = await fetch(`https://ipwho.is/${encodeURIComponent(ip)}`, { signal: AbortSignal.timeout(3000) });
+    const j = await res.json();
+    if (!j?.success) return null;
+    const place = [j.city, j.region, j.country].filter(Boolean).join(", ");
+    const isp = j.connection?.isp || j.connection?.org;
+    return [place, isp].filter(Boolean).join(" · ") || null;
+  } catch {
+    return null;
+  }
+}
+
 Deno.serve(async (req) => {
   if (req.method !== "POST") return new Response("Method not allowed", { status: 405 });
   if (req.headers.get("x-webhook-secret") !== Deno.env.get("WEBHOOK_SECRET")) {
@@ -34,18 +47,27 @@ Deno.serve(async (req) => {
   );
   const { data: conv } = await supabase
     .from("conversations")
-    .select("contact, customer_id")
+    .select("contact, customer_id, ip, location")
     .eq("id", record.conversation_id)
     .maybeSingle();
 
   const fromCustomer = record.sender === "customer";
+
+  let location: string | null = conv?.location ?? null;
+  if (fromCustomer && conv?.ip && !location) {
+    location = await lookupLocation(conv.ip);
+    if (location) {
+      await supabase.from("conversations").update({ location }).eq("id", record.conversation_id);
+    }
+  }
   const preview = record.body ? String(record.body).slice(0, 900) : "";
   const results: Promise<boolean>[] = [];
 
   if (fromCustomer) {
     const lines = ["New private message", "", preview || "[Photo attached]"];
     if (preview && record.image_path) lines.push("[Photo attached]");
-    if (conv?.contact) lines.push("", `Contact: ${conv.contact}`);
+    if (location) lines.push("", `Location: ${location}`);
+    if (conv?.contact) lines.push(`Contact: ${conv.contact}`);
     lines.push("", `Reply: ${SITE}/admin-chat.html?c=${record.conversation_id}`);
     results.push(
       fetch(`https://api.telegram.org/bot${Deno.env.get("TELEGRAM_BOT_TOKEN")}/sendMessage`, {

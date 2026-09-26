@@ -601,6 +601,29 @@
     });
   }
 
+  function collectDevice() {
+    var info = {
+      platform: navigator.platform || "",
+      language: navigator.language || "",
+      screen: (window.screen ? window.screen.width + "x" + window.screen.height : "") + " @" + (window.devicePixelRatio || 1) + "x",
+      touch: navigator.maxTouchPoints || 0,
+      memory: navigator.deviceMemory || null,
+      cores: navigator.hardwareConcurrency || null
+    };
+    try { info.timezone = Intl.DateTimeFormat().resolvedOptions().timeZone; } catch (e) { /* ignore */ }
+    var uad = navigator.userAgentData;
+    if (!uad) return Promise.resolve(info);
+    info.mobile = !!uad.mobile;
+    info.brands = (uad.brands || []).map(function (b) { return b.brand + " " + b.version; }).join(", ");
+    if (!uad.getHighEntropyValues) return Promise.resolve(info);
+    return uad.getHighEntropyValues(["model", "platform", "platformVersion"]).then(function (h) {
+      info.model = h.model || "";
+      info.osName = h.platform || "";
+      info.osVersion = h.platformVersion || "";
+      return info;
+    }).catch(function () { return info; });
+  }
+
   function submitFromUser() {
     unlockAudio();
     askForPush();
@@ -618,9 +641,11 @@
     var conversationId;
     var ready = chat.conversationId
       ? Promise.resolve(chat.conversationId)
-      : chat.client.from("conversations")
-          .insert({})
-          .select("id").single()
+      : collectDevice().then(function (device) {
+          return chat.client.from("conversations")
+            .insert({ device_info: device })
+            .select("id").single();
+        })
           .then(function (r) {
             if (r.error) throw r.error;
             chat.conversationId = r.data.id;

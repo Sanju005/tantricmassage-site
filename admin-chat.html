@@ -55,7 +55,11 @@
     .reply textarea { resize: none; }
     .attach { flex: none; width: 2.7rem; height: 2.7rem; border-radius: .6rem; color: #fff; background: rgba(255,255,255,.08); border: 1px solid var(--line); font-size: 1.15rem; }
     .empty { margin: auto; color: var(--muted); }
-    .contact { padding: .6rem 1rem; border-bottom: 1px solid var(--line); font-size: .85rem; color: var(--gold); }
+    .details { padding: .5rem 1rem; border-bottom: 1px solid var(--line); font-size: .85rem; }
+    .details summary { cursor: pointer; color: var(--gold); }
+    .dgrid { display: grid; grid-template-columns: max-content 1fr; gap: .25rem .9rem; margin-top: .5rem; }
+    .dgrid dt, .dgrid span.k { color: var(--muted); }
+    .dgrid span.v { overflow-wrap: anywhere; }
     .back { display: none; }
     @media (max-width: 720px) {
       .app { grid-template-columns: 1fr; }
@@ -103,7 +107,10 @@
           <button class="btn ghost small" id="del-conv" type="button">Delete chat</button>
         </div>
       </div>
-      <div id="contact" class="contact" hidden></div>
+      <details id="details" class="details" hidden>
+        <summary>Customer details</summary>
+        <div id="details-body" class="dgrid"></div>
+      </details>
       <div id="msgs" class="msgs"><p class="empty">Pick a conversation on the left.</p></div>
       <div id="filebar" class="filebar" hidden><span id="filename"></span><button type="button" id="file-remove" aria-label="Remove photo">&times;</button></div>
       <form id="reply" class="reply" hidden>
@@ -246,16 +253,73 @@
         return conversations.filter(function (x) { return x.id === currentId; })[0];
       }
 
+      function parseUA(ua) {
+        ua = ua || "";
+        var os = "Unknown", m;
+        if ((m = ua.match(/Windows NT ([\d.]+)/))) os = "Windows " + ({ "10.0": "10/11", "6.3": "8.1", "6.2": "8", "6.1": "7" }[m[1]] || m[1]);
+        else if ((m = ua.match(/Android ([\d.]+)/))) os = "Android " + m[1];
+        else if ((m = ua.match(/(?:iPhone|CPU) OS ([\d_]+)/))) os = "iOS " + m[1].replace(/_/g, ".");
+        else if (/Mac OS X/.test(ua)) os = "macOS";
+        else if (/CrOS/.test(ua)) os = "ChromeOS";
+        else if (/Linux/.test(ua)) os = "Linux";
+
+        var browser = "Unknown";
+        if ((m = ua.match(/Edg(?:e|A|iOS)?\/([\d.]+)/))) browser = "Edge " + m[1].split(".")[0];
+        else if ((m = ua.match(/OPR\/([\d.]+)/))) browser = "Opera " + m[1].split(".")[0];
+        else if ((m = ua.match(/SamsungBrowser\/([\d.]+)/))) browser = "Samsung Internet " + m[1].split(".")[0];
+        else if ((m = ua.match(/(?:CriOS|Chrome)\/([\d.]+)/))) browser = "Chrome " + m[1].split(".")[0];
+        else if ((m = ua.match(/(?:FxiOS|Firefox)\/([\d.]+)/))) browser = "Firefox " + m[1].split(".")[0];
+        else if ((m = ua.match(/Version\/([\d.]+).*Safari/))) browser = "Safari " + m[1].split(".")[0];
+
+        var type = "Desktop";
+        if (/iPad|Tablet/.test(ua) || (/Android/.test(ua) && !/Mobile/.test(ua))) type = "Tablet";
+        else if (/Mobi|iPhone|Android/.test(ua)) type = "Mobile";
+
+        var model = "";
+        if (/iPhone/.test(ua)) model = "iPhone";
+        else if (/iPad/.test(ua)) model = "iPad";
+        else if ((m = ua.match(/Android [\d.]+; ([^;)]+?)(?: Build|;|\))/)) && m[1].length > 1) model = m[1];
+        else if (/Macintosh/.test(ua)) model = "Mac";
+        else if (/Windows/.test(ua)) model = "Windows PC";
+        return { os: os, browser: browser, type: type, model: model };
+      }
+
+      function paintDetails(c) {
+        var box = $("details-body");
+        box.innerHTML = "";
+        var ua = parseUA(c.user_agent);
+        var d = c.device_info || {};
+        var name = d.model || ua.model;
+        if (name && ua.model && d.model && d.model !== ua.model && /^(iPhone|iPad|Mac|Windows PC)$/.test(ua.model) === false) name = d.model;
+        if (/^(iPhone|iPad)$/.test(name || "")) name += " (exact model not shared by Apple)";
+        var os = ua.os;
+        if (d.osName && d.osVersion && /Android|Windows|macOS/i.test(d.osName)) os = d.osName + " " + String(d.osVersion).replace(/^"|"$/g, "");
+        var rows = [
+          ["IP address", c.ip || "not recorded"],
+          ["Location", c.location || (c.country ? "Country: " + c.country : "not available yet")],
+          ["Device", c.user_agent ? ua.type : "not recorded"],
+          ["Device name", name || (c.user_agent ? "not shared by this browser" : "not recorded")],
+          ["System", c.user_agent ? os : "not recorded"],
+          ["Browser", c.user_agent ? ua.browser : "not recorded"]
+        ];
+        if (d.screen) rows.push(["Screen", d.screen]);
+        if (d.language) rows.push(["Language", d.language]);
+        if (d.timezone) rows.push(["Time zone", d.timezone]);
+        if (c.contact) rows.push(["Contact left", c.contact]);
+        rows.forEach(function (r) {
+          var k = document.createElement("span"); k.className = "k"; k.textContent = r[0];
+          var v = document.createElement("span"); v.className = "v"; v.textContent = r[1];
+          box.appendChild(k); box.appendChild(v);
+        });
+        $("details").hidden = false;
+      }
+
       function paintThreadTools() {
         var c = currentConversation();
         $("thread-tools").hidden = !c;
-        if (!c) return;
+        if (!c) { $("details").hidden = true; return; }
         $("ban-btn").textContent = isBanned(c) ? "Unban user" : "Ban user";
-        var parts = [];
-        if (c.contact) parts.push("Contact left: " + c.contact);
-        parts.push("IP: " + (c.ip || "not recorded"));
-        $("contact").textContent = parts.join("  |  ");
-        $("contact").hidden = false;
+        paintDetails(c);
       }
 
       function loadList() {
@@ -374,7 +438,7 @@
           rows = {};
           $("msgs").innerHTML = '<p class="empty">Pick a conversation on the left.</p>';
           $("reply").hidden = true;
-          $("contact").hidden = true;
+          $("details").hidden = true;
           $("thread-tools").hidden = true;
           $("thread-title").textContent = "Select a conversation";
           $("app").classList.remove("thread-open");
@@ -576,6 +640,7 @@
             loadList();
           })
           .on("postgres_changes", { event: "INSERT", schema: "public", table: "conversations" }, loadList)
+          .on("postgres_changes", { event: "UPDATE", schema: "public", table: "conversations" }, loadList)
           .subscribe();
       }
 
