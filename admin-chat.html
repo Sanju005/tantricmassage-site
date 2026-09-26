@@ -350,10 +350,11 @@
         step.then(function () {
           return db.from("messages").delete().eq("id", m.id).select("id");
         }).then(function (r) {
-          if (r.error || !r.data || !r.data.length) throw new Error("not deleted");
+          if (r.error) throw r.error;
+          if (!r.data || !r.data.length) throw new Error("Not allowed. Run supabase/migration-3.sql in the Supabase SQL Editor.");
           removeRow(m.id);
           loadList();
-        }).catch(function () { alert("Could not delete this message."); });
+        }).catch(function (err) { alert("Could not delete this message: " + (err && err.message ? err.message : "unknown error")); });
       }
 
       $("del-conv").addEventListener("click", function () {
@@ -363,10 +364,12 @@
         db.storage.from("chat-images").list(id, { limit: 1000 }).then(function (l) {
           var paths = (l.data || []).map(function (f) { return id + "/" + f.name; });
           return paths.length ? db.storage.from("chat-images").remove(paths) : null;
-        }).then(function () {
+        }).then(function (removed) {
+          if (removed && removed.error) throw removed.error;
           return db.from("conversations").delete().eq("id", id).select("id");
         }).then(function (r) {
-          if (r.error || !r.data || !r.data.length) throw new Error("not deleted");
+          if (r.error) throw r.error;
+          if (!r.data || !r.data.length) throw new Error("Not allowed. Run supabase/migration-3.sql in the Supabase SQL Editor.");
           currentId = null;
           rows = {};
           $("msgs").innerHTML = '<p class="empty">Pick a conversation on the left.</p>';
@@ -377,7 +380,7 @@
           $("app").classList.remove("thread-open");
           history.replaceState(null, "", location.pathname);
           return loadList();
-        }).catch(function () { alert("Could not delete this chat."); });
+        }).catch(function (err) { alert("Could not delete this chat: " + (err && err.message ? err.message : "unknown error")); });
       });
 
       $("ban-btn").addEventListener("click", function () {
