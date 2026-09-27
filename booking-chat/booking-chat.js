@@ -336,13 +336,17 @@
     }
   }
 
+  function reportMarkError(r) {
+    if (r && r.error) console.error("mark_messages failed:", r.error);
+    return r;
+  }
   function markRead() {
     unreadIds = {};
     paintDot();
-    if (chat && chat.client && chat.conversationId) chat.client.rpc("mark_messages", { conv: chat.conversationId, kind: "read" });
+    if (chat && chat.client && chat.conversationId) chat.client.rpc("mark_messages", { conv: chat.conversationId, kind: "read" }).then(reportMarkError);
   }
   function markDelivered() {
-    if (chat && chat.client && chat.conversationId) chat.client.rpc("mark_messages", { conv: chat.conversationId, kind: "delivered" });
+    if (chat && chat.client && chat.conversationId) chat.client.rpc("mark_messages", { conv: chat.conversationId, kind: "delivered" }).then(reportMarkError);
   }
 
   function removeRow(id) {

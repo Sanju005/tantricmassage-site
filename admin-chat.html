@@ -398,7 +398,10 @@
       }
 
       function mark(id, kind) {
-        return db.rpc("mark_messages", { conv: id, kind: kind });
+        return db.rpc("mark_messages", { conv: id, kind: kind }).then(function (r) {
+          if (r.error) console.error("mark_messages failed:", r.error);
+          return r;
+        });
       }
 
       function removeRow(id) {
