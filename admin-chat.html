@@ -35,13 +35,17 @@
     .list { overflow-y: auto; flex: 1; }
     .item { display: block; width: 100%; text-align: left; padding: .75rem 1rem; border: 0; border-bottom: 1px solid var(--line); background: none; color: inherit; }
     .item.active { background: rgba(255,210,103,.1); }
+    .item .name { font-size: .92rem; font-weight: 600; color: var(--gold); }
     .item .top { display: flex; justify-content: space-between; gap: .5rem; font-size: .78rem; color: var(--muted); }
     .item .prev { margin-top: .2rem; font-size: .9rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     .badge { color: #1a1300; background: var(--gold); border-radius: 999px; padding: 0 .5rem; font-size: .7rem; font-weight: 700; }
     .main { display: flex; flex-direction: column; min-height: 0; min-width: 0; }
     .msgs { flex: 1; overflow-y: auto; padding: 1rem; display: flex; flex-direction: column; gap: .5rem; }
-    .row { display: flex; }
+    .row { display: flex; align-items: flex-end; gap: .4rem; }
     .row.admin { justify-content: flex-end; }
+    .avatar { width: 1.7rem; height: 1.7rem; border-radius: 50%; flex: none; object-fit: cover; background: rgba(255,255,255,.12); }
+    .avatar-customer { display: flex; align-items: center; justify-content: center; font-size: .82rem; font-weight: 700; color: #1a1300; background: var(--gold); }
+    .avatar-blank { color: rgba(255,255,255,.7); background: rgba(255,255,255,.12); }
     .bubble { max-width: 80%; padding: .55rem .75rem; border-radius: .9rem; white-space: pre-wrap; overflow-wrap: anywhere; }
     .row.admin .bubble { background: var(--gold); color: #1a1300; }
     .row.customer .bubble { background: rgba(255,255,255,.12); }
@@ -220,6 +224,11 @@
           var b = document.createElement("button");
           b.type = "button";
           b.className = "item" + (c.id === currentId ? " active" : "");
+          if (c.nickname) {
+            var name = document.createElement("div");
+            name.className = "name"; name.textContent = c.nickname;
+            b.appendChild(name);
+          }
           var top = document.createElement("div");
           top.className = "top";
           var when = document.createElement("span");
@@ -370,6 +379,29 @@
         });
       }
 
+      var BLANK_AVATAR_SVG = '<svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg>';
+
+      function buildAvatar(sender) {
+        if (sender === "admin") {
+          var img = document.createElement("img");
+          img.className = "avatar";
+          img.src = "/images/logo.png";
+          img.alt = "";
+          return img;
+        }
+        var c = currentConversation();
+        var letter = ((c && c.nickname) || "").trim().charAt(0).toUpperCase();
+        var el = document.createElement("div");
+        if (letter) {
+          el.className = "avatar avatar-customer";
+          el.textContent = letter;
+        } else {
+          el.className = "avatar avatar-customer avatar-blank";
+          el.innerHTML = BLANK_AVATAR_SVG;
+        }
+        return el;
+      }
+
       function addMsg(m) {
         if (rows[m.id]) { updateStatus(m); return; }
         var box = $("msgs");
@@ -377,6 +409,7 @@
         if (empty) empty.remove();
         var row = document.createElement("div");
         row.className = "row " + m.sender;
+        row.appendChild(buildAvatar(m.sender));
         var bubble = document.createElement("div");
         bubble.className = "bubble";
         if (m.image_path) {
@@ -413,7 +446,11 @@
         if (!typingEl) {
           typingEl = document.createElement("div");
           typingEl.className = "row customer";
-          typingEl.innerHTML = '<div class="bubble typing-bubble"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></div>';
+          typingEl.appendChild(buildAvatar("customer"));
+          var bubble = document.createElement("div");
+          bubble.className = "bubble typing-bubble";
+          bubble.innerHTML = '<span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span>';
+          typingEl.appendChild(bubble);
         }
         if (!typingEl.parentNode) {
           $("msgs").appendChild(typingEl);
@@ -531,7 +568,7 @@
         $("reply").hidden = false;
         openTypingChannel(id);
         var c = conversations.filter(function (x) { return x.id === id; })[0];
-        $("thread-title").textContent = c ? "Chat " + fmt(c.created_at) : "Chat";
+        $("thread-title").textContent = c ? (c.nickname ? c.nickname : "Chat " + fmt(c.created_at)) : "Chat";
         paintThreadTools();
         history.replaceState(null, "", "?c=" + id);
         renderList();
@@ -767,6 +804,15 @@
         bar.hidden = false;
       }
 
+      /* ---------- presence ---------- */
+      function trackPresence() {
+        var presenceChannel = db.channel("presence-admin", { config: { presence: {} } });
+        presenceChannel.subscribe(function (status) {
+          if (status === "SUBSCRIBED") presenceChannel.track({ online_at: new Date().toISOString() });
+        });
+        window.addEventListener("beforeunload", function () { presenceChannel.untrack(); });
+      }
+
       /* ---------- session ---------- */
       var started = false;
       function enter() {
@@ -782,6 +828,7 @@
           });
           startRealtime();
           setupPush();
+          trackPresence();
         });
       }
 

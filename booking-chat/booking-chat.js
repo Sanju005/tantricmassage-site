@@ -195,9 +195,10 @@
     el.innerHTML =
       '<div class="bc-panel" role="dialog" aria-modal="true" aria-label="Private message">' +
         '<div class="bc-head">' +
-          '<div><p class="bc-head-title">Private Message</p><p class="bc-head-sub">&#128274; 100% Private &middot; Only you and your masseur can see this chat</p></div>' +
+          '<div><p class="bc-head-title">Private Message <span class="bc-online" hidden><span class="bc-online-dot"></span>Online now</span></p><p class="bc-head-sub">&#128274; 100% Private &middot; Only you and your masseur can see this chat</p></div>' +
           '<button type="button" class="bc-close" aria-label="Close">&times;</button>' +
         '</div>' +
+        '<div class="bc-intro"><p>No sign-up, no email, or phone number required.</p><input type="text" class="bc-nickname-input" maxlength="40" placeholder="Your nickname (optional)"></div>' +
         '<div class="bc-summary"></div>' +
         '<div class="bc-retain"></div>' +
         '<div class="bc-push" hidden></div>' +
@@ -215,6 +216,10 @@
 
     var api = {
       el: el,
+      onlineBadge: el.querySelector(".bc-online"),
+      intro: el.querySelector(".bc-intro"),
+      nicknameInput: el.querySelector(".bc-nickname-input"),
+      nickname: null,
       summary: el.querySelector(".bc-summary"),
       retainBar: el.querySelector(".bc-retain"),
       retain: null,
@@ -237,7 +242,8 @@
       pushBarDone: false,
       typingEl: null,
       typingHideTimer: null,
-      typingSentAt: 0
+      typingSentAt: 0,
+      presenceChannel: null
     };
 
     el.querySelector(".bc-close").addEventListener("click", closeChat);
@@ -285,6 +291,10 @@
     chat.error.hidden = !msg;
   }
 
+  function updateIntro() {
+    chat.intro.hidden = !!chat.conversationId;
+  }
+
   function renderRetention() {
     var el = chat.retainBar;
     el.innerHTML = "";
@@ -325,12 +335,37 @@
     r.status.className = "bc-status " + s.cls;
   }
 
+  var BLANK_AVATAR_SVG = '<svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg>';
+
+  function buildAvatar(sender) {
+    if (sender === "admin") {
+      var img = document.createElement("img");
+      img.className = "bc-avatar";
+      img.src = "/images/logo.png";
+      img.alt = "";
+      return img;
+    }
+    var el = document.createElement("div");
+    var letter = (chat.nickname || "").trim().charAt(0).toUpperCase();
+    if (letter) {
+      el.className = "bc-avatar bc-avatar-customer";
+      el.textContent = letter;
+    } else {
+      el.className = "bc-avatar bc-avatar-customer bc-avatar-blank";
+      el.innerHTML = BLANK_AVATAR_SVG;
+    }
+    return el;
+  }
+
   function showTypingIndicator() {
     if (!chat.typingEl) {
       chat.typingEl = document.createElement("div");
       chat.typingEl.className = "bc-typing";
-      chat.typingEl.innerHTML =
-        '<div class="bc-typing-bubble"><span class="bc-typing-dot"></span><span class="bc-typing-dot"></span><span class="bc-typing-dot"></span></div>';
+      chat.typingEl.appendChild(buildAvatar("admin"));
+      var bubble = document.createElement("div");
+      bubble.className = "bc-typing-bubble";
+      bubble.innerHTML = '<span class="bc-typing-dot"></span><span class="bc-typing-dot"></span><span class="bc-typing-dot"></span>';
+      chat.typingEl.appendChild(bubble);
     }
     if (!chat.typingEl.parentNode) {
       chat.list.appendChild(chat.typingEl);
@@ -381,6 +416,7 @@
       meta.appendChild(status);
     }
     bubble.appendChild(meta);
+    row.appendChild(buildAvatar(m.sender));
     row.appendChild(bubble);
     chat.list.appendChild(row);
     chat.rows[m.id] = { status: status, el: row, created: m.created_at };
@@ -422,9 +458,11 @@
     chat.rows = {};
     chat.list.innerHTML = "";
     chat.notedReply = false;
+    chat.nickname = null;
     clearTimeout(chat.typingHideTimer);
     chat.typingEl = null;
     renderRetention();
+    updateIntro();
     try { localStorage.removeItem(CONFIG.startedKey); } catch (e) { /* ignore */ }
   }
 
@@ -469,15 +507,17 @@
   function loadExisting() {
     var cutoff = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
     return chat.client
-      .from("conversations").select("id, retain")
+      .from("conversations").select("id, retain, nickname")
       .or("retain.eq.keep,last_message_at.gte." + cutoff)
       .order("last_message_at", { ascending: false }).limit(1)
       .then(function (r) {
         if (r.error) throw r.error;
-        if (!r.data || !r.data.length) { renderRetention(); return; }
+        if (!r.data || !r.data.length) { renderRetention(); updateIntro(); return; }
         chat.conversationId = r.data[0].id;
         chat.retain = r.data[0].retain;
+        chat.nickname = r.data[0].nickname;
         renderRetention();
+        updateIntro();
         return chat.client.from("messages").select("*").eq("conversation_id", chat.conversationId)
           .order("created_at", { ascending: true }).limit(200)
           .then(function (m) {
@@ -530,6 +570,17 @@
         );
       });
     });
+  }
+
+  function watchAdminPresence() {
+    if (chat.presenceChannel) return;
+    chat.presenceChannel = chat.client.channel("presence-admin", { config: { presence: {} } });
+    chat.presenceChannel
+      .on("presence", { event: "sync" }, function () {
+        var state = chat.presenceChannel.presenceState();
+        chat.onlineBadge.hidden = Object.keys(state).length === 0;
+      })
+      .subscribe();
   }
 
   function pushSupported() {
@@ -597,6 +648,7 @@
     chat.input.placeholder = "Write your message here";
     setError("");
     renderRetention();
+    updateIntro();
     chat.el.classList.add("is-open");
     chat.el.setAttribute("aria-hidden", "false");
     document.body.classList.add("bc-noscroll");
@@ -604,6 +656,7 @@
 
     if (chat.client) {
       setupPushBar();
+      watchAdminPresence();
       markRead();
       return;
     }
@@ -611,6 +664,7 @@
     connect().then(function () {
       chat.send.disabled = false;
       setupPushBar();
+      watchAdminPresence();
       markRead();
     }).catch(function () {
       setError("Private chat is unavailable right now. Please use WhatsApp or Telegram.");
@@ -720,16 +774,18 @@
       ? Promise.resolve(chat.conversationId)
       : collectDevice().then(function (device) {
           return chat.client.from("conversations")
-            .insert({ device_info: device })
+            .insert({ device_info: device, nickname: chat.nicknameInput.value.trim().slice(0, 40) || null })
             .select("id").single();
         })
           .then(function (r) {
             if (r.error) throw r.error;
             chat.conversationId = r.data.id;
             chat.retain = "auto_30";
+            chat.nickname = chat.nicknameInput.value.trim().slice(0, 40) || null;
                 try { localStorage.setItem(CONFIG.startedKey, "1"); } catch (e) { /* ignore */ }
             subscribe();
             renderRetention();
+            updateIntro();
             return r.data.id;
           });
 
