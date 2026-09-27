@@ -53,7 +53,6 @@
     .filebar { display: flex; align-items: center; justify-content: space-between; gap: .5rem; margin: .5rem 1rem 0; padding: .4rem .7rem; border-radius: .6rem; font-size: .8rem; background: rgba(255,255,255,.08); border: 1px solid var(--line); }
     .filebar span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     .filebar button { border: 0; background: none; color: #fff; font-size: 1.2rem; }
-    .quick-replies { display: flex; gap: .4rem; flex-wrap: wrap; padding: .6rem 1rem 0; }
     .typing-bubble { display: inline-flex; align-items: center; gap: .28rem; padding: .5rem .7rem; }
     .typing-dot { width: .38rem; height: .38rem; border-radius: 50%; background: rgba(255,255,255,.75); animation: typing-bounce 1.2s infinite ease-in-out; }
     .typing-dot:nth-child(2) { animation-delay: .15s; }
@@ -122,9 +121,6 @@
       </details>
       <div id="msgs" class="msgs"><p class="empty">Pick a conversation on the left.</p></div>
       <div id="filebar" class="filebar" hidden><span id="filename"></span><button type="button" id="file-remove" aria-label="Remove photo">&times;</button></div>
-      <div id="quick-replies" class="quick-replies" hidden>
-        <button type="button" class="btn ghost small" data-quick="welcome">Welcome message</button>
-      </div>
       <form id="reply" class="reply" hidden>
         <button type="button" class="attach" id="attach" aria-label="Attach photo" title="Attach photo">&#128206;</button>
         <input type="file" id="file-input" accept="image/*,.heic,.heif" hidden>
@@ -145,9 +141,6 @@
         { auth: { persistSession: true, autoRefreshToken: true, storageKey: "mkl-admin-auth" } }
       );
       var $ = function (id) { return document.getElementById(id); };
-      var QUICK_REPLIES = {
-        welcome: "Welcome to massagekl.com private chat with masseur. I'm providing Tantric Yoni Massage for Ladies & Couples. How can I help you today?"
-      };
       var conversations = [];
       var currentId = null;
       var rows = {};
@@ -498,7 +491,6 @@
           rows = {};
           $("msgs").innerHTML = '<p class="empty">Pick a conversation on the left.</p>';
           $("reply").hidden = true;
-          $("quick-replies").hidden = true;
           $("details").hidden = true;
           $("thread-tools").hidden = true;
           $("thread-title").textContent = "Select a conversation";
@@ -537,7 +529,6 @@
         $("msgs").innerHTML = "";
         $("app").classList.add("thread-open");
         $("reply").hidden = false;
-        $("quick-replies").hidden = false;
         openTypingChannel(id);
         var c = conversations.filter(function (x) { return x.id === id; })[0];
         $("thread-title").textContent = c ? "Chat " + fmt(c.created_at) : "Chat";
@@ -644,14 +635,6 @@
         $("filebar").hidden = false;
       });
       $("file-remove").addEventListener("click", clearFile);
-      document.querySelectorAll("#quick-replies [data-quick]").forEach(function (btn) {
-        btn.addEventListener("click", function () {
-          var text = QUICK_REPLIES[btn.dataset.quick] || "";
-          var ta = $("reply-text");
-          ta.value = ta.value ? ta.value + "\n" + text : text;
-          ta.focus();
-        });
-      });
 
       function sendReply() {
         var ta = $("reply-text");
