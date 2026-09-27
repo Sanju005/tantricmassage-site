@@ -195,16 +195,20 @@
     el.innerHTML =
       '<div class="bc-panel" role="dialog" aria-modal="true" aria-label="Private message">' +
         '<div class="bc-head">' +
-          '<div><p class="bc-head-title">Private Message <span class="bc-online" hidden><span class="bc-online-dot"></span>Online now</span></p><p class="bc-head-sub">&#128274; 100% Private &middot; Only you and your masseur can see this chat</p></div>' +
+          '<p class="bc-head-title">Private Message <span class="bc-online" hidden><span class="bc-online-dot"></span>Online now</span></p>' +
           '<button type="button" class="bc-close" aria-label="Close">&times;</button>' +
         '</div>' +
-        '<div class="bc-intro"><p>No sign-up, no email, or phone number required.</p><input type="text" class="bc-nickname-input" maxlength="40" placeholder="Your nickname (optional)"></div>' +
+        '<ul class="bc-trust">' +
+          '<li>&#128274; 100% Private &middot; only you and your masseur can see this chat</li>' +
+          '<li>No sign-up, no email, or phone number required</li>' +
+          '<li class="bc-trust-retain"></li>' +
+        '</ul>' +
         '<div class="bc-summary"></div>' +
-        '<div class="bc-retain"></div>' +
         '<div class="bc-push" hidden></div>' +
         '<div class="bc-messages" aria-live="polite"></div>' +
         '<p class="bc-error" hidden></p>' +
         '<div class="bc-file" hidden><span class="bc-file-name"></span><button type="button" class="bc-file-remove" aria-label="Remove photo">&times;</button></div>' +
+        '<input type="text" class="bc-nickname-input" maxlength="40" placeholder="Your nickname (optional)">' +
         '<form class="bc-form">' +
           '<button type="button" class="bc-attach" aria-label="Attach photo" title="Attach photo">&#128206;</button>' +
           '<input type="file" class="bc-file-input" accept="image/*,.heic,.heif" hidden>' +
@@ -217,11 +221,10 @@
     var api = {
       el: el,
       onlineBadge: el.querySelector(".bc-online"),
-      intro: el.querySelector(".bc-intro"),
       nicknameInput: el.querySelector(".bc-nickname-input"),
       nickname: null,
       summary: el.querySelector(".bc-summary"),
-      retainBar: el.querySelector(".bc-retain"),
+      retainBar: el.querySelector(".bc-trust-retain"),
       retain: null,
       push: el.querySelector(".bc-push"),
       list: el.querySelector(".bc-messages"),
@@ -291,18 +294,18 @@
     chat.error.hidden = !msg;
   }
 
-  function updateIntro() {
-    chat.intro.hidden = !!chat.conversationId;
+  function updateNicknameVisibility() {
+    chat.nicknameInput.hidden = !!chat.conversationId;
   }
 
   function renderRetention() {
     var el = chat.retainBar;
     el.innerHTML = "";
-    var p = document.createElement("p");
-    p.textContent = chat.retain === "keep"
-      ? "This chat will be kept until you or we delete it."
-      : "For your privacy, this chat auto-clears from your view after 30 days of no activity.";
-    el.appendChild(p);
+    el.appendChild(document.createTextNode(
+      chat.retain === "keep"
+        ? "This chat will be kept until you or we delete it."
+        : "For your privacy, this chat auto-clears from your view after 30 days of no activity."
+    ));
     if (chat.retain !== "keep" && chat.conversationId) {
       var btn = document.createElement("button");
       btn.type = "button";
@@ -462,7 +465,7 @@
     clearTimeout(chat.typingHideTimer);
     chat.typingEl = null;
     renderRetention();
-    updateIntro();
+    updateNicknameVisibility();
     try { localStorage.removeItem(CONFIG.startedKey); } catch (e) { /* ignore */ }
   }
 
@@ -512,12 +515,12 @@
       .order("last_message_at", { ascending: false }).limit(1)
       .then(function (r) {
         if (r.error) throw r.error;
-        if (!r.data || !r.data.length) { renderRetention(); updateIntro(); return; }
+        if (!r.data || !r.data.length) { renderRetention(); updateNicknameVisibility(); return; }
         chat.conversationId = r.data[0].id;
         chat.retain = r.data[0].retain;
         chat.nickname = r.data[0].nickname;
         renderRetention();
-        updateIntro();
+        updateNicknameVisibility();
         return chat.client.from("messages").select("*").eq("conversation_id", chat.conversationId)
           .order("created_at", { ascending: true }).limit(200)
           .then(function (m) {
@@ -648,7 +651,7 @@
     chat.input.placeholder = "Write your message here";
     setError("");
     renderRetention();
-    updateIntro();
+    updateNicknameVisibility();
     chat.el.classList.add("is-open");
     chat.el.setAttribute("aria-hidden", "false");
     document.body.classList.add("bc-noscroll");
@@ -764,7 +767,7 @@
   function sendMessage() {
     var body = chat.input.value.trim();
     var file = chat.file;
-    if (!body && !file) return;
+    if (!body && !file) { setError("Message field is empty. Please write a message."); return; }
     if (!chat.client) { setError("Still connecting. Please try again in a moment."); return; }
     chat.send.disabled = true;
     setError("");
@@ -785,7 +788,7 @@
                 try { localStorage.setItem(CONFIG.startedKey, "1"); } catch (e) { /* ignore */ }
             subscribe();
             renderRetention();
-            updateIntro();
+            updateNicknameVisibility();
             return r.data.id;
           });
 
