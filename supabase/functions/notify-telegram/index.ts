@@ -49,7 +49,7 @@ Deno.serve(async (req) => {
   );
   const { data: conv } = await supabase
     .from("conversations")
-    .select("contact, customer_id, ip, location")
+    .select("contact, customer_id, ip, location, source_site, nickname")
     .eq("id", record.conversation_id)
     .maybeSingle();
 
@@ -68,7 +68,11 @@ Deno.serve(async (req) => {
   if (fromCustomer) {
     const lines = ["New private message", "", preview || "[Photo attached]"];
     if (preview && record.image_path) lines.push("[Photo attached]");
-    if (location) lines.push("", `Location: ${location}`);
+    if (conv?.nickname) lines.push("", `From: ${conv.nickname}`);
+    if (conv?.source_site && conv.source_site !== "www.massagekl.com" && conv.source_site !== "massagekl.com") {
+      lines.push(`Site: ${conv.source_site}`);
+    }
+    if (location) lines.push(`Location: ${location}`);
     if (conv?.contact) lines.push(`Contact: ${conv.contact}`);
     lines.push("", `Reply: ${SITE}/admin-chat.html?c=${record.conversation_id}`);
     results.push(

@@ -52,6 +52,7 @@
     .time { display: block; margin-top: .2rem; font-size: .68rem; opacity: .7; text-align: right; }
     .del { border: 0; background: none; color: inherit; opacity: .8; font-size: .68rem; text-decoration: underline; padding: 0; margin-left: .5rem; }
     .badge.banned { color: #fff; background: #b3261e; }
+    .badge.site { color: var(--text); background: rgba(255,255,255,.12); font-weight: 600; }
     .status.is-read { color: #0a4fb3; font-weight: 700; opacity: 1; }
     .pic { display: block; max-width: 100%; max-height: 18rem; margin-bottom: .35rem; border-radius: .6rem; cursor: zoom-in; min-height: 3rem; min-width: 6rem; background: rgba(255,255,255,.1); }
     .filebar { display: flex; align-items: center; justify-content: space-between; gap: .5rem; margin: .5rem 1rem 0; padding: .4rem .7rem; border-radius: .6rem; font-size: .8rem; background: rgba(255,255,255,.08); border: 1px solid var(--line); }
@@ -244,6 +245,11 @@
             badge.className = "badge"; badge.textContent = "Reply needed";
             top.appendChild(badge);
           }
+          if (c.source_site && c.source_site !== "www.massagekl.com" && c.source_site !== "massagekl.com") {
+            var site = document.createElement("span");
+            site.className = "badge site"; site.textContent = c.source_site;
+            top.appendChild(site);
+          }
           var prev = document.createElement("div");
           prev.className = "prev"; prev.textContent = c.last_message_preview;
           b.appendChild(top); b.appendChild(prev);
@@ -316,6 +322,7 @@
         var os = ua.os;
         if (d.osName && d.osVersion && /Android|Windows|macOS/i.test(d.osName)) os = d.osName + " " + String(d.osVersion).replace(/^"|"$/g, "");
         var rows = [
+          ["Website", c.source_site || "massagekl.com"],
           ["IP address", c.ip || "not recorded"],
           ["Location", c.location || (c.country ? "Country: " + c.country : "not available yet")],
           ["Device", c.user_agent ? ua.type : "not recorded"],

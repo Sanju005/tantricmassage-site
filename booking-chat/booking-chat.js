@@ -344,7 +344,7 @@
     if (sender === "admin") {
       var img = document.createElement("img");
       img.className = "bc-avatar";
-      img.src = "/images/logo.png";
+      img.src = "https://www.massagekl.com/images/logo.png";
       img.alt = "";
       return img;
     }
@@ -777,7 +777,7 @@
       ? Promise.resolve(chat.conversationId)
       : collectDevice().then(function (device) {
           return chat.client.from("conversations")
-            .insert({ device_info: device, nickname: chat.nicknameInput.value.trim().slice(0, 40) || null })
+            .insert({ device_info: device, nickname: chat.nicknameInput.value.trim().slice(0, 40) || null, source_site: location.hostname })
             .select("id").single();
         })
           .then(function (r) {
