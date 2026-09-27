@@ -195,7 +195,7 @@
     el.innerHTML =
       '<div class="bc-panel" role="dialog" aria-modal="true" aria-label="Private message">' +
         '<div class="bc-head">' +
-          '<div><p class="bc-head-title">Private Message</p><p class="bc-head-sub">Only you and we can see this chat &middot; Replies within ~10 min</p></div>' +
+          '<div><p class="bc-head-title">Private Message</p><p class="bc-head-sub">&#128274; 100% Private &middot; Only you and your masseur can see this chat</p></div>' +
           '<button type="button" class="bc-close" aria-label="Close">&times;</button>' +
         '</div>' +
         '<div class="bc-summary"></div>' +
