@@ -226,6 +226,8 @@ a[class*="button-primary"] {
 .form-modal .terms-label,
 .form-modal .terms-label span,
 .form-modal .terms-subcopy,
+.form-modal .terms-list,
+.form-modal .terms-list li,
 .form-modal .terms-alert,
 .form-modal .terms-alert-icon,
 .form-modal .terms-link,

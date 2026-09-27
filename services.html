@@ -877,10 +877,6 @@
                   <li>This service is strictly for individuals aged 18 and above.</li>
                   <li>Booking a session means you agree to the <a href="/terms.html" class="terms-link">Terms &amp; Conditions</a>, <a href="/privacy-policy.html" class="terms-link">Privacy Policy</a>, and <a href="/disclaimer.html" class="terms-link">Disclaimer</a>.</li>
                 </ul>
-                <label class="terms-label">
-                  <input id="terms" name="terms" type="checkbox" checked required>
-                  <span><strong class="text-[#ffcf75]">I confirm that I understand a male masseur will provide the service.</strong> I agree to the <a href="/terms.html" class="terms-link">terms and conditions</a>.</span>
-                </label>
               </div>
 
               <div class="choice-list">
@@ -926,7 +922,6 @@
     const packagePresetsButton = document.querySelector("#package-presets-button");
     const packageCustomButton = document.querySelector("#package-custom-button");
     const couplePackageButton = document.querySelector("#couple-package-button");
-    const termsInput = document.querySelector("#terms");
     const loadingScreen = document.querySelector("#loading-screen");
     const hourOptions = ["1 Hour", "1.30 Hours", "2 Hours", "2.30 Hours", "3 Hours"];
 
@@ -1143,10 +1138,6 @@
     if (packagePresetsButton) {
       packagePresetsButton.addEventListener("click", () => {
         selectedPackagePath = "presets";
-        if (!termsInput.checked) {
-          alert("Please agree to the terms and conditions first.");
-          return;
-        }
         openSelectedPackagePath();
       });
     }
@@ -1154,10 +1145,6 @@
     if (packageCustomButton) {
       packageCustomButton.addEventListener("click", () => {
         selectedPackagePath = "custom";
-        if (!termsInput.checked) {
-          alert("Please agree to the terms and conditions first.");
-          return;
-        }
         openSelectedPackagePath();
       });
     }
@@ -1165,10 +1152,6 @@
     if (couplePackageButton) {
       couplePackageButton.addEventListener("click", () => {
         selectedPackagePath = "couple";
-        if (!termsInput.checked) {
-          alert("Please agree to the terms and conditions first.");
-          return;
-        }
         openSelectedPackagePath();
       });
     }
