@@ -74,18 +74,29 @@
     } catch (e) { /* ignore */ }
   }
 
-  /* ---------- three-button chooser (package pages) ---------- */
+  /* ---------- icon-row chooser (package pages) ---------- */
+  var ICONS = {
+    whatsapp: '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12.05 2C6.578 2 2.13 6.447 2.13 11.92c0 1.964.575 3.856 1.66 5.494L2 22l4.706-1.762a9.845 9.845 0 0 0 5.344 1.559h.004c5.472 0 9.919-4.448 9.919-9.922 0-2.65-1.033-5.14-2.907-7.014A9.856 9.856 0 0 0 12.05 2z"/></svg>',
+    telegram: '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M2.01 21 23 12 2.01 3 2 10l15 2-15 2z"/></svg>',
+    chat: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.5 8.5 0 0 1-12.4 7.5L3.5 20.5l1.5-4.7A8.5 8.5 0 1 1 21 11.5z"/><path d="M8.5 11h7M8.5 14h4"/></svg>'
+  };
+
   function setupChooser() {
+  whatsappLink.style.display = "none";
   var group = document.createElement("div");
   group.className = "bc-group";
   group.innerHTML =
     '<p class="bc-group-title">Choose how to message us</p>' +
     '<p class="bc-eta">We typically reply within 10 minutes</p>' +
-    '<button type="button" class="package-button bc-btn bc-btn-tg">Book via Telegram</button>' +
-    '<button type="button" class="package-button bc-btn bc-btn-chat">Book via Private Message</button>' +
+    '<div class="bc-icon-row">' +
+      '<a class="bc-icon-btn bc-icon-wa" target="_blank" rel="noopener"><span class="bc-icon-badge">' + ICONS.whatsapp + '</span><span class="bc-icon-label">WhatsApp</span></a>' +
+      '<button type="button" class="bc-icon-btn bc-icon-tg"><span class="bc-icon-badge">' + ICONS.telegram + '</span><span class="bc-icon-label">Telegram</span></button>' +
+      '<button type="button" class="bc-icon-btn bc-icon-chat"><span class="bc-icon-badge">' + ICONS.chat + '</span><span class="bc-icon-label">Private Message</span></button>' +
+    '</div>' +
     '<p class="bc-toast" role="status" aria-live="polite" hidden></p>';
   whatsappLink.parentNode.insertBefore(group, whatsappLink.nextSibling);
 
+  var waIcon = group.querySelector(".bc-icon-wa");
   var toast = group.querySelector(".bc-toast");
   function showToast(msg) {
     toast.textContent = msg;
@@ -97,14 +108,16 @@
   function syncButtons() {
     var isCustom = /customize/i.test(whatsappLink.getAttribute("href") || "");
     group.hidden = isCustom;
+    whatsappLink.style.display = isCustom ? "" : "none";
     if (!isCustom && whatsappLink.textContent.trim() !== "Book via WhatsApp") {
       whatsappLink.textContent = "Book via WhatsApp";
     }
+    waIcon.href = whatsappLink.getAttribute("href") || "#";
   }
   new MutationObserver(syncButtons).observe(whatsappLink, { attributes: true, attributeFilter: ["href"], childList: true, characterData: true });
   syncButtons();
 
-  group.querySelector(".bc-btn-tg").addEventListener("click", function () {
+  group.querySelector(".bc-icon-tg").addEventListener("click", function () {
     var msg = bookingMessage(packageInfo());
     var url = "https://t.me/" + CONFIG.telegramUser;
     if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -118,7 +131,7 @@
     window.open(url, "_blank", "noopener");
   });
 
-  group.querySelector(".bc-btn-chat").addEventListener("click", function () {
+  group.querySelector(".bc-icon-chat").addEventListener("click", function () {
     openChat(packageInfo());
   });
   }
