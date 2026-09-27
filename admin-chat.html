@@ -54,6 +54,12 @@
     .filebar span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     .filebar button { border: 0; background: none; color: #fff; font-size: 1.2rem; }
     .quick-replies { display: flex; gap: .4rem; flex-wrap: wrap; padding: .6rem 1rem 0; }
+    .typing-bubble { display: inline-flex; align-items: center; gap: .28rem; padding: .5rem .7rem; }
+    .typing-dot { width: .38rem; height: .38rem; border-radius: 50%; background: rgba(255,255,255,.75); animation: typing-bounce 1.2s infinite ease-in-out; }
+    .typing-dot:nth-child(2) { animation-delay: .15s; }
+    .typing-dot:nth-child(3) { animation-delay: .3s; }
+    @keyframes typing-bounce { 0%, 60%, 100% { transform: translateY(0); opacity: .5; } 30% { transform: translateY(-.2rem); opacity: 1; } }
+    @media (prefers-reduced-motion: reduce) { .typing-dot { animation: none; opacity: .85; } }
     .reply { display: flex; gap: .5rem; padding: .7rem 1rem; border-top: 1px solid var(--line); align-items: flex-end; }
     .reply textarea { resize: none; }
     .attach { flex: none; width: 2.7rem; height: 2.7rem; border-radius: .6rem; color: #fff; background: rgba(255,255,255,.08); border: 1px solid var(--line); font-size: 1.15rem; }
@@ -145,6 +151,10 @@
       var conversations = [];
       var currentId = null;
       var rows = {};
+      var typingChannel = null;
+      var typingEl = null;
+      var typingHideTimer = null;
+      var typingSentAt = 0;
       var pendingFile = null;
       var baseTitle = document.title;
       var soundOn = true;
@@ -406,6 +416,43 @@
         box.scrollTop = box.scrollHeight;
       }
 
+      function showTypingIndicator() {
+        if (!typingEl) {
+          typingEl = document.createElement("div");
+          typingEl.className = "row customer";
+          typingEl.innerHTML = '<div class="bubble typing-bubble"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></div>';
+        }
+        if (!typingEl.parentNode) {
+          $("msgs").appendChild(typingEl);
+          $("msgs").scrollTop = $("msgs").scrollHeight;
+        }
+        clearTimeout(typingHideTimer);
+        typingHideTimer = setTimeout(hideTypingIndicator, 3000);
+      }
+      function hideTypingIndicator() {
+        if (typingEl && typingEl.parentNode) typingEl.remove();
+      }
+      function closeTypingChannel() {
+        if (typingChannel) { db.removeChannel(typingChannel); typingChannel = null; }
+        clearTimeout(typingHideTimer);
+        hideTypingIndicator();
+      }
+      function openTypingChannel(id) {
+        closeTypingChannel();
+        typingChannel = db.channel("chat-" + id)
+          .on("broadcast", { event: "typing" }, function (payload) {
+            if (payload.payload && payload.payload.from === "customer") showTypingIndicator();
+          })
+          .subscribe();
+      }
+      $("reply-text").addEventListener("input", function () {
+        if (!typingChannel || !currentId) return;
+        var now = Date.now();
+        if (now - typingSentAt < 1500) return;
+        typingSentAt = now;
+        typingChannel.send({ type: "broadcast", event: "typing", payload: { from: "admin" } });
+      });
+
       function mark(id, kind) {
         return db.rpc("mark_messages", { conv: id, kind: kind }).then(function (r) {
           if (r.error) console.error("mark_messages failed:", r.error);
@@ -447,6 +494,7 @@
           if (r.error) throw r.error;
           if (!r.data || !r.data.length) throw new Error("Not allowed. Run supabase/migration-3.sql in the Supabase SQL Editor.");
           currentId = null;
+          closeTypingChannel();
           rows = {};
           $("msgs").innerHTML = '<p class="empty">Pick a conversation on the left.</p>';
           $("reply").hidden = true;
@@ -490,6 +538,7 @@
         $("app").classList.add("thread-open");
         $("reply").hidden = false;
         $("quick-replies").hidden = false;
+        openTypingChannel(id);
         var c = conversations.filter(function (x) { return x.id === id; })[0];
         $("thread-title").textContent = c ? "Chat " + fmt(c.created_at) : "Chat";
         paintThreadTools();
@@ -505,6 +554,7 @@
 
       $("back").addEventListener("click", function () {
         currentId = null;
+        closeTypingChannel();
         $("app").classList.remove("thread-open");
         history.replaceState(null, "", location.pathname);
         renderList();
@@ -645,7 +695,7 @@
         db.channel("admin-inbox")
           .on("postgres_changes", { event: "INSERT", schema: "public", table: "messages" }, function (p) {
             var m = p.new;
-            if (m.conversation_id === currentId) addMsg(m);
+            if (m.conversation_id === currentId) { hideTypingIndicator(); addMsg(m); }
             if (m.sender === "customer") {
               ding();
               if (document.hidden) document.title = "(new) " + baseTitle;

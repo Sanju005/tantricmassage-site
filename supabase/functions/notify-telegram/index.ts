@@ -7,6 +7,8 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.4";
 import webpush from "npm:web-push@3.6.7";
 
 const SITE = "https://www.massagekl.com";
+const WELCOME_TEXT = "Welcome to massagekl.com private chat with masseur. I'm providing Tantric Yoni Massage for Ladies & Couples. How can I help you today?";
+const WELCOME_DELAY_MS = 4000;
 
 function safeSiteUrl(value: string | null): string {
   try {
@@ -80,6 +82,20 @@ Deno.serve(async (req) => {
         }),
       }).then((r) => r.ok).catch(() => false),
     );
+
+    // Automatic welcome reply for brand-new conversations, sent once. The atomic
+    // update (only succeeds if welcomed was still false) stops two near-simultaneous
+    // first messages from both triggering a duplicate welcome.
+    const claim = await supabase
+      .from("conversations")
+      .update({ welcomed: true })
+      .eq("id", record.conversation_id)
+      .eq("welcomed", false)
+      .select("id");
+    if (!claim.error && claim.data && claim.data.length === 1) {
+      await new Promise((resolve) => setTimeout(resolve, WELCOME_DELAY_MS));
+      await supabase.from("messages").insert({ conversation_id: record.conversation_id, sender: "admin", body: WELCOME_TEXT });
+    }
   }
 
   // ----- browser push -----

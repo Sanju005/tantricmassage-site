@@ -234,7 +234,10 @@
       channel: null,
       file: null,
       notedReply: false,
-      pushBarDone: false
+      pushBarDone: false,
+      typingEl: null,
+      typingHideTimer: null,
+      typingSentAt: 0
     };
 
     el.querySelector(".bc-close").addEventListener("click", closeChat);
@@ -244,6 +247,13 @@
     api.form.addEventListener("submit", function (e) { e.preventDefault(); submitFromUser(); });
     api.input.addEventListener("keydown", function (e) {
       if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) { e.preventDefault(); submitFromUser(); }
+    });
+    api.input.addEventListener("input", function () {
+      if (!chat.channel) return;
+      var now = Date.now();
+      if (now - (chat.typingSentAt || 0) < 1500) return;
+      chat.typingSentAt = now;
+      chat.channel.send({ type: "broadcast", event: "typing", payload: { from: "customer" } });
     });
     el.querySelector(".bc-attach").addEventListener("click", function () { api.fileInput.click(); });
     api.fileInput.addEventListener("change", function () {
@@ -313,6 +323,24 @@
     var s = statusLabel(m);
     r.status.textContent = s.text;
     r.status.className = "bc-status " + s.cls;
+  }
+
+  function showTypingIndicator() {
+    if (!chat.typingEl) {
+      chat.typingEl = document.createElement("div");
+      chat.typingEl.className = "bc-typing";
+      chat.typingEl.innerHTML =
+        '<div class="bc-typing-bubble"><span class="bc-typing-dot"></span><span class="bc-typing-dot"></span><span class="bc-typing-dot"></span></div>';
+    }
+    if (!chat.typingEl.parentNode) {
+      chat.list.appendChild(chat.typingEl);
+      chat.list.scrollTop = chat.list.scrollHeight;
+    }
+    clearTimeout(chat.typingHideTimer);
+    chat.typingHideTimer = setTimeout(hideTypingIndicator, 3000);
+  }
+  function hideTypingIndicator() {
+    if (chat.typingEl && chat.typingEl.parentNode) chat.typingEl.remove();
   }
 
   function loadImage(img, storagePath) {
@@ -394,6 +422,8 @@
     chat.rows = {};
     chat.list.innerHTML = "";
     chat.notedReply = false;
+    clearTimeout(chat.typingHideTimer);
+    chat.typingEl = null;
     renderRetention();
     try { localStorage.removeItem(CONFIG.startedKey); } catch (e) { /* ignore */ }
   }
@@ -425,11 +455,14 @@
     chat.channel = chat.client
       .channel("chat-" + chat.conversationId)
       .on("postgres_changes", { event: "INSERT", schema: "public", table: "messages", filter: filter },
-        function (payload) { addMessage(payload.new, true); })
+        function (payload) { hideTypingIndicator(); addMessage(payload.new, true); })
       .on("postgres_changes", { event: "UPDATE", schema: "public", table: "messages", filter: filter },
         function (payload) { updateStatus(payload.new); })
       .on("postgres_changes", { event: "DELETE", schema: "public", table: "messages" },
         function (payload) { if (payload.old && payload.old.id) removeRow(payload.old.id); })
+      .on("broadcast", { event: "typing" }, function (payload) {
+        if (payload.payload && payload.payload.from === "admin") showTypingIndicator();
+      })
       .subscribe();
   }
 
