@@ -16,6 +16,10 @@ as $$
 $$;
 
 -- Server fills IP, browser string and country itself, so customers cannot fake them.
+-- The sender check must stay in its own nested IF: this function fires on both
+-- conversations and messages, and conversations rows have no "sender" field.
+-- Combining both checks into one "and" condition makes Postgres type-check
+-- new.sender even for conversations inserts, which fails every time.
 create or replace function public.block_banned()
 returns trigger
 language plpgsql
@@ -23,8 +27,10 @@ security definer
 set search_path = public
 as $$
 begin
-  if tg_table_name = 'messages' and new.sender <> 'customer' then
-    return new;
+  if tg_table_name = 'messages' then
+    if new.sender <> 'customer' then
+      return new;
+    end if;
   end if;
   if tg_table_name = 'conversations' then
     new.ip := public.request_ip();
