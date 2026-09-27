@@ -322,7 +322,7 @@
         var os = ua.os;
         if (d.osName && d.osVersion && /Android|Windows|macOS/i.test(d.osName)) os = d.osName + " " + String(d.osVersion).replace(/^"|"$/g, "");
         var rows = [
-          ["Website", c.source_site || "massagekl.com"],
+          ["Website", c.source_site || "Not recorded (older chat, or site tracking added after this chat started)"],
           ["IP address", c.ip || "not recorded"],
           ["Location", c.location || (c.country ? "Country: " + c.country : "not available yet")],
           ["Device", c.user_agent ? ua.type : "not recorded"],
