@@ -80,6 +80,7 @@
   group.className = "bc-group";
   group.innerHTML =
     '<p class="bc-group-title">Choose how to message us</p>' +
+    '<p class="bc-eta">We typically reply within 10 minutes</p>' +
     '<button type="button" class="package-button bc-btn bc-btn-tg">Book via Telegram</button>' +
     '<button type="button" class="package-button bc-btn bc-btn-chat">Book via Private Message</button>' +
     '<p class="bc-toast" role="status" aria-live="polite" hidden></p>';
@@ -194,10 +195,11 @@
     el.innerHTML =
       '<div class="bc-panel" role="dialog" aria-modal="true" aria-label="Private message">' +
         '<div class="bc-head">' +
-          '<div><p class="bc-head-title">Private Message</p><p class="bc-head-sub">Only you and we can see this chat</p></div>' +
+          '<div><p class="bc-head-title">Private Message</p><p class="bc-head-sub">Only you and we can see this chat &middot; Replies within ~10 min</p></div>' +
           '<button type="button" class="bc-close" aria-label="Close">&times;</button>' +
         '</div>' +
         '<div class="bc-summary"></div>' +
+        '<div class="bc-retain"></div>' +
         '<div class="bc-push" hidden></div>' +
         '<div class="bc-messages" aria-live="polite"></div>' +
         '<p class="bc-error" hidden></p>' +
@@ -214,6 +216,8 @@
     var api = {
       el: el,
       summary: el.querySelector(".bc-summary"),
+      retainBar: el.querySelector(".bc-retain"),
+      retain: null,
       push: el.querySelector(".bc-push"),
       list: el.querySelector(".bc-messages"),
       error: el.querySelector(".bc-error"),
@@ -269,6 +273,31 @@
   function setError(msg) {
     chat.error.textContent = msg || "";
     chat.error.hidden = !msg;
+  }
+
+  function renderRetention() {
+    var el = chat.retainBar;
+    el.innerHTML = "";
+    var p = document.createElement("p");
+    p.textContent = chat.retain === "keep"
+      ? "This chat will be kept until you or we delete it."
+      : "For your privacy, this chat auto-clears from your view after 30 days of no activity.";
+    el.appendChild(p);
+    if (chat.retain !== "keep" && chat.conversationId) {
+      var btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "bc-retain-btn";
+      btn.textContent = "Keep this chat instead";
+      btn.addEventListener("click", function () {
+        btn.disabled = true;
+        chat.client.rpc("set_chat_retention", { conv: chat.conversationId, keep: true }).then(function (r) {
+          if (r.error) { console.error("set_chat_retention failed:", r.error); btn.disabled = false; return; }
+          chat.retain = "keep";
+          renderRetention();
+        });
+      });
+      el.appendChild(btn);
+    }
   }
 
   function statusLabel(m) {
@@ -361,9 +390,11 @@
     if (chat.channel) { chat.client.removeChannel(chat.channel); chat.channel = null; }
     if (chat.poll) { clearInterval(chat.poll); chat.poll = null; }
     chat.conversationId = null;
+    chat.retain = null;
     chat.rows = {};
     chat.list.innerHTML = "";
     chat.notedReply = false;
+    renderRetention();
     try { localStorage.removeItem(CONFIG.startedKey); } catch (e) { /* ignore */ }
   }
 
@@ -403,12 +434,17 @@
   }
 
   function loadExisting() {
+    var cutoff = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
     return chat.client
-      .from("conversations").select("id").order("last_message_at", { ascending: false }).limit(1)
+      .from("conversations").select("id, retain")
+      .or("retain.eq.keep,last_message_at.gte." + cutoff)
+      .order("last_message_at", { ascending: false }).limit(1)
       .then(function (r) {
         if (r.error) throw r.error;
-        if (!r.data || !r.data.length) return;
+        if (!r.data || !r.data.length) { renderRetention(); return; }
         chat.conversationId = r.data[0].id;
+        chat.retain = r.data[0].retain;
+        renderRetention();
         return chat.client.from("messages").select("*").eq("conversation_id", chat.conversationId)
           .order("created_at", { ascending: true }).limit(200)
           .then(function (m) {
@@ -467,8 +503,8 @@
     return "serviceWorker" in navigator && "PushManager" in window && "Notification" in window;
   }
 
-  function showPushNote(msg) {
-    chat.push.textContent = msg;
+  function showPushNote(html) {
+    chat.push.innerHTML = html;
     chat.push.hidden = false;
   }
 
@@ -480,7 +516,10 @@
 
     if (!pushSupported()) {
       if (ios && !standalone) {
-        showPushNote("For reply alerts on iPhone: tap Share, then Add to Home Screen, and open this site from your Home Screen.");
+        showPushNote(
+          '<strong>&#128241; iPhone tip:</strong> to get notified when we reply, tap ' +
+          '<strong>Share</strong>, then <strong>Add to Home Screen</strong>, and open the chat from your Home Screen.'
+        );
       }
       return;
     }
@@ -524,6 +563,7 @@
     }
     chat.input.placeholder = "Write your message here";
     setError("");
+    renderRetention();
     chat.el.classList.add("is-open");
     chat.el.setAttribute("aria-hidden", "false");
     document.body.classList.add("bc-noscroll");
@@ -653,8 +693,10 @@
           .then(function (r) {
             if (r.error) throw r.error;
             chat.conversationId = r.data.id;
+            chat.retain = "auto_30";
                 try { localStorage.setItem(CONFIG.startedKey, "1"); } catch (e) { /* ignore */ }
             subscribe();
+            renderRetention();
             return r.data.id;
           });
 
