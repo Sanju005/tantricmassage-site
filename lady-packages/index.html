@@ -465,9 +465,9 @@
           <div class="mt-4 text-center">
             <div class="mt-1 flex items-center justify-center gap-3">
               <p class="text-[1.45rem] font-semibold text-white/35 line-through">RM 680</p>
-              <p class="text-[1.75rem] font-black text-[var(--gold)]">RM 600<span class="text-[1.05rem] align-top">+80</span></p>
+              <p class="text-[1.75rem] font-black text-[var(--gold)]">RM 600<span class="card-incall-plus hidden text-[1.05rem] align-top">+80</span></p>
             </div>
-            <p class="mt-1 text-[0.72rem] text-white/55">(+80 Incall)</p>
+            <p class="card-incall-note hidden mt-1 text-[0.72rem] text-white/55">(+80 Incall)</p>
           </div>
 
           <div class="gold-divider mt-4"></div>
@@ -546,9 +546,9 @@
           <div class="mt-4 text-center">
             <div class="mt-1 flex items-center justify-center gap-3">
               <p class="text-[1.45rem] font-semibold text-white/35 line-through">RM 480</p>
-              <p class="text-[1.75rem] font-black text-[var(--gold)]">RM 380<span class="text-[1.05rem] align-top">+80</span></p>
+              <p class="text-[1.75rem] font-black text-[var(--gold)]">RM 380<span class="card-incall-plus hidden text-[1.05rem] align-top">+80</span></p>
             </div>
-            <p class="mt-1 text-[0.72rem] text-white/55">(+80 Incall)</p>
+            <p class="card-incall-note hidden mt-1 text-[0.72rem] text-white/55">(+80 Incall)</p>
           </div>
 
           <div class="gold-divider mt-4"></div>
@@ -616,9 +616,9 @@
           <div class="mt-4 text-center">
             <div class="mt-1 flex items-center justify-center gap-3">
               <p class="text-[1.45rem] font-semibold text-white/35 line-through">RM 330</p>
-              <p class="text-[1.75rem] font-black text-[var(--gold)]">RM 290<span class="text-[1.05rem] align-top">+80</span></p>
+              <p class="text-[1.75rem] font-black text-[var(--gold)]">RM 290<span class="card-incall-plus hidden text-[1.05rem] align-top">+80</span></p>
             </div>
-            <p class="mt-1 text-[0.72rem] text-white/55">(+80 Incall)</p>
+            <p class="card-incall-note hidden mt-1 text-[0.72rem] text-white/55">(+80 Incall)</p>
           </div>
 
           <div class="gold-divider mt-4"></div>
@@ -784,6 +784,9 @@
     const bookingDuration = bookingParams.get("duration") || "";
     const bookingArea = bookingParams.get("area") || "";
     const bookingIncall = bookingParams.get("option") === "incall";
+    if (bookingIncall) {
+      document.querySelectorAll(".card-incall-plus, .card-incall-note").forEach((el) => el.classList.remove("hidden"));
+    }
     const buildWhatsappUrl = (packageLabel, suppressIncall) => {
       let message = `Hi I would like to book the ${packageLabel} for Lady.`;
       if (bookingDuration) message += `\nDuration: ${bookingDuration}`;
