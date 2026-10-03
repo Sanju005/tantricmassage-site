@@ -837,11 +837,11 @@
               <div class="choice-list">
                 <div>
                   <input class="sr-only peer" type="radio" name="sessionType" id="session-outcall" value="outcall">
-                  <label class="wizard-choice peer-checked:scale-[1.03] peer-checked:border-amber-400 peer-checked:bg-zinc-900/90" for="session-outcall"><span class="choice-check">&#10003;</span>Outcall &mdash; Masseur comes to your home / hotel / Airbnb</label>
+                  <label class="wizard-choice peer-checked:scale-[1.03] peer-checked:border-amber-400 peer-checked:bg-zinc-900/90" for="session-outcall"><span class="choice-check">&#10003;</span><strong>Outcall</strong> &mdash; Masseur comes to your home / hotel / Airbnb</label>
                 </div>
                 <div>
                   <input class="sr-only peer" type="radio" name="sessionType" id="session-incall" value="incall">
-                  <label class="wizard-choice peer-checked:scale-[1.03] peer-checked:border-amber-400 peer-checked:bg-zinc-900/90" for="session-incall"><span class="choice-check">&#10003;</span>Incall &mdash; You go to the masseur&rsquo;s place (Hotel/Airbnb), +RM80</label>
+                  <label class="wizard-choice peer-checked:scale-[1.03] peer-checked:border-amber-400 peer-checked:bg-zinc-900/90" for="session-incall"><span class="choice-check">&#10003;</span><strong>Incall</strong> &mdash; You go to the masseur&rsquo;s place (Hotel/Airbnb), +RM80</label>
                 </div>
               </div>
               <p id="session-selected-note" class="selected-note hidden"></p>
@@ -1166,6 +1166,7 @@
           const sessionSelectedNote = document.querySelector("#session-selected-note");
           sessionSelectedNote?.classList.add("hidden");
           packageForm.querySelectorAll('input[name="sessionType"]').forEach((r) => { r.checked = false; });
+          document.querySelectorAll('label[for="session-outcall"], label[for="session-incall"]').forEach((label) => label.classList.remove("is-selected"));
 
           syncPackageStepContent();
           syncIncallNote();
@@ -1184,6 +1185,14 @@
 
       input.addEventListener("change", () => {
         if (!input.checked) return;
+
+        const sessionLabels = Array.from(document.querySelectorAll('label[for="session-outcall"], label[for="session-incall"]'));
+        sessionLabels.forEach((label) => label.classList.remove("is-selected"));
+        const activeLabel = document.querySelector(`label[for="${input.id}"]`);
+        if (activeLabel) {
+          activeLabel.classList.add("is-selected");
+        }
+
         selectedSessionType = input.value;
         const sessionSelectedNote = document.querySelector("#session-selected-note");
         if (sessionSelectedNote) {
