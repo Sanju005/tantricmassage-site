@@ -382,10 +382,19 @@
     <div class="mb-4 text-center">
       <p class="text-xs font-bold uppercase tracking-[0.35em]" style="color: var(--accent);">Ladies Packages</p>
       <h1 class="mt-2 text-3xl sm:text-4xl font-extrabold text-white">Choose your full package</h1>
-      <p class="mx-auto mt-3 max-w-md text-sm leading-6 text-white/70">
+      <p id="incall-banner" class="mx-auto mt-3 max-w-md text-sm leading-6 text-white/70">
         Don't have a private place? <a href="/incall-massage.html" class="font-semibold underline" style="color: var(--accent);">We can arrange a hotel for you (+RM80)</a>
       </p>
     </div>
+
+    <script>
+      (function () {
+        var params = new URLSearchParams(window.location.search);
+        if (params.get("option") !== "incall") return;
+        var banner = document.getElementById("incall-banner");
+        if (banner) banner.innerHTML = '&#10003; Incall selected &mdash; we\'ll arrange a nearby hotel. <strong>+RM80</strong> will be added to your package price.';
+      })();
+    </script>
 
     <div class="mb-3 flex items-center justify-center gap-3">
       <button id="prev-package" type="button" class="inline-flex min-h-[2.8rem] items-center justify-center rounded-full border border-white/10 bg-white/5 px-5 text-sm font-semibold text-white">Prev Package</button>
@@ -774,10 +783,12 @@
     const bookingParams = new URLSearchParams(window.location.search);
     const bookingDuration = bookingParams.get("duration") || "";
     const bookingArea = bookingParams.get("area") || "";
-    const buildWhatsappUrl = (packageLabel) => {
+    const bookingIncall = bookingParams.get("option") === "incall";
+    const buildWhatsappUrl = (packageLabel, isCustom) => {
       let message = `Hi I would like to book the ${packageLabel} for Lady.`;
       if (bookingDuration) message += `\nDuration: ${bookingDuration}`;
       if (bookingArea) message += `\nArea: ${bookingArea}`;
+      if (bookingIncall && !isCustom) message += `\nIncall: +RM 80 (please arrange a nearby hotel)`;
       message += " 🙂";
       return `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
     };
@@ -790,7 +801,7 @@
     const slidePackages = (direction) => { if (!packageSlider) return; const card = packageSlider.querySelector(".package-card"); const gap = 16; const moveAmount = card ? card.getBoundingClientRect().width + gap : 280; packageSlider.scrollBy({ left: direction * moveAmount, behavior: "smooth" }); };
     const updatePackageModalScrollCue = () => { if (!packageModalPanel || !packageModalScrollCue || !packageModal.classList.contains("is-open")) { packageModalScrollCue?.classList.remove("is-visible"); return; } const hasOverflow = packageModalPanel.scrollHeight - packageModalPanel.clientHeight > 24; const nearTop = packageModalPanel.scrollTop < 24; packageModalScrollCue.classList.toggle("is-visible", hasOverflow && nearTop); };
     const closePackageModal = () => { if (!packageModal) return; packageModal.classList.remove("is-open"); packageModal.setAttribute("aria-hidden", "true"); document.body.classList.remove("overflow-hidden"); updatePackageModalScrollCue(); };
-    const openPackageModal = (packageKey) => { const details = packageDetails[packageKey]; if (!packageModal || !details) return; const packageDisplayNames = { unlimited: "UNLIMITED PACKAGE", extreme: "EXTREME PACKAGE", custom: "CUSTOM PACKAGE", day: "DAY PACKAGE" }; modalKicker.textContent = packageDisplayNames[packageKey] || details.kicker; modalKicker.className = "text-[1.58rem] sm:text-[1.8rem] font-extrabold uppercase leading-none text-[var(--gold)] text-center"; modalTitle.textContent = "PRIVATE EXPERIENCE"; modalTitle.classList.remove("hidden"); modalDescription.textContent = details.description || ""; modalDescription.classList.toggle("hidden", !details.description); modalListHeading.textContent = details.listHeading || "What Includes?"; modalDuration.textContent = details.duration; modalPrice.textContent = details.price; modalNormalPrice.textContent = details.normalPrice || ""; modalLocationRow.classList.toggle("hidden", !!details.hideLocation); modalNormalPriceRow.classList.toggle("hidden", !details.normalPrice); modalList.innerHTML = details.items.map((item) => `<li class="flex gap-3"><span class="text-[var(--gold)]">&rarr;</span><span>${item}</span></li>`).join(""); modalPopularityBlock.classList.toggle("hidden", !details.popularity); modalPopularityList.innerHTML = details.popularity ? details.popularity.map((item, index) => `<li class="flex items-center gap-2">${index === 0 ? `<span class="rating-stars">&#9733;</span>` : `<span class="text-[var(--gold)]">&#128274;</span>`}<span>${item}</span></li>`).join("") : ""; modalCustomizeBlock.classList.toggle("hidden", !details.customize); modalCustomizeText.textContent = details.customize || ""; modalFlowBlock.classList.toggle("hidden", !details.flowLines); modalFlowIntro.textContent = details.flowIntro || ""; modalFlowLines.innerHTML = details.flowLines ? details.flowLines.map((item) => `<p>${item}</p>`).join("") : ""; modalLimitedNote.classList.toggle("hidden", !details.limitedNote); modalLimitedNote.textContent = details.limitedNote || ""; if (packageKey === "custom") { modalWhatsappLink.textContent = "OPEN CUSTOM PAGE"; modalWhatsappLink.href = "/lady-packages/customize.html"; } else { modalWhatsappLink.textContent = details.bookingLabel || "Book via WhatsApp"; modalWhatsappLink.href = buildWhatsappUrl(details.whatsappLabel || details.kicker); } if (packageModalPanel) packageModalPanel.scrollTop = 0; packageModal.classList.add("is-open"); packageModal.setAttribute("aria-hidden", "false"); document.body.classList.add("overflow-hidden"); requestAnimationFrame(updatePackageModalScrollCue); };
+    const openPackageModal = (packageKey) => { const details = packageDetails[packageKey]; if (!packageModal || !details) return; const packageDisplayNames = { unlimited: "UNLIMITED PACKAGE", extreme: "EXTREME PACKAGE", custom: "CUSTOM PACKAGE", day: "DAY PACKAGE" }; modalKicker.textContent = packageDisplayNames[packageKey] || details.kicker; modalKicker.className = "text-[1.58rem] sm:text-[1.8rem] font-extrabold uppercase leading-none text-[var(--gold)] text-center"; modalTitle.textContent = "PRIVATE EXPERIENCE"; modalTitle.classList.remove("hidden"); modalDescription.textContent = details.description || ""; modalDescription.classList.toggle("hidden", !details.description); modalListHeading.textContent = details.listHeading || "What Includes?"; modalDuration.textContent = details.duration; modalPrice.textContent = details.price + (bookingIncall && packageKey !== "custom" ? " + RM 80 Incall" : ""); modalNormalPrice.textContent = details.normalPrice || ""; modalLocationRow.classList.toggle("hidden", !!details.hideLocation); modalNormalPriceRow.classList.toggle("hidden", !details.normalPrice); modalList.innerHTML = details.items.map((item) => `<li class="flex gap-3"><span class="text-[var(--gold)]">&rarr;</span><span>${item}</span></li>`).join(""); modalPopularityBlock.classList.toggle("hidden", !details.popularity); modalPopularityList.innerHTML = details.popularity ? details.popularity.map((item, index) => `<li class="flex items-center gap-2">${index === 0 ? `<span class="rating-stars">&#9733;</span>` : `<span class="text-[var(--gold)]">&#128274;</span>`}<span>${item}</span></li>`).join("") : ""; modalCustomizeBlock.classList.toggle("hidden", !details.customize); modalCustomizeText.textContent = details.customize || ""; modalFlowBlock.classList.toggle("hidden", !details.flowLines); modalFlowIntro.textContent = details.flowIntro || ""; modalFlowLines.innerHTML = details.flowLines ? details.flowLines.map((item) => `<p>${item}</p>`).join("") : ""; modalLimitedNote.classList.toggle("hidden", !details.limitedNote); modalLimitedNote.textContent = details.limitedNote || ""; if (packageKey === "custom") { modalWhatsappLink.textContent = "OPEN CUSTOM PAGE"; modalWhatsappLink.href = "/lady-packages/customize.html"; } else { modalWhatsappLink.textContent = details.bookingLabel || "Book via WhatsApp"; modalWhatsappLink.href = buildWhatsappUrl(details.whatsappLabel || details.kicker); } if (packageModalPanel) packageModalPanel.scrollTop = 0; packageModal.classList.add("is-open"); packageModal.setAttribute("aria-hidden", "false"); document.body.classList.add("overflow-hidden"); requestAnimationFrame(updatePackageModalScrollCue); };
     if (nextPackageButton) nextPackageButton.addEventListener("click", () => slidePackages(1));
     if (prevPackageButton) prevPackageButton.addEventListener("click", () => slidePackages(-1));
     packageButtons.forEach((button) => { button.addEventListener("click", () => openPackageModal(button.dataset.packageOpen)); });

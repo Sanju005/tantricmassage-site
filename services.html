@@ -813,8 +813,8 @@
           </div>
 
           <div class="form-stage relative min-h-[420px] sm:min-h-[390px]">
-            <section class="step-panel transition-all duration-300 ease-out" data-step="0">
-              <p class="step-kicker">Step 1 of 4</p>
+            <section class="step-panel transition-all duration-300 ease-out" data-step-key="gender">
+              <p class="step-kicker"></p>
               <h2 id="wizard-title" class="step-title">Are you a:</h2>
 
               <div class="choice-list">
@@ -830,8 +830,46 @@
               <p id="gender-selected-note" class="selected-note hidden"></p>
             </section>
 
-            <section class="step-panel hidden transition-all duration-300 ease-out" data-step="1">
-              <p class="step-kicker">Step 2 of 4</p>
+            <section class="step-panel hidden transition-all duration-300 ease-out" data-step-key="sessionType">
+              <p class="step-kicker"></p>
+              <h2 class="step-title">How would you like your session?</h2>
+
+              <div class="choice-list">
+                <div>
+                  <input class="sr-only peer" type="radio" name="sessionType" id="session-outcall" value="outcall">
+                  <label class="wizard-choice peer-checked:scale-[1.03] peer-checked:border-amber-400 peer-checked:bg-zinc-900/90" for="session-outcall"><span class="choice-check">&#10003;</span>Outcall &mdash; Masseur comes to your home / hotel / Airbnb</label>
+                </div>
+                <div>
+                  <input class="sr-only peer" type="radio" name="sessionType" id="session-incall" value="incall">
+                  <label class="wizard-choice peer-checked:scale-[1.03] peer-checked:border-amber-400 peer-checked:bg-zinc-900/90" for="session-incall"><span class="choice-check">&#10003;</span>Incall &mdash; You go to the masseur&rsquo;s place (Hotel/Airbnb), +RM80</label>
+                </div>
+              </div>
+              <p id="session-selected-note" class="selected-note hidden"></p>
+            </section>
+
+            <section class="step-panel hidden transition-all duration-300 ease-out" data-step-key="incallInfo">
+              <p class="step-kicker"></p>
+              <h2 class="step-title">Incall &mdash; How It Works</h2>
+              <p class="step-copy">No private place? We arrange a nearby hotel for you.</p>
+
+              <div class="choice-list" style="gap: 0.6rem;">
+                <p class="selected-note" style="display:block;">1. Pick your package and preferred time on the next steps</p>
+                <p class="selected-note" style="display:block;">2. We confirm a nearby hotel and share the details privately once your booking is confirmed</p>
+                <p class="selected-note" style="display:block;">3. You simply show up at the time arranged</p>
+              </div>
+
+              <div class="terms-box">
+                <div class="terms-alert"><span class="terms-alert-icon">!</span>Incall Arrangement Fee</div>
+                <ul class="terms-list">
+                  <li>A flat +RM80 fee is added to your package price to cover the hotel arrangement.</li>
+                  <li>100% private and discreet &mdash; no booking is made under your name.</li>
+                  <li>Currently available for Lady package bookings only.</li>
+                </ul>
+              </div>
+            </section>
+
+            <section class="step-panel hidden transition-all duration-300 ease-out" data-step-key="hours">
+              <p class="step-kicker"></p>
               <h2 class="step-title">How many hrs you need the session?</h2>
 
               <div class="slider-wrap">
@@ -852,8 +890,8 @@
               <input id="session-duration" name="duration" type="hidden" value="1 Hour">
             </section>
 
-            <section class="step-panel hidden transition-all duration-300 ease-out" data-step="2">
-              <p class="step-kicker">Step 3 of 4</p>
+            <section class="step-panel hidden transition-all duration-300 ease-out" data-step-key="area">
+              <p class="step-kicker"></p>
               <h2 class="step-title">Where are you located?</h2>
 
               <div class="area-select-wrap">
@@ -865,10 +903,11 @@
               <p id="area-selected-note" class="selected-note hidden"></p>
             </section>
 
-            <section class="step-panel hidden transition-all duration-300 ease-out" data-step="3">
-              <p class="step-kicker">Step 4 of 4</p>
+            <section class="step-panel hidden transition-all duration-300 ease-out" data-step-key="package">
+              <p class="step-kicker"></p>
               <h2 id="package-step-title" class="step-title">Would you like to see our packages?</h2>
               <p id="package-step-copy" class="step-copy">Choose preset packages to view the packages we already created for lady bookings.</p>
+              <p id="incall-fee-note" class="selected-note hidden">+RM80 incall arrangement fee will be added to your package price.</p>
 
               <div class="terms-box">
                 <div class="terms-alert"><span class="terms-alert-icon">!</span>Please Read!</div>
@@ -925,53 +964,77 @@
     const loadingScreen = document.querySelector("#loading-screen");
     const hourOptions = ["1 Hour", "1.30 Hours", "2 Hours", "2.30 Hours", "3 Hours"];
 
-    let currentStep = 0;
+    const panelByKey = {};
+    stepPanels.forEach((panel) => { panelByKey[panel.dataset.stepKey] = panel; });
+
+    let currentStepKey = "gender";
     let selectedGender = "";
+    let selectedSessionType = "";
     let selectedArea = "";
     let selectedPackagePath = "";
 
-    const validateStep = (stepIndex) => {
-      if (stepIndex === 0) {
+    const getStepOrder = () => {
+      const order = ["gender"];
+      if (selectedGender === "lady") {
+        order.push("sessionType");
+        if (selectedSessionType === "incall") {
+          order.push("incallInfo");
+        }
+      }
+      order.push("hours", "area", "package");
+      return order;
+    };
+
+    const validateStep = (stepKey) => {
+      if (stepKey === "gender") {
         return Boolean(packageForm.querySelector('input[name="guestType"]:checked'));
       }
 
-      if (stepIndex === 1) {
+      if (stepKey === "sessionType") {
+        return Boolean(packageForm.querySelector('input[name="sessionType"]:checked'));
+      }
+
+      if (stepKey === "hours") {
         return durationInput.value.trim().length > 0;
       }
 
-      if (stepIndex === 2) {
+      if (stepKey === "area") {
         return selectedArea.length > 0;
       }
 
-      if (stepIndex === 3) {
+      if (stepKey === "package") {
         return selectedPackagePath.length > 0;
       }
 
       return true;
     };
 
-    const reportStepIssue = (stepIndex) => {
-      if (stepIndex === 0) {
+    const reportStepIssue = (stepKey) => {
+      if (stepKey === "gender") {
         alert("Please choose Lady or Couple.");
       }
 
-      if (stepIndex === 1) {
+      if (stepKey === "sessionType") {
+        alert("Please choose Outcall or Incall.");
+      }
+
+      if (stepKey === "hours") {
         alert("Please choose how many hours you need.");
       }
 
-      if (stepIndex === 2) {
+      if (stepKey === "area") {
         alert("Please choose your area.");
       }
 
-      if (stepIndex === 3) {
+      if (stepKey === "package") {
         alert("Please choose a package option and agree to the terms.");
       }
 
     };
 
-    const animateStep = (nextIndex) => {
-      const currentPanel = stepPanels[currentStep];
-      const nextPanel = stepPanels[nextIndex];
+    const animateStep = (nextKey) => {
+      const currentPanel = panelByKey[currentStepKey];
+      const nextPanel = panelByKey[nextKey];
 
       if (currentPanel === nextPanel) {
         return;
@@ -983,8 +1046,8 @@
         currentPanel.classList.add("hidden");
         currentPanel.classList.remove("opacity-0", "translate-y-3");
 
-        stepPanels.forEach((panel, index) => {
-          panel.hidden = index !== nextIndex;
+        stepPanels.forEach((panel) => {
+          panel.hidden = panel !== nextPanel;
         });
 
         nextPanel.classList.remove("hidden");
@@ -1065,6 +1128,12 @@
       if (couplePackageButton) couplePackageButton.hidden = true;
     };
 
+    const syncIncallNote = () => {
+      const incallNote = document.querySelector("#incall-fee-note");
+      if (!incallNote) return;
+      incallNote.classList.toggle("hidden", !(selectedGender === "lady" && selectedSessionType === "incall"));
+    };
+
     ["guest-female", "guest-couple"].forEach((id) => {
       const input = document.querySelector(`#${id}`);
       if (!input) {
@@ -1093,7 +1162,13 @@
             selectedPackagePath = "";
           }
 
+          selectedSessionType = "";
+          const sessionSelectedNote = document.querySelector("#session-selected-note");
+          sessionSelectedNote?.classList.add("hidden");
+          packageForm.querySelectorAll('input[name="sessionType"]').forEach((r) => { r.checked = false; });
+
           syncPackageStepContent();
+          syncIncallNote();
 
           genderSelectedNote.classList.remove("hidden");
         }
@@ -1101,13 +1176,35 @@
       );
     });
 
+    ["session-outcall", "session-incall"].forEach((id) => {
+      const input = document.querySelector(`#${id}`);
+      if (!input) {
+        return;
+      }
+
+      input.addEventListener("change", () => {
+        if (!input.checked) return;
+        selectedSessionType = input.value;
+        const sessionSelectedNote = document.querySelector("#session-selected-note");
+        if (sessionSelectedNote) {
+          sessionSelectedNote.textContent = selectedSessionType === "incall"
+            ? "You selected Incall (+RM80 hotel arrangement)"
+            : "You selected Outcall";
+          sessionSelectedNote.classList.remove("hidden");
+        }
+        syncIncallNote();
+      });
+    });
+
     const openSelectedPackagePath = () => {
       loadingScreen.classList.remove("hidden");
       loadingScreen.classList.add("flex");
 
+      const sessionOption = selectedGender === "lady" && selectedSessionType === "incall" ? "incall" : "outcall";
       const bookingParams = new URLSearchParams({
         duration: durationInput.value,
-        area: selectedArea
+        area: selectedArea,
+        option: sessionOption
       }).toString();
 
       setTimeout(() => {
@@ -1156,19 +1253,24 @@
       });
     }
 
-    const showStep = (stepIndex) => {
-      animateStep(stepIndex);
-      currentStep = stepIndex;
+    const showStep = (stepKey) => {
+      animateStep(stepKey);
+      currentStepKey = stepKey;
 
-      const progress = Math.round(((stepIndex + 1) / stepPanels.length) * 100);
+      const order = getStepOrder();
+      const index = order.indexOf(stepKey);
+      const kicker = panelByKey[stepKey]?.querySelector(".step-kicker");
+      if (kicker) kicker.textContent = `Step ${index + 1} of ${order.length}`;
+
+      const progress = Math.round(((index + 1) / order.length) * 100);
       progressBar.style.width = `${progress}%`;
       progressBar.textContent = `${progress}%`;
       backButton.hidden = false;
-      nextButton.hidden = stepIndex === stepPanels.length - 1;
+      nextButton.hidden = index === order.length - 1;
       nextButton.textContent = "Next Step";
       backButton.textContent = "Back";
 
-      if (stepIndex < stepPanels.length - 1) {
+      if (index < order.length - 1) {
         navRow?.classList.remove("is-final-step");
         nextButton.classList.add("order-1", "w-full");
         backButton.classList.add("order-2", "mx-auto", "min-w-0");
@@ -1181,28 +1283,34 @@
       }
     };
 
-    stepPanels.forEach((panel, index) => {
+    stepPanels.forEach((panel) => {
       panel.classList.add("transition-all", "duration-300", "ease-out");
-      if (index !== 0) {
+      if (panel.dataset.stepKey !== "gender") {
         panel.classList.add("hidden");
       }
     });
 
     syncDuration();
     syncPackageStepContent();
-    showStep(0);
+    syncIncallNote();
+    showStep("gender");
 
     nextButton.addEventListener("click", () => {
-      if (!validateStep(currentStep)) {
-        reportStepIssue(currentStep);
+      if (!validateStep(currentStepKey)) {
+        reportStepIssue(currentStepKey);
         return;
       }
 
-      showStep(Math.min(currentStep + 1, stepPanels.length - 1));
+      const order = getStepOrder();
+      const index = order.indexOf(currentStepKey);
+      showStep(order[Math.min(index + 1, order.length - 1)]);
     });
 
     backButton.addEventListener("click", () => {
-      if (currentStep === 0) {
+      const order = getStepOrder();
+      const index = order.indexOf(currentStepKey);
+
+      if (index === 0) {
         if (window.history.length > 1) {
           window.history.back();
         } else {
@@ -1211,7 +1319,7 @@
         return;
       }
 
-      showStep(Math.max(currentStep - 1, 0));
+      showStep(order[Math.max(index - 1, 0)]);
     });
 
   </script>
