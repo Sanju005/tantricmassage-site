@@ -338,8 +338,7 @@
 
   function statusLabel(m) {
     if (m.read_at) return { text: "✓✓ Read", cls: "is-read" };
-    if (m.delivered_at) return { text: "✓✓ Delivered", cls: "" };
-    return { text: "✓ Sent", cls: "" };
+    return { text: "✓ Delivered", cls: "" };
   }
 
   function updateStatus(m) {
