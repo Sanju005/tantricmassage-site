@@ -214,14 +214,13 @@
         '<ul class="bc-trust">' +
           '<li>&#128274; 100% Private &middot; only you and your masseur can see this chat</li>' +
           '<li>No sign-up, no email, or phone number required</li>' +
-          '<li class="bc-trust-retain"></li>' +
+          '<li>For your privacy, this chat auto-clears from your view after 30 days of no activity</li>' +
         '</ul>' +
         '<div class="bc-summary"></div>' +
         '<div class="bc-push" hidden></div>' +
         '<div class="bc-messages" aria-live="polite"></div>' +
         '<p class="bc-error" hidden></p>' +
         '<div class="bc-file" hidden><span class="bc-file-name"></span><button type="button" class="bc-file-remove" aria-label="Remove photo">&times;</button></div>' +
-        '<input type="text" class="bc-nickname-input" maxlength="40" placeholder="Your nickname (optional)">' +
         '<form class="bc-form">' +
           '<button type="button" class="bc-attach" aria-label="Attach photo" title="Attach photo">&#128206;</button>' +
           '<input type="file" class="bc-file-input" accept="image/*,.heic,.heif" hidden>' +
@@ -234,11 +233,7 @@
     var api = {
       el: el,
       onlineBadge: el.querySelector(".bc-online"),
-      nicknameInput: el.querySelector(".bc-nickname-input"),
-      nickname: null,
       summary: el.querySelector(".bc-summary"),
-      retainBar: el.querySelector(".bc-trust-retain"),
-      retain: null,
       push: el.querySelector(".bc-push"),
       list: el.querySelector(".bc-messages"),
       error: el.querySelector(".bc-error"),
@@ -307,34 +302,6 @@
     chat.error.hidden = !msg;
   }
 
-  function updateNicknameVisibility() {
-    chat.nicknameInput.hidden = !!chat.conversationId;
-  }
-
-  function renderRetention() {
-    var el = chat.retainBar;
-    el.innerHTML = "";
-    el.appendChild(document.createTextNode(
-      chat.retain === "keep"
-        ? "This chat will be kept until you or we delete it."
-        : "For your privacy, this chat auto-clears from your view after 30 days of no activity."
-    ));
-    if (chat.retain !== "keep" && chat.conversationId) {
-      var btn = document.createElement("button");
-      btn.type = "button";
-      btn.className = "bc-retain-btn";
-      btn.textContent = "Keep this chat instead";
-      btn.addEventListener("click", function () {
-        btn.disabled = true;
-        chat.client.rpc("set_chat_retention", { conv: chat.conversationId, keep: true }).then(function (r) {
-          if (r.error) { console.error("set_chat_retention failed:", r.error); btn.disabled = false; return; }
-          chat.retain = "keep";
-          renderRetention();
-        });
-      });
-      el.appendChild(btn);
-    }
-  }
 
   function statusLabel(m) {
     if (m.read_at) return { text: "✓✓ Read", cls: "is-read" };
@@ -361,14 +328,8 @@
       return img;
     }
     var el = document.createElement("div");
-    var letter = (chat.nickname || "").trim().charAt(0).toUpperCase();
-    if (letter) {
-      el.className = "bc-avatar bc-avatar-customer";
-      el.textContent = letter;
-    } else {
-      el.className = "bc-avatar bc-avatar-customer bc-avatar-blank";
-      el.innerHTML = BLANK_AVATAR_SVG;
-    }
+    el.className = "bc-avatar bc-avatar-customer bc-avatar-blank";
+    el.innerHTML = BLANK_AVATAR_SVG;
     return el;
   }
 
@@ -469,15 +430,11 @@
     if (chat.channel) { chat.client.removeChannel(chat.channel); chat.channel = null; }
     if (chat.poll) { clearInterval(chat.poll); chat.poll = null; }
     chat.conversationId = null;
-    chat.retain = null;
     chat.rows = {};
     chat.list.innerHTML = "";
     chat.notedReply = false;
-    chat.nickname = null;
     clearTimeout(chat.typingHideTimer);
     chat.typingEl = null;
-    renderRetention();
-    updateNicknameVisibility();
     try { localStorage.removeItem(CONFIG.startedKey); } catch (e) { /* ignore */ }
   }
 
@@ -522,17 +479,13 @@
   function loadExisting() {
     var cutoff = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
     return chat.client
-      .from("conversations").select("id, retain, nickname")
+      .from("conversations").select("id")
       .or("retain.eq.keep,last_message_at.gte." + cutoff)
       .order("last_message_at", { ascending: false }).limit(1)
       .then(function (r) {
         if (r.error) throw r.error;
-        if (!r.data || !r.data.length) { renderRetention(); updateNicknameVisibility(); return; }
+        if (!r.data || !r.data.length) return;
         chat.conversationId = r.data[0].id;
-        chat.retain = r.data[0].retain;
-        chat.nickname = r.data[0].nickname;
-        renderRetention();
-        updateNicknameVisibility();
         return chat.client.from("messages").select("*").eq("conversation_id", chat.conversationId)
           .order("created_at", { ascending: true }).limit(200)
           .then(function (m) {
@@ -662,8 +615,6 @@
     }
     chat.input.placeholder = "Write your message here";
     setError("");
-    renderRetention();
-    updateNicknameVisibility();
     chat.el.classList.add("is-open");
     chat.el.setAttribute("aria-hidden", "false");
     document.body.classList.add("bc-noscroll");
@@ -789,18 +740,14 @@
       ? Promise.resolve(chat.conversationId)
       : collectDevice().then(function (device) {
           return chat.client.from("conversations")
-            .insert({ device_info: device, nickname: chat.nicknameInput.value.trim().slice(0, 40) || null, source_site: location.hostname })
+            .insert({ device_info: device, source_site: location.hostname })
             .select("id").single();
         })
           .then(function (r) {
             if (r.error) throw r.error;
             chat.conversationId = r.data.id;
-            chat.retain = "auto_30";
-            chat.nickname = chat.nicknameInput.value.trim().slice(0, 40) || null;
                 try { localStorage.setItem(CONFIG.startedKey, "1"); } catch (e) { /* ignore */ }
             subscribe();
-            renderRetention();
-            updateNicknameVisibility();
             return r.data.id;
           });
 
