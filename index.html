@@ -3485,7 +3485,11 @@ elegant serif feel      display: flex;
         reviewsAutoScroll = null;
       };
 
-      startReviewsAutoScroll();
+      if (sampleReviewTyping && !sampleReviewTyping.hidden) {
+        window.setTimeout(startReviewsAutoScroll, 5000);
+      } else {
+        startReviewsAutoScroll();
+      }
       reviewsPrev?.addEventListener('click', () => {
         stopReviewsAutoScroll();
         reviewsSlider.scrollBy({ left: -reviewStep(), behavior: 'smooth' });
