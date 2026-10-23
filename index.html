@@ -779,38 +779,25 @@
     .gallery-preview-tile {
       background-size: cover;
       background-position: center;
-      filter: blur(14px) saturate(1.05);
-      transform: scale(1.08);
       border-radius: 1.05rem;
     }
 
-    .gallery-age-gate {
+    .gallery-preview-action {
       position: relative;
       z-index: 1;
       min-height: 21rem;
       display: flex;
-      flex-direction: column;
-      align-items: center;
+      align-items: flex-end;
       justify-content: center;
-      gap: 0.9rem;
       padding: 1.5rem;
-      background: linear-gradient(180deg, rgba(11, 11, 11, 0.2), rgba(11, 11, 11, 0.42));
-    }
-
-    .age-input {
-      width: min(100%, 11.5rem);
-      border-radius: 9999px;
-      border: 2px solid rgba(255, 255, 255, 0.85);
-      background: rgba(255, 255, 255, 0.92);
-      color: #111111;
-      padding: 0.8rem 1rem;
-      text-align: center;
-      font-size: 0.95rem;
-      outline: none;
-      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
+      background: linear-gradient(180deg, transparent 55%, rgba(11, 11, 11, 0.55));
     }
 
     .gallery-cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
       min-width: 12rem;
       border-radius: 9999px;
       background: linear-gradient(135deg, #38c75f, #54da62);
@@ -2076,14 +2063,6 @@ elegant serif feel      display: flex;
       pointer-events: none;
     }
 
-    .gallery-age-message--default {
-      color: rgba(255, 255, 255, 0.88);
-    }
-
-    .gallery-age-message--error {
-      color: #FCA5A5;
-    }
-
     @media (min-width: 640px) {
       body {
         padding: 1rem 0 2rem;
@@ -2924,19 +2903,17 @@ elegant serif feel      display: flex;
         <div class="max-w-3xl">
           <p class="reveal-copy text-xs uppercase tracking-[0.4em]" style="color: var(--gold-main);">Gallery &amp; Education</p>
           <h2 class="reveal-copy reveal-copy-delay section-title section-heading-display mt-4 text-[1.75rem] sm:text-[2.2rem] leading-[1.02]">Visual highlights and massage insights</h2>
-          <p class="reveal-copy reveal-copy-delay section-subcopy mt-4">Enter your age and continue only if you are above 18 to view the private gallery page.</p>
+          <p class="reveal-copy reveal-copy-delay section-subcopy mt-4">A look at the private sessions, setting and atmosphere. Tap below to see the full gallery.</p>
         </div>
         <div class="gallery-preview mt-8">
           <div class="gallery-preview-grid" aria-hidden="true">
-            <div class="gallery-preview-tile" style="background-image: url('https://images.unsplash.com/photo-1515377905703-c4788e51af15?auto=format&fit=crop&w=900&q=80');"></div>
-            <div class="gallery-preview-tile" style="background-image: url('https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&w=900&q=80');"></div>
-            <div class="gallery-preview-tile" style="background-image: url('https://images.unsplash.com/photo-1519823551278-64ac92734fb1?auto=format&fit=crop&w=900&q=80');"></div>
-            <div class="gallery-preview-tile" style="background-image: url('https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=900&q=80');"></div>
+            <div class="gallery-preview-tile" style="background-image: url('/images/Gallery/h-1.webp');"></div>
+            <div class="gallery-preview-tile" style="background-image: url('/images/Gallery/h-11.webp');"></div>
+            <div class="gallery-preview-tile" style="background-image: url('/images/Gallery/h-8.webp');"></div>
+            <div class="gallery-preview-tile" style="background-image: url('/images/Gallery/h-13.webp');"></div>
           </div>
-          <div class="gallery-age-gate">
-            <input id="gallery-age-input" class="age-input" type="number" min="18" placeholder="Type Your Age" inputmode="numeric" />
-            <button id="gallery-enter-button" type="button" class="gallery-cta">View Gallery</button>
-            <p id="gallery-age-message" class="gallery-age-message--default text-xs font-medium"></p>
+          <div class="gallery-preview-action">
+            <a href="/gallery.html" class="gallery-cta">View Gallery</a>
           </div>
         </div>
       </div>
@@ -3197,9 +3174,6 @@ elegant serif feel      display: flex;
     const menuButton = document.querySelector('.menu-button');
     const siteMenu = document.querySelector('#site-menu');
     const siteMenuClose = document.querySelector('#site-menu-close');
-    const galleryAgeInput = document.querySelector('#gallery-age-input');
-    const galleryEnterButton = document.querySelector('#gallery-enter-button');
-    const galleryAgeMessage = document.querySelector('#gallery-age-message');
     const reviewsSlider = document.querySelector('#reviews-slider');
     const reviewFormModal = document.querySelector('#review-form-modal');
     const openReviewFormButton = document.querySelector('#open-review-form');
@@ -3590,31 +3564,6 @@ elegant serif feel      display: flex;
       ratingEl.innerHTML = '<svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" aria-hidden="true"><path d="M21 12.23c0-.72-.06-1.25-.19-1.8H12v3.39h5.18c-.1.84-.66 2.1-1.9 2.95l-.02.11 2.77 2.1.19.02c1.76-1.6 2.78-3.94 2.78-6.77Z" fill="#4285F4"/><path d="M12 21c2.53 0 4.65-.82 6.2-2.22l-2.95-2.23c-.79.54-1.84.91-3.25.91-2.48 0-4.58-1.6-5.34-3.82l-.1.01-2.88 2.18-.03.09A9.37 9.37 0 0 0 12 21Z" fill="#34A853"/><path d="M6.66 13.64A5.62 5.62 0 0 1 6.35 12c0-.57.11-1.12.29-1.64l-.01-.11-2.91-2.22-.1.04A9 9 0 0 0 3 12c0 1.45.35 2.82.97 4.03l2.69-2.39Z" fill="#FBBC05"/><path d="M12 6.54c1.78 0 2.99.75 3.68 1.38l2.69-2.57C16.64 3.82 14.52 3 12 3a9.37 9.37 0 0 0-8.35 4.93l3.02 2.29c.77-2.22 2.87-3.68 5.33-3.68Z" fill="#EA4335"/></svg>';
       ratingEl.setAttribute('aria-label', 'Google review');
     });
-
-    if (galleryEnterButton && galleryAgeInput && galleryAgeMessage) {
-      galleryEnterButton.addEventListener('click', () => {
-        const age = Number(galleryAgeInput.value);
-
-        if (!Number.isFinite(age) || galleryAgeInput.value.trim() === '') {
-          galleryAgeMessage.textContent = 'Please enter your age first.';
-          galleryAgeMessage.classList.remove('gallery-age-message--error');
-          galleryAgeMessage.classList.add('gallery-age-message--default');
-          return;
-        }
-
-        if (age < 18) {
-          galleryAgeMessage.textContent = 'Access is only available for visitors aged 18 and above.';
-          galleryAgeMessage.classList.remove('gallery-age-message--default');
-          galleryAgeMessage.classList.add('gallery-age-message--error');
-          return;
-        }
-
-        galleryAgeMessage.textContent = '';
-        galleryAgeMessage.classList.remove('gallery-age-message--error');
-        galleryAgeMessage.classList.add('gallery-age-message--default');
-        window.location.href = '/gallery.html';
-      });
-    }
 
     document.addEventListener('keydown', (event) => {
       if (event.key === 'Escape') {
