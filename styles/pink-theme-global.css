@@ -471,3 +471,54 @@ button#next-package {
 .max-w-7xl p.text-white\/70 {
   color: #000000 !important;
 }
+
+/* Hub and listing pages (Kuala Lumpur hub, blog index, topic hub, packages)
+   define their own dark-theme variables (--text, --muted, --gold, --line) and
+   a few hardcoded white text colors, so swap those for readable pink-theme
+   colors too. */
+:root {
+  --text: #000000 !important;
+  --muted: #3f2f31 !important;
+  --gold: #FF0096 !important;
+  --line: rgba(182, 102, 111, 0.18) !important;
+}
+
+.lead,
+.card-copy,
+.content-box p,
+.pager-status {
+  color: #3f2f31 !important;
+}
+
+.kicker,
+.card-category {
+  color: #B6666F !important;
+}
+
+.card-date {
+  color: rgba(63, 47, 49, 0.7) !important;
+}
+
+.content-box {
+  background: #FFFFFF !important;
+}
+
+.pager-button {
+  background: #FFFFFF !important;
+  color: #000000 !important;
+  border-color: rgba(182, 102, 111, 0.24) !important;
+}
+
+.tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 1rem;
+}
+
+.tag-row .tag {
+  border: 1px solid;
+  border-radius: 999px;
+  padding: 0.3rem 0.65rem;
+  font-size: 0.74rem;
+}

@@ -626,7 +626,7 @@ ${faqHtml}
 
   const buildSimplePlaceCard = (page) => `<a href="${escapeHtml(articleRelativeUrl)}" class="card" style="display:block;" data-sort-date="${escapeHtml(publishedDate)}">
           <div class="card-image" style="background-image:url('${escapeHtml(featuredImage)}');" role="img" aria-label="${escapeHtml(altText)}"></div>
-          <div class="card-body"><p class="kicker">${escapeHtml(category)}</p><p class="card-date">Created: ${escapeHtml(displayDate)}</p><h2 class="card-title">${escapeHtml(title)}</h2><p class="card-copy">${escapeHtml(excerpt).slice(0, 220)}</p><div class="tag-row"><span class="tag">${escapeHtml(page.label)}</span><span class="tag">${escapeHtml(hub)}</span></div></div>
+          <div class="card-body"><p class="kicker">${escapeHtml(category)}</p><p class="card-date">Created: ${escapeHtml(displayDate)}</p><h2 class="card-title">${escapeHtml(title)}</h2><p class="card-copy">${escapeHtml(excerpt).slice(0, 220)}</p><div class="tag-row"><span class="tag">${escapeHtml(page.label)}</span>${hub && hub !== page.label ? `<span class="tag">${escapeHtml(hub)}</span>` : ""}</div></div>
         </a>`;
 
   const placeSchemaScript = (pageLabel, pageUrl) => `<!-- AUTO_RELATED_ARTICLE_SCHEMA_START:${slug} -->
