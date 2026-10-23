@@ -761,7 +761,7 @@
         }).then(function (sub) {
           return db.auth.getSession().then(function (s) {
             return db.from("push_subscriptions").upsert(
-              { endpoint: sub.endpoint, user_id: s.data.session.user.id, subscription: sub.toJSON(), page_url: location.origin + "/admin-chat.html" },
+              { endpoint: sub.endpoint, user_id: s.data.session.user.id, subscription: sub.toJSON(), page_url: location.origin + "/admin-chat" },
               { onConflict: "endpoint,user_id" }
             );
           });

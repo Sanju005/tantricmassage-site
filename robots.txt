@@ -8,9 +8,11 @@ Disallow: /thank-you/
 Disallow: /checkout/
 Disallow: /gallery-private/
 Disallow: /yoni/
-Disallow: /blog-publisher-local.html
-Disallow: /blog-publisher-static.html
+Disallow: /blog-publisher-local
+Disallow: /blog-publisher-static
 Disallow: /blog-publisher.php
-Disallow: /blog/BLOG-POST-TEMPLATE.html
+Disallow: /blog/BLOG-POST-TEMPLATE
+Disallow: /admin-chat
+Disallow: /node_modules/
 
 Sitemap: https://www.massagekl.com/sitemap.xml

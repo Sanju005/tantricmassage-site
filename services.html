@@ -35,19 +35,19 @@
   <title>Massage Packages in Kuala Lumpur | Lady & Couple Booking</title>
   <meta name="description" content="Choose the right massage package in Kuala Lumpur for ladies or couples. Compare options and duration before confirming your private outcall service.">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://www.massagekl.com/services.html">
+  <meta property="og:url" content="https://www.massagekl.com/services">
   <meta property="og:title" content="Massage Packages in Kuala Lumpur | Lady & Couple Booking">
   <meta property="og:description" content="Choose the right massage package in Kuala Lumpur for ladies or couples. Compare options and duration before confirming your private outcall service.">
   <meta property="og:image" content="https://www.massagekl.com/images/Gallery/h-1.jpg">
   <meta property="og:image:alt" content="Luxury hotel suite in Kuala Lumpur with Petronas Twin Towers view">
   <meta property="og:site_name" content="Massage KL">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:url" content="https://www.massagekl.com/services.html">
+  <meta name="twitter:url" content="https://www.massagekl.com/services">
   <meta name="twitter:title" content="Massage Packages in Kuala Lumpur | Lady & Couple Booking">
   <meta name="twitter:description" content="Choose the right massage package in Kuala Lumpur for ladies or couples. Compare options and duration before confirming your private outcall service.">
   <meta name="twitter:image" content="https://www.massagekl.com/images/Gallery/h-1.jpg">
   <meta name="twitter:image:alt" content="Luxury hotel suite in Kuala Lumpur with Petronas Twin Towers view">
-  <link rel="canonical" href="https://www.massagekl.com/services.html">
+  <link rel="canonical" href="https://www.massagekl.com/services">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -63,7 +63,7 @@
         "@type": "ListItem",
         "position": 2,
         "name": "Packages",
-        "item": "https://www.massagekl.com/services.html"
+        "item": "https://www.massagekl.com/services"
       }
     ]
   }
@@ -907,7 +907,7 @@
                 <ul class="terms-list">
                   <li>This service is provided by a professional male masseur only. No female masseur is available.</li>
                   <li>This service is strictly for individuals aged 18 and above.</li>
-                  <li>Booking a session means you agree to the <a href="/terms.html" class="terms-link">Terms &amp; Conditions</a>, <a href="/privacy-policy.html" class="terms-link">Privacy Policy</a>, and <a href="/disclaimer.html" class="terms-link">Disclaimer</a>.</li>
+                  <li>Booking a session means you agree to the <a href="/terms" class="terms-link">Terms &amp; Conditions</a>, <a href="/privacy-policy" class="terms-link">Privacy Policy</a>, and <a href="/disclaimer" class="terms-link">Disclaimer</a>.</li>
                 </ul>
               </div>
 
@@ -1211,12 +1211,12 @@
 
       setTimeout(() => {
         if (selectedGender === "lady" && selectedPackagePath === "custom") {
-          window.location.href = `/lady-packages/customize.html?${bookingParams}`;
+          window.location.href = `/lady-packages/customize?${bookingParams}`;
           return;
         }
 
         if (selectedGender === "male" && selectedPackagePath === "custom") {
-          window.location.href = `/male-packages/customize.html?${bookingParams}`;
+          window.location.href = `/male-packages/customize?${bookingParams}`;
           return;
         }
 
@@ -1316,7 +1316,7 @@
         if (window.history.length > 1) {
           window.history.back();
         } else {
-          window.location.href = "/index.html";
+          window.location.href = "/";
         }
         return;
       }

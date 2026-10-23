@@ -12,27 +12,27 @@ const placePages = [
   { id: "bangsar", label: "Bangsar", file: "massage-bangsar/index.html", publicUrl: "/massage-bangsar/", hub: "bangsar" },
   { id: "mont-kiara", label: "Mont Kiara", file: "massage-mont-kiara/index.html", publicUrl: "/massage-mont-kiara/", hub: "mont-kiara" },
   { id: "bukit-bintang", label: "Bukit Bintang", file: "massage-bukit-bintang/index.html", publicUrl: "/massage-bukit-bintang/", hub: null },
-  { id: "mid-valley", label: "Mid Valley", file: "massage-mid-valley.html", publicUrl: "/massage-mid-valley.html", hub: null },
-  { id: "cheras", label: "Cheras", file: "massage-cheras.html", publicUrl: "/massage-cheras.html", hub: null },
-  { id: "ampang", label: "Ampang", file: "massage-ampang.html", publicUrl: "/massage-ampang.html", hub: null },
+  { id: "mid-valley", label: "Mid Valley", file: "massage-mid-valley.html", publicUrl: "/massage-mid-valley", hub: null },
+  { id: "cheras", label: "Cheras", file: "massage-cheras.html", publicUrl: "/massage-cheras", hub: null },
+  { id: "ampang", label: "Ampang", file: "massage-ampang.html", publicUrl: "/massage-ampang", hub: null },
   { id: "petaling-jaya", label: "Petaling Jaya", file: "massage-petaling-jaya/index.html", publicUrl: "/massage-petaling-jaya/", hub: null },
   { id: "subang-jaya", label: "Subang Jaya", file: "massage-subang-jaya/index.html", publicUrl: "/massage-subang-jaya/", hub: null },
   { id: "puchong", label: "Puchong", file: "massage-puchong/index.html", publicUrl: "/massage-puchong/", hub: null },
-  { id: "ttdi", label: "TTDI", file: "massage-ttdi.html", publicUrl: "/massage-ttdi.html", hub: null },
-  { id: "setapak", label: "Setapak", file: "massage-setapak.html", publicUrl: "/massage-setapak.html", hub: null },
+  { id: "ttdi", label: "TTDI", file: "massage-ttdi.html", publicUrl: "/massage-ttdi", hub: null },
+  { id: "setapak", label: "Setapak", file: "massage-setapak.html", publicUrl: "/massage-setapak", hub: null },
   { id: "cyberjaya", label: "Cyberjaya", file: "massage-cyberjaya/index.html", publicUrl: "/massage-cyberjaya/", hub: null },
-  { id: "putrajaya", label: "Putrajaya", file: "massage-putrajaya.html", publicUrl: "/massage-putrajaya.html", hub: null },
-  { id: "brickfields", label: "Brickfields", file: "massage-brickfields.html", publicUrl: "/massage-brickfields.html", hub: null },
-  { id: "kl-sentral", label: "KL Sentral", file: "massage-kl-sentral.html", publicUrl: "/massage-kl-sentral.html", hub: null },
-  { id: "bukit-jalil", label: "Bukit Jalil", file: "massage-bukit-jalil.html", publicUrl: "/massage-bukit-jalil.html", hub: null },
-  { id: "bangsar-south", label: "Bangsar South", file: "massage-bangsar-south.html", publicUrl: "/massage-bangsar-south.html", hub: null },
-  { id: "sunway", label: "Sunway", file: "massage-sunway.html", publicUrl: "/massage-sunway.html", hub: null },
-  { id: "shah-alam", label: "Shah Alam", file: "massage-shah-alam.html", publicUrl: "/massage-shah-alam.html", hub: null },
-  { id: "sri-hartamas", label: "Sri Hartamas", file: "massage-sri-hartamas.html", publicUrl: "/massage-sri-hartamas.html", hub: null },
-  { id: "damansara-heights", label: "Damansara Heights", file: "massage-damansara-heights.html", publicUrl: "/massage-damansara-heights.html", hub: null },
-  { id: "desa-parkcity", label: "Desa ParkCity", file: "massage-desa-parkcity.html", publicUrl: "/massage-desa-parkcity.html", hub: null },
-  { id: "kota-damansara", label: "Kota Damansara", file: "massage-kota-damansara.html", publicUrl: "/massage-kota-damansara.html", hub: null },
-  { id: "ara-damansara", label: "Ara Damansara", file: "massage-ara-damansara.html", publicUrl: "/massage-ara-damansara.html", hub: null },
+  { id: "putrajaya", label: "Putrajaya", file: "massage-putrajaya.html", publicUrl: "/massage-putrajaya", hub: null },
+  { id: "brickfields", label: "Brickfields", file: "massage-brickfields.html", publicUrl: "/massage-brickfields", hub: null },
+  { id: "kl-sentral", label: "KL Sentral", file: "massage-kl-sentral.html", publicUrl: "/massage-kl-sentral", hub: null },
+  { id: "bukit-jalil", label: "Bukit Jalil", file: "massage-bukit-jalil.html", publicUrl: "/massage-bukit-jalil", hub: null },
+  { id: "bangsar-south", label: "Bangsar South", file: "massage-bangsar-south.html", publicUrl: "/massage-bangsar-south", hub: null },
+  { id: "sunway", label: "Sunway", file: "massage-sunway.html", publicUrl: "/massage-sunway", hub: null },
+  { id: "shah-alam", label: "Shah Alam", file: "massage-shah-alam.html", publicUrl: "/massage-shah-alam", hub: null },
+  { id: "sri-hartamas", label: "Sri Hartamas", file: "massage-sri-hartamas.html", publicUrl: "/massage-sri-hartamas", hub: null },
+  { id: "damansara-heights", label: "Damansara Heights", file: "massage-damansara-heights.html", publicUrl: "/massage-damansara-heights", hub: null },
+  { id: "desa-parkcity", label: "Desa ParkCity", file: "massage-desa-parkcity.html", publicUrl: "/massage-desa-parkcity", hub: null },
+  { id: "kota-damansara", label: "Kota Damansara", file: "massage-kota-damansara.html", publicUrl: "/massage-kota-damansara", hub: null },
+  { id: "ara-damansara", label: "Ara Damansara", file: "massage-ara-damansara.html", publicUrl: "/massage-ara-damansara", hub: null },
   { id: "kelana-jaya", label: "Kelana Jaya", file: "massage-kelana-jaya/index.html", publicUrl: "/massage-kelana-jaya", hub: null }
 ];
 const placePageMap = Object.fromEntries(placePages.map((page) => [page.id, page]));
@@ -543,8 +543,8 @@ ${extraSchemaScripts}
   <link rel="stylesheet" href="/styles/pink-theme-global.css">
 </head>
 <body>
-  <header style="position:sticky; top:0; z-index:30; border-bottom:1px solid rgba(255,255,255,.08); background:rgba(11,11,11,.88); backdrop-filter:blur(18px);"><div class="app-block" style="padding:0 1rem;"><div style="display:flex; align-items:center; justify-content:space-between; padding:1rem 0;"><a href="/" aria-label="Home" style="display:inline-flex; height:3rem; align-items:center;"><img src="/images/logo.png" alt="Massage KL logo" width="316" height="324" loading="lazy" decoding="async" style="height:2.5rem; width:auto; object-fit:contain;"></a><div style="display:flex; align-items:center; gap:.75rem;"><button id="site-menu-open" type="button" aria-label="Open menu" class="menu-button"><svg style="height:1rem; width:1rem;" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button><a href="/services.html" class="gold-button">Book Now</a></div></div></div></header>
-  <div id="site-menu" class="site-menu" aria-hidden="true"><div class="site-menu__panel"><div class="site-menu__head"><p class="site-menu__title">Menu</p><button id="site-menu-close" type="button" class="site-menu__close" aria-label="Close menu">&times;</button></div><div class="site-menu__links"><a href="/" class="site-menu__link"><span>Home</span><span>&rarr;</span></a><a href="/blog/" class="site-menu__link"><span>Blog</span><span>&rarr;</span></a><a href="${escapeHtml(primaryPage.publicUrl)}" class="site-menu__link"><span>${escapeHtml(primaryPage.label)} Hub</span><span>&rarr;</span></a><a href="/services.html" class="site-menu__link"><span>Packages</span><span>&rarr;</span></a><a href="/contact.html" class="site-menu__link"><span>Contact</span><span>&rarr;</span></a></div></div></div>
+  <header style="position:sticky; top:0; z-index:30; border-bottom:1px solid rgba(255,255,255,.08); background:rgba(11,11,11,.88); backdrop-filter:blur(18px);"><div class="app-block" style="padding:0 1rem;"><div style="display:flex; align-items:center; justify-content:space-between; padding:1rem 0;"><a href="/" aria-label="Home" style="display:inline-flex; height:3rem; align-items:center;"><img src="/images/logo.png" alt="Massage KL logo" width="316" height="324" loading="lazy" decoding="async" style="height:2.5rem; width:auto; object-fit:contain;"></a><div style="display:flex; align-items:center; gap:.75rem;"><button id="site-menu-open" type="button" aria-label="Open menu" class="menu-button"><svg style="height:1rem; width:1rem;" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button><a href="/services" class="gold-button">Book Now</a></div></div></div></header>
+  <div id="site-menu" class="site-menu" aria-hidden="true"><div class="site-menu__panel"><div class="site-menu__head"><p class="site-menu__title">Menu</p><button id="site-menu-close" type="button" class="site-menu__close" aria-label="Close menu">&times;</button></div><div class="site-menu__links"><a href="/" class="site-menu__link"><span>Home</span><span>&rarr;</span></a><a href="/blog/" class="site-menu__link"><span>Blog</span><span>&rarr;</span></a><a href="${escapeHtml(primaryPage.publicUrl)}" class="site-menu__link"><span>${escapeHtml(primaryPage.label)} Hub</span><span>&rarr;</span></a><a href="/services" class="site-menu__link"><span>Packages</span><span>&rarr;</span></a><a href="/contact" class="site-menu__link"><span>Contact</span><span>&rarr;</span></a></div></div></div>
   <main class="article-shell">
     <article class="app-block article-card">
       <div class="featured-media"><img src="${escapeHtml(featuredImage)}" alt="${escapeHtml(altText)}" width="1600" height="900" loading="eager" decoding="async"></div>
@@ -565,7 +565,7 @@ ${faqHtml}
       </div>
     </article>
   </main>
-  <nav class="bottom-nav"><div class="bottom-nav-wrap"><a href="/services.html" class="bottom-nav-main">See Massage Packages</a><a href="https://wa.me/60164649008?text=Hi I would like to book a massage session 🙂" class="bottom-nav-chat" aria-label="Chat with masseur"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.198-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.019-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.372-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479s1.065 2.875 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.71.307 1.263.49 1.694.627.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.29.173-1.413-.074-.124-.272-.198-.57-.347Z"/><path d="M12.004 2.003a9.93 9.93 0 0 0-8.59 15.01L2 22l5.124-1.345a9.967 9.967 0 0 0 4.88 1.27h.004c5.514 0 9.996-4.48 9.998-9.994A9.95 9.95 0 0 0 12.004 2.003Zm0 18.18h-.003a8.3 8.3 0 0 1-4.231-1.158l-.303-.18-3.04.798.812-2.963-.197-.305a8.28 8.28 0 0 1-1.28-4.445c.002-4.582 3.731-8.31 8.316-8.31 2.222 0 4.31.865 5.88 2.438a8.27 8.27 0 0 1 2.432 5.884c-.002 4.584-3.73 8.31-8.314 8.31Z"/></svg></a></div></nav>
+  <nav class="bottom-nav"><div class="bottom-nav-wrap"><a href="/services" class="bottom-nav-main">See Massage Packages</a><a href="https://wa.me/60164649008?text=Hi I would like to book a massage session 🙂" class="bottom-nav-chat" aria-label="Chat with masseur"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.198-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.019-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.372-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479s1.065 2.875 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.71.307 1.263.49 1.694.627.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.29.173-1.413-.074-.124-.272-.198-.57-.347Z"/><path d="M12.004 2.003a9.93 9.93 0 0 0-8.59 15.01L2 22l5.124-1.345a9.967 9.967 0 0 0 4.88 1.27h.004c5.514 0 9.996-4.48 9.998-9.994A9.95 9.95 0 0 0 12.004 2.003Zm0 18.18h-.003a8.3 8.3 0 0 1-4.231-1.158l-.303-.18-3.04.798.812-2.963-.197-.305a8.28 8.28 0 0 1-1.28-4.445c.002-4.582 3.731-8.31 8.316-8.31 2.222 0 4.31.865 5.88 2.438a8.27 8.27 0 0 1 2.432 5.884c-.002 4.584-3.73 8.31-8.314 8.31Z"/></svg></a></div></nav>
   <script>
     const siteMenuOpen = document.querySelector('#site-menu-open');
     const siteMenu = document.querySelector('#site-menu');

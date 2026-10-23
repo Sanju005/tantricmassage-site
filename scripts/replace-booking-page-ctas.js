@@ -4,7 +4,7 @@ const pages = [
   ["couples-massage-in-kl/index.html", "/couple-packages/", "See couples packages", "/massage-kuala-lumpur/#all-areas", "View service areas"],
   ["yoni-massage-therapy-near-me-in-kuala-lumpur/index.html", "/lady-packages/", "See ladies packages", "/massage-kuala-lumpur/#all-areas", "View service areas"],
   ["ladies-massage-in-kl/index.html", "/lady-packages/", "See ladies packages", "/yoni-massage-therapy-near-me-in-kuala-lumpur/", "Explore yoni massage"],
-  ["massage-kuala-lumpur/luxury-hotel-massage-service-in-kuala-lumpur/index.html", "/services.html", "See massage packages", "/massage-kuala-lumpur/#all-areas", "View service areas"]
+  ["massage-kuala-lumpur/luxury-hotel-massage-service-in-kuala-lumpur/index.html", "/services", "See massage packages", "/massage-kuala-lumpur/#all-areas", "View service areas"]
 ];
 
 for (const [file, packageUrl, packageLabel, secondaryUrl, secondaryLabel] of pages) {
@@ -16,7 +16,7 @@ for (const [file, packageUrl, packageLabel, secondaryUrl, secondaryLabel] of pag
 }
 
 let tantric = fs.readFileSync("tantric-massage-kuala-lumpur/index.html", "utf8");
-tantric = tantric.replace(/<a class="button button-primary" href="https:\/\/wa\.me\/[^"]+">Check availability on WhatsApp<\/a>/, '<a class="button button-primary" href="/services.html">View massage packages</a>');
-tantric = tantric.replace(/<a class="button" href="https:\/\/wa\.me\/[^"]+">Message on WhatsApp<\/a>/, '<a class="button" href="/services.html">View massage packages</a>');
+tantric = tantric.replace(/<a class="button button-primary" href="https:\/\/wa\.me\/[^"]+">Check availability on WhatsApp<\/a>/, '<a class="button button-primary" href="/services">View massage packages</a>');
+tantric = tantric.replace(/<a class="button" href="https:\/\/wa\.me\/[^"]+">Message on WhatsApp<\/a>/, '<a class="button" href="/services">View massage packages</a>');
 tantric = tantric.replace(/Message on<br>WhatsApp/g, "Use the<br>floating chat");
 fs.writeFileSync("tantric-massage-kuala-lumpur/index.html", tantric, "utf8");
