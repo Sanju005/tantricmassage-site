@@ -64,6 +64,30 @@
       padding: 1rem 0.75rem 5rem;
     }
 
+    .app-frame.app-frame--wide {
+      max-width: 60rem;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.5rem;
+    }
+
+    .gallery-grid .gallery-card {
+      border-radius: 0.75rem;
+    }
+
+    @media (min-width: 640px) {
+      .gallery-grid {
+        gap: 1rem;
+      }
+
+      .gallery-grid .gallery-card {
+        border-radius: 1.2rem;
+      }
+    }
+
     .gallery-card {
       border-radius: 1.8rem;
       overflow: hidden;
@@ -330,7 +354,7 @@
       </div>
     </div>
   </div>
-  <main class="app-frame">
+  <main class="app-frame app-frame--wide">
     <section class="px-4 py-8 text-center">
       <p class="text-xs uppercase tracking-[0.4em]" style="color: var(--gold-main);">Private Gallery</p>
       <h1 class="mt-4 text-4xl font-semibold leading-tight">Curated premium gallery</h1>
@@ -338,7 +362,7 @@
     </section>
 
     <section class="mt-4 px-4">
-      <div class="grid grid-cols-1 gap-3">
+      <div class="gallery-grid">
         <article class="gallery-card">
           <img class="gallery-shot" src="/images/Gallery/h-1.webp" alt="Luxury hotel suite with Petronas Twin Towers view in Kuala Lumpur" width="750" height="562" loading="lazy" decoding="async">
         </article>
