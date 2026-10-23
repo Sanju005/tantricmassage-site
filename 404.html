@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script>
+    window.addEventListener('load', function () {
+      const loadTracking = function () {
+        if (!window.__massageKlTrackingLoaded) {
+          window.__massageKlTrackingLoaded = true;
+          window.dataLayer = window.dataLayer || [];
+          window.gtag = window.gtag || function(){dataLayer.push(arguments);};
+          const gaScript = document.createElement('script');
+          gaScript.async = true;
+          gaScript.src = 'https://www.googletagmanager.com/gtag/js?id=G-9PCZZ8BQPS';
+          gaScript.onload = function () {
+            gtag('js', new Date());
+            gtag('config', 'G-9PCZZ8BQPS');
+          };
+          document.head.appendChild(gaScript);
+          (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src='https://www.clarity.ms/tag/'+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+          })(window, document, 'clarity', 'script', 'w7r9hwtiv1');
+        }
+      };
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(loadTracking, { timeout: 3000 });
+      } else {
+        setTimeout(loadTracking, 1500);
+      }
+    });
+  </script>
+  <title>Page Not Found | Massage KL</title>
+  <meta name="robots" content="noindex, follow">
+  <link rel="preload" href="/styles/tailwind.css" as="style">
+  <link rel="stylesheet" href="/styles/tailwind.css">
+  <style>
+    :root {
+      --bg-main: #0B0B0B;
+      --bg-secondary: #1A1A1A;
+      --gold-main: #D4AF37;
+      --gold-soft: #FFD700;
+      --text-main: #FFFFFF;
+      --text-secondary: #CCCCCC;
+      --accent-pink: #C94F8A;
+    }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at top, rgba(201, 79, 138, 0.08), transparent 26%),
+        linear-gradient(180deg, #121212 0%, var(--bg-main) 46%, #0a0710 100%);
+      color: var(--text-main);
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
+
+    .app-frame {
+      width: 100%;
+      max-width: 34rem;
+      margin: 0 auto;
+      padding: 1rem 0.75rem 5rem;
+    }
+
+  
+    .menu-button {
+      width: 2.75rem;
+      height: 2.75rem;
+      border-radius: 9999px;
+      border: 1px solid rgba(212, 175, 55, 0.28);
+      background: rgba(255, 255, 255, 0.03);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gold-soft);
+    }
+
+    .site-menu {
+      position: fixed;
+      inset: 0;
+      z-index: 60;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 5.5rem 1rem 1rem;
+      background: rgba(0, 0, 0, 0.62);
+      backdrop-filter: blur(10px);
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 180ms ease, visibility 180ms ease;
+    }
+
+    .site-menu.is-open {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+
+    .site-menu__panel {
+      width: min(100%, 28rem);
+      border: 1px solid rgba(212, 175, 55, 0.22);
+      border-radius: 1.6rem;
+      background: linear-gradient(180deg, rgba(20, 15, 18, 0.98), rgba(10, 10, 10, 0.98));
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.42);
+      overflow: hidden;
+    }
+
+    .site-menu__head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 1.1rem 0.8rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .site-menu__title {
+      font-size: 0.82rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--gold-main);
+    }
+
+    .site-menu__close {
+      width: 2.3rem;
+      height: 2.3rem;
+      border-radius: 9999px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--text-main);
+      font-size: 1.3rem;
+      line-height: 1;
+    }
+
+    .site-menu__links {
+      padding: 0.7rem;
+      display: grid;
+      gap: 0.55rem;
+    }
+
+    .site-menu__link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      min-height: 3.6rem;
+      padding: 0.95rem 1rem;
+      border-radius: 1rem;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--text-main);
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .site-menu__link span:last-child {
+      color: var(--gold-main);
+      font-size: 0.95rem;
+    }
+
+    .bottom-nav {
+      position: fixed;
+      left: 50%;
+      bottom: 1rem;
+      transform: translateX(-50%);
+      width: calc(100% - 1.5rem);
+      max-width: 31rem;
+      z-index: 50;
+    }
+
+    .bottom-nav-wrap {
+      display: flex;
+      gap: 0.65rem;
+    }
+
+    .bottom-nav-main,
+    .bottom-nav-chat {
+      position: relative;
+      overflow: hidden;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 3.35rem;
+      border-radius: 9999px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+      backdrop-filter: blur(16px);
+    }
+
+    .bottom-nav-main {
+      width: 75%;
+      padding: 0.8rem 0.75rem;
+      font-size: 0.76rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      line-height: 1;
+      color: #111111;
+      border: 2px solid rgba(0, 0, 0, 0.88);
+      background: linear-gradient(180deg, #f1cd58 0%, #d4af37 52%, #b58d1b 100%);
+      box-shadow:
+        inset 0 2px 0 rgba(255, 249, 210, 0.72),
+        inset 0 -4px 0 rgba(108, 75, 0, 0.28),
+        0 12px 0 rgba(0, 0, 0, 0.22),
+        0 18px 34px rgba(0, 0, 0, 0.28),
+        0 0 28px rgba(255, 215, 0, 0.24);
+    }
+
+    .bottom-nav-main::before {
+      content: "";
+      position: absolute;
+      top: -32%;
+      bottom: -32%;
+      left: -28%;
+      width: 24%;
+      background: linear-gradient(115deg, transparent 0%, rgba(255,255,255,0.08) 18%, rgba(255,255,255,0.9) 50%, rgba(255,255,255,0.16) 82%, transparent 100%);
+      transform: skewX(-20deg);
+      animation: footer-shine 3.2s ease-in-out infinite;
+      pointer-events: none;
+      mix-blend-mode: screen;
+    }
+
+    .bottom-nav-chat {
+      width: 25%;
+      border: 1.8px solid rgba(212, 175, 55, 0.6);
+      background: rgba(12, 12, 12, 0.94);
+      box-shadow:
+        0 18px 40px rgba(0, 0, 0, 0.34),
+        inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      color: #FFFFFF;
+    }
+
+    .bottom-nav-main:hover,
+    .bottom-nav-chat:hover {
+      transform: translateY(-2px) scale(1.01);
+      filter: brightness(1.03);
+    }
+
+    .bottom-nav-main:hover {
+      box-shadow:
+        inset 0 2px 0 rgba(255, 249, 210, 0.8),
+        inset 0 -4px 0 rgba(108, 75, 0, 0.24),
+        0 14px 0 rgba(0, 0, 0, 0.2),
+        0 22px 36px rgba(0, 0, 0, 0.32),
+        0 0 34px rgba(255, 215, 0, 0.34);
+    }
+
+    .bottom-nav-chat:hover {
+      box-shadow:
+        0 20px 42px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    }
+
+    .bottom-nav-chat svg {
+      width: 1.4rem;
+      height: 1.4rem;
+      color: #25D366;
+    }
+
+    @keyframes footer-shine {
+      0%, 22% {
+        transform: translateX(-180%) skewX(-20deg);
+        opacity: 0;
+      }
+      28% {
+        opacity: 0.95;
+      }
+      48% {
+        transform: translateX(520%) skewX(-20deg);
+        opacity: 0;
+      }
+      100% {
+        transform: translateX(520%) skewX(-20deg);
+        opacity: 0;
+      }
+    }
+  </style>
+  <link rel="stylesheet" href="/styles/pink-theme-global.css">
+</head>
+<body>
+    <header class="sticky top-0 z-30 border-b backdrop-blur-xl" style="background-color: rgba(11, 11, 11, 0.88); border-color: rgba(255, 255, 255, 0.08);">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      <div class="flex items-center justify-between py-4">
+        <a href="/" aria-label="Home" class="inline-flex h-12 items-center">
+          <img src="/images/logo.png" alt="Tantric Yoni Massage Kuala Lumpur logo" width="316" height="324" loading="lazy" decoding="async" class="h-10 w-auto object-contain" />
+        </a>
+        <div class="flex items-center gap-3">
+          <button type="button" aria-label="Open menu" class="menu-button">
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </button>
+          <a href="/services.html" class="gold-button inline-flex items-center justify-center rounded-full px-5 py-2.5 text-sm font-semibold">Book Now</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div id="site-menu" class="site-menu" aria-hidden="true">
+    <div class="site-menu__panel">
+      <div class="site-menu__head">
+        <p class="site-menu__title">Menu</p>
+        <button id="site-menu-close" type="button" class="site-menu__close" aria-label="Close menu">&times;</button>
+      </div>
+      <div class="site-menu__links">
+        <a href="/about.html" class="site-menu__link"><span>About the Service</span><span>&rarr;</span></a>
+        <a href="/whyme.html" class="site-menu__link"><span>Why Me</span><span>&rarr;</span></a>
+        <a href="/reviews.html" class="site-menu__link"><span>Reviews</span><span>&rarr;</span></a>
+        <a href="/services.html" class="site-menu__link"><span>Packages</span><span>&rarr;</span></a>
+        <a href="/contact.html" class="site-menu__link"><span>Contact</span><span>&rarr;</span></a>
+      </div>
+    </div>
+  </div>
+  <main class="app-frame">
+    <section class="px-4 py-12 text-center">
+      <p class="text-xs uppercase tracking-[0.4em]" style="color: var(--gold-main);">Error 404</p>
+      <h1 class="mt-4 text-4xl font-semibold leading-tight">Page not found</h1>
+      <p class="mx-auto mt-4 max-w-[30ch] text-sm leading-7" style="color: var(--text-secondary);">Sorry, this page doesn&rsquo;t exist or has moved. Try one of these instead.</p>
+      <div class="mt-7 flex flex-col items-center gap-3">
+        <a href="/" class="gold-button inline-flex items-center justify-center rounded-full px-7 py-3 text-sm font-semibold uppercase tracking-[0.04em]">Back to Home</a>
+        <a href="/services" class="inline-flex items-center justify-center rounded-full px-7 py-3 text-sm font-semibold uppercase tracking-[0.04em]" style="border: 1px solid rgba(212, 175, 55, 0.4); color: var(--gold-soft);">View Packages</a>
+      </div>
+    </section>
+
+    <section class="px-4">
+      <div class="site-menu__links" style="padding: 0;">
+        <a href="/tantric-massage-kuala-lumpur/" class="site-menu__link"><span>Tantric Massage in KL</span><span>&rarr;</span></a>
+        <a href="/yoni-massage-therapy-near-me-in-kuala-lumpur/" class="site-menu__link"><span>Yoni Massage for Ladies</span><span>&rarr;</span></a>
+        <a href="/ladies-massage-in-kl/" class="site-menu__link"><span>Ladies Massage</span><span>&rarr;</span></a>
+        <a href="/couples-massage-in-kl/" class="site-menu__link"><span>Couples Massage</span><span>&rarr;</span></a>
+        <a href="/blog/" class="site-menu__link"><span>Blog</span><span>&rarr;</span></a>
+        <a href="/contact" class="site-menu__link"><span>Contact</span><span>&rarr;</span></a>
+      </div>
+    </section>
+  </main>
+  <nav class="bottom-nav">
+    <div class="bottom-nav-wrap">
+      <a href="/services.html" class="bottom-nav-main">See Massage Packages</a>
+      <a href="https://wa.me/60164649008?text=Hi I would like to book a massage session 🙂" class="bottom-nav-chat" aria-label="Chat with masseur">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.198-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.019-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.372-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479s1.065 2.875 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.71.307 1.263.49 1.694.627.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.29.173-1.413-.074-.124-.272-.198-.57-.347Z"/>
+          <path d="M12.004 2.003a9.93 9.93 0 0 0-8.59 15.01L2 22l5.124-1.345a9.967 9.967 0 0 0 4.88 1.27h.004c5.514 0 9.996-4.48 9.998-9.994A9.95 9.95 0 0 0 12.004 2.003Zm0 18.18h-.003a8.3 8.3 0 0 1-4.231-1.158l-.303-.18-3.04.798.812-2.963-.197-.305a8.28 8.28 0 0 1-1.28-4.445c.002-4.582 3.731-8.31 8.316-8.31 2.222 0 4.31.865 5.88 2.438a8.27 8.27 0 0 1 2.432 5.884c-.002 4.584-3.73 8.31-8.314 8.31Z"/>
+        </svg>
+      </a>
+    </div>
+  </nav>
+  <script>
+    const menuButton = document.querySelector('.menu-button');
+    const siteMenu = document.querySelector('#site-menu');
+    const siteMenuClose = document.querySelector('#site-menu-close');
+
+    const openSiteMenu = () => {
+      if (!siteMenu) return;
+      siteMenu.classList.add('is-open');
+      siteMenu.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    };
+
+    const closeSiteMenu = () => {
+      if (!siteMenu) return;
+      siteMenu.classList.remove('is-open');
+      siteMenu.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    };
+
+    if (menuButton) {
+      menuButton.addEventListener('click', openSiteMenu);
+    }
+
+    if (siteMenuClose) {
+      siteMenuClose.addEventListener('click', closeSiteMenu);
+    }
+
+    if (siteMenu) {
+      siteMenu.addEventListener('click', (event) => {
+        if (event.target === siteMenu) {
+          closeSiteMenu();
+        }
+      });
+
+      siteMenu.querySelectorAll('a').forEach((link) => {
+        link.addEventListener('click', closeSiteMenu);
+      });
+    }
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        closeSiteMenu();
+      }
+    });
+  </script>
+</body>
+</html>
+
+
+
