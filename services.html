@@ -391,6 +391,22 @@
       outline: 2px solid var(--green-main);
     }
 
+    input.area-select[type="date"],
+    select.area-select {
+      background: #ffffff;
+      color: #000000;
+      border: 0;
+      min-height: 3.1rem;
+    }
+
+    select.area-select option:disabled {
+      color: rgba(0, 0, 0, 0.35);
+    }
+
+    .datetime-time-label {
+      margin-top: 1.2rem;
+    }
+
     .area-select::placeholder {
       color: rgba(0, 0, 0, 0.45);
       font-weight: 500;
@@ -896,6 +912,26 @@
               <p id="area-selected-note" class="selected-note hidden"></p>
             </section>
 
+            <section class="step-panel hidden transition-all duration-300 ease-out" data-step-key="datetime">
+              <p class="step-kicker"></p>
+              <h2 class="step-title">When would you like your session?</h2>
+
+              <div class="area-select-wrap">
+                <div class="slider-meta">
+                  <span>Date</span>
+                </div>
+                <input id="session-date" name="date" type="date" class="area-select">
+                <div class="slider-meta datetime-time-label">
+                  <span>Time</span>
+                </div>
+                <select id="session-time" name="time" class="area-select">
+                  <option value="">Select a time</option>
+                </select>
+              </div>
+              <p class="selected-note">Available daily from 7:00 AM to 12:00 midnight.</p>
+              <p id="datetime-selected-note" class="selected-note hidden"></p>
+            </section>
+
             <section class="step-panel hidden transition-all duration-300 ease-out" data-step-key="package">
               <p class="step-kicker"></p>
               <h2 id="package-step-title" class="step-title">Would you like to see our packages?</h2>
@@ -955,7 +991,15 @@
     const packageCustomButton = document.querySelector("#package-custom-button");
     const couplePackageButton = document.querySelector("#couple-package-button");
     const loadingScreen = document.querySelector("#loading-screen");
+    const sessionDateInput = document.querySelector("#session-date");
+    const sessionTimeSelect = document.querySelector("#session-time");
+    const datetimeSelectedNote = document.querySelector("#datetime-selected-note");
     const hourOptions = ["1 Hour", "1.30 Hours", "2 Hours", "2.30 Hours", "3 Hours"];
+
+    // Bookings run daily from 7:00 AM to 12:00 midnight, in 30-minute slots.
+    const firstSlotMinutes = 7 * 60;
+    const lastSlotMinutes = 24 * 60;
+    const slotStepMinutes = 30;
 
     const panelByKey = {};
     stepPanels.forEach((panel) => { panelByKey[panel.dataset.stepKey] = panel; });
@@ -974,7 +1018,7 @@
           order.push("incallInfo");
         }
       }
-      order.push("hours", "area", "package");
+      order.push("hours", "area", "datetime", "package");
       return order;
     };
 
@@ -993,6 +1037,15 @@
 
       if (stepKey === "area") {
         return selectedArea.length > 0;
+      }
+
+      if (stepKey === "datetime") {
+        syncTimeSlots();
+        syncDatetimeNote();
+        const selectedOption = sessionTimeSelect.selectedOptions[0];
+        return sessionDateInput.value >= todayValue()
+          && sessionTimeSelect.value !== ""
+          && !selectedOption.disabled;
       }
 
       if (stepKey === "package") {
@@ -1017,6 +1070,16 @@
 
       if (stepKey === "area") {
         alert("Please choose your area.");
+      }
+
+      if (stepKey === "datetime") {
+        if (!sessionDateInput.value) {
+          alert("Please choose a date.");
+        } else if (sessionDateInput.value < todayValue()) {
+          alert("Please choose today or a future date.");
+        } else {
+          alert("Please choose an available time.");
+        }
       }
 
       if (stepKey === "package") {
@@ -1078,6 +1141,72 @@
           }
         }
       });
+    }
+
+    const padTwo = (value) => String(value).padStart(2, "0");
+
+    const todayValue = () => {
+      const now = new Date();
+      return `${now.getFullYear()}-${padTwo(now.getMonth() + 1)}-${padTwo(now.getDate())}`;
+    };
+
+    const formatSlot = (minutes) => {
+      if (minutes === 24 * 60) return "12:00 midnight";
+      const hours24 = Math.floor(minutes / 60);
+      const suffix = hours24 < 12 ? "AM" : "PM";
+      const hours12 = hours24 % 12 === 0 ? 12 : hours24 % 12;
+      return `${hours12}:${padTwo(minutes % 60)} ${suffix}`;
+    };
+
+    const formatDisplayDate = (value) => {
+      const [year, month, day] = value.split("-").map(Number);
+      return new Date(year, month - 1, day).toLocaleDateString("en-GB", {
+        weekday: "short", day: "numeric", month: "short", year: "numeric"
+      });
+    };
+
+    // Rebuild the time list, disabling slots that have already passed when today is chosen.
+    const syncTimeSlots = () => {
+      const previousValue = sessionTimeSelect.value;
+      const isToday = sessionDateInput.value === todayValue();
+      const now = new Date();
+      const nowMinutes = now.getHours() * 60 + now.getMinutes();
+
+      sessionTimeSelect.innerHTML = '<option value="">Select a time</option>';
+      for (let minutes = firstSlotMinutes; minutes <= lastSlotMinutes; minutes += slotStepMinutes) {
+        const option = document.createElement("option");
+        option.value = formatSlot(minutes);
+        option.textContent = formatSlot(minutes);
+        option.disabled = isToday && minutes <= nowMinutes;
+        sessionTimeSelect.append(option);
+      }
+
+      const stillAvailable = Array.from(sessionTimeSelect.options)
+        .some((option) => option.value === previousValue && !option.disabled);
+      sessionTimeSelect.value = stillAvailable ? previousValue : "";
+    };
+
+    const syncDatetimeNote = () => {
+      if (!datetimeSelectedNote) return;
+      if (sessionDateInput.value && sessionTimeSelect.value) {
+        datetimeSelectedNote.textContent = `Selected: ${formatDisplayDate(sessionDateInput.value)} at ${sessionTimeSelect.value}`;
+        datetimeSelectedNote.classList.remove("hidden");
+      } else {
+        datetimeSelectedNote.classList.add("hidden");
+      }
+    };
+
+    if (sessionDateInput && sessionTimeSelect) {
+      sessionDateInput.min = todayValue();
+      syncTimeSlots();
+      sessionDateInput.addEventListener("change", () => {
+        if (sessionDateInput.value && sessionDateInput.value < todayValue()) {
+          sessionDateInput.value = todayValue();
+        }
+        syncTimeSlots();
+        syncDatetimeNote();
+      });
+      sessionTimeSelect.addEventListener("change", syncDatetimeNote);
     }
 
     const syncPackageStepContent = () => {
@@ -1206,6 +1335,8 @@
       const bookingParams = new URLSearchParams({
         duration: durationInput.value,
         area: selectedArea,
+        date: formatDisplayDate(sessionDateInput.value),
+        time: sessionTimeSelect.value,
         option: sessionOption
       }).toString();
 
