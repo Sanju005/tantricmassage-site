@@ -465,7 +465,7 @@
         </div>
 
         <div class="mt-auto px-2 pb-1 pt-4 text-center">
-          <button type="button" data-package-open="day" class="package-button mt-1 inline-flex min-h-[3rem] w-full items-center justify-center whitespace-nowrap px-4 text-[0.96rem] font-semibold">View Experience</button>
+          <button type="button" data-package-open="day" class="package-button mt-1 inline-flex min-h-[3rem] w-full items-center justify-center whitespace-nowrap px-4 text-[0.96rem] font-semibold">Know More</button>
         </div>
       </article>
 
@@ -544,7 +544,7 @@
         </div>
 
         <div class="mt-auto px-2 pb-1 pt-4 text-center">
-          <button type="button" data-package-open="unlimited" class="package-button mt-1 inline-flex min-h-[3rem] w-full items-center justify-center whitespace-nowrap px-4 text-[0.96rem] font-semibold">View Experience</button>
+          <button type="button" data-package-open="unlimited" class="package-button mt-1 inline-flex min-h-[3rem] w-full items-center justify-center whitespace-nowrap px-4 text-[0.96rem] font-semibold">Know More</button>
         </div>
       </article>
 
@@ -613,7 +613,7 @@
         </div>
 
         <div class="mt-auto px-2 pb-1 pt-4 text-center">
-          <button type="button" data-package-open="extreme" class="package-button mt-1 inline-flex min-h-[3rem] w-full items-center justify-center whitespace-nowrap px-4 text-[0.96rem] font-semibold">View Experience</button>
+          <button type="button" data-package-open="extreme" class="package-button mt-1 inline-flex min-h-[3rem] w-full items-center justify-center whitespace-nowrap px-4 text-[0.96rem] font-semibold">Know More</button>
         </div>
       </article>
 
@@ -742,7 +742,7 @@
     const openPackageModal = (packageKey) => { const details = packageDetails[packageKey]; if (!packageModal || !details) return; const packageDisplayNames = { unlimited: "ULTRA MAN", extreme: "REGULAR", day: "DEEP RELAX" }; modalKicker.textContent = packageDisplayNames[packageKey] || details.kicker; modalKicker.className = "text-[1.58rem] sm:text-[1.8rem] font-extrabold uppercase leading-none text-[var(--gold)] text-center"; modalTitle.textContent = "PRIVATE EXPERIENCE"; modalTitle.classList.remove("hidden"); modalDescription.textContent = details.description || ""; modalDescription.classList.toggle("hidden", !details.description); modalListHeading.textContent = details.listHeading || "What Includes?"; modalDuration.textContent = details.duration; modalPrice.textContent = details.price; modalNormalPrice.textContent = details.normalPrice || ""; modalLocationRow.classList.toggle("hidden", !!details.hideLocation); modalNormalPriceRow.classList.toggle("hidden", !details.normalPrice); modalList.innerHTML = details.items.map((item) => `<li class="flex gap-3"><span class="text-[var(--gold)]">&rarr;</span><span>${item}</span></li>`).join(""); modalPopularityBlock.classList.toggle("hidden", !details.popularity); modalPopularityList.innerHTML = details.popularity ? details.popularity.map((item, index) => `<li class="flex items-center gap-2">${index === 0 ? `<span class="rating-stars">&#9733;</span>` : `<span class="text-[var(--gold)]">&#128274;</span>`}<span>${item}</span></li>`).join("") : ""; modalCustomizeBlock.classList.toggle("hidden", !details.customize); modalCustomizeText.textContent = details.customize || ""; modalFlowBlock.classList.toggle("hidden", !details.flowLines); modalFlowIntro.textContent = details.flowIntro || ""; modalFlowLines.innerHTML = details.flowLines ? details.flowLines.map((item) => `<p>${item}</p>`).join("") : ""; modalLimitedNote.classList.toggle("hidden", !details.limitedNote); modalLimitedNote.textContent = details.limitedNote || ""; modalWhatsappLink.textContent = details.bookingLabel || "Book via WhatsApp"; modalWhatsappLink.href = buildWhatsappUrl(details.whatsappLabel || details.kicker); if (packageModalPanel) packageModalPanel.scrollTop = 0; packageModal.classList.add("is-open"); packageModal.setAttribute("aria-hidden", "false"); document.body.classList.add("overflow-hidden"); requestAnimationFrame(updatePackageModalScrollCue); };
     if (nextPackageButton) nextPackageButton.addEventListener("click", () => slidePackages(1));
     if (prevPackageButton) prevPackageButton.addEventListener("click", () => slidePackages(-1));
-    packageButtons.forEach((button) => { button.addEventListener("click", () => openPackageModal(button.dataset.packageOpen)); });
+    packageButtons.forEach((button) => { button.addEventListener("click", () => { const details = packageDetails[button.dataset.packageOpen]; if (!details) return; window.location.href = buildWhatsappUrl(details.whatsappLabel || details.kicker); }); });
     if (packageModalClose) packageModalClose.addEventListener("click", closePackageModal);
     if (packageModalPanel) packageModalPanel.addEventListener("scroll", updatePackageModalScrollCue);
     if (packageModal) { packageModal.addEventListener("click", (event) => { if (event.target === packageModal) closePackageModal(); }); }

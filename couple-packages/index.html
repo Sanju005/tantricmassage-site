@@ -421,7 +421,7 @@
         </div>
 
         <div class="mt-auto px-2 pb-1 pt-4 text-center">
-          <button type="button" data-package-open="premium" class="package-button mt-1 inline-flex min-h-[3rem] w-full items-center justify-center whitespace-nowrap px-4 text-[0.96rem] font-semibold">View Experience</button>
+          <button type="button" data-package-open="premium" class="package-button mt-1 inline-flex min-h-[3rem] w-full items-center justify-center whitespace-nowrap px-4 text-[0.96rem] font-semibold">Know More</button>
         </div>
       </article>
 
@@ -496,7 +496,7 @@
         </div>
 
         <div class="mt-auto px-2 pb-1 pt-4 text-center">
-          <button type="button" data-package-open="standard" class="package-button mt-1 inline-flex min-h-[3rem] w-full items-center justify-center whitespace-nowrap px-4 text-[0.96rem] font-semibold">View Experience</button>
+          <button type="button" data-package-open="standard" class="package-button mt-1 inline-flex min-h-[3rem] w-full items-center justify-center whitespace-nowrap px-4 text-[0.96rem] font-semibold">Know More</button>
         </div>
       </article>
     </section>
@@ -608,7 +608,7 @@
     const openPackageModal = (packageKey) => { const details = packageDetails[packageKey]; if (!packageModal || !details) return; modalKicker.textContent = details.kicker; modalTitle.textContent = "PRIVATE EXPERIENCE"; modalDescription.textContent = details.description; modalPopularityList.innerHTML = details.popularity.map((item) => `<li>${item}</li>`).join(""); modalListHeading.textContent = details.listHeading; modalList.innerHTML = details.list.map((item) => `<li>${item}</li>`).join(""); modalCustomizeText.textContent = details.customize; modalFlowIntro.textContent = details.flow; modalDuration.textContent = details.duration; modalNormalPrice.textContent = details.normalPrice; modalPrice.textContent = details.price; modalWhatsappLink.textContent = details.bookingLabel || "Book via WhatsApp"; modalWhatsappLink.href = buildWhatsappUrl(details.whatsappLabel || details.kicker); if (packageModalPanel) packageModalPanel.scrollTop = 0; packageModal.classList.add("is-open"); packageModal.setAttribute("aria-hidden", "false"); document.body.style.overflow = "hidden"; requestAnimationFrame(updatePackageModalScrollCue); };
     if (nextPackageButton) nextPackageButton.addEventListener("click", () => slidePackages(1));
     if (prevPackageButton) prevPackageButton.addEventListener("click", () => slidePackages(-1));
-    packageButtons.forEach((button) => { button.addEventListener("click", () => openPackageModal(button.dataset.packageOpen)); });
+    packageButtons.forEach((button) => { button.addEventListener("click", () => { const details = packageDetails[button.dataset.packageOpen]; if (!details) return; window.location.href = buildWhatsappUrl(details.whatsappLabel || details.kicker); }); });
     if (packageModalClose) packageModalClose.addEventListener("click", closePackageModal);
     if (packageModalPanel) packageModalPanel.addEventListener("scroll", updatePackageModalScrollCue);
     if (packageModal) { packageModal.addEventListener("click", (event) => { if (event.target === packageModal) closePackageModal(); }); }
