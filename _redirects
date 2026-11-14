@@ -142,3 +142,10 @@
 /blog-publisher-local.html  /  301
 /blog-publisher-local  /  301
 /scripts/*  /  301
+/blog-publisher-static.html  /  301
+/blog-publisher-static  /  301
+/blog/BLOG-POST-TEMPLATE.html  /  301
+/blog/BLOG-POST-TEMPLATE  /  301
+/MANUAL_BLOG_PUBLISHING.md  /  301
+/package.json  /  301
+/package-lock.json  /  301
