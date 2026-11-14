@@ -3,30 +3,48 @@
 
   <url>
     <loc>https://www.massagekl.com/</loc>
-    <lastmod>2026-04-09</lastmod>
+    <lastmod>2026-11-14</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
 
   <url>
     <loc>https://www.massagekl.com/about</loc>
-    <lastmod>2026-04-09</lastmod>
+    <lastmod>2026-11-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://www.massagekl.com/contact</loc>
-    <lastmod>2026-04-09</lastmod>
+    <lastmod>2026-11-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://www.massagekl.com/services</loc>
-    <lastmod>2026-04-09</lastmod>
+    <lastmod>2026-11-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.massagekl.com/lady-packages/</loc>
+    <lastmod>2026-11-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.massagekl.com/couple-packages/</loc>
+    <lastmod>2026-11-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.massagekl.com/gallery</loc>
+    <lastmod>2026-11-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
   </url>
 
   <url>
@@ -38,49 +56,49 @@
 
   <url>
     <loc>https://www.massagekl.com/blog/</loc>
-    <lastmod>2026-10-22</lastmod>
+    <lastmod>2026-11-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://www.massagekl.com/blog/klcc/</loc>
-    <lastmod>2026-10-22</lastmod>
+    <lastmod>2026-11-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://www.massagekl.com/blog/bangsar/</loc>
-    <lastmod>2026-10-22</lastmod>
+    <lastmod>2026-11-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://www.massagekl.com/blog/mont-kiara/</loc>
-    <lastmod>2026-10-22</lastmod>
+    <lastmod>2026-11-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://www.massagekl.com/blog/kuala-lumpur/</loc>
-    <lastmod>2026-10-22</lastmod>
+    <lastmod>2026-11-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://www.massagekl.com/massage-klcc/</loc>
-    <lastmod>2026-10-22</lastmod>
+    <lastmod>2026-11-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
     <loc>https://www.massagekl.com/tantric-massage-kuala-lumpur/</loc>
-    <lastmod>2026-09-02</lastmod>
+    <lastmod>2026-11-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -89,63 +107,63 @@
 
   <url>
     <loc>https://www.massagekl.com/massage-kuala-lumpur/luxury-hotel-massage-service-in-kuala-lumpur/</loc>
-    <lastmod>2026-05-23</lastmod>
+    <lastmod>2026-11-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://www.massagekl.com/ladies-massage-in-kl/</loc>
-    <lastmod>2026-05-23</lastmod>
+    <lastmod>2026-11-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://www.massagekl.com/couples-massage-in-kl/</loc>
-    <lastmod>2026-05-23</lastmod>
+    <lastmod>2026-11-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://www.massagekl.com/massage-kuala-lumpur/massage-for-stress-relief-in-kuala-lumpur/</loc>
-    <lastmod>2026-05-13</lastmod>
+    <lastmod>2026-11-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://www.massagekl.com/massage-klcc/best-massage-klcc-hotel-guests/</loc>
-    <lastmod>2026-04-23</lastmod>
+    <lastmod>2026-11-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://www.massagekl.com/massage-bangsar/hotel-outcall-guide/</loc>
-    <lastmod>2026-04-13</lastmod>
+    <lastmod>2026-11-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://www.massagekl.com/massage-mont-kiara/booking-tips/</loc>
-    <lastmod>2026-04-13</lastmod>
+    <lastmod>2026-11-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://www.massagekl.com/massage-kuala-lumpur/private-massage-in-kuala-lumpur-a-first-timer-s-guide/</loc>
-    <lastmod>2026-10-13</lastmod>
+    <lastmod>2026-11-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://www.massagekl.com/massage-kuala-lumpur/best-tantric-massage-in-kuala-lumpur-how-to-choose-2026/</loc>
-    <lastmod>2026-10-22</lastmod>
+    <lastmod>2026-11-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -154,63 +172,63 @@
 
   <url>
     <loc>https://www.massagekl.com/massage-bangsar/</loc>
-    <lastmod>2026-10-22</lastmod>
+    <lastmod>2026-11-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
     <loc>https://www.massagekl.com/massage-mont-kiara/</loc>
-    <lastmod>2026-10-22</lastmod>
+    <lastmod>2026-11-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
     <loc>https://www.massagekl.com/massage-kuala-lumpur/</loc>
-    <lastmod>2026-10-22</lastmod>
+    <lastmod>2026-11-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
     <loc>https://www.massagekl.com/whyme</loc>
-    <lastmod>2026-04-09</lastmod>
+    <lastmod>2026-11-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://www.massagekl.com/reviews</loc>
-    <lastmod>2026-04-09</lastmod>
+    <lastmod>2026-11-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://www.massagekl.com/terms</loc>
-    <lastmod>2026-04-13</lastmod>
+    <lastmod>2026-11-14</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
 
   <url>
     <loc>https://www.massagekl.com/privacy-policy</loc>
-    <lastmod>2026-04-13</lastmod>
+    <lastmod>2026-11-14</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
 
   <url>
     <loc>https://www.massagekl.com/disclaimer</loc>
-    <lastmod>2026-04-13</lastmod>
+    <lastmod>2026-11-14</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
 
   <url>
     <loc>https://www.massagekl.com/massage-bukit-bintang/</loc>
-    <lastmod>2026-10-22</lastmod>
+    <lastmod>2026-11-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -224,153 +242,153 @@
 
   <url>
     <loc>https://www.massagekl.com/massage-damansara-heights</loc>
-    <lastmod>2026-10-22</lastmod>
+    <lastmod>2026-11-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://www.massagekl.com/massage-mid-valley</loc>
-    <lastmod>2026-10-22</lastmod>
+    <lastmod>2026-11-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://www.massagekl.com/massage-cheras</loc>
-    <lastmod>2026-10-22</lastmod>
+    <lastmod>2026-11-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://www.massagekl.com/massage-setapak</loc>
-    <lastmod>2026-10-22</lastmod>
+    <lastmod>2026-11-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://www.massagekl.com/massage-sri-hartamas</loc>
-    <lastmod>2026-10-22</lastmod>
+    <lastmod>2026-11-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://www.massagekl.com/massage-ampang</loc>
-    <lastmod>2026-10-22</lastmod>
+    <lastmod>2026-11-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://www.massagekl.com/massage-petaling-jaya/</loc>
-    <lastmod>2026-10-22</lastmod>
+    <lastmod>2026-11-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://www.massagekl.com/massage-subang-jaya/</loc>
-    <lastmod>2026-10-22</lastmod>
+    <lastmod>2026-11-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://www.massagekl.com/massage-sunway</loc>
-    <lastmod>2026-10-22</lastmod>
+    <lastmod>2026-11-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://www.massagekl.com/massage-puchong/</loc>
-    <lastmod>2026-10-22</lastmod>
+    <lastmod>2026-11-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://www.massagekl.com/massage-shah-alam</loc>
-    <lastmod>2026-10-22</lastmod>
+    <lastmod>2026-11-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://www.massagekl.com/massage-cyberjaya/</loc>
-    <lastmod>2026-10-22</lastmod>
+    <lastmod>2026-11-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.massagekl.com/massage-kl-sentral</loc>
-    <lastmod>2026-10-22</lastmod>
+    <lastmod>2026-11-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://www.massagekl.com/massage-brickfields</loc>
-    <lastmod>2026-10-22</lastmod>
+    <lastmod>2026-11-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://www.massagekl.com/massage-bukit-jalil</loc>
-    <lastmod>2026-10-22</lastmod>
+    <lastmod>2026-11-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://www.massagekl.com/massage-bangsar-south</loc>
-    <lastmod>2026-10-22</lastmod>
+    <lastmod>2026-11-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://www.massagekl.com/massage-ttdi</loc>
-    <lastmod>2026-10-22</lastmod>
+    <lastmod>2026-11-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://www.massagekl.com/massage-desa-parkcity</loc>
-    <lastmod>2026-10-22</lastmod>
+    <lastmod>2026-11-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://www.massagekl.com/massage-kota-damansara</loc>
-    <lastmod>2026-10-22</lastmod>
+    <lastmod>2026-11-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://www.massagekl.com/massage-ara-damansara</loc>
-    <lastmod>2026-10-22</lastmod>
+    <lastmod>2026-11-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://www.massagekl.com/massage-kelana-jaya/</loc>
-    <lastmod>2026-05-20</lastmod>
+    <lastmod>2026-11-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://www.massagekl.com/massage-putrajaya</loc>
-    <lastmod>2026-10-22</lastmod>
+    <lastmod>2026-11-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
