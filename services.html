@@ -1222,21 +1222,6 @@
         return;
       }
 
-      if (selectedGender === "male") {
-        if (packageStepTitle) packageStepTitle.textContent = "Would you like to see our male packages?";
-        if (packageStepCopy) packageStepCopy.textContent = "Choose preset packages to view the packages we already created for male bookings.";
-        packagePresetsButton?.classList.remove("hidden");
-        if (packagePresetsButton) {
-          packagePresetsButton.hidden = false;
-          packagePresetsButton.textContent = "Show Male Packages";
-        }
-        packageCustomButton?.classList.add("hidden");
-        if (packageCustomButton) packageCustomButton.hidden = true;
-        couplePackageButton?.classList.add("hidden");
-        if (couplePackageButton) couplePackageButton.hidden = true;
-        return;
-      }
-
       if (packageStepTitle) packageStepTitle.textContent = "Would you like to see our packages?";
       if (packageStepCopy) packageStepCopy.textContent = "Choose preset packages to view the packages we already created for lady bookings.";
       packagePresetsButton?.classList.remove("hidden");
@@ -1343,16 +1328,6 @@
       setTimeout(() => {
         if (selectedGender === "lady" && selectedPackagePath === "custom") {
           window.location.href = `/lady-packages/customize?${bookingParams}`;
-          return;
-        }
-
-        if (selectedGender === "male" && selectedPackagePath === "custom") {
-          window.location.href = `/male-packages/customize?${bookingParams}`;
-          return;
-        }
-
-        if (selectedGender === "male") {
-          window.location.href = `/male-packages?${bookingParams}`;
           return;
         }
 
