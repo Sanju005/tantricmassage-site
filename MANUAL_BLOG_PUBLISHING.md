@@ -62,7 +62,7 @@ This includes:
 - `blog/index.html`
 - blog category hubs such as `blog/kuala-lumpur/index.html`, `blog/klcc/index.html`, `blog/bangsar/index.html`, and `blog/mont-kiara/index.html`
 - place hubs such as `massage-kuala-lumpur/index.html`, `massage-klcc/index.html`, `massage-bangsar/index.html`, and `massage-mont-kiara/index.html`
-- topic hubs such as `tantric-yoni-massage-for-ladies-couples-in-kl/index.html`, `ladies-massage-in-kl/index.html`, and `couples-massage-in-kl/index.html`
+- topic hubs such as `ladies-massage-in-kl/index.html` and `couples-massage-in-kl/index.html`
 
 If you edit cards manually, insert the newest article first. As a cleanup pass, run:
 
@@ -83,7 +83,7 @@ massage-kuala-lumpur/your-slug/index.html
 Example:
 
 ```text
-massage-kuala-lumpur/relaxing-tantric-yoni-massage-in-kuala-lumpur/index.html
+massage-kuala-lumpur/massage-for-stress-relief-in-kuala-lumpur/index.html
 ```
 
 Use this structure:

@@ -7,7 +7,6 @@ Disallow: /booking-confirmation/
 Disallow: /thank-you/
 Disallow: /checkout/
 Disallow: /gallery-private/
-Disallow: /yoni/
 Disallow: /blog-publisher-local
 Disallow: /blog-publisher-static
 Disallow: /blog-publisher.php
