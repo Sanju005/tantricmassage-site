@@ -28,7 +28,7 @@
     const whatsappNumber = "60164649008";
 
     const buildWhatsappUrl = (packageLabel) => {
-      const message = `Hi I would like to book the ${packageLabel} for Couple. 🙂`;
+      const message = `Hi I would like to book the ${packageLabel} for Couple.`;
       return `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
     };
 
