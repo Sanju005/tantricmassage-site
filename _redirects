@@ -141,7 +141,10 @@
 /images/Tantric%20yoni%20massage%20in%20kl%20slide%203.webp  /images/massage-kl-hero-3.webp  301
 /blog-publisher-local.html  /  301
 /blog-publisher-local  /  301
-/scripts/*  /  301
+/scripts/blog-publisher-server.js  /  301
+/scripts/check-words.js  /  301
+/scripts/seo-audit.js  /  301
+/scripts/standardize-place-pages.js  /  301
 /blog-publisher-static.html  /  301
 /blog-publisher-static  /  301
 /blog/BLOG-POST-TEMPLATE.html  /  301
