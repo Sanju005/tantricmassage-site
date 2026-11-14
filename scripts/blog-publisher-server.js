@@ -40,7 +40,6 @@ const placePageMap = Object.fromEntries(placePages.map((page) => [page.id, page]
 // Every article has one deliberate service destination. This avoids keyword-based guesses.
 const bookingPages = [
   { id: "tantric", label: "Tantric Massage in Kuala Lumpur", publicUrl: "/tantric-massage-kuala-lumpur/" },
-  { id: "yoni", label: "Yoni Massage in Kuala Lumpur", publicUrl: "/yoni-massage-therapy-near-me-in-kuala-lumpur/" },
   { id: "ladies", label: "Ladies Massage in Kuala Lumpur", publicUrl: "/ladies-massage-in-kl/" },
   { id: "couples", label: "Couples Massage in Kuala Lumpur", publicUrl: "/couples-massage-in-kl/" },
   { id: "hotel", label: "Hotel Massage in Kuala Lumpur", publicUrl: "/massage-kuala-lumpur/luxury-hotel-massage-service-in-kuala-lumpur/" }
@@ -1461,7 +1460,6 @@ function repairHubOrdering() {
   }
 
   const topicHubPaths = [
-    path.join(ROOT, "tantric-yoni-massage-for-ladies-couples-in-kl", "index.html"),
     path.join(ROOT, "ladies-massage-in-kl", "index.html"),
     path.join(ROOT, "couples-massage-in-kl", "index.html")
   ];
